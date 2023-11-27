@@ -1,7 +1,7 @@
-package com.roundtable.roundtable.member.controller;
+package com.roundtable.roundtable.member.presentation.controller;
 
-import com.roundtable.roundtable.member.controller.dto.EmailDto;
-import com.roundtable.roundtable.member.service.MemberService;
+import com.roundtable.roundtable.member.application.dto.EmailDto;
+import com.roundtable.roundtable.member.application.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class MemberController {
 
     @PostMapping("/emails/verification-requests")
     public ResponseEntity sendMessage(@Valid final EmailDto emailDto) {
-        memberService.sendCodeToEmail(emailDto.email());
+        memberService.sendCodeToEmail(emailDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
