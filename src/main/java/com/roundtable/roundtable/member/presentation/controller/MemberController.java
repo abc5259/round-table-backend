@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
-    private final AuthCodeStoreStrategy authCodeStoreStrategy;
 
     @PostMapping("/emails/verification-requests")
     public ResponseEntity sendAuthCode(@Valid final EmailDto emailDto) {
@@ -30,7 +29,7 @@ public class MemberController {
 
     @GetMapping("/emails/verification-requests")
     public ResponseEntity isCorrectAuthCode(@Valid @NotBlank String code) {
-        boolean isCorrect = authCodeStoreStrategy.isCorrectAuthCode(new AuthCode(code));
+        boolean isCorrect = memberService.isCorrectAuthCode(new AuthCode(code));
         if(!isCorrect) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }

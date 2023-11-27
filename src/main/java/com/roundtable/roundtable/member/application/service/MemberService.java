@@ -35,4 +35,8 @@ public class MemberService {
             throw new EmailDuplicatedException(email);
         }
     }
+
+    public boolean isCorrectAuthCode(AuthCode authCode) {
+        return authCodeStoreStrategy.isCorrectAuthCode(authCode);
+    }
 }
