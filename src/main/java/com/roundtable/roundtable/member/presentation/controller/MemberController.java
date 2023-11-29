@@ -37,7 +37,8 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> registerMember(@Valid final RegisterMemberRequest registerMemberRequest) {
+    public ResponseEntity<Void> registerMember(@Valid RegisterMemberRequest registerMemberRequest) {
+        
         memberService.register(registerMemberRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

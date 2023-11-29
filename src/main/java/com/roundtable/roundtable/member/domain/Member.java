@@ -2,6 +2,7 @@ package com.roundtable.roundtable.member.domain;
 
 import com.roundtable.roundtable.global.domain.BaseEntity;
 import com.roundtable.roundtable.house.domain.House;
+import com.roundtable.roundtable.member.utils.PasswordEncoder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Member extends BaseEntity {
     @Column
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -43,8 +44,7 @@ public class Member extends BaseEntity {
 
     public static Member of(String email, String password) {
         validateCreateMember(email, password);
-        //TODO: password 암호화
-        return new Member(email, password);
+        return new Member(email, PasswordEncoder.encode(password));
     }
 
     private static void validateCreateMember(String email, String password) {
