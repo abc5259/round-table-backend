@@ -1,7 +1,6 @@
 package com.roundtable.roundtable.member.presentation.controller;
 
 import com.roundtable.roundtable.member.application.authcode.AuthCode;
-import com.roundtable.roundtable.member.application.authcode.AuthCodeStoreStrategy;
 import com.roundtable.roundtable.member.application.dto.EmailDto;
 import com.roundtable.roundtable.member.application.service.MemberService;
 import jakarta.validation.Valid;
@@ -22,17 +21,17 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/emails/verification-requests")
-    public ResponseEntity sendAuthCode(@Valid final EmailDto emailDto) {
+    public ResponseEntity<Void> sendAuthCode(@Valid final EmailDto emailDto) {
         memberService.sendCodeToEmail(emailDto);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/emails/verification-requests")
-    public ResponseEntity isCorrectAuthCode(@Valid @NotBlank String code) {
+    public ResponseEntity<Void> isCorrectAuthCode(@Valid @NotBlank String code) {
         boolean isCorrect = memberService.isCorrectAuthCode(new AuthCode(code));
         if(!isCorrect) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
