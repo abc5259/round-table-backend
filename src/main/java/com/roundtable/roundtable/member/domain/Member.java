@@ -2,6 +2,7 @@ package com.roundtable.roundtable.member.domain;
 
 import com.roundtable.roundtable.global.domain.BaseEntity;
 import com.roundtable.roundtable.house.domain.House;
+import com.roundtable.roundtable.member.exception.MemberException.MemberUnAuthorizationException;
 import com.roundtable.roundtable.member.utils.PasswordEncoder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,10 +12,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
 
@@ -27,7 +30,7 @@ public class Member extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     @Column(columnDefinition = "char(1) default 'M'")
@@ -50,5 +53,12 @@ public class Member extends BaseEntity {
     private static void validateCreateMember(String email, String password) {
         Assert.notNull(email, "이메일은 필수 입니다.");
         Assert.notNull(password, "비밀번호는 필수 입니다.");
+    }
+
+    public void checkPassword(String password) {
+        boolean isMatchPassword = PasswordEncoder.matches(password, this.password);
+        if(!isMatchPassword) {
+            throw new MemberUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
+        }
     }
 }
