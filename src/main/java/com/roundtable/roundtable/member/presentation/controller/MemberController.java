@@ -1,7 +1,8 @@
 package com.roundtable.roundtable.member.presentation.controller;
 
 import com.roundtable.roundtable.member.application.authcode.AuthCode;
-import com.roundtable.roundtable.member.application.dto.EmailDto;
+import com.roundtable.roundtable.member.application.dto.EmailRequest;
+import com.roundtable.roundtable.member.application.dto.RegisterMemberRequest;
 import com.roundtable.roundtable.member.application.service.MemberService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -21,17 +22,23 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/emails/verification-requests")
-    public ResponseEntity<Void> sendAuthCode(@Valid final EmailDto emailDto) {
-        memberService.sendCodeToEmail(emailDto);
+    public ResponseEntity<Void> sendAuthCode(@Valid final EmailRequest emailRequest) {
+        memberService.sendCodeToEmail(emailRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/emails/verification-requests")
-    public ResponseEntity<Void> isCorrectAuthCode(@Valid @NotBlank String code) {
+    public ResponseEntity<Void> isCorrectAuthCode(@Valid @NotBlank final String code) {
         boolean isCorrect = memberService.isCorrectAuthCode(new AuthCode(code));
         if(!isCorrect) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Void> registerMember(@Valid final RegisterMemberRequest registerMemberRequest) {
+        memberService.register(registerMemberRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

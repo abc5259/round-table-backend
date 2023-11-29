@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,10 +23,10 @@ public class Member extends BaseEntity {
     @Column
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String email;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
     @Column(columnDefinition = "char(1) default 'M'")
@@ -34,4 +35,20 @@ public class Member extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "HOUSE_ID")
     private House house;
+
+    private Member(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public static Member of(String email, String password) {
+        validateCreateMember(email, password);
+        //TODO: password 암호화
+        return new Member(email, password);
+    }
+
+    private static void validateCreateMember(String email, String password) {
+        Assert.notNull(email, "이메일은 필수 입니다.");
+        Assert.notNull(password, "비밀번호는 필수 입니다.");
+    }
 }
