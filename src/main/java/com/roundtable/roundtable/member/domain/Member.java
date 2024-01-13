@@ -3,7 +3,6 @@ package com.roundtable.roundtable.member.domain;
 import com.roundtable.roundtable.global.domain.BaseEntity;
 import com.roundtable.roundtable.house.domain.House;
 import com.roundtable.roundtable.member.exception.MemberException.MemberUnAuthorizationException;
-import com.roundtable.roundtable.member.utils.PasswordEncoder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
 @Entity
@@ -45,9 +45,9 @@ public class Member extends BaseEntity {
         this.password = password;
     }
 
-    public static Member of(String email, String password) {
+    public static Member of(String email, String password, PasswordEncoder passwordEncoder) {
         validateCreateMember(email, password);
-        return new Member(email, PasswordEncoder.encode(password));
+        return new Member(email, passwordEncoder.encode(password));
     }
 
     private static void validateCreateMember(String email, String password) {
@@ -55,8 +55,8 @@ public class Member extends BaseEntity {
         Assert.notNull(password, "비밀번호는 필수 입니다.");
     }
 
-    public void checkPassword(String password) {
-        boolean isMatchPassword = PasswordEncoder.matches(password, this.password);
+    public void checkPassword(String password, PasswordEncoder passwordEncoder) {
+        boolean isMatchPassword = passwordEncoder.matches(password, this.password);
         if(!isMatchPassword) {
             throw new MemberUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
         }

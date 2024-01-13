@@ -11,9 +11,9 @@ import com.roundtable.roundtable.member.exception.MemberException.EmailDuplicate
 import com.roundtable.roundtable.member.domain.MemberRepository;
 import com.roundtable.roundtable.member.exception.MemberException.MemberNotFoundException;
 import com.roundtable.roundtable.member.exception.MemberException.MemberUnAuthorizationException;
-import com.roundtable.roundtable.member.utils.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +26,7 @@ public class MemberService {
     private final MailService mailService;
     private final MemberRepository memberRepository;
     private final AuthCodeStoreStrategy authCodeStoreStrategy;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public void sendCodeToEmail(final EmailRequest emailRequest) {
@@ -48,9 +49,11 @@ public class MemberService {
     }
 
     public void register(final MemberRegisterRequest memberRegisterRequest) {
-        checkDuplicatedEmail(memberRegisterRequest.email());
-        Member member = Member.of(memberRegisterRequest.email(), memberRegisterRequest.password());
+        this.checkDuplicatedEmail(memberRegisterRequest.email());
+
+        Member member = Member.of(memberRegisterRequest.email(), memberRegisterRequest.password(), passwordEncoder);
         memberRepository.save(member);
+
         log.info(String.format("%s 이메일을 가진 User 생성", memberRegisterRequest.email()));
     }
 
@@ -59,7 +62,7 @@ public class MemberService {
         Member member = memberRepository.findByEmail(memberLoginRequest.email())
                 .orElseThrow(() -> new MemberUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요."));
 
-        member.checkPassword(memberLoginRequest.password());
+        member.checkPassword(memberLoginRequest.password(), passwordEncoder);
 
         //TODO: jwt 토큰 생성
     }

@@ -42,7 +42,6 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> registerMember(@Valid @RequestBody final MemberRegisterRequest memberRegisterRequest) {
-
         memberService.register(memberRegisterRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
