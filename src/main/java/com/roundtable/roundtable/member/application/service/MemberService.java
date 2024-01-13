@@ -1,5 +1,7 @@
 package com.roundtable.roundtable.member.application.service;
 
+import com.roundtable.roundtable.auth.jwt.provider.JwtProvider;
+import com.roundtable.roundtable.auth.jwt.provider.Token;
 import com.roundtable.roundtable.member.application.authcode.AuthCode;
 import com.roundtable.roundtable.member.application.authcode.AuthCodeStoreStrategy;
 import com.roundtable.roundtable.member.application.dto.EmailRequest;
@@ -27,6 +29,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final AuthCodeStoreStrategy authCodeStoreStrategy;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     @Transactional(readOnly = true)
     public void sendCodeToEmail(final EmailRequest emailRequest) {
@@ -58,12 +61,13 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public void login(final MemberLoginRequest memberLoginRequest) {
+    public Token login(final MemberLoginRequest memberLoginRequest) {
         Member member = memberRepository.findByEmail(memberLoginRequest.email())
                 .orElseThrow(() -> new MemberUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요."));
 
         member.checkPassword(memberLoginRequest.password(), passwordEncoder);
 
         //TODO: jwt 토큰 생성
+        return jwtProvider.issueToken(member.getId());
     }
 }

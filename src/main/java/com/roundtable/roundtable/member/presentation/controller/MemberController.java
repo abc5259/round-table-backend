@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.member.presentation.controller;
 
+import com.roundtable.roundtable.auth.jwt.provider.Token;
 import com.roundtable.roundtable.member.application.authcode.AuthCode;
 import com.roundtable.roundtable.member.application.dto.EmailRequest;
 import com.roundtable.roundtable.member.application.dto.MemberLoginRequest;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -47,9 +47,10 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> loginMember(@Valid @RequestBody final MemberLoginRequest memberLoginRequest) {
+    public ResponseEntity<Token> loginMember(@Valid @RequestBody final MemberLoginRequest memberLoginRequest) {
 
-        memberService.login(memberLoginRequest);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        Token token = memberService.login(memberLoginRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 }
