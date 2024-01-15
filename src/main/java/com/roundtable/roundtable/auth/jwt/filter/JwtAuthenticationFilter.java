@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.auth.jwt.filter;
 
+import com.roundtable.roundtable.auth.exception.AuthenticationException;
 import com.roundtable.roundtable.auth.jwt.provider.JwtAuthenticationProvider;
 import com.roundtable.roundtable.auth.jwt.provider.JwtProvider;
 import com.roundtable.roundtable.auth.jwt.provider.Token;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,10 +23,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Authentication authRequest = jwtAuthenticationConverter.convert(request);
-        Authentication authenticate = jwtAuthenticationProvider.authenticate(authRequest);
-        setAuthentication(authenticate);
-        filterChain.doFilter(request, response);
+
+        try {
+            Authentication authRequest = jwtAuthenticationConverter.convert(request);
+            Authentication authenticate = jwtAuthenticationProvider.authenticate(authRequest);
+            setAuthentication(authenticate);
+        }catch (AuthenticationException authenticationException) {
+            SecurityContextHolder.clearContext();
+        } finally {
+            filterChain.doFilter(request, response);
+        }
     }
 
 

@@ -12,8 +12,7 @@ import org.springframework.util.StringUtils;
 @Component
 public class JwtAuthenticationConverter implements AuthenticationConverter {
     private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer ";
-
+    public static final String AUTHENTICATION_SCHEME_BEAT = "Bearer";
     @Override
     public Authentication convert(HttpServletRequest request) {
         String accessToken = getAccessTokenFromHttpServletRequest(request);
@@ -22,10 +21,18 @@ public class JwtAuthenticationConverter implements AuthenticationConverter {
     }
 
     private String getAccessTokenFromHttpServletRequest(HttpServletRequest request) {
-        String accessToken = request.getHeader(AUTHORIZATION);
-        if (StringUtils.hasText(accessToken) && accessToken.startsWith(BEARER)) {
-            return accessToken.substring(BEARER.length());
+        String header = request.getHeader(AUTHORIZATION);
+        if (header == null) {
+            return null;
         }
-        throw new BadCredentialsException("BadCredentialsException");
+        header = header.trim();
+        if (!StringUtils.startsWithIgnoreCase(header, AUTHENTICATION_SCHEME_BEAT)) {
+            return null;
+        }
+        if (header.equalsIgnoreCase(AUTHENTICATION_SCHEME_BEAT)) {
+            throw new BadCredentialsException("Empty bearer authentication token");
+        }
+
+        return header.substring(7);
     }
 }
