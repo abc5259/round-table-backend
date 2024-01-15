@@ -1,6 +1,8 @@
 package com.roundtable.roundtable.auth.config;
 
+import com.roundtable.roundtable.auth.jwt.filter.JwtAuthenticationConverter;
 import com.roundtable.roundtable.auth.jwt.filter.JwtAuthenticationFilter;
+import com.roundtable.roundtable.auth.jwt.provider.JwtAuthenticationProvider;
 import com.roundtable.roundtable.auth.jwt.provider.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,9 +21,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtProvider jwtProvider;
-
     private static final String[] whiteList = {"/members/register", "/members/login", "/members/emails/verification-requests"};
+
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
+    private final JwtAuthenticationConverter jwtAuthenticationConverter;
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().requestMatchers(whiteList);
@@ -37,7 +40,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry.anyRequest().authenticated())
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtAuthenticationConverter, jwtAuthenticationProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
