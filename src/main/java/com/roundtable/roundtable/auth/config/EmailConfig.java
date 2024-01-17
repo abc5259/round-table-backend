@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.member.config;
+package com.roundtable.roundtable.auth.config;
 
 import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;

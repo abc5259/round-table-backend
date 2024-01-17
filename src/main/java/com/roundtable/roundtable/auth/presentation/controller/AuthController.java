@@ -1,13 +1,13 @@
-package com.roundtable.roundtable.member.presentation.controller;
+package com.roundtable.roundtable.auth.presentation.controller;
 
-import com.roundtable.roundtable.auth.jwt.filter.JwtAuthenticationConverter;
-import com.roundtable.roundtable.auth.jwt.provider.Token;
-import com.roundtable.roundtable.member.application.authcode.AuthCode;
-import com.roundtable.roundtable.member.application.dto.EmailRequest;
-import com.roundtable.roundtable.member.application.dto.MemberLoginRequest;
-import com.roundtable.roundtable.member.application.dto.MemberRegisterRequest;
-import com.roundtable.roundtable.member.application.service.MemberService;
-import com.roundtable.roundtable.member.presentation.dto.LoginResponse;
+import com.roundtable.roundtable.auth.application.jwt.filter.JwtAuthenticationConverter;
+import com.roundtable.roundtable.auth.application.jwt.provider.Token;
+import com.roundtable.roundtable.auth.application.authcode.AuthCode;
+import com.roundtable.roundtable.auth.application.dto.EmailRequest;
+import com.roundtable.roundtable.auth.application.dto.LoginRequest;
+import com.roundtable.roundtable.auth.application.dto.RegisterRequest;
+import com.roundtable.roundtable.auth.application.service.AuthService;
+import com.roundtable.roundtable.auth.presentation.dto.LoginResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
-public class MemberController {
+public class AuthController {
     @Value("${jwt.refresh-token-expire-time}")
     private long REFRESH_TOKEN_EXPIRE_TIME;
 
-    private final MemberService memberService;
+    private final AuthService memberService;
 
     @PostMapping("/emails/verification-requests")
     public ResponseEntity<Void> sendAuthCode(@Valid @RequestBody final EmailRequest emailRequest) {
@@ -48,13 +48,13 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> registerMember(@Valid @RequestBody final MemberRegisterRequest memberRegisterRequest) {
+    public ResponseEntity<Void> registerMember(@Valid @RequestBody final RegisterRequest memberRegisterRequest) {
         memberService.register(memberRegisterRequest);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginMember(@Valid @RequestBody final MemberLoginRequest memberLoginRequest) {
+    public ResponseEntity<LoginResponse> loginMember(@Valid @RequestBody final LoginRequest memberLoginRequest) {
 
         Token token = memberService.login(memberLoginRequest);
 

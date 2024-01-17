@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.auth.jwt.provider;
+package com.roundtable.roundtable.auth.application.jwt.provider;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;

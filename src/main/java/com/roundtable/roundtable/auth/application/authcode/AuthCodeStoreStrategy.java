@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.member.application.authcode;
+package com.roundtable.roundtable.auth.application.authcode;
 
 public interface AuthCodeStoreStrategy {
     String AUTH_CODE_STORE_KEY = "authcode";

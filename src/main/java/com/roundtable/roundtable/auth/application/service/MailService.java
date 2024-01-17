@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.member.application.service;
+package com.roundtable.roundtable.auth.application.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

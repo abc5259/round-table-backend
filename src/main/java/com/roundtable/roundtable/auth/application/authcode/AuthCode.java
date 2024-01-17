@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.member.application.authcode;
+package com.roundtable.roundtable.auth.application.authcode;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;

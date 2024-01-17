@@ -1,17 +1,15 @@
-package com.roundtable.roundtable.member.application.service;
+package com.roundtable.roundtable.auth.application.service;
 
-import com.roundtable.roundtable.auth.jwt.provider.JwtProvider;
-import com.roundtable.roundtable.auth.jwt.provider.Token;
-import com.roundtable.roundtable.member.application.authcode.AuthCode;
-import com.roundtable.roundtable.member.application.authcode.AuthCodeStoreStrategy;
-import com.roundtable.roundtable.member.application.dto.EmailRequest;
-import com.roundtable.roundtable.member.application.dto.MemberLoginRequest;
-import com.roundtable.roundtable.member.application.dto.MemberRegisterRequest;
+import com.roundtable.roundtable.auth.application.jwt.provider.JwtProvider;
+import com.roundtable.roundtable.auth.application.jwt.provider.Token;
+import com.roundtable.roundtable.auth.application.authcode.AuthCode;
+import com.roundtable.roundtable.auth.application.authcode.AuthCodeStoreStrategy;
+import com.roundtable.roundtable.auth.application.dto.EmailRequest;
+import com.roundtable.roundtable.auth.application.dto.LoginRequest;
+import com.roundtable.roundtable.auth.application.dto.RegisterRequest;
 import com.roundtable.roundtable.member.domain.Member;
-import com.roundtable.roundtable.member.exception.MemberException;
 import com.roundtable.roundtable.member.exception.MemberException.EmailDuplicatedException;
 import com.roundtable.roundtable.member.domain.MemberRepository;
-import com.roundtable.roundtable.member.exception.MemberException.MemberNotFoundException;
 import com.roundtable.roundtable.member.exception.MemberException.MemberUnAuthorizationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberService {
+public class AuthService {
 
     private final MailService mailService;
     private final MemberRepository memberRepository;
@@ -51,7 +49,7 @@ public class MemberService {
         return authCodeStoreStrategy.isCorrectAuthCode(authCode);
     }
 
-    public void register(final MemberRegisterRequest memberRegisterRequest) {
+    public void register(final RegisterRequest memberRegisterRequest) {
         this.checkDuplicatedEmail(memberRegisterRequest.email());
 
         Member member = Member.of(memberRegisterRequest.email(), memberRegisterRequest.password(), passwordEncoder);
@@ -61,7 +59,7 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Token login(final MemberLoginRequest memberLoginRequest) {
+    public Token login(final LoginRequest memberLoginRequest) {
         Member member = memberRepository.findByEmail(memberLoginRequest.email())
                 .orElseThrow(() -> new MemberUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요."));
 

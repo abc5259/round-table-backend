@@ -1,9 +1,8 @@
 package com.roundtable.roundtable.auth.config;
 
-import com.roundtable.roundtable.auth.jwt.filter.JwtAuthenticationConverter;
-import com.roundtable.roundtable.auth.jwt.filter.JwtAuthenticationFilter;
-import com.roundtable.roundtable.auth.jwt.provider.JwtAuthenticationProvider;
-import com.roundtable.roundtable.auth.jwt.provider.JwtProvider;
+import com.roundtable.roundtable.auth.application.jwt.filter.JwtAuthenticationConverter;
+import com.roundtable.roundtable.auth.application.jwt.filter.JwtAuthenticationFilter;
+import com.roundtable.roundtable.auth.application.jwt.provider.JwtAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private static final String[] whiteList = {"/members/register", "/members/login", "/members/emails/verification-requests"};
+    private static final String[] whiteList = {"/auth/register", "/auth/login", "/auth/emails/verification-requests"};
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
     private final JwtAuthenticationConverter jwtAuthenticationConverter;
