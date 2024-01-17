@@ -2,9 +2,6 @@ package com.roundtable.roundtable.auth.jwt.filter;
 
 import com.roundtable.roundtable.auth.exception.AuthenticationException;
 import com.roundtable.roundtable.auth.jwt.provider.JwtAuthenticationProvider;
-import com.roundtable.roundtable.auth.jwt.provider.JwtProvider;
-import com.roundtable.roundtable.auth.jwt.provider.Token;
-import com.roundtable.roundtable.auth.jwt.token.JwtAuthenticationToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 

@@ -41,9 +41,9 @@ public class JwtProvider {
                 .compact();
     }
 
-    public boolean validateAccessToken(String accessToken) {
+    public boolean isValidToken(String token) {
         try {
-            Claims claims = getJwtParser().parseClaimsJws(accessToken).getBody();
+            Claims claims = getJwtParser().parseClaimsJws(token).getBody();
 
             return !claims.getExpiration().before(new Date());
         } catch (Exception e) {

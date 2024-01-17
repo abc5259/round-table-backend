@@ -25,7 +25,7 @@ public class JwtAuthenticationProvider {
             throw new JwtAuthenticationException("유효하지 않은 인증입니다.");
         }
 
-        if(!jwtProvider.validateAccessToken(token.getAccessToken())) {
+        if(!jwtProvider.isValidToken(token.getAccessToken())) {
             throw new JwtAuthenticationException("유효하지 않은 인증입니다.");
         }
 
