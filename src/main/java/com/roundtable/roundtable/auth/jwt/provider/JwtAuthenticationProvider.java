@@ -22,17 +22,8 @@ public class JwtAuthenticationProvider {
         /**
          * 사용자가 요청으로 보낸 인증 헤더가 빈 값이면 token은 null일 수 있다.
          */
-<<<<<<< HEAD
         if(token == null || !jwtProvider.isValidToken(token.getAccessToken())) {
             return null;
-=======
-        if(token == null) {
-            throw new JwtAuthenticationException("유효하지 않은 인증입니다.");
-        }
-
-        if(!jwtProvider.isValidToken(token.getAccessToken())) {
-            throw new JwtAuthenticationException("유효하지 않은 인증입니다.");
->>>>>>> origin/main
         }
 
         final Long userId = jwtProvider.getSubject(token.getAccessToken());
