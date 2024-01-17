@@ -22,11 +22,15 @@ public class JwtAuthenticationConverter implements AuthenticationConverter {
         String accessToken = getAccessTokenFromHttpServletRequest(request);
         String refreshToken = getRefreshTokenFromHttpCookie(request);
 
+<<<<<<< HEAD
         Token token = null;
 
         if(accessToken != null) { //accessToken 이 있을때만 Token 생성
             token = Token.of(accessToken, refreshToken);
         }
+=======
+        Token token = Token.of(accessToken, refreshToken);
+>>>>>>> origin/main
 
         return new JwtAuthenticationToken(token, null, null);
     }
