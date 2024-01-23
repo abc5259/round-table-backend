@@ -61,4 +61,9 @@ public class Member extends BaseEntity {
             throw new MemberUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
         }
     }
+
+    public void settingProfile(String name, String gender) {
+        this.name = name;
+        this.gender = gender;
+    }
 }
