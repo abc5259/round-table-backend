@@ -42,7 +42,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         }
 
         Long userId = (Long) principal;
-        log.info("userId = " + userId);
+
         return memberRepository.findById(userId).orElseThrow(MemberNotFoundException::new);
     }
 }

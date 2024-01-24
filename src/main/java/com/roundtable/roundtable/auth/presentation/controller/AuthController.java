@@ -50,7 +50,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<Void> registerMember(@Valid @RequestBody final RegisterRequest memberRegisterRequest) {
         memberService.register(memberRegisterRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
