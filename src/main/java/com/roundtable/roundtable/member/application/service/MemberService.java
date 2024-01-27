@@ -1,5 +1,9 @@
 package com.roundtable.roundtable.member.application.service;
 
+import com.roundtable.roundtable.house.domain.House;
+import com.roundtable.roundtable.house.domain.HouseRepository;
+import com.roundtable.roundtable.house.exception.HouseException;
+import com.roundtable.roundtable.house.exception.HouseException.HouseNotFoundException;
 import com.roundtable.roundtable.member.application.dto.ExistEmailRequest;
 import com.roundtable.roundtable.member.application.dto.SettingProfileRequest;
 import com.roundtable.roundtable.member.domain.Member;
@@ -17,6 +21,8 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    private final HouseRepository houseRepository;
+
     public void settingProfile(final Member loginMember, final SettingProfileRequest settingProfileRequest) {
         log.info("member = " + loginMember.getId());
         loginMember.settingProfile(settingProfileRequest.name(), settingProfileRequest.gender());
@@ -24,5 +30,12 @@ public class MemberService {
 
     public boolean isExistEmail(ExistEmailRequest existEmailRequest) {
         return memberRepository.existsByEmail(existEmailRequest.email());
+    }
+
+    public void enterHouse(Long houseId, Member loginMember) {
+        House house = houseRepository.findById(houseId)
+                .orElseThrow(HouseNotFoundException::new);
+
+        loginMember.enterHouse(house);
     }
 }
