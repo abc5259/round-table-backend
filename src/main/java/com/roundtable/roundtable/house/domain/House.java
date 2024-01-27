@@ -25,4 +25,22 @@ public class House extends BaseEntity {
 
     @OneToMany(mappedBy = "house")
     private List<Member> members = new ArrayList<>();
+
+
+
+    public static final int MAX_MEMBER_SIZE = 50;
+
+    private House(String name) {
+        this.name = name;
+    }
+
+    public static House of(String name) {
+        return new House(name);
+    }
+
+    public void addMember(Member member) {
+        if(!members.contains(member)) {
+            members.add(member);
+        }
+    }
 }

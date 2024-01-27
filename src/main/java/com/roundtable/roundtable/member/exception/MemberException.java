@@ -25,4 +25,11 @@ public class MemberException extends RuntimeException {
             super(message);
         }
     }
+
+    public static class MemberAlreadyHasHouseException extends MemberException {
+
+        public MemberAlreadyHasHouseException() {
+            super("참여중인 하우스가 있습니다.");
+        }
+    }
 }

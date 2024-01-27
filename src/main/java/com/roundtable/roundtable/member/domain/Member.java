@@ -2,6 +2,8 @@ package com.roundtable.roundtable.member.domain;
 
 import com.roundtable.roundtable.global.domain.BaseEntity;
 import com.roundtable.roundtable.house.domain.House;
+import com.roundtable.roundtable.member.exception.MemberException;
+import com.roundtable.roundtable.member.exception.MemberException.MemberAlreadyHasHouseException;
 import com.roundtable.roundtable.member.exception.MemberException.MemberUnAuthorizationException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -65,5 +67,13 @@ public class Member extends BaseEntity {
     public void settingProfile(String name, String gender) {
         this.name = name;
         this.gender = gender;
+    }
+
+    public void enterHouse(House house) {
+        if(this.house != null) {
+            throw new MemberAlreadyHasHouseException();
+        }
+        this.house = house;
+        house.addMember(this);
     }
 }
