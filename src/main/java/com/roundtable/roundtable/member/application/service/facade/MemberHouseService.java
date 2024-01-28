@@ -1,7 +1,8 @@
-package com.roundtable.roundtable.member.application.service;
+package com.roundtable.roundtable.member.application.service.facade;
 
 import com.roundtable.roundtable.house.application.service.HouseService;
 import com.roundtable.roundtable.house.domain.House;
+import com.roundtable.roundtable.member.application.service.MemberService;
 import com.roundtable.roundtable.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

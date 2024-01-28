@@ -16,10 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class HouseService {
 
     private final HouseRepository houseRepository;
-    /**
-     * repo를 가져올까 service를 가져올까 머가 더 나은 선택일까
-     */
-    private final MemberRepository memberRepository;
 
     public void createHouse(CreateHouseRequest createHouseRequest, Member houseOwner) {
         House house = House.of(createHouseRequest.name());

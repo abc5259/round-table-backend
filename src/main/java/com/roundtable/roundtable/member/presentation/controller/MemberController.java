@@ -7,6 +7,7 @@ import com.roundtable.roundtable.global.presentation.response.SuccessResponse;
 import com.roundtable.roundtable.member.application.dto.ExistEmailRequest;
 import com.roundtable.roundtable.member.application.dto.SettingProfileRequest;
 import com.roundtable.roundtable.member.application.service.MemberService;
+import com.roundtable.roundtable.member.application.service.facade.MemberHouseService;
 import com.roundtable.roundtable.member.domain.Member;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberHouseService memberHouseService;
 
     // TODO: api url 어떻게 할지 고민..
     // @PATCH /members/me 로 바꾸고 파라미터로 바꿀거 다 받아서 null 값이 아닌 부분만 바꿔주자!
@@ -50,7 +52,7 @@ public class MemberController {
 
     @PatchMapping("/house/{houseId}")
     public ResponseEntity<Response<?>> enterHouse(@PathVariable Long houseId, @Login Member loginMember) {
-        memberService.enterHouse(houseId, loginMember);
+        memberHouseService.enterHouse(houseId, loginMember);
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 
