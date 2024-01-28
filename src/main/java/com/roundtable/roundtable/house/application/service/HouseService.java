@@ -3,8 +3,7 @@ package com.roundtable.roundtable.house.application.service;
 import com.roundtable.roundtable.house.application.dto.CreateHouseRequest;
 import com.roundtable.roundtable.house.domain.House;
 import com.roundtable.roundtable.house.domain.HouseRepository;
-import com.roundtable.roundtable.house.exception.HouseException;
-import com.roundtable.roundtable.house.exception.HouseException.HouseMemberMaxException;
+import com.roundtable.roundtable.house.exception.HouseException.HouseNotFoundException;
 import com.roundtable.roundtable.member.domain.Member;
 import com.roundtable.roundtable.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +26,10 @@ public class HouseService {
         houseRepository.save(house);
 
         houseOwner.enterHouse(house);
+    }
+
+    public House findById(Long houseId) {
+        return houseRepository.findById(houseId)
+                .orElseThrow(HouseNotFoundException::new);
     }
 }
