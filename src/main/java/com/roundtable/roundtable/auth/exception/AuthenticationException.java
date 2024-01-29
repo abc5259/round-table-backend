@@ -1,6 +1,8 @@
 package com.roundtable.roundtable.auth.exception;
 
-public class AuthenticationException extends RuntimeException {
+import com.roundtable.roundtable.global.exception.BusinessException;
+
+public class AuthenticationException extends BusinessException {
 
     public AuthenticationException(String message) {
         super(message);

@@ -38,7 +38,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if(principal == null) {
-            throw new MemberException.MemberUnAuthorizationException("인증이 되지 않았습니다.");
+            throw new MemberException.MemberUnAuthorizationException("인증이 되지 않은 사용자입니다.");
         }
 
         Long userId = (Long) principal;
