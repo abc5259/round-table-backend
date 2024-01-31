@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.auth.config;
 
+import com.roundtable.roundtable.auth.application.jwt.JwtAuthenticationEntryPoint;
 import com.roundtable.roundtable.auth.application.jwt.filter.JwtAuthenticationConverter;
 import com.roundtable.roundtable.auth.application.jwt.filter.JwtAuthenticationFilter;
 import com.roundtable.roundtable.auth.application.jwt.provider.JwtAuthenticationProvider;
@@ -20,10 +21,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
     private static final String[] whiteList = {"/auth/register", "/auth/login", "/auth/emails/verification-requests"};
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
     private final JwtAuthenticationConverter jwtAuthenticationConverter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().requestMatchers(whiteList);
@@ -39,7 +42,10 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry.anyRequest().authenticated())
-                .addFilterBefore(new JwtAuthenticationFilter(jwtAuthenticationConverter, jwtAuthenticationProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtAuthenticationConverter, jwtAuthenticationProvider), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling((exceptionConfig) ->
+                        exceptionConfig.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                );
 
         return http.build();
     }
