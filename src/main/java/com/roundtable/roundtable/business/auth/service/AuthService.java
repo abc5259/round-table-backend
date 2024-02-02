@@ -1,7 +1,5 @@
 package com.roundtable.roundtable.business.auth.service;
 
-import com.roundtable.roundtable.business.auth.jwt.provider.JwtProvider;
-import com.roundtable.roundtable.business.auth.jwt.provider.Token;
 import com.roundtable.roundtable.business.auth.authcode.AuthCode;
 import com.roundtable.roundtable.business.auth.authcode.AuthCodeStoreStrategy;
 import com.roundtable.roundtable.business.auth.dto.EmailRequest;

@@ -1,9 +1,9 @@
 package com.roundtable.roundtable.presentation.support.config;
 
-import com.roundtable.roundtable.business.auth.jwt.JwtAuthenticationEntryPoint;
-import com.roundtable.roundtable.business.auth.jwt.filter.JwtAuthenticationConverter;
-import com.roundtable.roundtable.business.auth.jwt.filter.JwtAuthenticationFilter;
-import com.roundtable.roundtable.business.auth.jwt.provider.JwtAuthenticationProvider;
+import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationEntryPoint;
+import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationConverter;
+import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationFilter;
+import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

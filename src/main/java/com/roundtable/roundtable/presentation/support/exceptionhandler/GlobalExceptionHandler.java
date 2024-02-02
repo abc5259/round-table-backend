@@ -2,7 +2,7 @@ package com.roundtable.roundtable.presentation.support.exceptionhandler;
 
 import com.roundtable.roundtable.business.global.exception.BusinessException;
 import com.roundtable.roundtable.presentation.support.response.ErrorResponse;
-import com.roundtable.roundtable.business.house.exception.HouseException;
+import com.roundtable.roundtable.implement.house.HouseException;
 import com.roundtable.roundtable.business.member.exception.MemberException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

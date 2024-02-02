@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.presentation.support.config.argumentresolver;
+package com.roundtable.roundtable.presentation.support.argumentresolver;
 
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;

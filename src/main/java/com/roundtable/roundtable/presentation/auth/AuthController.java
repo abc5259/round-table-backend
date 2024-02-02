@@ -1,13 +1,13 @@
-package com.roundtable.roundtable.presentation.auth.controller;
+package com.roundtable.roundtable.presentation.auth;
 
-import com.roundtable.roundtable.business.auth.jwt.filter.JwtAuthenticationConverter;
-import com.roundtable.roundtable.business.auth.jwt.provider.Token;
+import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationConverter;
+import com.roundtable.roundtable.business.auth.service.Token;
 import com.roundtable.roundtable.business.auth.authcode.AuthCode;
 import com.roundtable.roundtable.business.auth.dto.EmailRequest;
 import com.roundtable.roundtable.business.auth.dto.LoginRequest;
 import com.roundtable.roundtable.business.auth.dto.RegisterRequest;
 import com.roundtable.roundtable.business.auth.service.AuthService;
-import com.roundtable.roundtable.presentation.auth.dto.LoginResponse;
+import com.roundtable.roundtable.presentation.auth.response.LoginResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -69,10 +69,5 @@ public class AuthController {
                 .ok()
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
                 .body(new LoginResponse(token.getAccessToken()));
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<Void> test() {
-        return ResponseEntity.ok().build();
     }
 }

@@ -1,7 +1,6 @@
-package com.roundtable.roundtable.business.auth.jwt.filter;
+package com.roundtable.roundtable.presentation.auth.jwt;
 
-import com.roundtable.roundtable.business.auth.jwt.provider.Token;
-import com.roundtable.roundtable.business.auth.jwt.token.JwtAuthenticationToken;
+import com.roundtable.roundtable.business.auth.service.Token;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;

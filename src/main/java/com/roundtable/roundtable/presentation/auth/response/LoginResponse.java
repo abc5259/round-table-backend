@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.presentation.auth.dto;
+package com.roundtable.roundtable.presentation.auth.response;
 
 public record LoginResponse (
         String accessToken

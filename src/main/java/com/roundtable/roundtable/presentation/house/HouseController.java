@@ -1,11 +1,11 @@
-package com.roundtable.roundtable.presentation.house.controller;
+package com.roundtable.roundtable.presentation.house;
 
 import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.presentation.support.config.argumentresolver.Login;
+import com.roundtable.roundtable.presentation.house.request.CreateHouseRequest;
+import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
 import com.roundtable.roundtable.presentation.support.response.Response;
 import com.roundtable.roundtable.presentation.support.response.SuccessResponse;
-import com.roundtable.roundtable.business.house.dto.CreateHouseRequest;
-import com.roundtable.roundtable.business.house.service.HouseService;
+import com.roundtable.roundtable.business.house.HouseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class HouseController {
 
     @PostMapping
     public ResponseEntity<Response<?>> createHouse(@Login Member loginMember, @Valid @RequestBody CreateHouseRequest createHouseRequest) {
-        houseService.createHouse(createHouseRequest, loginMember);
+        houseService.createHouse(createHouseRequest.toCreateHouse(), loginMember);
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 }

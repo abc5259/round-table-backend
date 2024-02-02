@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.house.exception;
+package com.roundtable.roundtable.implement.house;
 
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.business.global.exception.BusinessException;

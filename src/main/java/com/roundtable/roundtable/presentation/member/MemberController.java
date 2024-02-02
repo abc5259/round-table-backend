@@ -1,7 +1,7 @@
-package com.roundtable.roundtable.presentation.member.controller;
+package com.roundtable.roundtable.presentation.member;
 
 import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.presentation.support.config.argumentresolver.Login;
+import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
 import com.roundtable.roundtable.presentation.support.response.ErrorResponse;
 import com.roundtable.roundtable.presentation.support.response.Response;
 import com.roundtable.roundtable.presentation.support.response.SuccessResponse;

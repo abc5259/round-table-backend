@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.auth.jwt;
+package com.roundtable.roundtable.presentation.auth.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roundtable.roundtable.presentation.support.response.ErrorResponse;

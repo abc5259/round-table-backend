@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.member.service;
 
-import com.roundtable.roundtable.business.house.service.HouseService;
+import com.roundtable.roundtable.business.house.HouseService;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,5 @@
-package com.roundtable.roundtable.business.auth.jwt.filter;
+package com.roundtable.roundtable.presentation.auth.jwt;
 
-import com.roundtable.roundtable.business.auth.jwt.provider.JwtAuthenticationProvider;
 import com.roundtable.roundtable.business.auth.exception.AuthenticationException;
 import com.roundtable.roundtable.business.auth.exception.AuthenticationException.JwtAuthenticationException;
 import jakarta.servlet.FilterChain;
