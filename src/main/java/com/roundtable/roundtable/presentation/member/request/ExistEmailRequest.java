@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.member.dto;
+package com.roundtable.roundtable.presentation.member.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

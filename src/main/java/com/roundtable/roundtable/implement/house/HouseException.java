@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.implement.house;
 
 import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.business.global.exception.BusinessException;
+import com.roundtable.roundtable.implement.common.BusinessException;
 
 public class HouseException extends BusinessException {
 

@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.presentation.support.config;
+package com.roundtable.roundtable.presentation.config;
 
 import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationEntryPoint;
 import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationConverter;

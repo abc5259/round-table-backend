@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.global.exception;
+package com.roundtable.roundtable.implement.common;
 
 public class BusinessException extends RuntimeException {
 

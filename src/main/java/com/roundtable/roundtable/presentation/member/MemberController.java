@@ -1,14 +1,14 @@
 package com.roundtable.roundtable.presentation.member;
 
+import com.roundtable.roundtable.business.house.HouseService;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
 import com.roundtable.roundtable.presentation.support.response.ErrorResponse;
 import com.roundtable.roundtable.presentation.support.response.Response;
 import com.roundtable.roundtable.presentation.support.response.SuccessResponse;
-import com.roundtable.roundtable.business.member.dto.ExistEmailRequest;
-import com.roundtable.roundtable.business.member.dto.SettingProfileRequest;
-import com.roundtable.roundtable.business.member.service.MemberService;
-import com.roundtable.roundtable.business.member.service.MemberHouseService;
+import com.roundtable.roundtable.presentation.member.request.ExistEmailRequest;
+import com.roundtable.roundtable.presentation.member.request.SettingProfileRequest;
+import com.roundtable.roundtable.business.member.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,19 +29,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
-    private final MemberHouseService memberHouseService;
+    private final HouseService houseService;
 
     // TODO: api url 어떻게 할지 고민..
     // @PATCH /members/me 로 바꾸고 파라미터로 바꿀거 다 받아서 null 값이 아닌 부분만 바꿔주자!
     @PatchMapping("/setting/profile")
     public ResponseEntity<SuccessResponse<?>> settingProfile(@Login Member loginMember, @Valid @RequestBody final SettingProfileRequest settingProfileRequest) {
-        memberService.settingProfile(loginMember, settingProfileRequest);
+        memberService.settingProfile(loginMember, settingProfileRequest.toMemberProfile());
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 
     @GetMapping("/exist")
     public ResponseEntity<Response<?>> existMemberEmail(@Valid @ModelAttribute ExistEmailRequest existEmailRequest) {
-        boolean isExistEmail = memberService.isExistEmail(existEmailRequest);
+        boolean isExistEmail = memberService.isExistEmail(existEmailRequest.email());
 
         if(!isExistEmail) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.fail("이메일에 해당하는 유저가 존재하지 않습니다."));
@@ -52,7 +52,7 @@ public class MemberController {
 
     @PatchMapping("/house/{houseId}")
     public ResponseEntity<Response<?>> enterHouse(@PathVariable Long houseId, @Login Member loginMember) {
-        memberHouseService.enterHouse(houseId, loginMember);
+        houseService.enterHouse(houseId, loginMember);
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 
