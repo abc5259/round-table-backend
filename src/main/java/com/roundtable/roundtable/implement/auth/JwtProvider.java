@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.auth.service;
+package com.roundtable.roundtable.implement.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;

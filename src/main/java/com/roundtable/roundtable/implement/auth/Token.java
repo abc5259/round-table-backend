@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.auth.service;
+package com.roundtable.roundtable.implement.auth;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

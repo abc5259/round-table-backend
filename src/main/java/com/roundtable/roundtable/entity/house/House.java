@@ -26,8 +26,6 @@ public class House extends BaseEntity {
     @OneToMany(mappedBy = "house")
     private List<Member> members = new ArrayList<>();
 
-
-
     public static final int MAX_MEMBER_SIZE = 50;
 
     private House(String name) {

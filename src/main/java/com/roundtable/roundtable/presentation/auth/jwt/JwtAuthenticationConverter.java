@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
-import com.roundtable.roundtable.business.auth.service.Token;
+import com.roundtable.roundtable.implement.auth.Token;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;

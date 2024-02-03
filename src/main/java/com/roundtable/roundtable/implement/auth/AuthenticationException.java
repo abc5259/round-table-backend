@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.auth.exception;
+package com.roundtable.roundtable.implement.auth;
 
 import com.roundtable.roundtable.implement.common.BusinessException;
 

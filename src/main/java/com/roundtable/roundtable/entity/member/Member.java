@@ -3,7 +3,6 @@ package com.roundtable.roundtable.entity.member;
 import com.roundtable.roundtable.entity.BaseEntity;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.implement.member.MemberException.MemberAlreadyHasHouseException;
-import com.roundtable.roundtable.implement.member.MemberException.MemberUnAuthorizationException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -56,11 +55,8 @@ public class Member extends BaseEntity {
         Assert.notNull(password, "비밀번호는 필수 입니다.");
     }
 
-    public void checkPassword(String password, PasswordEncoder passwordEncoder) {
-        boolean isMatchPassword = passwordEncoder.matches(password, this.password);
-        if(!isMatchPassword) {
-            throw new MemberUnAuthorizationException("아이디와 패스워드를 다시 확인 후 로그인해주세요.");
-        }
+    public boolean isCorrectPassword(String password, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(password, this.password);
     }
 
     public void settingProfile(String name, String gender) {

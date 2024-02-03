@@ -1,12 +1,12 @@
 package com.roundtable.roundtable.presentation.auth;
 
 import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationConverter;
-import com.roundtable.roundtable.business.auth.service.Token;
-import com.roundtable.roundtable.business.auth.authcode.AuthCode;
-import com.roundtable.roundtable.business.auth.dto.EmailRequest;
-import com.roundtable.roundtable.business.auth.dto.LoginRequest;
-import com.roundtable.roundtable.business.auth.dto.RegisterRequest;
-import com.roundtable.roundtable.business.auth.service.AuthService;
+import com.roundtable.roundtable.implement.auth.Token;
+import com.roundtable.roundtable.implement.auth.authcode.AuthCode;
+import com.roundtable.roundtable.business.auth.AuthService;
+import com.roundtable.roundtable.presentation.auth.request.EmailRequest;
+import com.roundtable.roundtable.presentation.auth.request.LoginRequest;
+import com.roundtable.roundtable.presentation.auth.request.RegisterRequest;
 import com.roundtable.roundtable.presentation.auth.response.LoginResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -30,17 +30,17 @@ public class AuthController {
     @Value("${jwt.refresh-token-expire-time}")
     private long REFRESH_TOKEN_EXPIRE_TIME;
 
-    private final AuthService memberService;
+    private final AuthService authService;
 
     @PostMapping("/emails/verification-requests")
     public ResponseEntity<Void> sendAuthCode(@Valid @RequestBody final EmailRequest emailRequest) {
-        memberService.sendCodeToEmail(emailRequest);
+        authService.sendCodeToEmail(emailRequest.email());
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/emails/verification-requests")
     public ResponseEntity<Void> isCorrectAuthCode(@Valid @NotBlank @RequestParam final String code) {
-        boolean isCorrect = memberService.isCorrectAuthCode(new AuthCode(code));
+        boolean isCorrect = authService.isCorrectAuthCode(new AuthCode(code));
         if(!isCorrect) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -49,14 +49,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> registerMember(@Valid @RequestBody final RegisterRequest memberRegisterRequest) {
-        memberService.register(memberRegisterRequest);
+        authService.register(memberRegisterRequest.toRegisterMember());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginMember(@Valid @RequestBody final LoginRequest memberLoginRequest) {
 
-        Token token = memberService.login(memberLoginRequest);
+        Token token = authService.login(memberLoginRequest.toLoginMember());
 
         ResponseCookie refreshTokenCookie = ResponseCookie
                 .from(JwtAuthenticationConverter.COOKIE_AUTH_TOKEN, token.getRefreshToken())

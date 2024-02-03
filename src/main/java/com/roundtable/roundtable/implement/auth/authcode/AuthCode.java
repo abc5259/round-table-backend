@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.auth.authcode;
+package com.roundtable.roundtable.implement.auth.authcode;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -10,10 +10,6 @@ public class AuthCode {
     private static final int MAX_LENGTH = 6;
     private final String code;
 
-    public AuthCode() {
-        code = createCode();
-    }
-
     public AuthCode(String code) {
         this.code = code;
     }
@@ -22,16 +18,16 @@ public class AuthCode {
         return code;
     }
 
-    private String createCode() {
+    public static AuthCode createCode() {
         try {
             Random random = SecureRandom.getInstanceStrong();
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < MAX_LENGTH; i++) {
                 builder.append(random.nextInt(10));
             }
-            return builder.toString();
+            return new AuthCode(builder.toString());
         } catch (NoSuchAlgorithmException e) {
-            log.debug("createCode() exception occur");
+            log.warn("createCode() exception occur");
             throw new RuntimeException(e);
         }
     }

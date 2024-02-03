@@ -1,17 +1,15 @@
-package com.roundtable.roundtable.business.auth.service;
+package com.roundtable.roundtable.implement.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 @Slf4j
-@Service
-@Transactional
+@Component
 @RequiredArgsConstructor
-public class MailService {
+public class MailProvider {
 
     private final JavaMailSender emailSender;
 
@@ -20,7 +18,7 @@ public class MailService {
         try {
             emailSender.send(emailForm);
         } catch (RuntimeException e) {
-            log.debug("MailService.sendEmail exception occur toEmail: {}, " +
+            log.warn("MailService.sendEmail exception occur toEmail: {}, " +
                     "title: {}, text: {}", toEmail, title, text);
             throw e;
         }

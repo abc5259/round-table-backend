@@ -1,8 +1,8 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
-import com.roundtable.roundtable.business.auth.exception.AuthenticationException;
-import com.roundtable.roundtable.business.auth.service.JwtProvider;
-import com.roundtable.roundtable.business.auth.service.Token;
+import com.roundtable.roundtable.implement.auth.AuthenticationException;
+import com.roundtable.roundtable.implement.auth.JwtProvider;
+import com.roundtable.roundtable.implement.auth.Token;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
