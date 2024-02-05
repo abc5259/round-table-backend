@@ -40,6 +40,9 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "HOUSE_ID")
     private House house;
 
+//    @OneToMany(mappedBy = "member")
+//    private List<HouseWorkMember> houseWorkMembers = new ArrayList<>();
+
     private Member(String email, String password) {
         this.email = email;
         this.password = password;
@@ -69,6 +72,5 @@ public class Member extends BaseEntity {
             throw new MemberAlreadyHasHouseException();
         }
         this.house = house;
-        house.addMember(this);
     }
 }
