@@ -1,6 +1,8 @@
 package com.roundtable.roundtable.entity.housework;
 
+import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,9 +16,16 @@ public class HouseWorkMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private Integer sequence;
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "HOUSE_ID")
+    private House House;
 
     @ManyToOne
     @JoinColumn(name = "HOUSEWORK_ID")
