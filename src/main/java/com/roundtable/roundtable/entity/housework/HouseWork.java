@@ -14,28 +14,42 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HouseWork extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String name;
-
-    @Column
-    private Integer currSequence;
-
-    @Column
-    private Integer sequenceSize;
+    protected String name;
 
     @Column(name = "CATEGORY",nullable = false)
     @Enumerated(EnumType.STRING)
     private HouseWorkCategory houseWorkCategory;
 
+    @Column
+    protected Integer currSequence;
+
+    @Column
+    protected Integer sequenceSize;
+
+    public HouseWork(String name, HouseWorkCategory houseWorkCategory, Integer currSequence, Integer sequenceSize) {
+        this.name = name;
+        this.houseWorkCategory = houseWorkCategory;
+        this.currSequence = currSequence;
+        this.sequenceSize = sequenceSize;
+    }
+
     @OneToMany(mappedBy = "houseWork")
     private List<HouseWorkMember> houseWorkMembers = new ArrayList<>();
+
+    public Long getId() {
+        return id;
+    }
 }

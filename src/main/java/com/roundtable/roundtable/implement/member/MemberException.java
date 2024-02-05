@@ -34,4 +34,11 @@ public class MemberException extends BusinessException {
             super("참여중인 하우스가 있습니다.");
         }
     }
+
+    public static class MemberNotSameHouseException extends MemberException {
+
+        public MemberNotSameHouseException() {
+            super("참여중인 하우스에 존재하지 않는 사용자입니다.");
+        }
+    }
 }

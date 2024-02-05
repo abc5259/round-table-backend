@@ -28,4 +28,8 @@ public class House extends BaseEntity {
     public static House of(String name) {
         return new House(name);
     }
+
+    public Long getId() {
+        return id;
+    }
 }

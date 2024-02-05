@@ -40,7 +40,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         if(principal == null) {
             throw new MemberException.MemberUnAuthorizationException("인증이 되지 않은 사용자입니다.");
         }
-
         Long userId = (Long) principal;
 
         return memberRepository.findById(userId).orElseThrow(MemberNotFoundException::new);

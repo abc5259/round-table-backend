@@ -3,11 +3,14 @@ package com.roundtable.roundtable.implement.member;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
 import com.roundtable.roundtable.implement.member.MemberException.MemberNotFoundException;
-import com.roundtable.roundtable.implement.member.MemberException.MemberUnAuthorizationException;
+import com.roundtable.roundtable.implement.member.MemberException.MemberNotSameHouseException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberReader {
     private final MemberRepository memberRepository;
@@ -25,6 +28,28 @@ public class MemberReader {
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
                 .orElseThrow(MemberNotFoundException::new);
+    }
+
+    public List<Member> findAllById(List<Long> membersId) {
+        List<Member> findMembers = memberRepository.findAllById(membersId);
+
+        if(findMembers.size() != membersId.size()) {
+            throw new MemberNotFoundException();
+        }
+
+        return findMembers;
+    }
+
+    public List<Member> findAllByIdInSameHouse(List<Long> membersId, Long houseId) {
+        List<Member> findMembers = findAllById(membersId);
+
+        findMembers.forEach(member -> {
+            if(!member.getHouse().getId().equals(houseId)) {
+                throw new MemberNotSameHouseException();
+            }
+        });
+
+        return findMembers;
     }
 
 }
