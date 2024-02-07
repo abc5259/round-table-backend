@@ -30,7 +30,7 @@ public class HouseWorkMaker {
 
         OneTimeHouseWork savedOneTimeHouseWork = houseWorkRepository.save(oneTimeHouseWork);
 
-        houseWorkMemberMaker.createHouseWorkMembers(house, savedOneTimeHouseWork, assignedMembers);
+        houseWorkMemberMaker.createOneTimeHouseWorkMembers(house, savedOneTimeHouseWork, assignedMembers);
 
         return savedOneTimeHouseWork.getId();
     }
@@ -47,8 +47,8 @@ public class HouseWorkMaker {
 
         WeeklyHouseWork savedWeeklyHouseWork = houseWorkRepository.save(weeklyHouseWork);
 
-        houseWorkMemberMaker.createHouseWorkMembers(house, savedWeeklyHouseWork, assignedMembers);
-        weeklyHouseWorkDayMaker.createWeeklyHouseWorkDays(createWeeklyHouseWork.days(), savedWeeklyHouseWork);
+        houseWorkMemberMaker.createWeeklyHouseWorkMembers(house, savedWeeklyHouseWork, assignedMembers);
+        weeklyHouseWorkDayMaker.createWeeklyHouseWorkDays(createWeeklyHouseWork.dayIds(), savedWeeklyHouseWork);
 
         return savedWeeklyHouseWork.getId();
     }

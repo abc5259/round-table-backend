@@ -3,6 +3,7 @@ package com.roundtable.roundtable.presentation.housework;
 import com.roundtable.roundtable.business.housework.HouseWorkService;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.presentation.housework.request.CreateOneTimeHouseWorkRequest;
+import com.roundtable.roundtable.presentation.housework.request.CreateWeeklyHouseWorkRequest;
 import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
 import com.roundtable.roundtable.presentation.support.response.Response;
 import com.roundtable.roundtable.presentation.support.response.SuccessResponse;
@@ -32,6 +33,19 @@ public class HouseWorkController {
                 member,
                 createOneTimeHouseWorkRequest.toCreateOneTimeHouseWork(),
                 createOneTimeHouseWorkRequest.assignedMembersId()
+        );
+
+        return ResponseEntity.ok().body(SuccessResponse.from(oneTimeHouseWorkId));
+    }
+
+    @PostMapping("/weekly")
+    public ResponseEntity<Response<?>> createWeeklyHouseWork(
+            @Login Member member,
+            @Valid  @RequestBody CreateWeeklyHouseWorkRequest createWeeklyHouseWorkRequest) {
+        Long oneTimeHouseWorkId = houseWorkService.createWeeklyHouseWork(
+                member,
+                createWeeklyHouseWorkRequest.toCreateWeeklyHouseWork(),
+                createWeeklyHouseWorkRequest.assignedMembersId()
         );
 
         return ResponseEntity.ok().body(SuccessResponse.from(oneTimeHouseWorkId));

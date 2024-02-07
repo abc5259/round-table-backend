@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberReader {
+    private final MemberValidator memberValidator;
     private final MemberRepository memberRepository;
 
     public boolean isExistEmail(String email) {
@@ -40,11 +41,12 @@ public class MemberReader {
         return findMembers;
     }
 
-    public List<Member> findAllByIdInSameHouse(List<Long> membersId, Long houseId) {
+    public List<Member> findAllByIdInSameHouse(List<Long> membersId, Member targetMember) {
+        memberValidator.validateMemberInHouse(targetMember);
         List<Member> findMembers = findAllById(membersId);
 
         findMembers.forEach(member -> {
-            if(!member.getHouse().getId().equals(houseId)) {
+            if(!member.getHouse().getId().equals(targetMember.getHouse().getId())) {
                 throw new MemberNotSameHouseException();
             }
         });

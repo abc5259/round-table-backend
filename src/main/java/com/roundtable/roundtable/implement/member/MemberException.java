@@ -35,6 +35,13 @@ public class MemberException extends BusinessException {
         }
     }
 
+    public static class MemberNoHouseException extends MemberException {
+
+        public MemberNoHouseException() {
+            super("참여중인 하우스가 없습니다.");
+        }
+    }
+
     public static class MemberNotSameHouseException extends MemberException {
 
         public MemberNotSameHouseException() {

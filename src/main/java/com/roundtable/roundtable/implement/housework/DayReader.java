@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DayReader {
     private final DayRepository dayRepository;
 
-    public List<Day> findAllById(List<DayOfWeek> dayOfWeeks) {
+    public List<Day> findAllById(List<Long> dayOfWeeks) {
         List<Day> days = dayRepository.findAllById(dayOfWeeks);
 
         if(dayOfWeeks.size() != days.size()) {

@@ -22,8 +22,8 @@ public record CreateOneTimeHouseWorkRequest (
                 return new CreateOneTimeHouseWork(
                         name,
                         houseWorkCategory,
-                        0,
-                        0,
+                        1,
+                        1,
                         assignedDate
                 );
         }

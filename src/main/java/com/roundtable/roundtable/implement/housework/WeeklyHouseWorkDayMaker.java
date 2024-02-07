@@ -18,7 +18,7 @@ public class WeeklyHouseWorkDayMaker {
     private final DayReader dayReader;
     private final WeeklyHouseWorkDayRepository weeklyHouseWorkDayRepository;
 
-    public void createWeeklyHouseWorkDays(List<DayOfWeek> dayOfWeeks, WeeklyHouseWork weeklyHouseWork) {
+    public void createWeeklyHouseWorkDays(List<Long> dayOfWeeks, WeeklyHouseWork weeklyHouseWork) {
         List<Day> days = dayReader.findAllById(dayOfWeeks);
 
         List<WeeklyHouseWorkDay> weeklyHouseWorkDays = days.stream().map(

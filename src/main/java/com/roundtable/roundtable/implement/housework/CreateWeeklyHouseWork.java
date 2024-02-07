@@ -10,7 +10,7 @@ import java.util.List;
 public record CreateWeeklyHouseWork(
         String name,
         HouseWorkCategory houseWorkCategory,
-        List<DayOfWeek> days,
+        List<Long> dayIds,
         LocalTime assignedTime,
         HouseWorkDivision houseWorkDivision,
         int currSequence,
