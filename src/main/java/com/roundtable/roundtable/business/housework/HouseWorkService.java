@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.housework;
 
-import com.roundtable.roundtable.entity.housework.CreateOneTimeHouseWork;
+import com.roundtable.roundtable.implement.housework.CreateOneTimeHouseWork;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.implement.housework.HouseWorkMaker;
 import com.roundtable.roundtable.implement.member.MemberReader;

@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.housework.request;
 
-import com.roundtable.roundtable.entity.housework.CreateOneTimeHouseWork;
+import com.roundtable.roundtable.implement.housework.CreateOneTimeHouseWork;
 import com.roundtable.roundtable.entity.housework.HouseWorkCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

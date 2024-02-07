@@ -8,10 +8,6 @@ public class AuthenticationException extends BusinessException {
         super(message);
     }
 
-    public AuthenticationException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     public static class JwtAuthenticationException extends AuthenticationException{
 
         public JwtAuthenticationException(String message) {

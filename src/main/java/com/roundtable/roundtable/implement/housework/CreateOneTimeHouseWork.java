@@ -1,7 +1,7 @@
-package com.roundtable.roundtable.entity.housework;
+package com.roundtable.roundtable.implement.housework;
 
+import com.roundtable.roundtable.entity.housework.HouseWorkCategory;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public record CreateOneTimeHouseWork(
         String name,
