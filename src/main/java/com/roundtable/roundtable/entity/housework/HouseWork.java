@@ -1,16 +1,20 @@
 package com.roundtable.roundtable.entity.housework;
 
 import com.roundtable.roundtable.entity.BaseEntity;
+import com.roundtable.roundtable.entity.house.House;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -51,9 +55,13 @@ public class HouseWork extends BaseEntity {
     @Column(nullable = false)
     private LocalTime assignedTime;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "HOUSE_ID")
+    private House house;
+
 
     public HouseWork(String name, HouseWorkCategory houseWorkCategory, Integer currSequence, Integer sequenceSize,
-                     LocalDate activeDate, LocalDate deActiveDate, LocalTime assignedTime) {
+                     LocalDate activeDate, LocalDate deActiveDate, LocalTime assignedTime, House house) {
         this.name = name;
         this.houseWorkCategory = houseWorkCategory;
         this.currSequence = currSequence;
@@ -61,6 +69,7 @@ public class HouseWork extends BaseEntity {
         this.activeDate = activeDate;
         this.deActiveDate = deActiveDate;
         this.assignedTime = assignedTime;
+        this.house = house;
     }
 
     public Long getId() {

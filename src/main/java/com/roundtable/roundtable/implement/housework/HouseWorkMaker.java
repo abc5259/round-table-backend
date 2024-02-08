@@ -29,12 +29,13 @@ public class HouseWorkMaker {
                 createOneTimeHouseWork.sequenceSize(),
                 createOneTimeHouseWork.assignedDate().toLocalDate(),
                 createOneTimeHouseWork.assignedDate().toLocalDate().plusDays(1),
-                createOneTimeHouseWork.assignedDate().toLocalTime()
+                createOneTimeHouseWork.assignedDate().toLocalTime(),
+                house
         );
 
         OneTimeHouseWork savedOneTimeHouseWork = houseWorkRepository.save(oneTimeHouseWork);
 
-        houseWorkMemberMaker.createOneTimeHouseWorkMembers(house, savedOneTimeHouseWork, assignedMembers);
+        houseWorkMemberMaker.createOneTimeHouseWorkMembers(savedOneTimeHouseWork, assignedMembers);
         houseWorkDayMaker.createHouseWorkDay(createOneTimeHouseWork.assignedDate().getDayOfWeek(), savedOneTimeHouseWork);
 
         return savedOneTimeHouseWork.getId();
@@ -49,12 +50,13 @@ public class HouseWorkMaker {
                 createWeeklyHouseWork.activeDate(),
                 null,
                 createWeeklyHouseWork.assignedTime(),
+                house,
                 createWeeklyHouseWork.houseWorkDivision()
         );
 
         WeeklyHouseWork savedWeeklyHouseWork = houseWorkRepository.save(weeklyHouseWork);
 
-        houseWorkMemberMaker.createWeeklyHouseWorkMembers(house, savedWeeklyHouseWork, assignedMembers);
+        houseWorkMemberMaker.createWeeklyHouseWorkMembers(savedWeeklyHouseWork, assignedMembers);
         houseWorkDayMaker.createHouseWorkDays(createWeeklyHouseWork.dayIds(), savedWeeklyHouseWork);
 
         return savedWeeklyHouseWork.getId();

@@ -26,20 +26,13 @@ public class HouseWorkMember {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "HOUSE_ID")
-    private House house;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "HOUSEWORK_ID")
     private HouseWork houseWork;
 
-    public HouseWorkMember(Integer sequence, Member member, House house,
-                           HouseWork houseWork) {
+    public HouseWorkMember(Integer sequence, Member member, HouseWork houseWork) {
         this.sequence = sequence;
         this.member = member;
-        this.house = house;
         this.houseWork = houseWork;
     }
 }

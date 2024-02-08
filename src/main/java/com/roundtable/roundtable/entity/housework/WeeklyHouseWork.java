@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.entity.housework;
 
+import com.roundtable.roundtable.entity.house.House;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -22,8 +23,12 @@ public class WeeklyHouseWork extends HouseWork {
 
     public WeeklyHouseWork(String name, HouseWorkCategory houseWorkCategory, Integer currSequence, Integer sequenceSize,
                            LocalDate activeDate, LocalDate deActiveDate, LocalTime assignedTime,
-                           HouseWorkDivision houseWorkDivision) {
-        super(name, houseWorkCategory, currSequence, sequenceSize, activeDate, deActiveDate, assignedTime);
+                           House house, HouseWorkDivision houseWorkDivision) {
+        super(name, houseWorkCategory, currSequence, sequenceSize, activeDate, deActiveDate, assignedTime, house);
         this.houseWorkDivision = houseWorkDivision;
+    }
+
+    public HouseWorkDivision getHouseWorkDivision() {
+        return houseWorkDivision;
     }
 }
