@@ -8,9 +8,9 @@ public class DayException extends BusinessException {
         super(message);
     }
 
-    public static class DayNotFindException extends DayException {
+    public static class DayNotFoundException extends DayException {
 
-        public DayNotFindException() {
+        public DayNotFoundException() {
             super("해당하는 Day를 찾을 수 없습니다.");
         }
     }

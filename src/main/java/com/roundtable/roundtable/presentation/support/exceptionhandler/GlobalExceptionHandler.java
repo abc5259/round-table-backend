@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.presentation.support.exceptionhandler;
 
 import com.roundtable.roundtable.implement.common.BusinessException;
+import com.roundtable.roundtable.implement.housework.DayException;
 import com.roundtable.roundtable.presentation.support.response.ErrorResponse;
 import com.roundtable.roundtable.implement.house.HouseException;
 import com.roundtable.roundtable.implement.member.MemberException;
@@ -39,6 +40,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {
             MemberException.MemberNotFoundException.class,
             HouseException.HouseNotFoundException.class,
+            DayException.DayNotFoundException.class
     })
     public ResponseEntity<ErrorResponse<?>> handleNotFoundException(final RuntimeException exception) {
         String message = exception.getMessage();

@@ -2,7 +2,7 @@ package com.roundtable.roundtable.implement.housework;
 
 import com.roundtable.roundtable.entity.housework.Day;
 import com.roundtable.roundtable.entity.housework.DayRepository;
-import com.roundtable.roundtable.implement.housework.DayException.DayNotFindException;
+import com.roundtable.roundtable.implement.housework.DayException.DayNotFoundException;
 import java.time.DayOfWeek;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class DayReader {
         List<Day> days = dayRepository.findAllById(dayOfWeeks);
 
         if(dayOfWeeks.size() != days.size()) {
-            throw new DayNotFindException();
+            throw new DayNotFoundException();
         }
 
         return days;
@@ -27,6 +27,6 @@ public class DayReader {
 
     public Day findByDayOfWeek(DayOfWeek dayOfWeeks) {
         return dayRepository.findByDayOfWeek(dayOfWeeks)
-                .orElseThrow(DayNotFindException::new);
+                .orElseThrow(DayNotFoundException::new);
     }
 }
