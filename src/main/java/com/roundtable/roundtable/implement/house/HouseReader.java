@@ -15,4 +15,5 @@ public class HouseReader {
         return houseRepository.findById(houseId)
                 .orElseThrow(HouseNotFoundException::new);
     }
+
 }

@@ -22,12 +22,14 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class HouseWork extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,9 +72,5 @@ public class HouseWork extends BaseEntity {
         this.deActiveDate = deActiveDate;
         this.assignedTime = assignedTime;
         this.house = house;
-    }
-
-    public Long getId() {
-        return id;
     }
 }

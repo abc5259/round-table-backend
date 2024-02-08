@@ -5,6 +5,7 @@ import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.implement.member.MemberException.MemberAlreadyHasHouseException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,7 +37,7 @@ public class Member extends BaseEntity {
     @Column(columnDefinition = "char(1) default 'M'")
     private String gender;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "HOUSE_ID")
     private House house;
 
