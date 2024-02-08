@@ -6,6 +6,7 @@ import com.roundtable.roundtable.entity.housework.OneTimeHouseWork;
 import com.roundtable.roundtable.entity.housework.WeeklyHouseWork;
 import com.roundtable.roundtable.entity.member.Member;
 import jakarta.transaction.Transactional;
+import java.time.DayOfWeek;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,20 +18,24 @@ public class HouseWorkMaker {
 
     private final HouseWorkRepository houseWorkRepository;
     private final HouseWorkMemberMaker houseWorkMemberMaker;
-    private final WeeklyHouseWorkDayMaker weeklyHouseWorkDayMaker;
+    private final HouseWorkDayMaker houseWorkDayMaker;
 
     public Long createOneTimeHouseWork(House house, CreateOneTimeHouseWork createOneTimeHouseWork, List<Member> assignedMembers) {
+
         OneTimeHouseWork oneTimeHouseWork = new OneTimeHouseWork(
                 createOneTimeHouseWork.name(),
                 createOneTimeHouseWork.houseWorkCategory(),
                 createOneTimeHouseWork.currSequence(),
                 createOneTimeHouseWork.sequenceSize(),
-                createOneTimeHouseWork.assignedDate()
+                createOneTimeHouseWork.assignedDate().toLocalDate(),
+                createOneTimeHouseWork.assignedDate().toLocalDate().plusDays(1),
+                createOneTimeHouseWork.assignedDate().toLocalTime()
         );
 
         OneTimeHouseWork savedOneTimeHouseWork = houseWorkRepository.save(oneTimeHouseWork);
 
         houseWorkMemberMaker.createOneTimeHouseWorkMembers(house, savedOneTimeHouseWork, assignedMembers);
+        houseWorkDayMaker.createHouseWorkDay(createOneTimeHouseWork.assignedDate().getDayOfWeek(), savedOneTimeHouseWork);
 
         return savedOneTimeHouseWork.getId();
     }
@@ -39,16 +44,18 @@ public class HouseWorkMaker {
         WeeklyHouseWork weeklyHouseWork = new WeeklyHouseWork(
                 createWeeklyHouseWork.name(),
                 createWeeklyHouseWork.houseWorkCategory(),
-                createWeeklyHouseWork.assignedTime(),
-                createWeeklyHouseWork.houseWorkDivision(),
                 createWeeklyHouseWork.currSequence(),
-                createWeeklyHouseWork.sequenceSize()
+                createWeeklyHouseWork.sequenceSize(),
+                createWeeklyHouseWork.activeDate(),
+                null,
+                createWeeklyHouseWork.assignedTime(),
+                createWeeklyHouseWork.houseWorkDivision()
         );
 
         WeeklyHouseWork savedWeeklyHouseWork = houseWorkRepository.save(weeklyHouseWork);
 
         houseWorkMemberMaker.createWeeklyHouseWorkMembers(house, savedWeeklyHouseWork, assignedMembers);
-        weeklyHouseWorkDayMaker.createWeeklyHouseWorkDays(createWeeklyHouseWork.dayIds(), savedWeeklyHouseWork);
+        houseWorkDayMaker.createHouseWorkDays(createWeeklyHouseWork.dayIds(), savedWeeklyHouseWork);
 
         return savedWeeklyHouseWork.getId();
     }

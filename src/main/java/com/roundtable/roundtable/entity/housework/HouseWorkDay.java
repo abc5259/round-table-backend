@@ -11,21 +11,21 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class WeeklyHouseWorkDay {
+public class HouseWorkDay {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "DAY_ID")
+    @JoinColumn
     private Day day;
 
     @ManyToOne
-    @JoinColumn(name = "WEEKLY_HOUSE_WORK_ID")
-    private WeeklyHouseWork weeklyHouseWork;
+    @JoinColumn
+    private HouseWork houseWork;
 
 
-    public WeeklyHouseWorkDay(Day day, WeeklyHouseWork weeklyHouseWork) {
+    public HouseWorkDay(Day day, HouseWork houseWork) {
         this.day = day;
-        this.weeklyHouseWork = weeklyHouseWork;
+        this.houseWork = houseWork;
     }
 }

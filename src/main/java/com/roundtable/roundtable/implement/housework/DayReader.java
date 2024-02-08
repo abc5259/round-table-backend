@@ -24,4 +24,9 @@ public class DayReader {
 
         return days;
     }
+
+    public Day findByDayOfWeek(DayOfWeek dayOfWeeks) {
+        return dayRepository.findByDayOfWeek(dayOfWeeks)
+                .orElseThrow(DayNotFindException::new);
+    }
 }

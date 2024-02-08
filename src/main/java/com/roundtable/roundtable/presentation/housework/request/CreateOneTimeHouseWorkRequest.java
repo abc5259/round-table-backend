@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.presentation.housework.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.roundtable.roundtable.implement.housework.CreateOneTimeHouseWork;
 import com.roundtable.roundtable.entity.housework.HouseWorkCategory;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +14,7 @@ public record CreateOneTimeHouseWorkRequest (
         String name,
         @NotNull
         HouseWorkCategory houseWorkCategory,
-        @NotNull
+        @NotNull @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
         LocalDateTime assignedDate,
         @NotEmpty
         List<Long> assignedMembersId

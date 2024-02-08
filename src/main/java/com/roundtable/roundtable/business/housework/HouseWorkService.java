@@ -5,7 +5,6 @@ import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.implement.housework.CreateWeeklyHouseWork;
 import com.roundtable.roundtable.implement.housework.HouseWorkMaker;
 import com.roundtable.roundtable.implement.member.MemberReader;
-import com.roundtable.roundtable.implement.member.MemberValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 public class HouseWorkService {
 
     private final MemberReader memberReader;
-    private final MemberValidator memberValidator;
     private final HouseWorkMaker houseWorkMaker;
 
     public Long createOneTimeHouseWork(

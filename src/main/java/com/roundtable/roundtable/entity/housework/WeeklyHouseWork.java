@@ -6,6 +6,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +17,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WeeklyHouseWork extends HouseWork {
 
-    @Column
-    private LocalTime assignedTime;
-
     @Enumerated(EnumType.STRING)
     private HouseWorkDivision houseWorkDivision;
 
-    public WeeklyHouseWork(String name,
-                           HouseWorkCategory houseWorkCategory,
-                           LocalTime assignedTime,
-                           HouseWorkDivision houseWorkDivision,
-                           Integer currSequence,
-                           Integer sequenceSize
-    ) {
-        super(name, houseWorkCategory, currSequence, sequenceSize);
-        this.assignedTime = assignedTime;
+    public WeeklyHouseWork(String name, HouseWorkCategory houseWorkCategory, Integer currSequence, Integer sequenceSize,
+                           LocalDate activeDate, LocalDate deActiveDate, LocalTime assignedTime,
+                           HouseWorkDivision houseWorkDivision) {
+        super(name, houseWorkCategory, currSequence, sequenceSize, activeDate, deActiveDate, assignedTime);
         this.houseWorkDivision = houseWorkDivision;
     }
 }

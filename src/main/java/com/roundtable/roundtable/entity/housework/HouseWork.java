@@ -12,6 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -31,23 +34,34 @@ public class HouseWork extends BaseEntity {
 
     @Column(name = "CATEGORY",nullable = false)
     @Enumerated(EnumType.STRING)
-    private HouseWorkCategory houseWorkCategory;
+    protected HouseWorkCategory houseWorkCategory;
 
-    @Column
+    @Column(nullable = false)
     protected Integer currSequence;
 
-    @Column
+    @Column(nullable = false)
     protected Integer sequenceSize;
 
-    public HouseWork(String name, HouseWorkCategory houseWorkCategory, Integer currSequence, Integer sequenceSize) {
+    @Column(nullable = false)
+    private LocalDate activeDate;
+
+    @Column
+    private LocalDate deActiveDate;
+
+    @Column(nullable = false)
+    private LocalTime assignedTime;
+
+
+    public HouseWork(String name, HouseWorkCategory houseWorkCategory, Integer currSequence, Integer sequenceSize,
+                     LocalDate activeDate, LocalDate deActiveDate, LocalTime assignedTime) {
         this.name = name;
         this.houseWorkCategory = houseWorkCategory;
         this.currSequence = currSequence;
         this.sequenceSize = sequenceSize;
+        this.activeDate = activeDate;
+        this.deActiveDate = deActiveDate;
+        this.assignedTime = assignedTime;
     }
-
-    @OneToMany(mappedBy = "houseWork")
-    private List<HouseWorkMember> houseWorkMembers = new ArrayList<>();
 
     public Long getId() {
         return id;
