@@ -25,4 +25,12 @@ public class ScheduleMember extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Schedule schedule;
 
+    private ScheduleMember(Member member, Integer sequence) {
+        this.member = member;
+        this.sequence = sequence;
+    }
+
+    public static ScheduleMember of(Member member, Integer sequence) {
+        return new ScheduleMember(member, sequence);
+    }
 }
