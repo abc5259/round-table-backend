@@ -44,6 +44,10 @@ public class Frequency {
             return frequencyInterval == 0;
         }
 
+        if(frequencyType.equals(DAILY)) {
+            return frequencyInterval >= 1;
+        }
+
         if(frequencyType.equals(WEEKLY)) {
             return frequencyInterval >= 1 && frequencyInterval <= 7;
         }
