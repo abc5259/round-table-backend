@@ -28,7 +28,7 @@ public class Frequency {
 
     public static Frequency of(FrequencyType frequencyType, Integer frequencyInterval) {
 
-        if(!validate(frequencyType, frequencyInterval)) {
+        if(!isSupport(frequencyType, frequencyInterval)) {
             throw new CreateScheduleException("frequencyType에 맞는 frequencyInterval값이 아닙니다.");
         }
 
@@ -36,7 +36,7 @@ public class Frequency {
 
     }
 
-    private static boolean validate(FrequencyType frequencyType, Integer frequencyInterval) {
+    public static boolean isSupport(FrequencyType frequencyType, Integer frequencyInterval) {
         if(frequencyInterval < 0)
             return false;
 

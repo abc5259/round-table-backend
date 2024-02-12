@@ -3,10 +3,15 @@ package com.roundtable.roundtable.implement.schedule;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Frequency;
+import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.entity.schedule.Schedule;
+import com.roundtable.roundtable.entity.schedule.ScheduleException;
+import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
 import com.roundtable.roundtable.implement.member.MemberReader;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,6 +26,8 @@ public class ScheduleMaker {
     private final ScheduleRepository scheduleRepository;
 
     public Schedule createSchedule(CreateSchedule createSchedule, House house) {
+        validate(createSchedule);
+
         List<Member> members = memberReader.findAllById(createSchedule.memberIds());
 
         List<ScheduleMember> scheduleMembers = scheduleMemberMaker.createScheduleMembers(members,
@@ -37,5 +44,23 @@ public class ScheduleMaker {
         );
 
         return scheduleRepository.save(schedule);
+    }
+
+    private void validate(CreateSchedule createSchedule) {
+
+        if(createSchedule.startDate().isBefore(LocalDate.now())) {
+            throw new CreateScheduleException("시작날짜는 과거일 수 없습니다.");
+        }
+
+        if(!Frequency.isSupport(createSchedule.frequencyType(), createSchedule.frequencyInterval())) {
+            throw new CreateScheduleException("frequencyType에 맞는 frequencyInterval값이 아닙니다.");
+        }
+
+        if(createSchedule.frequencyType().equals(FrequencyType.WEEKLY)) {
+            DayOfWeek day = DayOfWeek.of(createSchedule.frequencyInterval());
+            if(!createSchedule.startDate().getDayOfWeek().equals(day)) {
+                throw new CreateScheduleException("Weekly타입일땐 시작날짜는 interval로 준 값에 해당하는 요일이어야합니다.");
+            }
+        }
     }
 }

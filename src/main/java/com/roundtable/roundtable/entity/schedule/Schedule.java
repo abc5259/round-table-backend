@@ -97,6 +97,8 @@ public class Schedule extends BaseEntity {
                 .divisionType(divisionType)
                 .house(house)
                 .scheduleMembers(scheduleMembers)
+                .sequence(1)
+                .sequenceSize(scheduleMembers.size())
                 .build();
     }
 }

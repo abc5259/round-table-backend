@@ -12,7 +12,6 @@ public record CreateSchedule(
         Integer frequencyInterval,
         LocalDate startDate,
         LocalTime startTime,
-        Integer sequence,
         DivisionType divisionType,
         List<Long> memberIds
 ) {
