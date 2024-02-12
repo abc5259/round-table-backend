@@ -37,9 +37,12 @@ class MemberTest {
 
         //when
         boolean isCorrect = member.isCorrectPassword(password, passwordEncoder);
+
         //then
-        assertThat(member.isCorrectPassword(password, passwordEncoder)).isTrue();
+        assertThat(isCorrect).isTrue();
     }
+
+
 
     @DisplayName("member는 비밀번호가 틀린지 확인할 수 있다.")
     @Test
