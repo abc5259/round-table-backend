@@ -50,8 +50,8 @@ class ScheduleMakerTest {
         House house = House.of("name1");
         house = houseRepository.save(house);
 
-        Member member1 = Member.builder().email("email1").build();
-        Member member2 = Member.builder().email("email2").build();
+        Member member1 = Member.builder().email("email1").password("password").build();
+        Member member2 = Member.builder().email("email2").password("password").build();
         member1.enterHouse(house);
         member2.enterHouse(house);
         memberRepository.saveAll(List.of(member1, member2));

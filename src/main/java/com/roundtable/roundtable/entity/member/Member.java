@@ -5,6 +5,8 @@ import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.implement.member.MemberException.MemberAlreadyHasHouseException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,18 +34,15 @@ public class Member extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    @Column(columnDefinition = "char(1) default 'M'")
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "HOUSE_ID")
     private House house;
-
-//    @OneToMany(mappedBy = "member")
-//    private List<HouseWorkMember> houseWorkMembers = new ArrayList<>();
 
     @Builder
     private Member(String email, String password) {
@@ -52,20 +51,14 @@ public class Member extends BaseEntity {
     }
 
     public static Member of(String email, String password, PasswordEncoder passwordEncoder) {
-        validateCreateMember(email, password);
         return new Member(email, passwordEncoder.encode(password));
-    }
-
-    private static void validateCreateMember(String email, String password) {
-        Assert.notNull(email, "이메일은 필수 입니다.");
-        Assert.notNull(password, "비밀번호는 필수 입니다.");
     }
 
     public boolean isCorrectPassword(String password, PasswordEncoder passwordEncoder) {
         return passwordEncoder.matches(password, this.password);
     }
 
-    public void settingProfile(String name, String gender) {
+    public void settingProfile(String name, Gender gender) {
         this.name = name;
         this.gender = gender;
     }
