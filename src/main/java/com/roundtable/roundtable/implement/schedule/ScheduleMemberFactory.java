@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ScheduleMemberMaker {
+public class ScheduleMemberFactory {
     public static final int START_SEQUENCE = 1;
 
     public List<ScheduleMember> createScheduleMembers(List<Member> members, DivisionType divisionType) {
@@ -29,7 +29,7 @@ public class ScheduleMemberMaker {
     }
 
     private List<ScheduleMember> toScheduleMembersWithIncreaseSequence(List<Member> assignedMembers) {
-        AtomicInteger index = new AtomicInteger(START_SEQUENCE);
+        AtomicInteger index = new AtomicInteger(START_SEQUENCE-1);
 
         return assignedMembers.stream().map(member -> ScheduleMember.of(
                 member,

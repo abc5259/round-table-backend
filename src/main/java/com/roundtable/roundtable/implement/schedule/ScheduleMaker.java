@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ScheduleMaker {
     private final MemberReader memberReader;
-    private final ScheduleMemberMaker scheduleMemberMaker;
+    private final ScheduleMemberFactory scheduleMemberMaker;
     private final ScheduleRepository scheduleRepository;
 
     public Schedule createSchedule(CreateSchedule createSchedule, House house) {

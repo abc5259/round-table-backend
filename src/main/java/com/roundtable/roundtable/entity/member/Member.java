@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,6 +45,7 @@ public class Member extends BaseEntity {
 //    @OneToMany(mappedBy = "member")
 //    private List<HouseWorkMember> houseWorkMembers = new ArrayList<>();
 
+    @Builder
     private Member(String email, String password) {
         this.email = email;
         this.password = password;
