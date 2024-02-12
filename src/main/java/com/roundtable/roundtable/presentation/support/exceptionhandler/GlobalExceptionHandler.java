@@ -70,6 +70,18 @@ public class GlobalExceptionHandler {
                 .body(ErrorResponse.fail(message));
     }
 
+    @ExceptionHandler(value = {
+            RuntimeException.class,
+    })
+    public ResponseEntity<ErrorResponse<?>> handleRuntimeException(final RuntimeException exception) {
+        String message = exception.getMessage();
+        if(message == null) {
+            message = "예상치 못한 에러 발생";
+        }
+        log.warn(message);
 
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ErrorResponse.fail(message));
+    }
 
 }

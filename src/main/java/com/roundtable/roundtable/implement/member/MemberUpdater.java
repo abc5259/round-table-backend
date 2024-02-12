@@ -13,8 +13,4 @@ public class MemberUpdater {
         member.settingProfile(memberProfile.name(), memberProfile.gender());
     }
 
-    public void enterHouse(final Member member, House house) {
-        member.enterHouse(house);
-    }
-
 }
