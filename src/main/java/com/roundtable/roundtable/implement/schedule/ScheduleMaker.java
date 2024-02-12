@@ -5,7 +5,6 @@ import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Frequency;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.entity.schedule.ScheduleException;
 import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
@@ -22,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ScheduleMaker {
     private final MemberReader memberReader;
-    private final ScheduleMemberFactory scheduleMemberMaker;
+    private final ScheduleMemberFactory scheduleMemberFactory;
     private final ScheduleRepository scheduleRepository;
 
     public Schedule createSchedule(CreateSchedule createSchedule, House house) {
@@ -30,7 +29,7 @@ public class ScheduleMaker {
 
         List<Member> members = memberReader.findAllById(createSchedule.memberIds());
 
-        List<ScheduleMember> scheduleMembers = scheduleMemberMaker.createScheduleMembers(members,
+        List<ScheduleMember> scheduleMembers = scheduleMemberFactory.createScheduleMembers(members,
                 createSchedule.divisionType());
 
         Schedule schedule = Schedule.create(
@@ -47,6 +46,10 @@ public class ScheduleMaker {
     }
 
     private void validate(CreateSchedule createSchedule) {
+
+        if(createSchedule.memberIds().size() != createSchedule.memberIds().stream().distinct().count()) {
+            throw new CreateScheduleException("중복된 member id값이 있습니다.");
+        }
 
         if(createSchedule.startDate().isBefore(LocalDate.now())) {
             throw new CreateScheduleException("시작날짜는 과거일 수 없습니다.");

@@ -16,6 +16,7 @@ import jakarta.persistence.EntityManager;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -124,9 +125,28 @@ class ScheduleMakerTest {
 
     }
 
+    @DisplayName("스케줄을 생성할때 중복된 member id가 들어오면 에러를 던진다.")
+    @Test
+    void createScheduleWhenDuplicatedMemberId_fail() {
+        //given
+        House house = houseRepository.findAll().get(0);
+        List<Long> memberIds = memberRepository.findAll().stream().map(Member::getId).toList();
+        List<Long> duplicatedIds = new ArrayList<>(memberIds);
+        duplicatedIds.add(memberIds.get(0));
+
+        CreateSchedule request =
+                creatCreateRequest("schedule1", FrequencyType.DAILY, 2, duplicatedIds, DivisionType.FIX, LocalDate.now());
+
+        //when //then
+        assertThatThrownBy(() -> scheduleMaker.createSchedule(request, house))
+                .isInstanceOf(CreateScheduleException.class)
+                .hasMessage("중복된 member id값이 있습니다.");
+
+    }
+
     @DisplayName("스케줄을 생성할때는 시작날짜는 과거일 수 없다.")
     @Test
-    void createSchedule_fail() {
+    void createScheduleWhenBeforeDate_fail() {
         //given
         House house = houseRepository.findAll().get(0);
         List<Long> memberIds = memberRepository.findAll().stream().map(Member::getId).toList();
