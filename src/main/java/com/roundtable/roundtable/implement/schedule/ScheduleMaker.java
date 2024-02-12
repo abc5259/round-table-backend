@@ -47,18 +47,34 @@ public class ScheduleMaker {
 
     private void validate(CreateSchedule createSchedule) {
 
+        checkDuplicateMemberId(createSchedule);
+
+        checkBeforeDate(createSchedule);
+
+        checkSupportFrequency(createSchedule);
+
+        checkWeeklyInterval(createSchedule);
+    }
+
+    private static void checkDuplicateMemberId(CreateSchedule createSchedule) {
         if(createSchedule.memberIds().size() != createSchedule.memberIds().stream().distinct().count()) {
             throw new CreateScheduleException("중복된 member id값이 있습니다.");
         }
+    }
 
+    private static void checkBeforeDate(CreateSchedule createSchedule) {
         if(createSchedule.startDate().isBefore(LocalDate.now())) {
             throw new CreateScheduleException("시작날짜는 과거일 수 없습니다.");
         }
+    }
 
+    private static void checkSupportFrequency(CreateSchedule createSchedule) {
         if(!Frequency.isSupport(createSchedule.frequencyType(), createSchedule.frequencyInterval())) {
             throw new CreateScheduleException("frequencyType에 맞는 frequencyInterval값이 아닙니다.");
         }
+    }
 
+    private static void checkWeeklyInterval(CreateSchedule createSchedule) {
         if(createSchedule.frequencyType().equals(FrequencyType.WEEKLY)) {
             DayOfWeek day = DayOfWeek.of(createSchedule.frequencyInterval());
             if(!createSchedule.startDate().getDayOfWeek().equals(day)) {
