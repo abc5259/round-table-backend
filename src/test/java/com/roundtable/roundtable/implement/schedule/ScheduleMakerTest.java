@@ -83,10 +83,10 @@ class ScheduleMakerTest {
                 );
         List<ScheduleMember> scheduleMembers = scheduleMemberRepository.findAll();
         assertThat(scheduleMembers).hasSize(2)
-                .extracting("sequence")
+                .extracting("sequence", "Schedule")
                 .contains(
-                        1,
-                        1
+                        tuple(1,schedule),
+                        tuple(1,schedule)
                 );
 
     }

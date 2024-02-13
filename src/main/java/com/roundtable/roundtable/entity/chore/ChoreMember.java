@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +26,17 @@ public class ChoreMember extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
+    @Builder
+    private ChoreMember(Chore chore, Member member) {
+        this.chore = chore;
+        this.member = member;
+    }
+
+    public static ChoreMember create(Chore chore, Member member) {
+        return ChoreMember.builder()
+                .chore(chore)
+                .member(member)
+                .build();
+    }
 }

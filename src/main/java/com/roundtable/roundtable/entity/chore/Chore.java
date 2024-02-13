@@ -41,11 +41,10 @@ public class Chore extends BaseEntity {
         this.choreMembers = choreMembers;
     }
 
-    public static Chore create(Schedule schedule, List<ChoreMember> choreMembers) {
+    public static Chore create(Schedule schedule) {
 
         return Chore.builder()
                 .schedule(schedule)
-                .choreMembers(choreMembers)
                 .build();
     }
 }
