@@ -9,6 +9,7 @@ import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateSchedul
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
 import com.roundtable.roundtable.implement.member.MemberReader;
+import com.roundtable.roundtable.implement.member.MemberValidator;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
@@ -21,13 +22,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ScheduleMaker {
     private final MemberReader memberReader;
+    private final MemberValidator memberValidator;
     private final ScheduleMemberFactory scheduleMemberFactory;
     private final ScheduleRepository scheduleRepository;
 
     public Schedule createSchedule(CreateSchedule createSchedule, House house) {
+        /**
+         * TODO: 입력값에 대한 예외 처리는 controller의 역할일까??
+         */
         validate(createSchedule);
 
         List<Member> members = memberReader.findAllById(createSchedule.memberIds());
+        memberValidator.validateMembersSameHouse(members,house);
 
         List<ScheduleMember> scheduleMembers = scheduleMemberFactory.createScheduleMembers(members,
                 createSchedule.divisionType());

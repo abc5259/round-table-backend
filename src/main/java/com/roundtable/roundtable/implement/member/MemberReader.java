@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.implement.member;
 
+import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
 import com.roundtable.roundtable.implement.member.MemberException.MemberNotFoundException;
@@ -37,19 +38,6 @@ public class MemberReader {
         if(findMembers.size() != membersId.size()) {
             throw new MemberNotFoundException();
         }
-
-        return findMembers;
-    }
-
-    public List<Member> findAllByIdInSameHouse(List<Long> membersId, Member targetMember) {
-        memberValidator.validateMemberInHouse(targetMember);
-        List<Member> findMembers = findAllById(membersId);
-
-        findMembers.forEach(member -> {
-            if(!member.getHouse().getId().equals(targetMember.getHouse().getId())) {
-                throw new MemberNotSameHouseException();
-            }
-        });
 
         return findMembers;
     }
