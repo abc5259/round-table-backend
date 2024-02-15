@@ -1,6 +1,6 @@
-package com.roundtable.roundtable.implement.chore;
+package com.roundtable.roundtable.business.schedule;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.entity.chore.Chore;
@@ -8,7 +8,6 @@ import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
-import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.implement.schedule.CreateSchedule;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
@@ -22,18 +21,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-class ScheduleChoreAppendDirectorTest {
+class ScheduleServiceTest {
 
     @Autowired
-    private ScheduleChoreAppendDirector scheduleChoreAppendDirector;
+    private ScheduleService scheduleService;
+
 
     @Autowired
     private EntityManager em;
 
-
-    @DisplayName("시작날짜가 오늘과 같다면 스케줄과 집안일 둘다 추가한다.")
+    @DisplayName("시작날짜가 오늘과 같다면 스케줄과 집안일 둘다 생성한다.")
     @Test
-    void appendWhenStartDateWithToday() {
+    void createScheduleWhenStartDateWithToday() {
         //given
         LocalDate startDate = LocalDate.now();
         LocalDate now = LocalDate.now();
@@ -52,31 +51,19 @@ class ScheduleChoreAppendDirectorTest {
         );
 
         //when
-        Schedule schedule = scheduleChoreAppendDirector.append(createSchedule, house, now);
+        Long scheduleId = scheduleService.createSchedule(createSchedule, member, now);
 
         //then
-        assertThat(schedule.getId()).isNotNull();
-        assertThat(schedule).isNotNull()
-                .extracting( "name", "sequence", "sequenceSize", "divisionType", "house")
-                .contains(
-                        createSchedule.name(),
-                        1,
-                        createSchedule.memberIds().size(),
-                        createSchedule.divisionType(),
-                        house
-                );
+        assertThat(scheduleId).isNotNull();
 
         List<Chore> chore = em.createQuery("select c from Chore c", Chore.class)
                 .getResultList();
-
-        assertThat(chore).hasSize(1)
-                .extracting("schedule")
-                .contains(schedule);
+        assertThat(chore).hasSize(1);
     }
 
-    @DisplayName("시작날짜가 오늘이 아니라면 스케줄만 추가한다.")
+    @DisplayName("시작날짜가 오늘이 아니라면 스케줄만 생성한다.")
     @Test
-    void appendWhenStartDateWithNotToday() {
+    void createScheduleWhenStartDateWithNotToday() {
         //given
         LocalDate startDate = LocalDate.of(2024,2,15);
         LocalDate now = LocalDate.of(2024,2,14);
@@ -95,19 +82,10 @@ class ScheduleChoreAppendDirectorTest {
         );
 
         //when
-        Schedule schedule = scheduleChoreAppendDirector.append(createSchedule, house, now);
+        Long scheduleId = scheduleService.createSchedule(createSchedule, member, now);
 
         //then
-        assertThat(schedule.getId()).isNotNull();
-        assertThat(schedule).isNotNull()
-                .extracting( "name", "sequence", "sequenceSize", "divisionType", "house")
-                .contains(
-                        createSchedule.name(),
-                        1,
-                        createSchedule.memberIds().size(),
-                        createSchedule.divisionType(),
-                        house
-                );
+        assertThat(scheduleId).isNotNull();
 
         List<Chore> chore = em.createQuery("select c from Chore c", Chore.class)
                 .getResultList();
