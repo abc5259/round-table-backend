@@ -7,7 +7,6 @@ import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.implement.schedule.CreateSchedule;
 import com.roundtable.roundtable.implement.schedule.ScheduleAppender;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,9 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScheduleChoreAppendDirector {
 
     private final ScheduleAppender scheduleAppender;
+
     private final ChoreAppender choreAppender;
 
-    public Schedule append(CreateSchedule createSchedule, House house, LocalDateTime now) {
+    public Schedule append(CreateSchedule createSchedule, House house, LocalDate now) {
         Schedule schedule = scheduleAppender.createSchedule(createSchedule, house);
 
         if(isStartToday(createSchedule, now)) {
@@ -32,7 +32,7 @@ public class ScheduleChoreAppendDirector {
         return schedule;
     }
 
-    private boolean isStartToday(CreateSchedule createSchedule, LocalDateTime now) {
-        return createSchedule.startDate().equals(now.toLocalDate());
+    private boolean isStartToday(CreateSchedule createSchedule, LocalDate now) {
+        return createSchedule.startDate().equals(now);
     }
 }
