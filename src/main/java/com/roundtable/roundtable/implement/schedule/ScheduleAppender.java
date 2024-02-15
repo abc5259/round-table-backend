@@ -6,7 +6,6 @@ import com.roundtable.roundtable.entity.schedule.Frequency;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
-import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
 import com.roundtable.roundtable.implement.member.MemberReader;
 import com.roundtable.roundtable.implement.member.MemberValidator;
@@ -20,23 +19,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @RequiredArgsConstructor
 @Transactional
-public class ScheduleMaker {
+public class ScheduleAppender {
     private final MemberReader memberReader;
     private final MemberValidator memberValidator;
-    private final ScheduleMemberFactory scheduleMemberFactory;
+    private final ScheduleMemberAppender scheduleMemberAppender;
     private final ScheduleRepository scheduleRepository;
 
     public Schedule createSchedule(CreateSchedule createSchedule, House house) {
-        /**
-         * TODO: 입력값에 대한 예외 처리는 controller의 역할일까??
-         */
-        validate(createSchedule);
+        validateCreateSchedule(createSchedule);
 
         List<Member> members = memberReader.findAllById(createSchedule.memberIds());
         memberValidator.validateMembersSameHouse(members,house);
 
-        List<ScheduleMember> scheduleMembers = scheduleMemberFactory.createScheduleMembers(members,
-                createSchedule.divisionType());
+        Schedule schedule = appendSchedule(createSchedule, house, members);
+
+        scheduleMemberAppender.createScheduleMembers(members, schedule);
+        return schedule;
+    }
+
+
+    private Schedule appendSchedule(CreateSchedule createSchedule, House house, List<Member> members) {
 
         Schedule schedule = Schedule.create(
                 createSchedule.name(),
@@ -45,13 +47,13 @@ public class ScheduleMaker {
                 createSchedule.startTime(),
                 createSchedule.divisionType(),
                 house,
-                scheduleMembers
+                members.size()
         );
 
         return scheduleRepository.save(schedule);
     }
 
-    private void validate(CreateSchedule createSchedule) {
+    private void validateCreateSchedule(CreateSchedule createSchedule) {
 
         checkDuplicateMemberId(createSchedule);
 

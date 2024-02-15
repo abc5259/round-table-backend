@@ -86,7 +86,7 @@ public class Schedule extends BaseEntity {
             LocalTime startTime,
             DivisionType divisionType,
             House house,
-            List<ScheduleMember> scheduleMembers
+            int sequenceSize
     ) {
 
         return Schedule.builder()
@@ -96,9 +96,8 @@ public class Schedule extends BaseEntity {
                 .startTime(startTime)
                 .divisionType(divisionType)
                 .house(house)
-                .scheduleMembers(scheduleMembers)
                 .sequence(1)
-                .sequenceSize(scheduleMembers.size())
+                .sequenceSize(sequenceSize)
                 .build();
     }
 }

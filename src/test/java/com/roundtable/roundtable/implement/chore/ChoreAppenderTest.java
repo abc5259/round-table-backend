@@ -1,7 +1,6 @@
 package com.roundtable.roundtable.implement.chore;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
@@ -44,7 +43,6 @@ class ChoreAppenderTest {
         member.enterHouse(house);
         em.persist(member);
 
-        ScheduleMember scheduleMember = ScheduleMember.of(member, 1);
         Schedule schedule = Schedule.create(
                 "schedule1",
                 Frequency.of(FrequencyType.DAILY, 2),
@@ -52,7 +50,7 @@ class ChoreAppenderTest {
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
                 member.getHouse(),
-                List.of(scheduleMember)
+                1
         );
         em.persist(schedule);
 

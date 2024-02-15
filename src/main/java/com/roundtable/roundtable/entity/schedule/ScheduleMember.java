@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,12 +31,18 @@ public class ScheduleMember extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Schedule schedule;
 
-    private ScheduleMember(Member member, Integer sequence) {
+    @Builder
+    private ScheduleMember(Member member, Schedule schedule, Integer sequence) {
         this.member = member;
+        this.schedule = schedule;
         this.sequence = sequence;
     }
 
-    public static ScheduleMember of(Member member, Integer sequence) {
-        return new ScheduleMember(member, sequence);
+    public static ScheduleMember of(Member member, Schedule schedule, Integer sequence) {
+        return ScheduleMember.builder()
+                .member(member)
+                .schedule(schedule)
+                .sequence(sequence)
+                .build();
     }
 }

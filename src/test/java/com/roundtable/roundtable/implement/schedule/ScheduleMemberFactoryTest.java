@@ -1,11 +1,15 @@
 package com.roundtable.roundtable.implement.schedule;
 
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
+import com.roundtable.roundtable.entity.schedule.Frequency;
+import com.roundtable.roundtable.entity.schedule.FrequencyType;
+import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -28,9 +32,10 @@ class ScheduleMemberFactoryTest {
         Member member2 = createMember();
         List<Member> members = List.of(member1, member2);
         DivisionType targetDivisionType = DivisionType.FIX;
+        Schedule schedule = createSchedule(DivisionType.FIX);
 
         //when
-        List<ScheduleMember> scheduleMembers = scheduleMemberFactory.createScheduleMembers(members, targetDivisionType);
+        List<ScheduleMember> scheduleMembers = scheduleMemberFactory.createScheduleMembers(members, schedule);
 
         //then
         Assertions.assertThat(scheduleMembers).hasSize(2)
@@ -51,9 +56,10 @@ class ScheduleMemberFactoryTest {
         Member member2 = createMember();
         List<Member> members = List.of(member1, member2);
         DivisionType targetDivisionType = DivisionType.ROTATION;
+        Schedule schedule = createSchedule(DivisionType.ROTATION);
 
         //when
-        List<ScheduleMember> scheduleMembers = scheduleMemberFactory.createScheduleMembers(members, targetDivisionType);
+        List<ScheduleMember> scheduleMembers = scheduleMemberFactory.createScheduleMembers(members, schedule);
 
         //then
         Assertions.assertThat(scheduleMembers).hasSize(2)
@@ -65,10 +71,15 @@ class ScheduleMemberFactoryTest {
 
     }
 
-    private static Member createMember() {
+    private Member createMember() {
         return Member.builder()
                 .email("email")
                 .password("password")
                 .build();
+    }
+
+    private Schedule createSchedule(DivisionType divisionType) {
+        return Schedule.create("schedule", Frequency.of(FrequencyType.DAILY, 1), LocalDate.now(),
+                LocalTime.of(11, 1), divisionType, null, 1);
     }
 }
