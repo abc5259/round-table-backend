@@ -31,7 +31,7 @@ class ChoreAppenderTest {
     @Autowired
     EntityManager em;
 
-    @DisplayName("집안일을 데이터베이스에 생성한다.")
+    @DisplayName("집안일을 등록한다.")
     @Test
     @Rollback(value = false)
     void test() {
@@ -54,10 +54,10 @@ class ChoreAppenderTest {
         );
         em.persist(schedule);
 
-        CreateChore createChore = new CreateChore(schedule, List.of(member));
+        CreateChore createChore = new CreateChore(schedule, List.of(member.getId()));
 
         //when
-        Chore chore = choreAppender.appendChore(createChore);
+        Chore chore = choreAppender.appendChore(createChore, house);
 
         //then
         assertThat(chore).isNotNull()

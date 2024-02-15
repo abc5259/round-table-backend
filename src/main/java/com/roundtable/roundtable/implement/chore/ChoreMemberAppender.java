@@ -1,5 +1,8 @@
-package com.roundtable.roundtable.entity.chore;
+package com.roundtable.roundtable.implement.chore;
 
+import com.roundtable.roundtable.entity.chore.Chore;
+import com.roundtable.roundtable.entity.chore.ChoreMember;
+import com.roundtable.roundtable.entity.chore.ChoreMemberRepository;
 import com.roundtable.roundtable.entity.member.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
