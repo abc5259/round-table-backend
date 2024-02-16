@@ -17,6 +17,7 @@ import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -100,4 +101,12 @@ public class Schedule extends BaseEntity {
                 .sequenceSize(sequenceSize)
                 .build();
     }
+
+    public void addScheduleMember(ScheduleMember scheduleMember) {
+        if(!scheduleMembers.contains(scheduleMember)) {
+            this.scheduleMembers.add(scheduleMember);
+        }
+    }
+
+
 }

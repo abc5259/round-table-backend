@@ -39,6 +39,7 @@ public class ScheduleMember extends BaseEntity {
     }
 
     public static ScheduleMember of(Member member, Schedule schedule, Integer sequence) {
+
         return ScheduleMember.builder()
                 .member(member)
                 .schedule(schedule)

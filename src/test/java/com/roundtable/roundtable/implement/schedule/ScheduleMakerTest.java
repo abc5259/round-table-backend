@@ -68,7 +68,7 @@ class ScheduleMakerTest {
                 creatCreateRequest("schedule1", FrequencyType.ONCE, 0, memberIds, DivisionType.FIX, LocalDate.now());
 
         //when
-        Schedule schedule = scheduleAppender.createSchedule(request, house, LocalDate.now());
+        Schedule schedule = scheduleAppender.appendSchedule(request, house, LocalDate.now());
 
         //then
         assertThat(schedule).isNotNull()
@@ -102,7 +102,7 @@ class ScheduleMakerTest {
                 creatCreateRequest("schedule1", FrequencyType.ONCE, 0, memberIds, DivisionType.ROTATION, LocalDate.now());
 
         //when
-        Schedule schedule = scheduleAppender.createSchedule(request, house, LocalDate.now());
+        Schedule schedule = scheduleAppender.appendSchedule(request, house, LocalDate.now());
 
         //then
         assertThat(schedule).isNotNull()
@@ -138,7 +138,7 @@ class ScheduleMakerTest {
                 creatCreateRequest("schedule1", FrequencyType.DAILY, 2, duplicatedIds, DivisionType.FIX, LocalDate.now());
 
         //when //then
-        assertThatThrownBy(() -> scheduleAppender.createSchedule(request, house, LocalDate.now()))
+        assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
                 .isInstanceOf(CreateScheduleException.class)
                 .hasMessage("중복된 member id값이 있습니다.");
 
@@ -157,7 +157,7 @@ class ScheduleMakerTest {
                 creatCreateRequest("schedule1", FrequencyType.DAILY, 2, memberIds, DivisionType.FIX, startDate);
 
         //when //then
-        assertThatThrownBy(() -> scheduleAppender.createSchedule(request, house, LocalDate.now()))
+        assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
                 .isInstanceOf(CreateScheduleException.class)
                 .hasMessage("시작날짜는 과거일 수 없습니다.");
 
@@ -177,7 +177,7 @@ class ScheduleMakerTest {
                 creatCreateRequest("schedule1", FrequencyType.WEEKLY, day.getValue(), memberIds, DivisionType.FIX, startDate);
 
         //when //then
-        assertThatThrownBy(() -> scheduleAppender.createSchedule(request, house, LocalDate.now()))
+        assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
                 .isInstanceOf(CreateScheduleException.class)
                 .hasMessage("Weekly타입일땐 시작날짜는 interval로 준 값에 해당하는 요일이어야합니다.");
 
@@ -204,7 +204,7 @@ class ScheduleMakerTest {
                 creatCreateRequest("schedule1", frequencyType, interval, memberIds, DivisionType.FIX, startDate);
 
         //when //then
-        assertThatThrownBy(() -> scheduleAppender.createSchedule(request, house, LocalDate.now()))
+        assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
                 .isInstanceOf(CreateScheduleException.class)
                 .hasMessage("frequencyType에 맞는 frequencyInterval값이 아닙니다.");
 

@@ -1,12 +1,11 @@
 package com.roundtable.roundtable.implement.chore;
 
-import static com.roundtable.roundtable.entity.schedule.FrequencyType.*;
-
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.implement.schedule.CreateSchedule;
 import com.roundtable.roundtable.implement.schedule.ScheduleAppender;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +19,16 @@ public class ScheduleChoreAppendDirector {
 
     private final ChoreAppender choreAppender;
 
+    private final ChoreMembersChooser choreMembersChooser;
+
     public Schedule append(CreateSchedule createSchedule, House house, LocalDate now) {
-        Schedule schedule = scheduleAppender.createSchedule(createSchedule, house, now);
+        Schedule schedule = scheduleAppender.appendSchedule(createSchedule, house, now);
 
         if(isStartToday(createSchedule, now)) {
+            List<Long> choreMemberIds = choreMembersChooser.chooseChoreMemberIds(schedule);
+
             choreAppender.appendChore(
-                    new CreateChore(schedule, createSchedule.memberIds()),
+                    new CreateChore(schedule, choreMemberIds),
                     house);
         }
 

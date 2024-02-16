@@ -6,6 +6,7 @@ import com.roundtable.roundtable.entity.schedule.Frequency;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
 import com.roundtable.roundtable.implement.member.MemberReader;
 import com.roundtable.roundtable.implement.member.MemberValidator;
@@ -25,7 +26,7 @@ public class ScheduleAppender {
     private final ScheduleMemberAppender scheduleMemberAppender;
     private final ScheduleRepository scheduleRepository;
 
-    public Schedule createSchedule(CreateSchedule createSchedule, House house, LocalDate currDate) {
+    public Schedule appendSchedule(CreateSchedule createSchedule, House house, LocalDate currDate) {
         validateCreateSchedule(createSchedule, currDate);
 
         List<Member> members = memberReader.findAllById(createSchedule.memberIds());
@@ -34,6 +35,7 @@ public class ScheduleAppender {
         Schedule schedule = appendSchedule(createSchedule, house, members);
 
         scheduleMemberAppender.createScheduleMembers(members, schedule);
+
         return schedule;
     }
 
