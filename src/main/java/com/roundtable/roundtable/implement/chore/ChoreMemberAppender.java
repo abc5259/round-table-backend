@@ -7,8 +7,10 @@ import com.roundtable.roundtable.entity.member.Member;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class ChoreMemberAppender {
     private final ChoreMemberRepository choreMemberRepository;

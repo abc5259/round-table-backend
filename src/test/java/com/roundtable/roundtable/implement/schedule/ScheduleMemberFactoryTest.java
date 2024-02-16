@@ -18,8 +18,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
 class ScheduleMemberFactoryTest {
     @Autowired
     ScheduleMemberFactory scheduleMemberFactory;
@@ -31,7 +33,6 @@ class ScheduleMemberFactoryTest {
         Member member1 = createMember();
         Member member2 = createMember();
         List<Member> members = List.of(member1, member2);
-        DivisionType targetDivisionType = DivisionType.FIX;
         Schedule schedule = createSchedule(DivisionType.FIX);
 
         //when
@@ -55,7 +56,6 @@ class ScheduleMemberFactoryTest {
         Member member1 = createMember();
         Member member2 = createMember();
         List<Member> members = List.of(member1, member2);
-        DivisionType targetDivisionType = DivisionType.ROTATION;
         Schedule schedule = createSchedule(DivisionType.ROTATION);
 
         //when

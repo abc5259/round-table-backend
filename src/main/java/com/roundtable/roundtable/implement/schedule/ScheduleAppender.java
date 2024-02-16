@@ -25,8 +25,8 @@ public class ScheduleAppender {
     private final ScheduleMemberAppender scheduleMemberAppender;
     private final ScheduleRepository scheduleRepository;
 
-    public Schedule createSchedule(CreateSchedule createSchedule, House house) {
-        validateCreateSchedule(createSchedule);
+    public Schedule createSchedule(CreateSchedule createSchedule, House house, LocalDate currDate) {
+        validateCreateSchedule(createSchedule, currDate);
 
         List<Member> members = memberReader.findAllById(createSchedule.memberIds());
         memberValidator.validateMembersSameHouse(members,house);
@@ -53,11 +53,11 @@ public class ScheduleAppender {
         return scheduleRepository.save(schedule);
     }
 
-    private void validateCreateSchedule(CreateSchedule createSchedule) {
+    private void validateCreateSchedule(CreateSchedule createSchedule, LocalDate currDate) {
 
         checkDuplicateMemberId(createSchedule);
 
-        checkBeforeDate(createSchedule);
+        checkBeforeDate(createSchedule, currDate);
 
         checkSupportFrequency(createSchedule);
 
@@ -70,8 +70,8 @@ public class ScheduleAppender {
         }
     }
 
-    private static void checkBeforeDate(CreateSchedule createSchedule) {
-        if(createSchedule.startDate().isBefore(LocalDate.now())) {
+    private static void checkBeforeDate(CreateSchedule createSchedule, LocalDate currDate) {
+        if(createSchedule.startDate().isBefore(currDate)) {
             throw new CreateScheduleException("시작날짜는 과거일 수 없습니다.");
         }
     }

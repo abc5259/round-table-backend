@@ -33,7 +33,6 @@ class ChoreAppenderTest {
 
     @DisplayName("집안일을 등록한다.")
     @Test
-    @Rollback(value = false)
     void test() {
         //given
         House house = House.of("house");

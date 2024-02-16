@@ -21,7 +21,7 @@ public class ScheduleChoreAppendDirector {
     private final ChoreAppender choreAppender;
 
     public Schedule append(CreateSchedule createSchedule, House house, LocalDate now) {
-        Schedule schedule = scheduleAppender.createSchedule(createSchedule, house);
+        Schedule schedule = scheduleAppender.createSchedule(createSchedule, house, now);
 
         if(isStartToday(createSchedule, now)) {
             choreAppender.appendChore(
