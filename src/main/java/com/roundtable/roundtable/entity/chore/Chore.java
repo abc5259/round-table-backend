@@ -36,9 +36,8 @@ public class Chore extends BaseEntity {
     private List<ChoreMember> choreMembers = new ArrayList<>();
 
     @Builder
-    private Chore(Schedule schedule, List<ChoreMember> choreMembers) {
+    private Chore(Schedule schedule) {
         this.schedule = schedule;
-        this.choreMembers = choreMembers;
     }
 
     public static Chore create(Schedule schedule) {
@@ -46,5 +45,13 @@ public class Chore extends BaseEntity {
         return Chore.builder()
                 .schedule(schedule)
                 .build();
+    }
+
+    public void addChoreMembers(List<ChoreMember> choreMembers) {
+        for (ChoreMember choreMember : choreMembers) {
+            if(this.choreMembers != null && !this.choreMembers.contains(choreMember)) {
+                this.choreMembers.add(choreMember);
+            }
+        }
     }
 }

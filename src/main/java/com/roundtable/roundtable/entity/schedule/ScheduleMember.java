@@ -2,6 +2,7 @@ package com.roundtable.roundtable.entity.schedule;
 
 import com.roundtable.roundtable.entity.BaseEntity;
 import com.roundtable.roundtable.entity.member.Member;
+import com.roundtable.roundtable.implement.schedule.ScheduleMemberFactory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,7 +24,7 @@ public class ScheduleMember extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Integer sequence;
+    private Integer sequence = 1;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
@@ -45,5 +46,9 @@ public class ScheduleMember extends BaseEntity {
                 .schedule(schedule)
                 .sequence(sequence)
                 .build();
+    }
+
+    public boolean isStartSequence() {
+        return this.sequence == ScheduleMemberFactory.START_SEQUENCE;
     }
 }

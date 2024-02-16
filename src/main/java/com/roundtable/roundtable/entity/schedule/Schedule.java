@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.entity.schedule;
 
 import com.roundtable.roundtable.entity.BaseEntity;
+import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import jakarta.persistence.CascadeType;
@@ -67,8 +68,7 @@ public class Schedule extends BaseEntity {
                      Integer sequence,
                      Integer sequenceSize,
                      DivisionType divisionType,
-                     House house,
-                     List<ScheduleMember> scheduleMembers) {
+                     House house) {
         this.name = name;
         this.frequency = frequency;
         this.startDate = startDate;
@@ -77,7 +77,6 @@ public class Schedule extends BaseEntity {
         this.sequenceSize = sequenceSize;
         this.divisionType = divisionType;
         this.house = house;
-        this.scheduleMembers = scheduleMembers;
     }
 
     public static Schedule create(
@@ -102,11 +101,11 @@ public class Schedule extends BaseEntity {
                 .build();
     }
 
-    public void addScheduleMember(ScheduleMember scheduleMember) {
-        if(!scheduleMembers.contains(scheduleMember)) {
-            this.scheduleMembers.add(scheduleMember);
+    public void addScheduleMembers(List<ScheduleMember> scheduleMembers) {
+        for (ScheduleMember scheduleMember : scheduleMembers) {
+            if(!this.scheduleMembers.contains(scheduleMember)) {
+                this.scheduleMembers.add(scheduleMember);
+            }
         }
     }
-
-
 }

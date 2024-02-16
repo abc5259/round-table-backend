@@ -34,7 +34,8 @@ public class ScheduleAppender {
 
         Schedule schedule = appendSchedule(createSchedule, house, members);
 
-        scheduleMemberAppender.createScheduleMembers(members, schedule);
+        List<ScheduleMember> scheduleMembers = scheduleMemberAppender.createScheduleMembers(members, schedule);
+        schedule.addScheduleMembers(scheduleMembers);
 
         return schedule;
     }

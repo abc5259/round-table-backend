@@ -25,7 +25,7 @@ public class ScheduleChoreAppendDirector {
         Schedule schedule = scheduleAppender.appendSchedule(createSchedule, house, now);
 
         if(isStartToday(createSchedule, now)) {
-            List<Long> choreMemberIds = choreMembersChooser.chooseChoreMemberIds(schedule);
+            List<Long> choreMemberIds = choreMembersChooser.chooseChoreMemberIds(schedule.getScheduleMembers());
 
             choreAppender.appendChore(
                     new CreateChore(schedule, choreMemberIds),

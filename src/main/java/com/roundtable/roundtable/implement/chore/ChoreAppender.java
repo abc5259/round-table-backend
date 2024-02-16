@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.implement.chore;
 
 import com.roundtable.roundtable.entity.chore.Chore;
+import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.chore.ChoreRepository;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
@@ -31,7 +32,8 @@ public class ChoreAppender {
 
         Chore savedChore = append(createChore);
 
-        choreMemberAppender.createChoreMembers(savedChore,assignedMembers);
+        List<ChoreMember> choreMembers = choreMemberAppender.createChoreMembers(savedChore, assignedMembers);
+        savedChore.addChoreMembers(choreMembers);
 
         return savedChore;
     }

@@ -1,7 +1,6 @@
 package com.roundtable.roundtable.implement.chore;
 
-import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.implement.schedule.ScheduleMemberReader;
+import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,11 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ChoreMembersChooser {
 
-    private final ScheduleMemberReader scheduleMemberReader;
-
-    public List<Long> chooseChoreMemberIds(Schedule schedule) {
-        return scheduleMemberReader.findScheduleManager(schedule)
+    public List<Long> chooseChoreMemberIds(List<ScheduleMember> scheduleMembers) {
+        return scheduleMembers
                 .stream()
+                .filter(ScheduleMember::isStartSequence)
                 .map(scheduleMember -> scheduleMember.getMember().getId()).toList();
     }
 }
