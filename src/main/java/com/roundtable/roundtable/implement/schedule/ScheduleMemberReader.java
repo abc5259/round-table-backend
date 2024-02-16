@@ -14,8 +14,4 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScheduleMemberReader {
 
     private final ScheduleMemberRepository scheduleMemberRepository;
-
-    public List<ScheduleMember> findScheduleManager(Schedule schedule) {
-        return scheduleMemberRepository.findAllByScheduleAndSequence(schedule, schedule.getSequence());
-    }
 }

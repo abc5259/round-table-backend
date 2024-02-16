@@ -24,7 +24,7 @@ public class ScheduleMember extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Integer sequence = 1;
+    private Integer sequence;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
@@ -48,7 +48,7 @@ public class ScheduleMember extends BaseEntity {
                 .build();
     }
 
-    public boolean isStartSequence() {
-        return this.sequence == ScheduleMemberFactory.START_SEQUENCE;
+    public boolean isManager() {
+        return this.schedule.isEqualSequence(sequence);
     }
 }

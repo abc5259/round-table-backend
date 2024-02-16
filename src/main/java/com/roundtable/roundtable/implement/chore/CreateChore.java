@@ -6,6 +6,6 @@ import java.util.List;
 
 public record CreateChore(
         Schedule schedule,
-        List<Long> assignedMemberIds
+        List<Member> assignedMember
 ) {
 }

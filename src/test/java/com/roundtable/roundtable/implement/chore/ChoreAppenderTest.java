@@ -53,7 +53,7 @@ class ChoreAppenderTest {
         );
         em.persist(schedule);
 
-        CreateChore createChore = new CreateChore(schedule, List.of(member.getId()));
+        CreateChore createChore = new CreateChore(schedule, List.of(member));
 
         //when
         Chore chore = choreAppender.appendChore(createChore, house);

@@ -108,4 +108,8 @@ public class Schedule extends BaseEntity {
             }
         }
     }
+
+    public boolean isEqualSequence(Integer sequence) {
+        return this.sequence.equals(sequence);
+    }
 }
