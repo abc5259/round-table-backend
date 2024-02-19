@@ -21,7 +21,7 @@ public class Category extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -37,7 +37,7 @@ public class Category extends BaseEntity {
         this.house = house;
     }
 
-    public Category create(String name, Integer point, House house) {
+    public static Category create(String name, Integer point, House house) {
         return Category.builder()
                 .name(name)
                 .point(point)

@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -21,12 +22,15 @@ public class House extends BaseEntity {
 
     public static final int MAX_MEMBER_SIZE = 50;
 
+    @Builder
     private House(String name) {
         this.name = name;
     }
 
     public static House of(String name) {
-        return new House(name);
+        return House.builder()
+                .name(name)
+                .build();
     }
 
     public Long getId() {

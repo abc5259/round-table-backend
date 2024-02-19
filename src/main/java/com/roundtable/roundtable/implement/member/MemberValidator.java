@@ -20,6 +20,7 @@ public class MemberValidator {
 
     public void validateMembersSameHouse(List<Member> members, House house) {
         members.forEach(member -> {
+            validateMemberInHouse(member);
             if(!member.getHouse().getId().equals(house.getId())) {
                 throw new MemberNotSameHouseException();
             }
