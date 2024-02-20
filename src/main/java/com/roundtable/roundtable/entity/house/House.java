@@ -36,4 +36,8 @@ public class House extends BaseEntity {
     public Long getId() {
         return id;
     }
+
+    public boolean isEqualId(House house) {
+        return this.id.equals(house.getId());
+    }
 }

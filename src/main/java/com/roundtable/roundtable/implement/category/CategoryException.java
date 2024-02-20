@@ -14,4 +14,11 @@ public class CategoryException extends BusinessException {
         }
     }
 
+    public static class CategoryNotFoundException extends CategoryException {
+
+        public CategoryNotFoundException() {
+            super("카테고리가 존재하지 않습니다.");
+        }
+    }
+
 }

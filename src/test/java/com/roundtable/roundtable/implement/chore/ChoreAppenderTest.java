@@ -2,6 +2,7 @@ package com.roundtable.roundtable.implement.chore;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.house.House;
@@ -37,7 +38,7 @@ class ChoreAppenderTest {
         //given
         House house = House.of("house");
         em.persist(house);
-
+        Category category = createCategory(house);
         Member member = Member.builder().email("email").password("password").build();
         member.enterHouse(house);
         em.persist(member);
@@ -49,7 +50,8 @@ class ChoreAppenderTest {
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
                 member.getHouse(),
-                1
+                1,
+                category
         );
         em.persist(schedule);
 
@@ -72,5 +74,11 @@ class ChoreAppenderTest {
                 .containsExactlyInAnyOrder(
                         tuple(chore, member)
                 );
+    }
+
+    private Category createCategory(House house) {
+        Category category = Category.builder().house(house).name("name").point(1).build();
+        em.persist(category);
+        return category;
     }
 }

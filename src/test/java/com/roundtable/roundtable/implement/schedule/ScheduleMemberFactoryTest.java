@@ -2,6 +2,10 @@ package com.roundtable.roundtable.implement.schedule;
 
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
+import com.roundtable.roundtable.entity.category.Category;
+import com.roundtable.roundtable.entity.category.CategoryRepository;
+import com.roundtable.roundtable.entity.house.House;
+import com.roundtable.roundtable.entity.house.HouseRepository;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.Frequency;
@@ -25,6 +29,12 @@ import org.springframework.transaction.annotation.Transactional;
 class ScheduleMemberFactoryTest {
     @Autowired
     ScheduleMemberFactory scheduleMemberFactory;
+
+    @Autowired
+    HouseRepository houseRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @DisplayName("분담방식이 고정이라면 ScheduleMember의 sequence가 모두 1인 ScheduleMember를 만든다.")
     @Test
@@ -79,7 +89,21 @@ class ScheduleMemberFactoryTest {
     }
 
     private Schedule createSchedule(DivisionType divisionType) {
+        House house = createHouse();
+        Category category = createCategory(house);
         return Schedule.create("schedule", Frequency.of(FrequencyType.DAILY, 1), LocalDate.now(),
-                LocalTime.of(11, 1), divisionType, null, 1);
+                LocalTime.of(11, 1), divisionType, house, 1, category);
     }
+
+
+    private House createHouse() {
+        House house = House.builder().name("house").build();
+        return houseRepository.save(house);
+    }
+
+    private Category createCategory(House house) {
+        Category category = Category.builder().house(house).name("name").point(1).build();
+        return categoryRepository.save(category);
+    }
+
 }

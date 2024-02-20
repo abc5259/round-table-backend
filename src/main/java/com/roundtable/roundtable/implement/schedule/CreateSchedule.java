@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.implement.schedule;
 
+import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ public record CreateSchedule(
         LocalDate startDate,
         LocalTime startTime,
         DivisionType divisionType,
-        List<Long> memberIds
+        List<Long> memberIds,
+        Category category
 ) {
 }

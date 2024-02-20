@@ -3,6 +3,8 @@ package com.roundtable.roundtable.business.schedule;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.roundtable.roundtable.business.house.CreateScheduleDto;
+import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
@@ -38,20 +40,22 @@ class ScheduleServiceTest {
         LocalDate now = LocalDate.now();
 
         House house = createHouse();
+        Category category = createCategory(house);
         Member member = createMemberInHouse(house);
 
-        CreateSchedule createSchedule = new CreateSchedule(
+        CreateScheduleDto createScheduleDto = new CreateScheduleDto(
                 "schedule1",
                 FrequencyType.DAILY,
                 2,
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
-                List.of(member.getId())
+                List.of(member.getId()),
+                category.getId()
         );
 
         //when
-        Long scheduleId = scheduleService.createSchedule(createSchedule, member, now);
+        Long scheduleId = scheduleService.createSchedule(createScheduleDto, member, now);
 
         //then
         assertThat(scheduleId).isNotNull();
@@ -69,16 +73,18 @@ class ScheduleServiceTest {
         LocalDate now = LocalDate.of(2024,2,14);
 
         House house = createHouse();
+        Category category = createCategory(house);
         Member member = createMemberInHouse(house);
 
-        CreateSchedule createSchedule = new CreateSchedule(
+        CreateScheduleDto createSchedule = new CreateScheduleDto(
                 "schedule1",
                 FrequencyType.DAILY,
                 2,
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
-                List.of(member.getId())
+                List.of(member.getId()),
+                category.getId()
         );
 
         //when
@@ -99,6 +105,12 @@ class ScheduleServiceTest {
         member.enterHouse(house);
         em.persist(member);
         return member;
+    }
+
+    private Category createCategory(House house) {
+        Category category = Category.builder().house(house).name("name").point(1).build();
+        em.persist(category);
+        return category;
     }
 
     private House createHouse() {

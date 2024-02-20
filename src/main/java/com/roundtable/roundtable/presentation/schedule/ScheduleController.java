@@ -28,7 +28,7 @@ public class ScheduleController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 SuccessResponse.from(
-                        scheduleService.createSchedule(createScheduleRequest.toCreateSchedule(), loginMember, now)
+                        scheduleService.createSchedule(createScheduleRequest.toCreateScheduleDto(), loginMember, now)
                 )
         );
     }

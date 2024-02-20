@@ -44,4 +44,8 @@ public class Category extends BaseEntity {
                 .house(house)
                 .build();
     }
+
+    public boolean isSameHouse(House house) {
+        return this.house.isEqualId(house);
+    }
 }

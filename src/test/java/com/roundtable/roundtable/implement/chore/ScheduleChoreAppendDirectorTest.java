@@ -2,6 +2,7 @@ package com.roundtable.roundtable.implement.chore;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.house.House;
@@ -40,6 +41,7 @@ class ScheduleChoreAppendDirectorTest {
         LocalDate now = LocalDate.now();
 
         House house = createHouse();
+        Category category = createCategory(house);
         Member member = createMemberInHouse(house, "email");
 
         CreateSchedule createSchedule = new CreateSchedule(
@@ -49,7 +51,8 @@ class ScheduleChoreAppendDirectorTest {
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
-                List.of(member.getId())
+                List.of(member.getId()),
+                category
         );
 
         //when
@@ -58,13 +61,14 @@ class ScheduleChoreAppendDirectorTest {
         //then
         assertThat(schedule.getId()).isNotNull();
         assertThat(schedule).isNotNull()
-                .extracting( "name", "sequence", "sequenceSize", "divisionType", "house")
+                .extracting( "name", "sequence", "sequenceSize", "divisionType", "house", "category")
                 .contains(
                         createSchedule.name(),
                         1,
                         createSchedule.memberIds().size(),
                         createSchedule.divisionType(),
-                        house
+                        house,
+                        category
                 );
 
         List<Chore> chore = em.createQuery("select c from Chore c", Chore.class)
@@ -83,6 +87,7 @@ class ScheduleChoreAppendDirectorTest {
         LocalDate now = LocalDate.of(2024,2,14);
 
         House house = createHouse();
+        Category category = createCategory(house);
         Member member = createMemberInHouse(house, "email");
 
         CreateSchedule createSchedule = new CreateSchedule(
@@ -92,7 +97,8 @@ class ScheduleChoreAppendDirectorTest {
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
-                List.of(member.getId())
+                List.of(member.getId()),
+                category
         );
 
         //when
@@ -101,13 +107,14 @@ class ScheduleChoreAppendDirectorTest {
         //then
         assertThat(schedule.getId()).isNotNull();
         assertThat(schedule).isNotNull()
-                .extracting( "name", "sequence", "sequenceSize", "divisionType", "house")
+                .extracting( "name", "sequence", "sequenceSize", "divisionType", "house","category")
                 .contains(
                         createSchedule.name(),
                         1,
                         createSchedule.memberIds().size(),
                         createSchedule.divisionType(),
-                        house
+                        house,
+                        category
                 );
 
         List<Chore> chore = em.createQuery("select c from Chore c", Chore.class)
@@ -124,6 +131,7 @@ class ScheduleChoreAppendDirectorTest {
         LocalDate now = LocalDate.now();
 
         House house = createHouse();
+        Category category = createCategory(house);
         Member member1 = createMemberInHouse(house, "email1");
         Member member2 = createMemberInHouse(house, "email2");
 
@@ -134,7 +142,8 @@ class ScheduleChoreAppendDirectorTest {
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.ROTATION,
-                List.of(member1.getId(), member2.getId())
+                List.of(member1.getId(), member2.getId()),
+                category
         );
 
         //when
@@ -143,13 +152,14 @@ class ScheduleChoreAppendDirectorTest {
         //then
         assertThat(schedule.getId()).isNotNull();
         assertThat(schedule).isNotNull()
-                .extracting( "name", "sequence", "sequenceSize", "divisionType", "house")
+                .extracting( "name", "sequence", "sequenceSize", "divisionType", "house","category")
                 .contains(
                         createSchedule.name(),
                         1,
                         createSchedule.memberIds().size(),
                         createSchedule.divisionType(),
-                        house
+                        house,
+                        category
                 );
         List<ScheduleMember> scheduleMembers = em.createQuery("select sm from ScheduleMember sm",
                 ScheduleMember.class).getResultList();
@@ -185,5 +195,11 @@ class ScheduleChoreAppendDirectorTest {
         House house = House.of("house");
         em.persist(house);
         return house;
+    }
+
+    private Category createCategory(House house) {
+        Category category = Category.builder().house(house).name("name").point(1).build();
+        em.persist(category);
+        return category;
     }
 }

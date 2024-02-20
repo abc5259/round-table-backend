@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.presentation.schedule.request;
 
+import com.roundtable.roundtable.business.house.CreateScheduleDto;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.implement.schedule.CreateSchedule;
@@ -26,17 +27,21 @@ public record CreateScheduleRequest(
         @NotNull(message = "divisionType에 빈 값이 올 수 없습니다.")
         DivisionType divisionType,
         @NotEmpty(message = "memberIds는 하나 이상이어야 합니다.")
-        List<Long> memberIds
+        List<Long> memberIds,
+
+        @NotNull(message = "categoryId에 빈 값이 올 수 없습니다.")
+        Long categoryId
 ) {
-    public CreateSchedule toCreateSchedule() {
-        return new CreateSchedule(
+    public CreateScheduleDto toCreateScheduleDto() {
+        return new CreateScheduleDto(
                 name,
                 frequencyType,
                 frequencyInterval,
                 startDate,
                 startTime
                 ,divisionType
-                ,memberIds
+                ,memberIds,
+                categoryId
         );
     }
 }

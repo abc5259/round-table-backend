@@ -1,9 +1,11 @@
 package com.roundtable.roundtable.entity.schedule;
 
 import com.roundtable.roundtable.entity.BaseEntity;
+import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
+import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -15,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -57,6 +60,9 @@ public class Schedule extends BaseEntity {
     @ManyToOne
     private House house;
 
+    @OneToOne
+    private Category category;
+
     @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<ScheduleMember> scheduleMembers = new ArrayList<>();
 
@@ -68,7 +74,9 @@ public class Schedule extends BaseEntity {
                      Integer sequence,
                      Integer sequenceSize,
                      DivisionType divisionType,
-                     House house) {
+                     House house,
+                     Category category) {
+
         this.name = name;
         this.frequency = frequency;
         this.startDate = startDate;
@@ -77,6 +85,7 @@ public class Schedule extends BaseEntity {
         this.sequenceSize = sequenceSize;
         this.divisionType = divisionType;
         this.house = house;
+        this.category = category;
     }
 
     public static Schedule create(
@@ -86,8 +95,13 @@ public class Schedule extends BaseEntity {
             LocalTime startTime,
             DivisionType divisionType,
             House house,
-            int sequenceSize
+            int sequenceSize,
+            Category category
     ) {
+
+        if(!category.isSameHouse(house)) {
+            throw new CreateScheduleException("같은 하우스에 속한 카테고리여야 합니다.");
+        }
 
         return Schedule.builder()
                 .name(name)
@@ -98,6 +112,7 @@ public class Schedule extends BaseEntity {
                 .house(house)
                 .sequence(1)
                 .sequenceSize(sequenceSize)
+                .category(category)
                 .build();
     }
 

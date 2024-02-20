@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.implement.schedule;
 
+import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Frequency;
@@ -43,6 +44,7 @@ public class ScheduleAppender {
 
     private Schedule appendSchedule(CreateSchedule createSchedule, House house, List<Member> members) {
 
+        //여기서 카테고리가 같은 하우스인지 체크 해야 할까? 아니면 도메인에게 맡길까?
         Schedule schedule = Schedule.create(
                 createSchedule.name(),
                 Frequency.of(createSchedule.frequencyType(), createSchedule.frequencyInterval()),
@@ -50,7 +52,8 @@ public class ScheduleAppender {
                 createSchedule.startTime(),
                 createSchedule.divisionType(),
                 house,
-                members.size()
+                members.size(),
+                createSchedule.category()
         );
 
         return scheduleRepository.save(schedule);
@@ -93,4 +96,5 @@ public class ScheduleAppender {
             }
         }
     }
+
 }
