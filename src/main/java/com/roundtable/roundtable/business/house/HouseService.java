@@ -22,4 +22,6 @@ public class HouseService {
     public void enterHouse(Long houseId, Member loginMember) {
         memberHouseManager.enterHouse(houseId, loginMember);
     }
+
+
 }
