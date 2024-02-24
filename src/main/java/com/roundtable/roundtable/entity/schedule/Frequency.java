@@ -8,6 +8,7 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ public class Frequency {
     @Column(nullable = false)
     private Integer frequencyInterval;
 
+    @Builder
     private Frequency(FrequencyType frequencyType, Integer frequencyInterval) {
         this.frequencyType = frequencyType;
         this.frequencyInterval = frequencyInterval;

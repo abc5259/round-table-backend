@@ -43,10 +43,12 @@ class ChoreAppenderTest {
         member.enterHouse(house);
         em.persist(member);
 
+        LocalDate startDate = LocalDate.now();
+
         Schedule schedule = Schedule.create(
                 "schedule1",
                 Frequency.of(FrequencyType.DAILY, 2),
-                LocalDate.now(),
+                startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
                 member.getHouse(),
@@ -55,15 +57,15 @@ class ChoreAppenderTest {
         );
         em.persist(schedule);
 
-        CreateChore createChore = new CreateChore(schedule, List.of(member));
+        CreateChore createChore = new CreateChore(startDate, schedule, List.of(member));
 
         //when
         Chore chore = choreAppender.appendChore(createChore, house);
 
         //then
         assertThat(chore).isNotNull()
-                .extracting("id","schedule", "isCompleted")
-                .contains(chore.getId(), schedule, false);
+                .extracting("id","schedule", "isCompleted", "startDate")
+                .contains(chore.getId(), schedule, false, startDate);
 
         List<ChoreMember> choreMembers = em.createQuery("select cm from ChoreMember cm where cm.chore = :chore",
                         ChoreMember.class)

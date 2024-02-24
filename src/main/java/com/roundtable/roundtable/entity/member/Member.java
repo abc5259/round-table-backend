@@ -45,13 +45,17 @@ public class Member extends BaseEntity {
     private House house;
 
     @Builder
-    private Member(String email, String password) {
+    private Member(Long id, String email, String password) {
+        this.id = id;
         this.email = email;
         this.password = password;
     }
 
     public static Member of(String email, String password, PasswordEncoder passwordEncoder) {
-        return new Member(email, passwordEncoder.encode(password));
+        return Member.builder()
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .build();
     }
 
     public boolean isCorrectPassword(String password, PasswordEncoder passwordEncoder) {

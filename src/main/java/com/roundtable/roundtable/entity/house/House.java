@@ -23,7 +23,8 @@ public class House extends BaseEntity {
     public static final int MAX_MEMBER_SIZE = 50;
 
     @Builder
-    private House(String name) {
+    private House(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 

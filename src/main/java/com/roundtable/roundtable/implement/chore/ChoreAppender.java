@@ -7,6 +7,7 @@ import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
 import com.roundtable.roundtable.implement.member.MemberValidator;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,7 @@ public class ChoreAppender {
     }
 
     private Chore append(CreateChore createChore) {
-        Chore chore = Chore.create(createChore.schedule());
+        Chore chore = Chore.create(createChore.schedule(), createChore.startDate());
         return choreRepository.save(chore);
     }
 }

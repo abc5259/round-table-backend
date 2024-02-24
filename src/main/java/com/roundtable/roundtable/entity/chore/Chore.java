@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -32,18 +33,24 @@ public class Chore extends BaseEntity {
     @Column(nullable = false)
     private boolean isCompleted;
 
+    @Column(nullable = false)
+    private LocalDate startDate;
+
     @OneToMany(mappedBy = "chore", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<ChoreMember> choreMembers = new ArrayList<>();
 
     @Builder
-    private Chore(Schedule schedule) {
+    private Chore(Schedule schedule, LocalDate startDate, boolean isCompleted) {
         this.schedule = schedule;
+        this.startDate = startDate;
+        this.isCompleted = isCompleted;
     }
 
-    public static Chore create(Schedule schedule) {
+    public static Chore create(Schedule schedule, LocalDate startDate) {
 
         return Chore.builder()
                 .schedule(schedule)
+                .startDate(startDate)
                 .build();
     }
 
