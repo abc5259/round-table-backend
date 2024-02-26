@@ -1,7 +1,10 @@
 package com.roundtable.roundtable.implement.chore;
 
-import com.roundtable.roundtable.entity.chore.Chore;
-import com.roundtable.roundtable.entity.chore.ChoreRepository;
+import com.roundtable.roundtable.entity.chore.ChoreQueryRepository;
+import com.roundtable.roundtable.entity.chore.dto.ChoreDetailV1Dto;
+import com.roundtable.roundtable.entity.chore.dto.ChoreMembersDetailDto;
+import com.roundtable.roundtable.entity.common.CursorPagination;
+import com.roundtable.roundtable.implement.common.CursorBasedResponse;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ChoreReader {
-    private final ChoreRepository choreRepository;
+    private final ChoreQueryRepository choreQueryRepository;
 
-//    public List<Chore> findAllChoresByDate(LocalDate date) {
-//
-//    }
+    public List<ChoreDetailV1Dto> readByIdAndDateInHouse(Long memberId, LocalDate date, Long houseId) {
+        return choreQueryRepository.findByIdAndDateInHouse(memberId, date, houseId);
+    }
+
+    public CursorBasedResponse<List<ChoreResponse>> readChoreMembersByDateSinceLastChoreIdInHouse(LocalDate date, Long houseId, CursorPagination cursorPagination) {
+        List<ChoreMembersDetailDto> choreMembersDetail = choreQueryRepository.findChoreMembersByDateSinceLastChoreIdInHouse(
+                date, houseId, cursorPagination);
+
+        List<ChoreResponse> choreResponses = choreMembersDetail.stream().map(ChoreResponse::create).toList();
+        Long lastChoreId = choreMembersDetail.get(choreMembersDetail.size() - 1).choreId();
+
+        return CursorBasedResponse.of(choreResponses, lastChoreId);
+    }
 }

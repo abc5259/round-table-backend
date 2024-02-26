@@ -54,7 +54,7 @@ public class ChoreQueryRepository {
                 .fetch();
     }
 
-    public List<ChoreMembersDetailDto> findChoreMembersByDateSinceLastChoreInHouse(LocalDate date, Long houseId, CursorPagination cursor) {
+    public List<ChoreMembersDetailDto> findChoreMembersByDateSinceLastChoreIdInHouse(LocalDate date, Long houseId, CursorPagination cursor) {
 
         return queryFactory
                 .select(new QChoreMembersDetailDto(
