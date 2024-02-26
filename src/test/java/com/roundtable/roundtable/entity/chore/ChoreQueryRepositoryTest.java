@@ -6,6 +6,7 @@ import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.category.dto.CategoryDetailV1Dto;
 import com.roundtable.roundtable.entity.chore.dto.ChoreDetailV1Dto;
+import com.roundtable.roundtable.entity.chore.dto.ChoreMembersDetailDto;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
 import com.roundtable.roundtable.entity.member.Member;
@@ -49,39 +50,47 @@ class ChoreQueryRepositoryTest {
     private ChoreMemberRepository choreMemberRepository;
 
 
-    @DisplayName("")
+    @DisplayName("특정 하우스에서 특정 날짜에 특정 멤버가 해야할 일 목록을 조회할 수 있다.")
     @Test
-    void findByIdAndDate() {
+    void findByIdAndDateInHouse() {
         //given
         House house = createHouse();
+        House house2 = createHouse();
         houseRepository.save(house);
-        Member member1 = createMember("member1");
-        Member member2 = createMember("member2");
-        memberRepository.saveAll(List.of(member1, member2));
+        houseRepository.save(house2);
+
+        Member member1 = createMember("member1", "member1", house);
+        Member member2 = createMember("member2", "member2", house);
+        Member member3 = createMember("member3", "member3", house2);
+        memberRepository.saveAll(List.of(member1, member2, member3));
 
         Category category = Category.builder().name("분리 수거").point(100).house(house).build();
+        Category category2 = Category.builder().name("분리 수거").point(100).house(house2).build();
         categoryRepository.save(category);
-        System.out.println(category.getId());
+        categoryRepository.save(category2);
 
         LocalDate searchDate = LocalDate.of(2024, 2, 24);
 
         Schedule schedule1 = createSchedule(category, house, searchDate, "쓰레기 분리 수거1");
         Schedule schedule2 = createSchedule(category, house, searchDate, "쓰레기 분리 수거2");
-        scheduleRepository.saveAll(List.of(schedule1, schedule2));
+        Schedule schedule3 = createSchedule(category2, house2, searchDate, "쓰레기 분리 수거2");
+        scheduleRepository.saveAll(List.of(schedule1, schedule2, schedule3));
 
         Chore chore1 = createChore(searchDate, schedule1, false);
         Chore chore2 = createChore(searchDate, schedule2, false);
         Chore chore3 = createChore(searchDate, schedule2, true);
-        choreRepository.saveAll(List.of(chore1, chore2, chore3));
+        Chore chore4 = createChore(searchDate, schedule3, true);
+        choreRepository.saveAll(List.of(chore1, chore2, chore3, chore4));
 
         ChoreMember choreMember1 = createChoreMember(chore1, member1);
+        ChoreMember choreMember4 = createChoreMember(chore1, member2);
         ChoreMember choreMember2 = createChoreMember(chore2, member2);
         ChoreMember choreMember3 = createChoreMember(chore3, member1);
-        ChoreMember choreMember4 = createChoreMember(chore1, member2);
-        choreMemberRepository.saveAll(List.of(choreMember1, choreMember2, choreMember3, choreMember4));
+        ChoreMember choreMember5 = createChoreMember(chore4, member3);
+        choreMemberRepository.saveAll(List.of(choreMember1, choreMember2, choreMember3, choreMember4, choreMember5));
 
         //when
-        List<ChoreDetailV1Dto> result = choreQueryRepository.findByIdAndDate(member1.getId(), searchDate, house.getId());
+        List<ChoreDetailV1Dto> result = choreQueryRepository.findByIdAndDateInHouse(member1.getId(), searchDate, house.getId());
 
         //then
         assertThat(result).hasSize(2)
@@ -113,12 +122,253 @@ class ChoreQueryRepositoryTest {
 
      }
 
+     @DisplayName("특정 하우스에서 특정 날짜에 해야할 일 목록을 조회할 수 있다.")
+     @Test
+     void findChoreMembersByDateSinceLastChoreInHouse() {
+         //given
+         House house = createHouse();
+         House house2 = createHouse();
+         houseRepository.save(house);
+         houseRepository.save(house2);
+
+         Member member1 = createMember("member1", "member1", house);
+         Member member2 = createMember("member2", "member2", house);
+         Member member3 = createMember("member3", "member3", house2);
+         memberRepository.saveAll(List.of(member1, member2, member3));
+
+         Category category = Category.builder().name("분리 수거").point(100).house(house).build();
+         Category category2 = Category.builder().name("분리 수거").point(100).house(house2).build();
+         categoryRepository.save(category);
+         categoryRepository.save(category2);
+
+         LocalDate searchDate = LocalDate.of(2024, 2, 24);
+
+         Schedule schedule1 = createSchedule(category, house, searchDate, "쓰레기 분리 수거1");
+         Schedule schedule2 = createSchedule(category, house, searchDate, "쓰레기 분리 수거2");
+         Schedule schedule3 = createSchedule(category2, house2, searchDate, "쓰레기 분리 수거2");
+         scheduleRepository.saveAll(List.of(schedule1, schedule2, schedule3));
+
+         Chore chore1 = createChore(searchDate, schedule1, false);
+         Chore chore2 = createChore(searchDate, schedule2, false);
+         Chore chore3 = createChore(searchDate, schedule2, true);
+         Chore chore4 = createChore(searchDate, schedule3, true);
+         choreRepository.saveAll(List.of(chore1, chore2, chore3, chore4));
+
+         ChoreMember choreMember1 = createChoreMember(chore1, member1);
+         ChoreMember choreMember4 = createChoreMember(chore1, member2);
+         ChoreMember choreMember2 = createChoreMember(chore2, member2);
+         ChoreMember choreMember3 = createChoreMember(chore3, member1);
+         ChoreMember choreMember5 = createChoreMember(chore4, member3);
+         choreMemberRepository.saveAll(List.of(choreMember1, choreMember2, choreMember3, choreMember4, choreMember5));
+
+         //when
+         List<ChoreMembersDetailDto> result = choreQueryRepository.findChoreMembersByDateSinceLastChoreInHouse(
+                 searchDate, house.getId(), 0L, 10);
+
+         //then
+         assertThat(result).hasSize(3)
+                 .extracting("choreId", "name", "isCompleted", "startDate", "startTime", "memberNames", "category")
+                 .containsExactly(
+                         tuple(
+                                 chore1.getId(),
+                                 schedule1.getName(),
+                                 chore1.isCompleted(),
+                                 chore1.getStartDate(),
+                                 schedule1.getStartTime(),
+                                 member1.getName() + "," + member2.getName(),
+                                 new CategoryDetailV1Dto(
+                                         category.getId(),
+                                         category.getName(),
+                                         category.getPoint()
+                                 )),
+                         tuple(
+                                 chore2.getId(),
+                                 schedule2.getName(),
+                                 chore2.isCompleted(),
+                                 chore2.getStartDate(),
+                                 schedule2.getStartTime(),
+                                 member2.getName(),
+                                 new CategoryDetailV1Dto(
+                                         category.getId(),
+                                         category.getName(),
+                                         category.getPoint()
+                                 )),
+                         tuple(
+                                 chore3.getId(),
+                                 schedule2.getName(),
+                                 chore3.isCompleted(),
+                                 chore3.getStartDate(),
+                                 schedule2.getStartTime(),
+                                 member1.getName(),
+                                 new CategoryDetailV1Dto(
+                                         category.getId(),
+                                         category.getName(),
+                                         category.getPoint()
+                                 ))
+                 );
+
+     }
+
+    @DisplayName("특정 하우스에서 특정 날짜에 해야할 일 목록을 조회할 때 limit 수만큼 가져온다.")
+    @Test
+    void findChoreMembersByDateSinceLastChoreInHouse_limit() {
+        //given
+        House house = createHouse();
+        House house2 = createHouse();
+        houseRepository.save(house);
+        houseRepository.save(house2);
+
+        Member member1 = createMember("member1", "member1", house);
+        Member member2 = createMember("member2", "member2", house);
+        Member member3 = createMember("member3", "member3", house2);
+        memberRepository.saveAll(List.of(member1, member2, member3));
+
+        Category category = Category.builder().name("분리 수거").point(100).house(house).build();
+        Category category2 = Category.builder().name("분리 수거").point(100).house(house2).build();
+        categoryRepository.save(category);
+        categoryRepository.save(category2);
+
+        LocalDate searchDate = LocalDate.of(2024, 2, 24);
+
+        Schedule schedule1 = createSchedule(category, house, searchDate, "쓰레기 분리 수거1");
+        Schedule schedule2 = createSchedule(category, house, searchDate, "쓰레기 분리 수거2");
+        Schedule schedule3 = createSchedule(category2, house2, searchDate, "쓰레기 분리 수거2");
+        scheduleRepository.saveAll(List.of(schedule1, schedule2, schedule3));
+
+        Chore chore1 = createChore(searchDate, schedule1, false);
+        Chore chore2 = createChore(searchDate, schedule2, false);
+        Chore chore3 = createChore(searchDate, schedule2, true);
+        Chore chore4 = createChore(searchDate, schedule3, true);
+        choreRepository.saveAll(List.of(chore1, chore2, chore3, chore4));
+
+        ChoreMember choreMember1 = createChoreMember(chore1, member1);
+        ChoreMember choreMember4 = createChoreMember(chore1, member2);
+        ChoreMember choreMember2 = createChoreMember(chore2, member2);
+        ChoreMember choreMember3 = createChoreMember(chore3, member1);
+        ChoreMember choreMember5 = createChoreMember(chore4, member3);
+        choreMemberRepository.saveAll(List.of(choreMember1, choreMember2, choreMember3, choreMember4, choreMember5));
+
+        //when
+        List<ChoreMembersDetailDto> result = choreQueryRepository.findChoreMembersByDateSinceLastChoreInHouse(
+                searchDate, house.getId(), 0L, 2);
+
+        //then
+        assertThat(result).hasSize(2)
+                .extracting("choreId", "name", "isCompleted", "startDate", "startTime", "memberNames", "category")
+                .containsExactly(
+                        tuple(
+                                chore1.getId(),
+                                schedule1.getName(),
+                                chore1.isCompleted(),
+                                chore1.getStartDate(),
+                                schedule1.getStartTime(),
+                                member1.getName() + "," + member2.getName(),
+                                new CategoryDetailV1Dto(
+                                        category.getId(),
+                                        category.getName(),
+                                        category.getPoint()
+                                )),
+                        tuple(
+                                chore2.getId(),
+                                schedule2.getName(),
+                                chore2.isCompleted(),
+                                chore2.getStartDate(),
+                                schedule2.getStartTime(),
+                                member2.getName(),
+                                new CategoryDetailV1Dto(
+                                        category.getId(),
+                                        category.getName(),
+                                        category.getPoint()
+                                ))
+                );
+
+    }
+
+    @DisplayName("특정 하우스에서 특정 날짜에 해야할 일 목록을 조회할 때 특정 chore id 이후부터 조회한다.")
+    @Test
+    void findChoreMembersByDateSinceLastChoreInHouse_lasChoreId() {
+        //given
+        House house = createHouse();
+        House house2 = createHouse();
+        houseRepository.save(house);
+        houseRepository.save(house2);
+
+        Member member1 = createMember("member1", "member1", house);
+        Member member2 = createMember("member2", "member2", house);
+        Member member3 = createMember("member3", "member3", house2);
+        memberRepository.saveAll(List.of(member1, member2, member3));
+
+        Category category = Category.builder().name("분리 수거").point(100).house(house).build();
+        Category category2 = Category.builder().name("분리 수거").point(100).house(house2).build();
+        categoryRepository.save(category);
+        categoryRepository.save(category2);
+
+        LocalDate searchDate = LocalDate.of(2024, 2, 24);
+
+        Schedule schedule1 = createSchedule(category, house, searchDate, "쓰레기 분리 수거1");
+        Schedule schedule2 = createSchedule(category, house, searchDate, "쓰레기 분리 수거2");
+        Schedule schedule3 = createSchedule(category2, house2, searchDate, "쓰레기 분리 수거2");
+        scheduleRepository.saveAll(List.of(schedule1, schedule2, schedule3));
+
+        Chore chore1 = createChore(searchDate, schedule1, false);
+        Chore chore2 = createChore(searchDate, schedule2, false);
+        Chore chore3 = createChore(searchDate, schedule2, true);
+        Chore chore4 = createChore(searchDate, schedule3, true);
+        choreRepository.saveAll(List.of(chore1, chore2, chore3, chore4));
+
+        ChoreMember choreMember1 = createChoreMember(chore1, member1);
+        ChoreMember choreMember4 = createChoreMember(chore1, member2);
+        ChoreMember choreMember2 = createChoreMember(chore2, member2);
+        ChoreMember choreMember3 = createChoreMember(chore3, member1);
+        ChoreMember choreMember5 = createChoreMember(chore4, member3);
+        choreMemberRepository.saveAll(List.of(choreMember1, choreMember4, choreMember2, choreMember3, choreMember5));
+
+        //when
+        List<ChoreMembersDetailDto> result = choreQueryRepository.findChoreMembersByDateSinceLastChoreInHouse(
+                searchDate, house.getId(), chore1.getId(), 3);
+
+        //then
+        assertThat(result).hasSize(2)
+                .extracting("choreId", "name", "isCompleted", "startDate", "startTime", "memberNames", "category")
+                .containsExactly(
+                        tuple(
+                                chore2.getId(),
+                                schedule2.getName(),
+                                chore2.isCompleted(),
+                                chore2.getStartDate(),
+                                schedule2.getStartTime(),
+                                member2.getName(),
+                                new CategoryDetailV1Dto(
+                                        category.getId(),
+                                        category.getName(),
+                                        category.getPoint()
+                                )),
+                        tuple(
+                                chore3.getId(),
+                                schedule2.getName(),
+                                chore3.isCompleted(),
+                                chore3.getStartDate(),
+                                schedule2.getStartTime(),
+                                member1.getName(),
+                                new CategoryDetailV1Dto(
+                                        category.getId(),
+                                        category.getName(),
+                                        category.getPoint()
+                                ))
+                );
+
+    }
+
+
+
+
+
     private static House createHouse() {
         return House.builder().name("house").build();
     }
 
-    private static Member createMember(String member1) {
-        return Member.builder().email(member1).password("password").build();
+    private static Member createMember(String email, String name, House house) {
+        return Member.builder().name(name).email(email).house(house).password("password").build();
     }
 
     private static ChoreMember createChoreMember(Chore chore1, Member member1) {
