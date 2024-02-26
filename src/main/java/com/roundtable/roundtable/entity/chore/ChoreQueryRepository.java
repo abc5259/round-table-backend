@@ -10,10 +10,10 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.roundtable.roundtable.entity.category.dto.QCategoryDetailV1Dto;
-import com.roundtable.roundtable.entity.chore.dto.ChoreDetailV1Dto;
 import com.roundtable.roundtable.entity.chore.dto.ChoreMembersDetailDto;
-import com.roundtable.roundtable.entity.chore.dto.QChoreDetailV1Dto;
+import com.roundtable.roundtable.entity.chore.dto.ChoreOfMemberDto;
 import com.roundtable.roundtable.entity.chore.dto.QChoreMembersDetailDto;
+import com.roundtable.roundtable.entity.chore.dto.QChoreOfMemberDto;
 import com.roundtable.roundtable.entity.common.CursorPagination;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
@@ -31,10 +31,10 @@ public class ChoreQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<ChoreDetailV1Dto> findByIdAndDateInHouse(Long memberId, LocalDate date, Long houseId) {
+    public List<ChoreOfMemberDto> findChoresOfMember(Long memberId, LocalDate date, Long houseId) {
 
         return queryFactory
-                .select(new QChoreDetailV1Dto(
+                .select(new QChoreOfMemberDto(
                         chore.id,
                         schedule.name,
                         chore.isCompleted,
@@ -54,7 +54,7 @@ public class ChoreQueryRepository {
                 .fetch();
     }
 
-    public List<ChoreMembersDetailDto> findChoreMembersByDateSinceLastChoreIdInHouse(LocalDate date, Long houseId, CursorPagination cursor) {
+    public List<ChoreMembersDetailDto> findChoresOfHouse(LocalDate date, Long houseId, CursorPagination cursor) {
 
         return queryFactory
                 .select(new QChoreMembersDetailDto(

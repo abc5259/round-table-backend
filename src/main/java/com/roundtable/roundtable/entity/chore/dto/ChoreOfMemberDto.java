@@ -5,7 +5,7 @@ import com.roundtable.roundtable.entity.category.dto.CategoryDetailV1Dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public record ChoreDetailV1Dto(
+public record ChoreOfMemberDto(
     Long choreId,
     String name,
     boolean isCompleted,
@@ -14,6 +14,6 @@ public record ChoreDetailV1Dto(
     CategoryDetailV1Dto category
 ) {
     @QueryProjection
-    public ChoreDetailV1Dto {
+    public ChoreOfMemberDto {
     }
 }

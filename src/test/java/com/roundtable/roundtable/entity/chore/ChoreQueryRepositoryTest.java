@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.*;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.category.dto.CategoryDetailV1Dto;
-import com.roundtable.roundtable.entity.chore.dto.ChoreDetailV1Dto;
 import com.roundtable.roundtable.entity.chore.dto.ChoreMembersDetailDto;
+import com.roundtable.roundtable.entity.chore.dto.ChoreOfMemberDto;
 import com.roundtable.roundtable.entity.common.CursorPagination;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
@@ -53,7 +53,7 @@ class ChoreQueryRepositoryTest {
 
     @DisplayName("특정 하우스에서 특정 날짜에 특정 멤버가 해야할 일 목록을 조회할 수 있다.")
     @Test
-    void findByIdAndDateInHouse() {
+    void findChoresOfMember() {
         //given
         House house = createHouse();
         House house2 = createHouse();
@@ -91,7 +91,7 @@ class ChoreQueryRepositoryTest {
         choreMemberRepository.saveAll(List.of(choreMember1, choreMember2, choreMember3, choreMember4, choreMember5));
 
         //when
-        List<ChoreDetailV1Dto> result = choreQueryRepository.findByIdAndDateInHouse(member1.getId(), searchDate, house.getId());
+        List<ChoreOfMemberDto> result = choreQueryRepository.findChoresOfMember(member1.getId(), searchDate, house.getId());
 
         //then
         assertThat(result).hasSize(2)
@@ -125,7 +125,7 @@ class ChoreQueryRepositoryTest {
 
      @DisplayName("특정 하우스에서 특정 날짜에 해야할 일 목록을 조회할 수 있다.")
      @Test
-     void findChoreMembersByDateSinceLastChoreIdInHouse() {
+     void findChoresOfHouse() {
          //given
          House house = createHouse();
          House house2 = createHouse();
@@ -164,7 +164,7 @@ class ChoreQueryRepositoryTest {
 
          CursorPagination cursorPagination = new CursorPagination(0L, 10);
          //when
-         List<ChoreMembersDetailDto> result = choreQueryRepository.findChoreMembersByDateSinceLastChoreIdInHouse(
+         List<ChoreMembersDetailDto> result = choreQueryRepository.findChoresOfHouse(
                  searchDate, house.getId(), cursorPagination);
 
          //then
@@ -213,7 +213,7 @@ class ChoreQueryRepositoryTest {
 
     @DisplayName("특정 하우스에서 특정 날짜에 해야할 일 목록을 조회할 때 limit 수만큼 가져온다.")
     @Test
-    void findChoreMembersByDateSinceLastChoreIdInHouse_limit() {
+    void findChoresOfHouse_limit() {
         //given
         House house = createHouse();
         House house2 = createHouse();
@@ -253,7 +253,7 @@ class ChoreQueryRepositoryTest {
         CursorPagination cursorPagination = new CursorPagination(0L, 2);
 
         //when
-        List<ChoreMembersDetailDto> result = choreQueryRepository.findChoreMembersByDateSinceLastChoreIdInHouse(
+        List<ChoreMembersDetailDto> result = choreQueryRepository.findChoresOfHouse(
                 searchDate, house.getId(), cursorPagination);
 
         //then
@@ -290,7 +290,7 @@ class ChoreQueryRepositoryTest {
 
     @DisplayName("특정 하우스에서 특정 날짜에 해야할 일 목록을 조회할 때 특정 chore id 이후부터 조회한다.")
     @Test
-    void findChoreMembersByDateSinceLastChoreIdInHouse_lasChoreId() {
+    void findChoresOfHouse_lasChoreId() {
         //given
         House house = createHouse();
         House house2 = createHouse();
@@ -329,7 +329,7 @@ class ChoreQueryRepositoryTest {
 
         CursorPagination cursorPagination = new CursorPagination(chore1.getId(), 3);
         //when
-        List<ChoreMembersDetailDto> result = choreQueryRepository.findChoreMembersByDateSinceLastChoreIdInHouse(
+        List<ChoreMembersDetailDto> result = choreQueryRepository.findChoresOfHouse(
                 searchDate, house.getId(), cursorPagination);
 
         //then

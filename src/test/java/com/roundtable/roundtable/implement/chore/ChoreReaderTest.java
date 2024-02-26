@@ -1,9 +1,7 @@
 package com.roundtable.roundtable.implement.chore;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
@@ -12,8 +10,6 @@ import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.chore.ChoreMemberRepository;
 import com.roundtable.roundtable.entity.chore.ChoreRepository;
-import com.roundtable.roundtable.entity.chore.dto.ChoreDetailV1Dto;
-import com.roundtable.roundtable.entity.chore.dto.ChoreMembersDetailDto;
 import com.roundtable.roundtable.entity.common.CursorPagination;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
@@ -23,6 +19,9 @@ import com.roundtable.roundtable.entity.schedule.Frequency;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
+import com.roundtable.roundtable.implement.chore.response.ChoreOfMemberResponse;
+import com.roundtable.roundtable.implement.chore.response.ChoreResponse;
+import com.roundtable.roundtable.implement.common.CursorBasedRequest;
 import com.roundtable.roundtable.implement.common.CursorBasedResponse;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -60,7 +59,7 @@ class ChoreReaderTest {
 
     @DisplayName("특정 하우스에서 특정 날짜에 특정 멤버가 해야할 일 목록을 읽을 수 있다.")
     @Test
-    void readByIdAndDateInHouse() {
+    void readChoresOfMember() {
         //given
         House house = createHouse();
         House house2 = createHouse();
@@ -98,7 +97,7 @@ class ChoreReaderTest {
         choreMemberRepository.saveAll(List.of(choreMember1, choreMember2, choreMember3, choreMember4, choreMember5));
 
         //when
-        List<ChoreDetailV1Dto> result = choreReader.readByIdAndDateInHouse(member1.getId(), searchDate, house.getId());
+        List<ChoreOfMemberResponse> result = choreReader.readChoresOfMember(member1.getId(), searchDate, house.getId());
 
         //then
         assertThat(result).hasSize(2)
@@ -132,7 +131,7 @@ class ChoreReaderTest {
 
     @DisplayName("특정 하우스에서 특정 날짜에 해야할 일 목록을 조회할 수 있다.")
     @Test
-    void readChoreMembersByDateSinceLastChoreIdInHouse() {
+    void readChoresOfHouse() {
         //given
         House house = createHouse();
         House house2 = createHouse();
@@ -169,9 +168,9 @@ class ChoreReaderTest {
         ChoreMember choreMember5 = createChoreMember(chore4, member3);
         choreMemberRepository.saveAll(List.of(choreMember1, choreMember2, choreMember3, choreMember4, choreMember5));
 
-        CursorPagination cursorPagination = new CursorPagination(0L, 10);
+        CursorBasedRequest cursorPagination = new CursorBasedRequest(0L, 10);
         //when
-        CursorBasedResponse<List<ChoreResponse>> result = choreReader.readChoreMembersByDateSinceLastChoreIdInHouse(
+        CursorBasedResponse<List<ChoreResponse>> result = choreReader.readChoresOfHouse(
                 searchDate, house.getId(), cursorPagination);
 
         //then

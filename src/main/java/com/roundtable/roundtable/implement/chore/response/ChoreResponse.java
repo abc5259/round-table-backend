@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.implement.chore;
+package com.roundtable.roundtable.implement.chore.response;
 
 import com.roundtable.roundtable.entity.category.dto.CategoryDetailV1Dto;
 import com.roundtable.roundtable.entity.chore.dto.ChoreMembersDetailDto;
