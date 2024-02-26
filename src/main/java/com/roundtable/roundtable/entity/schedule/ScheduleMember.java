@@ -1,8 +1,7 @@
 package com.roundtable.roundtable.entity.schedule;
 
-import com.roundtable.roundtable.entity.BaseEntity;
+import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.implement.schedule.ScheduleMemberFactory;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

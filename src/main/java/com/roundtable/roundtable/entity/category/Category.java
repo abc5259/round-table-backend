@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.entity.category;
 
-import com.roundtable.roundtable.entity.BaseEntity;
+import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.house.House;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.entity;
+package com.roundtable.roundtable.entity.common;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

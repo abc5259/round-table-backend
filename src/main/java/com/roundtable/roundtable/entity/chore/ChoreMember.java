@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.entity.chore;
 
-import com.roundtable.roundtable.entity.BaseEntity;
+import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.member.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.entity.member;
 
-import com.roundtable.roundtable.entity.BaseEntity;
+import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.implement.member.MemberException.MemberAlreadyHasHouseException;
 import jakarta.persistence.Column;
@@ -18,7 +18,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.Assert;
 
 @Entity
 @Getter

@@ -7,6 +7,7 @@ import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.category.dto.CategoryDetailV1Dto;
 import com.roundtable.roundtable.entity.chore.dto.ChoreDetailV1Dto;
 import com.roundtable.roundtable.entity.chore.dto.ChoreMembersDetailDto;
+import com.roundtable.roundtable.entity.common.CursorPagination;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
 import com.roundtable.roundtable.entity.member.Member;
@@ -161,9 +162,10 @@ class ChoreQueryRepositoryTest {
          ChoreMember choreMember5 = createChoreMember(chore4, member3);
          choreMemberRepository.saveAll(List.of(choreMember1, choreMember2, choreMember3, choreMember4, choreMember5));
 
+         CursorPagination cursorPagination = new CursorPagination(0L, 10);
          //when
          List<ChoreMembersDetailDto> result = choreQueryRepository.findChoreMembersByDateSinceLastChoreInHouse(
-                 searchDate, house.getId(), 0L, 10);
+                 searchDate, house.getId(), cursorPagination);
 
          //then
          assertThat(result).hasSize(3)
@@ -248,9 +250,11 @@ class ChoreQueryRepositoryTest {
         ChoreMember choreMember5 = createChoreMember(chore4, member3);
         choreMemberRepository.saveAll(List.of(choreMember1, choreMember2, choreMember3, choreMember4, choreMember5));
 
+        CursorPagination cursorPagination = new CursorPagination(0L, 2);
+
         //when
         List<ChoreMembersDetailDto> result = choreQueryRepository.findChoreMembersByDateSinceLastChoreInHouse(
-                searchDate, house.getId(), 0L, 2);
+                searchDate, house.getId(), cursorPagination);
 
         //then
         assertThat(result).hasSize(2)
@@ -323,9 +327,10 @@ class ChoreQueryRepositoryTest {
         ChoreMember choreMember5 = createChoreMember(chore4, member3);
         choreMemberRepository.saveAll(List.of(choreMember1, choreMember4, choreMember2, choreMember3, choreMember5));
 
+        CursorPagination cursorPagination = new CursorPagination(chore1.getId(), 3);
         //when
         List<ChoreMembersDetailDto> result = choreQueryRepository.findChoreMembersByDateSinceLastChoreInHouse(
-                searchDate, house.getId(), chore1.getId(), 3);
+                searchDate, house.getId(), cursorPagination);
 
         //then
         assertThat(result).hasSize(2)
@@ -363,22 +368,22 @@ class ChoreQueryRepositoryTest {
 
 
 
-    private static House createHouse() {
+    private House createHouse() {
         return House.builder().name("house").build();
     }
 
-    private static Member createMember(String email, String name, House house) {
+    private Member createMember(String email, String name, House house) {
         return Member.builder().name(name).email(email).house(house).password("password").build();
     }
 
-    private static ChoreMember createChoreMember(Chore chore1, Member member1) {
+    private ChoreMember createChoreMember(Chore chore1, Member member1) {
         return ChoreMember.builder()
                 .chore(chore1)
                 .member(member1)
                 .build();
     }
 
-    private static Chore createChore(LocalDate searchDate, Schedule schedule1, boolean isCompleted) {
+    private Chore createChore(LocalDate searchDate, Schedule schedule1, boolean isCompleted) {
         return Chore.builder()
                 .startDate(searchDate)
                 .schedule(schedule1)
@@ -386,7 +391,7 @@ class ChoreQueryRepositoryTest {
                 .build();
     }
 
-    private static Schedule createSchedule(Category category, House house, LocalDate searchDate, String name) {
+    private Schedule createSchedule(Category category, House house, LocalDate searchDate, String name) {
         return Schedule.builder()
                 .name(name)
                 .startTime(LocalTime.of(1, 0))

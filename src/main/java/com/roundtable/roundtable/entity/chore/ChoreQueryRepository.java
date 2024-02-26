@@ -14,6 +14,7 @@ import com.roundtable.roundtable.entity.chore.dto.ChoreDetailV1Dto;
 import com.roundtable.roundtable.entity.chore.dto.ChoreMembersDetailDto;
 import com.roundtable.roundtable.entity.chore.dto.QChoreDetailV1Dto;
 import com.roundtable.roundtable.entity.chore.dto.QChoreMembersDetailDto;
+import com.roundtable.roundtable.entity.common.CursorPagination;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import jakarta.persistence.EntityManager;
@@ -53,7 +54,7 @@ public class ChoreQueryRepository {
                 .fetch();
     }
 
-    public List<ChoreMembersDetailDto> findChoreMembersByDateSinceLastChoreInHouse(LocalDate date, Long houseId, Long lastChoreId, int limit) {
+    public List<ChoreMembersDetailDto> findChoreMembersByDateSinceLastChoreInHouse(LocalDate date, Long houseId, CursorPagination cursor) {
 
         return queryFactory
                 .select(new QChoreMembersDetailDto(
@@ -74,9 +75,9 @@ public class ChoreQueryRepository {
                 .join(choreMember.member, member)
                 .join(chore.schedule, schedule)
                 .join(schedule.category, category)
-                .where(getChoreStartDateEq(date).and(getScheduleHouseEq(houseId)).and(getChoreIdGt(lastChoreId)))
+                .where(getChoreStartDateEq(date).and(getScheduleHouseEq(houseId)).and(getChoreIdGt(cursor.lastId())))
                 .groupBy(chore)
-                .limit(limit)
+                .limit(cursor.limit())
                 .fetch();
     }
 
