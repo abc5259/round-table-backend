@@ -12,9 +12,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
 public class Frequency {
     @Enumerated(EnumType.STRING)
     private FrequencyType frequencyType;
@@ -57,3 +57,4 @@ public class Frequency {
         return true;
     }
 }
+
