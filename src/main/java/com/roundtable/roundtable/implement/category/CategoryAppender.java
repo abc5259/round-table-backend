@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.implement.category;
 
-import static com.roundtable.roundtable.implement.category.CategoryException.*;
+import static com.roundtable.roundtable.global.exception.CategoryException.*;
 
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;

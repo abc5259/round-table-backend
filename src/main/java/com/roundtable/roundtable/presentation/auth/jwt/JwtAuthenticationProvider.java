@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
-import com.roundtable.roundtable.implement.auth.AuthenticationException;
+import com.roundtable.roundtable.global.exception.AuthenticationException;
 import com.roundtable.roundtable.implement.auth.JwtProvider;
 import com.roundtable.roundtable.implement.auth.Token;
 import lombok.RequiredArgsConstructor;

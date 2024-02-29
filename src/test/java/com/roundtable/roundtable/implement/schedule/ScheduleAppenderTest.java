@@ -11,7 +11,7 @@ import com.roundtable.roundtable.entity.member.MemberRepository;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleMemberRepository;
 import jakarta.persistence.EntityManager;

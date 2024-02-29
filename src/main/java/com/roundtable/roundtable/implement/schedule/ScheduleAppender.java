@@ -1,12 +1,11 @@
 package com.roundtable.roundtable.implement.schedule;
 
-import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Frequency;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
 import com.roundtable.roundtable.implement.member.MemberReader;

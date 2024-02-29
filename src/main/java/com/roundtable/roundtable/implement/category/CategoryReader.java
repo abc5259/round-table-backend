@@ -3,7 +3,7 @@ package com.roundtable.roundtable.implement.category;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.implement.category.CategoryException.CategoryNotFoundException;
+import com.roundtable.roundtable.global.exception.CategoryException.CategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

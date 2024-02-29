@@ -1,9 +1,8 @@
-package com.roundtable.roundtable.implement.house;
+package com.roundtable.roundtable.global.exception;
 
 import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.implement.common.BusinessException;
 
-public class HouseException extends BusinessException {
+public class HouseException extends ApplicationException {
 
     public HouseException(String message) {
         super(message);

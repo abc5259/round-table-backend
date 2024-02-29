@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Content {
 
+    public static final int MAX_CONTENT_LENGTH = 3000;
+
     @Column(nullable = false)
     private String content;
 
@@ -28,6 +30,13 @@ public class Content {
     }
 
     private static void validate(String content) {
+        if(content.isBlank()) {
+
+        }
+
+        if(content.length() > MAX_CONTENT_LENGTH) {
+
+        }
         //validate 실행
     }
 }

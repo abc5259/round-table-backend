@@ -2,7 +2,7 @@ package com.roundtable.roundtable.entity.schedule;
 
 import static com.roundtable.roundtable.entity.schedule.FrequencyType.*;
 
-import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;

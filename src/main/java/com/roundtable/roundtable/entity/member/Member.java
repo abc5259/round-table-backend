@@ -2,7 +2,7 @@ package com.roundtable.roundtable.entity.member;
 
 import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.implement.member.MemberException.MemberAlreadyHasHouseException;
+import com.roundtable.roundtable.global.exception.MemberException.MemberAlreadyHasHouseException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

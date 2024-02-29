@@ -1,10 +1,10 @@
 package com.roundtable.roundtable.presentation.house;
 
 import com.roundtable.roundtable.entity.member.Member;
+import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.presentation.house.request.CreateHouseRequest;
-import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
-import com.roundtable.roundtable.presentation.support.response.Response;
-import com.roundtable.roundtable.presentation.support.response.SuccessResponse;
+import com.roundtable.roundtable.global.argumentresolver.Login;
+import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.business.house.HouseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class HouseController {
     private final HouseService houseService;
 
     @PostMapping
-    public ResponseEntity<Response<?>> createHouse(@Login Member loginMember, @Valid @RequestBody CreateHouseRequest createHouseRequest) {
+    public ResponseEntity<ApiResponse<?>> createHouse(@Login Member loginMember, @Valid @RequestBody CreateHouseRequest createHouseRequest) {
         houseService.createHouse(createHouseRequest.toCreateHouse(), loginMember);
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }

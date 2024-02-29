@@ -3,7 +3,7 @@ package com.roundtable.roundtable.entity.schedule;
 import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

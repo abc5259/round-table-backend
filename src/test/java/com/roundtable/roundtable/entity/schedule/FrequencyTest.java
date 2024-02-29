@@ -1,10 +1,8 @@
 package com.roundtable.roundtable.entity.schedule;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
-import com.roundtable.roundtable.entity.schedule.ScheduleException.CreateScheduleException;
-import org.assertj.core.api.Assertions;
+import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -1,8 +1,6 @@
-package com.roundtable.roundtable.entity.schedule;
+package com.roundtable.roundtable.global.exception;
 
-import com.roundtable.roundtable.implement.common.BusinessException;
-
-public class ScheduleException extends BusinessException {
+public class ScheduleException extends RuntimeException {
     public ScheduleException(String message) {
         super(message);
     }

@@ -3,7 +3,7 @@ package com.roundtable.roundtable.implement.member;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.implement.auth.JwtProvider;
 import com.roundtable.roundtable.implement.auth.Token;
-import com.roundtable.roundtable.implement.member.MemberException.MemberUnAuthorizationException;
+import com.roundtable.roundtable.global.exception.MemberException.MemberUnAuthorizationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;

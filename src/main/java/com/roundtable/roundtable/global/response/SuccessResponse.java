@@ -1,10 +1,9 @@
-package com.roundtable.roundtable.presentation.support.response;
+package com.roundtable.roundtable.global.response;
 
-import java.util.List;
 import lombok.Getter;
 
 @Getter
-public class SuccessResponse<T> extends Response<T> {
+public class SuccessResponse<T> extends ApiResponse<T> {
 
     private SuccessResponse() {
         super(true, null);
@@ -14,7 +13,7 @@ public class SuccessResponse<T> extends Response<T> {
         super(true, data);
     }
 
-    public static <T> Response<T> from(T data) {
+    public static <T> SuccessResponse<T> from(T data) {
         return new SuccessResponse<>(data);
     }
 

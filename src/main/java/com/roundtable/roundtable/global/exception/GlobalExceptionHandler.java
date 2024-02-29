@@ -1,9 +1,6 @@
-package com.roundtable.roundtable.presentation.support.exceptionhandler;
+package com.roundtable.roundtable.global.exception;
 
-import com.roundtable.roundtable.implement.common.BusinessException;
-import com.roundtable.roundtable.presentation.support.response.ErrorResponse;
-import com.roundtable.roundtable.implement.house.HouseException;
-import com.roundtable.roundtable.implement.member.MemberException;
+import com.roundtable.roundtable.global.response.FailResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,63 +14,63 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse<?>> handleMethodArgumentNotValidException(final MethodArgumentNotValidException exception) {
+    public ResponseEntity<FailResponse<?>> handleMethodArgumentNotValidException(final MethodArgumentNotValidException exception) {
         final String defaultErrorMessage = exception.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         log.warn(defaultErrorMessage);
 
         return ResponseEntity.badRequest()
-                .body(ErrorResponse.fail(defaultErrorMessage));
+                .body(FailResponse.fail(defaultErrorMessage));
     }
 
 
     @ExceptionHandler(value = {
             MethodArgumentTypeMismatchException.class
     })
-    public ResponseEntity<ErrorResponse<?>> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException exception) {
+    public ResponseEntity<FailResponse<?>> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException exception) {
         log.warn(exception.getMessage());
 
         return ResponseEntity.badRequest()
-                .body(ErrorResponse.fail("잘못된 요청입니다."));
+                .body(FailResponse.fail("잘못된 요청입니다."));
     }
 
     @ExceptionHandler(value = {
             MemberException.MemberNotFoundException.class,
             HouseException.HouseNotFoundException.class
     })
-    public ResponseEntity<ErrorResponse<?>> handleNotFoundException(final RuntimeException exception) {
+    public ResponseEntity<FailResponse<?>> handleNotFoundException(final RuntimeException exception) {
         String message = exception.getMessage();
         log.warn(message);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(ErrorResponse.fail(message));
+                .body(FailResponse.fail(message));
     }
 
     @ExceptionHandler(value = {
             MemberException.MemberUnAuthorizationException.class,
     })
-    public ResponseEntity<ErrorResponse<?>> handleAuthenticationException(final RuntimeException exception) {
+    public ResponseEntity<FailResponse<?>> handleAuthenticationException(final RuntimeException exception) {
         String message = exception.getMessage();
         log.warn(message);
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(ErrorResponse.fail(message));
+                .body(FailResponse.fail(message));
     }
 
     @ExceptionHandler(value = {
-            BusinessException.class,
+            ApplicationException.class,
     })
-    public ResponseEntity<ErrorResponse<?>> handleAuthenticationException(final BusinessException exception) {
+    public ResponseEntity<FailResponse<?>> handleAuthenticationException(final ApplicationException exception) {
         String message = exception.getMessage();
         log.warn(message);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ErrorResponse.fail(message));
+                .body(FailResponse.fail(message));
     }
 
     @ExceptionHandler(value = {
             RuntimeException.class,
     })
-    public ResponseEntity<ErrorResponse<?>> handleRuntimeException(final RuntimeException exception) {
+    public ResponseEntity<FailResponse<?>> handleRuntimeException(final RuntimeException exception) {
         String message = exception.getMessage();
         if(message == null) {
             message = "예상치 못한 에러 발생";
@@ -81,7 +78,7 @@ public class GlobalExceptionHandler {
         log.warn(message);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ErrorResponse.fail(message));
+                .body(FailResponse.fail(message));
     }
 
 }

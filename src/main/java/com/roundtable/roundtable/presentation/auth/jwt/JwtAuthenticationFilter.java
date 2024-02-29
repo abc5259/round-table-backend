@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
-import com.roundtable.roundtable.implement.auth.AuthenticationException;
-import com.roundtable.roundtable.implement.auth.AuthenticationException.JwtAuthenticationException;
+import com.roundtable.roundtable.global.exception.AuthenticationException;
+import com.roundtable.roundtable.global.exception.AuthenticationException.JwtAuthenticationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

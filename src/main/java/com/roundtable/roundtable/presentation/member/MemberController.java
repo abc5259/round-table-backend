@@ -2,10 +2,10 @@ package com.roundtable.roundtable.presentation.member;
 
 import com.roundtable.roundtable.business.house.HouseService;
 import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
-import com.roundtable.roundtable.presentation.support.response.ErrorResponse;
-import com.roundtable.roundtable.presentation.support.response.Response;
-import com.roundtable.roundtable.presentation.support.response.SuccessResponse;
+import com.roundtable.roundtable.global.argumentresolver.Login;
+import com.roundtable.roundtable.global.response.ApiResponse;
+import com.roundtable.roundtable.global.response.FailResponse;
+import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.presentation.member.request.ExistEmailRequest;
 import com.roundtable.roundtable.presentation.member.request.SettingProfileRequest;
 import com.roundtable.roundtable.business.member.MemberService;
@@ -40,18 +40,18 @@ public class MemberController {
     }
 
     @GetMapping("/exist")
-    public ResponseEntity<Response<?>> existMemberEmail(@Valid @ModelAttribute ExistEmailRequest existEmailRequest) {
+    public ResponseEntity<ApiResponse<?>> existMemberEmail(@Valid @ModelAttribute ExistEmailRequest existEmailRequest) {
         boolean isExistEmail = memberService.isExistEmail(existEmailRequest.email());
 
         if(!isExistEmail) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse.fail("이메일에 해당하는 유저가 존재하지 않습니다."));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FailResponse.fail("이메일에 해당하는 유저가 존재하지 않습니다."));
         }
 
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 
     @PatchMapping("/house/{houseId}")
-    public ResponseEntity<Response<?>> enterHouse(@PathVariable Long houseId, @Login Member loginMember) {
+    public ResponseEntity<ApiResponse<?>> enterHouse(@PathVariable Long houseId, @Login Member loginMember) {
         houseService.enterHouse(houseId, loginMember);
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }

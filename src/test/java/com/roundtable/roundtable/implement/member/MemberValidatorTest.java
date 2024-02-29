@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.implement.member.MemberException.MemberNoHouseException;
+import com.roundtable.roundtable.global.exception.MemberException.MemberNoHouseException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

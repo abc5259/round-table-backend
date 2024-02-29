@@ -1,8 +1,6 @@
-package com.roundtable.roundtable.implement.category;
+package com.roundtable.roundtable.global.exception;
 
-import com.roundtable.roundtable.implement.common.BusinessException;
-
-public class CategoryException extends BusinessException {
+public class CategoryException extends ApplicationException {
     public CategoryException(String message) {
         super(message);
     }

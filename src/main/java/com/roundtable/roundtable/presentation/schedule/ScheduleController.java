@@ -3,9 +3,9 @@ package com.roundtable.roundtable.presentation.schedule;
 import com.roundtable.roundtable.business.schedule.ScheduleService;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.presentation.schedule.request.CreateScheduleRequest;
-import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
-import com.roundtable.roundtable.presentation.support.response.Response;
-import com.roundtable.roundtable.presentation.support.response.SuccessResponse;
+import com.roundtable.roundtable.global.argumentresolver.Login;
+import com.roundtable.roundtable.global.response.ApiResponse;
+import com.roundtable.roundtable.global.response.SuccessResponse;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    public ResponseEntity<Response<Long>> createSchedule(
+    public ResponseEntity<ApiResponse<Long>> createSchedule(
             @Login Member loginMember,
             @Valid @RequestBody CreateScheduleRequest createScheduleRequest) {
 

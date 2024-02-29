@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.presentation.config;
+package com.roundtable.roundtable.global.config;
 
 import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,10 +1,9 @@
 package com.roundtable.roundtable.implement.member;
 
-import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
-import com.roundtable.roundtable.implement.member.MemberException.MemberNotFoundException;
-import com.roundtable.roundtable.implement.member.MemberException.MemberNotSameHouseException;
+import com.roundtable.roundtable.global.exception.MemberException;
+import com.roundtable.roundtable.global.exception.MemberException.MemberNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

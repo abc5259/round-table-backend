@@ -6,7 +6,7 @@ import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
-import com.roundtable.roundtable.implement.category.CategoryException.CategoryDuplicatedException;
+import com.roundtable.roundtable.global.exception.CategoryException.CategoryDuplicatedException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

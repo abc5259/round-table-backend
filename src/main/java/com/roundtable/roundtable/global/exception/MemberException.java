@@ -1,8 +1,6 @@
-package com.roundtable.roundtable.implement.member;
+package com.roundtable.roundtable.global.exception;
 
-import com.roundtable.roundtable.implement.common.BusinessException;
-
-public class MemberException extends BusinessException {
+public class MemberException extends ApplicationException {
     public MemberException(String message) {
         super(message);
     }

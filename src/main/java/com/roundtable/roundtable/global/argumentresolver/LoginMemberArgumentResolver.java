@@ -1,9 +1,9 @@
-package com.roundtable.roundtable.presentation.support.argumentresolver;
+package com.roundtable.roundtable.global.argumentresolver;
 
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
-import com.roundtable.roundtable.implement.member.MemberException;
-import com.roundtable.roundtable.implement.member.MemberException.MemberNotFoundException;
+import com.roundtable.roundtable.global.exception.MemberException;
+import com.roundtable.roundtable.global.exception.MemberException.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;

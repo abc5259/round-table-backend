@@ -2,11 +2,9 @@ package com.roundtable.roundtable.entity.member;
 
 import static com.roundtable.roundtable.entity.member.Gender.*;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.implement.member.MemberException.MemberAlreadyHasHouseException;
-import org.assertj.core.api.Assertions;
+import com.roundtable.roundtable.global.exception.MemberException.MemberAlreadyHasHouseException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
