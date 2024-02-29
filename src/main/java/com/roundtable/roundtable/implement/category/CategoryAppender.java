@@ -1,9 +1,9 @@
 package com.roundtable.roundtable.implement.category;
 
-import static com.roundtable.roundtable.global.exception.CategoryException.*;
-
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
+import com.roundtable.roundtable.global.exception.CoreException;
+import com.roundtable.roundtable.global.exception.errorcode.CategoryErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +29,7 @@ public class CategoryAppender {
     private void checkDuplicatedCategoryName(CreateCategory createCategory) {
         boolean isExistCategory = categoryRepository.existsByNameAndHouse(createCategory.name(), createCategory.house());
         if(isExistCategory) {
-            throw new CategoryDuplicatedException(createCategory.name());
+            throw new CoreException.DuplicatedException(CategoryErrorCode.DUPLICATED_CATEGORY_NAME);
         }
     }
 }

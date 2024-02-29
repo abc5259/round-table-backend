@@ -6,7 +6,8 @@ import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
-import com.roundtable.roundtable.global.exception.CategoryException.CategoryDuplicatedException;
+import com.roundtable.roundtable.global.exception.CoreException;
+import com.roundtable.roundtable.global.exception.errorcode.CategoryErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +77,7 @@ class CategoryAppenderTest {
 
          //when //then
          assertThatThrownBy(() -> categoryAppender.appendCategory(createCategory))
-                 .isInstanceOf(CategoryDuplicatedException.class)
-                 .hasMessage(duplicatedCategoryName + "에 해당하는 cateogy가 이미 존재합니다.");
+                 .isInstanceOf(CoreException.DuplicatedException.class)
+                 .hasMessage(CategoryErrorCode.DUPLICATED_CATEGORY_NAME.getMessage());
       }
 }
