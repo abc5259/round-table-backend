@@ -2,9 +2,7 @@ package com.roundtable.roundtable.entity.schedulecomment;
 
 import static com.roundtable.roundtable.global.exception.errorcode.ScheduleCommentErrorCode.*;
 
-import com.roundtable.roundtable.global.exception.CoreException;
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
-import com.roundtable.roundtable.global.exception.errorcode.ScheduleCommentErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;

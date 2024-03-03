@@ -5,6 +5,7 @@ import static com.roundtable.roundtable.global.exception.errorcode.ScheduleError
 import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.house.House;
+import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -124,5 +125,9 @@ public class Schedule extends BaseEntity {
 
     public boolean isEqualSequence(Integer sequence) {
         return this.sequence.equals(sequence);
+    }
+
+    public boolean isSameHouse(Member member) {
+        return member.isSameHouse(house);
     }
 }

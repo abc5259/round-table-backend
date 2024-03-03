@@ -3,6 +3,9 @@ package com.roundtable.roundtable.entity.schedulecomment;
 import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;
+import com.roundtable.roundtable.global.exception.CoreException;
+import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
+import com.roundtable.roundtable.global.exception.errorcode.ScheduleCommentErrorCode;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,5 +40,17 @@ public class ScheduleComment extends BaseEntity {
         this.content = content;
         this.schedule = schedule;
         this.writer = writer;
+    }
+
+    public static ScheduleComment create(Content content, Schedule schedule, Member writer) {
+        if(!schedule.isSameHouse(writer)) {
+            throw new CreateEntityException(ScheduleCommentErrorCode.NOT_SAME_HOUSE);
+        }
+
+        return ScheduleComment.builder()
+                .content(content)
+                .schedule(schedule)
+                .writer(writer)
+                .build();
     }
 }

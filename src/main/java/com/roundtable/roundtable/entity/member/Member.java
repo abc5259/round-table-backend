@@ -74,4 +74,8 @@ public class Member extends BaseEntity {
         }
         this.house = house;
     }
+
+    public boolean isSameHouse(House house) {
+        return this.house.isEqualId(house);
+    }
 }
