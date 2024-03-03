@@ -11,9 +11,10 @@ import com.roundtable.roundtable.entity.member.MemberRepository;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleMemberRepository;
+import com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode;
 import jakarta.persistence.EntityManager;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -149,8 +150,8 @@ class ScheduleAppenderTest {
 
         //when //then
         assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
-                .isInstanceOf(CreateScheduleException.class)
-                .hasMessage("중복된 member id값이 있습니다.");
+                .isInstanceOf(CreateEntityException.class)
+                .hasMessage(ScheduleErrorCode.DUPLICATED_MEMBER_ID.getMessage());
 
     }
 
@@ -169,8 +170,8 @@ class ScheduleAppenderTest {
 
         //when //then
         assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
-                .isInstanceOf(CreateScheduleException.class)
-                .hasMessage("시작날짜는 과거일 수 없습니다.");
+                .isInstanceOf(CreateEntityException.class)
+                .hasMessage(ScheduleErrorCode.INVALID_START_DATE.getMessage());
 
     }
 
@@ -190,8 +191,8 @@ class ScheduleAppenderTest {
 
         //when //then
         assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
-                .isInstanceOf(CreateScheduleException.class)
-                .hasMessage("Weekly타입일땐 시작날짜는 interval로 준 값에 해당하는 요일이어야합니다.");
+                .isInstanceOf(CreateEntityException.class)
+                .hasMessage(ScheduleErrorCode.FREQUENCY_NOT_SUPPORT_WEEKLY.getMessage());
 
     }
 
@@ -218,8 +219,8 @@ class ScheduleAppenderTest {
 
         //when //then
         assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
-                .isInstanceOf(CreateScheduleException.class)
-                .hasMessage("frequencyType에 맞는 frequencyInterval값이 아닙니다.");
+                .isInstanceOf(CreateEntityException.class)
+                .hasMessage(ScheduleErrorCode.FREQUENCY_NOT_SUPPORT.getMessage());
 
     }
 

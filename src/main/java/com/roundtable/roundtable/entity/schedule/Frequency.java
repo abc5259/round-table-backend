@@ -1,8 +1,9 @@
 package com.roundtable.roundtable.entity.schedule;
 
 import static com.roundtable.roundtable.entity.schedule.FrequencyType.*;
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.*;
 
-import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -31,7 +32,7 @@ public class Frequency {
     public static Frequency of(FrequencyType frequencyType, Integer frequencyInterval) {
 
         if(!isSupport(frequencyType, frequencyInterval)) {
-            throw new CreateScheduleException("frequencyType에 맞는 frequencyInterval값이 아닙니다.");
+            throw new CreateEntityException(FREQUENCY_NOT_SUPPORT);
         }
 
         return new Frequency(frequencyType, frequencyInterval);

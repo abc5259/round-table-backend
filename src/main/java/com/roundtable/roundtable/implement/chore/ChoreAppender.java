@@ -1,11 +1,13 @@
 package com.roundtable.roundtable.implement.chore;
 
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.*;
+
 import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.chore.ChoreRepository;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import com.roundtable.roundtable.implement.member.MemberValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +38,7 @@ public class ChoreAppender {
 
     private static void checkDuplicateMember(List<Member> memberIds) {
         if(memberIds.size() != memberIds.stream().distinct().count()) {
-            throw new CreateScheduleException("중복된 member id값이 있습니다.");
+            throw new CreateEntityException(DUPLICATED_MEMBER_ID);
         }
     }
 

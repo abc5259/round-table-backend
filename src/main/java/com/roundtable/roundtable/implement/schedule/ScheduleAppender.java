@@ -1,11 +1,13 @@
 package com.roundtable.roundtable.implement.schedule;
 
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.*;
+
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Frequency;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
 import com.roundtable.roundtable.implement.member.MemberReader;
@@ -71,19 +73,19 @@ public class ScheduleAppender {
 
     private static void checkDuplicateMemberId(CreateSchedule createSchedule) {
         if(createSchedule.memberIds().size() != createSchedule.memberIds().stream().distinct().count()) {
-            throw new CreateScheduleException("중복된 member id값이 있습니다.");
+            throw new CreateEntityException(DUPLICATED_MEMBER_ID);
         }
     }
 
     private static void checkBeforeDate(CreateSchedule createSchedule, LocalDate currDate) {
         if(createSchedule.startDate().isBefore(currDate)) {
-            throw new CreateScheduleException("시작날짜는 과거일 수 없습니다.");
+            throw new CreateEntityException(INVALID_START_DATE);
         }
     }
 
     private static void checkSupportFrequency(CreateSchedule createSchedule) {
         if(!Frequency.isSupport(createSchedule.frequencyType(), createSchedule.frequencyInterval())) {
-            throw new CreateScheduleException("frequencyType에 맞는 frequencyInterval값이 아닙니다.");
+            throw new CreateEntityException(FREQUENCY_NOT_SUPPORT);
         }
     }
 
@@ -91,7 +93,7 @@ public class ScheduleAppender {
         if(createSchedule.frequencyType().equals(FrequencyType.WEEKLY)) {
             DayOfWeek day = DayOfWeek.of(createSchedule.frequencyInterval());
             if(!createSchedule.startDate().getDayOfWeek().equals(day)) {
-                throw new CreateScheduleException("Weekly타입일땐 시작날짜는 interval로 준 값에 해당하는 요일이어야합니다.");
+                throw new CreateEntityException(FREQUENCY_NOT_SUPPORT_WEEKLY);
             }
         }
     }

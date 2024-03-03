@@ -2,14 +2,15 @@ package com.roundtable.roundtable.entity.schedule;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
+import com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class FrequencyTest {
-    private static final String ERROR_MESSAGE = "frequencyType에 맞는 frequencyInterval값이 아닙니다.";
+    private static final String ERROR_MESSAGE = ScheduleErrorCode.FREQUENCY_NOT_SUPPORT.getMessage();
 
     @DisplayName("Frequency을 만들때 FrequencyInterval을 -1이하로 주면 에러를 던진다.")
     @Test
@@ -20,7 +21,7 @@ class FrequencyTest {
 
         //when
         assertThatThrownBy(() -> Frequency.of(targetType, frequencyInterval))
-                .isInstanceOf(CreateScheduleException.class)
+                .isInstanceOf(CreateEntityException.class)
                 .hasMessage(ERROR_MESSAGE);
     }
 
@@ -47,7 +48,7 @@ class FrequencyTest {
 
         //when
         assertThatThrownBy(() -> Frequency.of(targetType, frequencyInterval))
-                .isInstanceOf(CreateScheduleException.class)
+                .isInstanceOf(CreateEntityException.class)
                 .hasMessage(ERROR_MESSAGE);
     }
 
@@ -74,7 +75,7 @@ class FrequencyTest {
 
         //when
         assertThatThrownBy(() -> Frequency.of(targetType, frequencyInterval))
-                .isInstanceOf(CreateScheduleException.class)
+                .isInstanceOf(CreateEntityException.class)
                 .hasMessage(ERROR_MESSAGE);
     }
 
@@ -101,7 +102,7 @@ class FrequencyTest {
 
         //when
         assertThatThrownBy(() -> Frequency.of(targetType, frequencyInterval))
-                .isInstanceOf(CreateScheduleException.class)
+                .isInstanceOf(CreateEntityException.class)
                 .hasMessage(ERROR_MESSAGE);
     }
 

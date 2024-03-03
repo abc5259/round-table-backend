@@ -1,9 +1,11 @@
 package com.roundtable.roundtable.entity.schedule;
 
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.*;
+
 import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.global.exception.ScheduleException.CreateScheduleException;
+import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -96,7 +98,7 @@ public class Schedule extends BaseEntity {
     ) {
 
         if(!category.isSameHouse(house)) {
-            throw new CreateScheduleException("같은 하우스에 속한 카테고리여야 합니다.");
+            throw new CreateEntityException(CATEGORY_NOT_SAME_HOUSE);
         }
 
         return Schedule.builder()
