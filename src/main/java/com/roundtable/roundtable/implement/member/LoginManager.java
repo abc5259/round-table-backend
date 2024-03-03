@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.implement.member;
 
 import com.roundtable.roundtable.entity.member.Member;
+import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
 import com.roundtable.roundtable.implement.auth.JwtProvider;
 import com.roundtable.roundtable.implement.auth.Token;
 import com.roundtable.roundtable.global.exception.MemberException.MemberUnAuthorizationException;
@@ -20,6 +21,6 @@ public class LoginManager {
             return jwtProvider.issueToken(member.getId());
         }
 
-        throw new MemberUnAuthorizationException("이메일 또는 패스워드가 틀렸습니다.");
+        throw new MemberUnAuthorizationException(MemberErrorCode.INVALID_LOGIN);
     }
 }

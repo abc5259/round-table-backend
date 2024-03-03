@@ -2,8 +2,9 @@ package com.roundtable.roundtable.implement.member;
 
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
-import com.roundtable.roundtable.global.exception.MemberException;
-import com.roundtable.roundtable.global.exception.MemberException.MemberNotFoundException;
+import com.roundtable.roundtable.global.exception.CoreException.DuplicatedException;
+import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
+import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,20 +23,20 @@ public class MemberReader {
 
     public void checkDuplicateEmail(String email) {
         if(isExistEmail(email)) {
-            throw new MemberException.EmailDuplicatedException(email);
+            throw new DuplicatedException(MemberErrorCode.DUPLICATED_EMAIL);
         }
     }
 
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(() -> new NotFoundEntityException(MemberErrorCode.NOT_FOUND));
     }
 
     public List<Member> findAllById(List<Long> membersId) {
         List<Member> findMembers = memberRepository.findAllById(membersId);
 
         if(findMembers.size() != membersId.size()) {
-            throw new MemberNotFoundException();
+            throw new NotFoundEntityException(MemberErrorCode.NOT_FOUND);
         }
 
         return findMembers;

@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.global.exception;
 
+import com.roundtable.roundtable.global.exception.errorcode.ErrorCode;
 import com.roundtable.roundtable.global.response.FailResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,41 +35,31 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {
-            MemberException.MemberNotFoundException.class,
             CoreException.NotFoundEntityException.class
     })
-    public ResponseEntity<FailResponse<?>> handleNotFoundException(final RuntimeException exception) {
-        String message = exception.getMessage();
-        log.warn(message);
+    public ResponseEntity<FailResponse<?>> handleNotFoundException(final CoreException exception) {
+        ErrorCode errorCode = exception.getErrorCode();
+        log.warn(errorCode.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(FailResponse.fail(message));
+                .body(FailResponse.fail(errorCode.getMessage()));
     }
 
     @ExceptionHandler(value = {
             MemberException.MemberUnAuthorizationException.class,
+            AuthenticationException.class
     })
-    public ResponseEntity<FailResponse<?>> handleAuthenticationException(final RuntimeException exception) {
-        String message = exception.getMessage();
-        log.warn(message);
+    public ResponseEntity<FailResponse<?>> handleAuthenticationException(final CoreException exception) {
+        ErrorCode errorCode = exception.getErrorCode();
+        log.warn(errorCode.getMessage());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(FailResponse.fail(message));
+                .body(FailResponse.fail(errorCode.getMessage()));
     }
 
     @ExceptionHandler(value = {
             ApplicationException.class,
-    })
-    public ResponseEntity<FailResponse<?>> handleAuthenticationException(final ApplicationException exception) {
-        String message = exception.getMessage();
-        log.warn(message);
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(FailResponse.fail(message));
-    }
-
-    @ExceptionHandler(value = {
-            RuntimeException.class,
+            RuntimeException.class
     })
     public ResponseEntity<FailResponse<?>> handleRuntimeException(final RuntimeException exception) {
         String message = exception.getMessage();
@@ -79,6 +70,17 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(FailResponse.fail(message));
+    }
+
+    @ExceptionHandler(value = {
+            CoreException.class,
+    })
+    public ResponseEntity<FailResponse<?>> handleCoreException(final CoreException exception) {
+        ErrorCode errorCode = exception.getErrorCode();
+        log.warn(errorCode.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(FailResponse.fail(errorCode.getMessage()));
     }
 
 }

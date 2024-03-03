@@ -1,9 +1,12 @@
 package com.roundtable.roundtable.global.argumentresolver;
 
+import static com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode.*;
+
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
-import com.roundtable.roundtable.global.exception.MemberException;
-import com.roundtable.roundtable.global.exception.MemberException.MemberNotFoundException;
+import com.roundtable.roundtable.global.exception.AuthenticationException;
+import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
+import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -33,15 +36,16 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if(principal == null) {
-            throw new MemberException.MemberUnAuthorizationException("인증이 되지 않은 사용자입니다.");
+            throw new AuthenticationException(INVALID_AUTH);
         }
+
         Long userId = (Long) principal;
 
-        return memberRepository.findById(userId).orElseThrow(MemberNotFoundException::new);
+        return memberRepository.findById(userId).orElseThrow(() -> new NotFoundEntityException(MemberErrorCode.NOT_FOUND));
     }
 }
