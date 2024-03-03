@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.global.config;
 
-import com.roundtable.roundtable.global.argumentresolver.LoginMemberArgumentResolver;
+import com.roundtable.roundtable.presentation.argumentresolver.LoginMemberArgumentResolver;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

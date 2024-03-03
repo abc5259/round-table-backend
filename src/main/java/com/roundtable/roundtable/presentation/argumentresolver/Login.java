@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.global.argumentresolver;
+package com.roundtable.roundtable.presentation.argumentresolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

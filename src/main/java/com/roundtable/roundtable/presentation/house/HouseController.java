@@ -3,7 +3,7 @@ package com.roundtable.roundtable.presentation.house;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.presentation.house.request.CreateHouseRequest;
-import com.roundtable.roundtable.global.argumentresolver.Login;
+import com.roundtable.roundtable.presentation.argumentresolver.Login;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.business.house.HouseService;
 import jakarta.validation.Valid;

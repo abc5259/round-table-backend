@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.global.argumentresolver;
+package com.roundtable.roundtable.presentation.argumentresolver;
 
 import static com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode.*;
 

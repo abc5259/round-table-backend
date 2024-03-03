@@ -2,7 +2,7 @@ package com.roundtable.roundtable.presentation.member;
 
 import com.roundtable.roundtable.business.house.HouseService;
 import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.global.argumentresolver.Login;
+import com.roundtable.roundtable.presentation.argumentresolver.Login;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.FailResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;

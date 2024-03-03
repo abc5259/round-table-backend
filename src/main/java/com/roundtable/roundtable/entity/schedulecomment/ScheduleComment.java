@@ -1,9 +1,8 @@
-package com.roundtable.roundtable.entity.schedule.comment;
+package com.roundtable.roundtable.entity.schedulecomment;
 
 import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

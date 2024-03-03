@@ -58,6 +58,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = {
+            CoreException.class,
+    })
+    public ResponseEntity<FailResponse<?>> handleCoreException(final CoreException exception) {
+        ErrorCode errorCode = exception.getErrorCode();
+        log.warn(errorCode.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(FailResponse.fail(errorCode.getMessage()));
+    }
+
+    @ExceptionHandler(value = {
             ApplicationException.class,
             RuntimeException.class
     })
@@ -70,17 +81,6 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(FailResponse.fail(message));
-    }
-
-    @ExceptionHandler(value = {
-            CoreException.class,
-    })
-    public ResponseEntity<FailResponse<?>> handleCoreException(final CoreException exception) {
-        ErrorCode errorCode = exception.getErrorCode();
-        log.warn(errorCode.getMessage());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(FailResponse.fail(errorCode.getMessage()));
     }
 
 }
