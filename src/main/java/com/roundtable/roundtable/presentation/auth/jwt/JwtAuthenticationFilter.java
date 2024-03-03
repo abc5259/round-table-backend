@@ -2,6 +2,7 @@ package com.roundtable.roundtable.presentation.auth.jwt;
 
 import com.roundtable.roundtable.global.exception.AuthenticationException;
 import com.roundtable.roundtable.global.exception.AuthenticationException.JwtAuthenticationException;
+import com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Authentication authRequest = jwtAuthenticationConverter.convert(request);
             Authentication authenticate = jwtAuthenticationProvider.authenticate(authRequest);
             if(authenticate == null) {
-                throw new JwtAuthenticationException("유효하지 않은 인증입니다.");
+                throw new JwtAuthenticationException(AuthErrorCode.INVALID_AUTH);
             }
             setAuthentication(authenticate);
         }catch (AuthenticationException authenticationException) {

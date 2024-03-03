@@ -1,15 +1,17 @@
 package com.roundtable.roundtable.global.exception;
 
-public class AuthenticationException extends ApplicationException {
+import com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode;
 
-    public AuthenticationException(String message) {
-        super(message);
+public class AuthenticationException extends CoreException {
+
+    public AuthenticationException(AuthErrorCode errorCode) {
+        super(errorCode);
     }
 
     public static class JwtAuthenticationException extends AuthenticationException{
 
-        public JwtAuthenticationException(String message) {
-            super(message);
+        public JwtAuthenticationException(AuthErrorCode errorCode) {
+            super(errorCode);
         }
     }
 }
