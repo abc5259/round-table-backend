@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = {
             MemberException.MemberNotFoundException.class,
-            HouseException.HouseNotFoundException.class
+            CoreException.NotFoundEntityException.class
     })
     public ResponseEntity<FailResponse<?>> handleNotFoundException(final RuntimeException exception) {
         String message = exception.getMessage();

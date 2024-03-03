@@ -29,7 +29,7 @@ public class CategoryAppender {
     private void checkDuplicatedCategoryName(CreateCategory createCategory) {
         boolean isExistCategory = categoryRepository.existsByNameAndHouse(createCategory.name(), createCategory.house());
         if(isExistCategory) {
-            throw new CoreException.DuplicatedException(CategoryErrorCode.DUPLICATED_CATEGORY_NAME);
+            throw new CoreException.DuplicatedException(CategoryErrorCode.DUPLICATED_NAME);
         }
     }
 }

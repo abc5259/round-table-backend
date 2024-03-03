@@ -78,6 +78,6 @@ class CategoryAppenderTest {
          //when //then
          assertThatThrownBy(() -> categoryAppender.appendCategory(createCategory))
                  .isInstanceOf(CoreException.DuplicatedException.class)
-                 .hasMessage(CategoryErrorCode.DUPLICATED_CATEGORY_NAME.getMessage());
+                 .hasMessage(CategoryErrorCode.DUPLICATED_NAME.getMessage());
       }
 }

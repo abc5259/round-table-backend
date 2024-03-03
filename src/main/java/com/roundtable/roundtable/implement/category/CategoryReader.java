@@ -19,7 +19,7 @@ public class CategoryReader {
 
     public Category findCategory(Long categoryId, House house) {
         return categoryRepository.findByIdAndHouse(categoryId, house)
-                .orElseThrow(() -> new NotFoundEntityException(NOT_FOUND_CATEGORY));
+                .orElseThrow(() -> new NotFoundEntityException(NOT_FOUND));
     }
 
 }

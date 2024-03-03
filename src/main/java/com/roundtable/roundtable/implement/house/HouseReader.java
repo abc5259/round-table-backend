@@ -1,6 +1,8 @@
 package com.roundtable.roundtable.implement.house;
 
-import com.roundtable.roundtable.global.exception.HouseException.HouseNotFoundException;
+import static com.roundtable.roundtable.global.exception.errorcode.HouseErrorCode.*;
+
+import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +15,7 @@ public class HouseReader {
 
     public House findById(Long houseId) {
         return houseRepository.findById(houseId)
-                .orElseThrow(HouseNotFoundException::new);
+                .orElseThrow(() -> new NotFoundEntityException(NOT_FOUND));
     }
 
 }

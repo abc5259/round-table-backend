@@ -2,7 +2,9 @@ package com.roundtable.roundtable.global.exception;
 
 import com.roundtable.roundtable.global.exception.errorcode.CommonErrorCode;
 import com.roundtable.roundtable.global.exception.errorcode.ErrorCode;
+import lombok.Getter;
 
+@Getter
 public class CoreException extends ApplicationException {
 
     private final ErrorCode errorCode;
