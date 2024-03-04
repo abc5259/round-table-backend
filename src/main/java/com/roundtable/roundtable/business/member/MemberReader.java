@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberReader {
-    private final MemberValidator memberValidator;
     private final MemberRepository memberRepository;
 
     public boolean isExistEmail(String email) {
@@ -40,5 +39,10 @@ public class MemberReader {
         }
 
         return findMembers;
+    }
+
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new NotFoundEntityException(MemberErrorCode.NOT_FOUND));
     }
 }
