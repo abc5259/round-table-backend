@@ -1,6 +1,5 @@
 package com.roundtable.roundtable.implement.schdulecomment;
 
-import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedulecomment.Content;
 import com.roundtable.roundtable.entity.schedulecomment.ScheduleComment;
 import com.roundtable.roundtable.entity.schedulecomment.ScheduleCommentRepository;

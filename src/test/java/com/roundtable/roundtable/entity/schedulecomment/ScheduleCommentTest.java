@@ -1,14 +1,12 @@
 package com.roundtable.roundtable.entity.schedulecomment;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.ScheduleCommentErrorCode;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
