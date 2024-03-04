@@ -1,8 +1,8 @@
 package com.roundtable.roundtable.presentation.auth;
 
 import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationConverter;
-import com.roundtable.roundtable.implement.auth.Token;
-import com.roundtable.roundtable.implement.auth.authcode.AuthCode;
+import com.roundtable.roundtable.business.auth.Token;
+import com.roundtable.roundtable.business.auth.authcode.AuthCode;
 import com.roundtable.roundtable.business.auth.AuthService;
 import com.roundtable.roundtable.presentation.auth.request.EmailRequest;
 import com.roundtable.roundtable.presentation.auth.request.LoginRequest;

@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
-import com.roundtable.roundtable.implement.auth.Token;
+import com.roundtable.roundtable.business.auth.Token;
 import java.util.Collection;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

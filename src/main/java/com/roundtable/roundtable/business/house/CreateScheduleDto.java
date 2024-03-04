@@ -1,9 +1,9 @@
 package com.roundtable.roundtable.business.house;
 
+import com.roundtable.roundtable.business.schedule.CreateSchedule;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
-import com.roundtable.roundtable.implement.schedule.CreateSchedule;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;

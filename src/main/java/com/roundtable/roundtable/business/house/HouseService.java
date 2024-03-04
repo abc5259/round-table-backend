@@ -1,12 +1,9 @@
 package com.roundtable.roundtable.business.house;
 
-import com.roundtable.roundtable.implement.house.CreateHouse;
-import com.roundtable.roundtable.implement.house.HouseMaker;
-import com.roundtable.roundtable.implement.member.MemberHouseManager;
+import com.roundtable.roundtable.business.member.MemberHouseManager;
 import com.roundtable.roundtable.entity.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor

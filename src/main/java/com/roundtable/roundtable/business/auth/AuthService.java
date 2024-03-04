@@ -1,14 +1,12 @@
 package com.roundtable.roundtable.business.auth;
 
-import com.roundtable.roundtable.implement.auth.authcode.AuthCode;
-import com.roundtable.roundtable.implement.auth.authcode.AuthCodeStoreStrategy;
-import com.roundtable.roundtable.implement.member.LoginManager;
-import com.roundtable.roundtable.implement.member.LoginMember;
-import com.roundtable.roundtable.implement.auth.MailProvider;
-import com.roundtable.roundtable.implement.auth.Token;
-import com.roundtable.roundtable.implement.member.MemberMaker;
-import com.roundtable.roundtable.implement.member.MemberReader;
-import com.roundtable.roundtable.implement.member.RegisterMember;
+import com.roundtable.roundtable.business.member.MemberMaker;
+import com.roundtable.roundtable.business.member.RegisterMember;
+import com.roundtable.roundtable.business.auth.authcode.AuthCode;
+import com.roundtable.roundtable.business.auth.authcode.AuthCodeStoreStrategy;
+import com.roundtable.roundtable.business.member.LoginManager;
+import com.roundtable.roundtable.business.member.LoginMember;
+import com.roundtable.roundtable.business.member.MemberReader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

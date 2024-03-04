@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.auth.request;
 
-import com.roundtable.roundtable.implement.member.RegisterMember;
+import com.roundtable.roundtable.business.member.RegisterMember;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 

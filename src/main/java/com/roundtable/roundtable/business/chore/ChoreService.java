@@ -1,10 +1,9 @@
 package com.roundtable.roundtable.business.chore;
 
-import com.roundtable.roundtable.implement.chore.ChoreReader;
-import com.roundtable.roundtable.implement.chore.response.ChoreOfMemberResponse;
-import com.roundtable.roundtable.implement.chore.response.ChoreResponse;
-import com.roundtable.roundtable.implement.common.CursorBasedRequest;
-import com.roundtable.roundtable.implement.common.CursorBasedResponse;
+import com.roundtable.roundtable.business.chore.response.ChoreResponse;
+import com.roundtable.roundtable.business.common.CursorBasedRequest;
+import com.roundtable.roundtable.business.chore.response.ChoreOfMemberResponse;
+import com.roundtable.roundtable.business.common.CursorBasedResponse;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

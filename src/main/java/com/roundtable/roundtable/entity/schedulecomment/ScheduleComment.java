@@ -3,7 +3,6 @@ package com.roundtable.roundtable.entity.schedulecomment;
 import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.global.exception.CoreException;
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.ScheduleCommentErrorCode;
 import jakarta.persistence.Embedded;

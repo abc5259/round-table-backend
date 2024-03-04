@@ -1,8 +1,6 @@
 package com.roundtable.roundtable.business.category;
 
 import com.roundtable.roundtable.entity.category.Category;
-import com.roundtable.roundtable.implement.category.CategoryAppender;
-import com.roundtable.roundtable.implement.category.CreateCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

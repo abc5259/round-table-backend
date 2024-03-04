@@ -1,7 +1,6 @@
 package com.roundtable.roundtable.business.schedule;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.business.house.CreateScheduleDto;
 import com.roundtable.roundtable.entity.category.Category;
@@ -10,7 +9,6 @@ import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
-import com.roundtable.roundtable.implement.schedule.CreateSchedule;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
