@@ -7,7 +7,6 @@ import static com.roundtable.roundtable.entity.schedulecomment.QScheduleComment.
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.roundtable.roundtable.entity.common.CursorPagination;
-import com.roundtable.roundtable.entity.member.QMember;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedulecomment.dto.QMemberDetailDto;
 import com.roundtable.roundtable.entity.schedulecomment.dto.QScheduleCommentDetailDto;
