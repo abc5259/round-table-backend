@@ -66,7 +66,8 @@ public class Schedule extends BaseEntity {
     private List<ScheduleMember> scheduleMembers = new ArrayList<>();
 
     @Builder
-    private Schedule(String name,
+    private Schedule(Long id,
+                     String name,
                      Frequency frequency,
                      LocalDate startDate,
                      LocalTime startTime,
@@ -85,6 +86,7 @@ public class Schedule extends BaseEntity {
         this.divisionType = divisionType;
         this.house = house;
         this.category = category;
+        this.id = id;
     }
 
     public static Schedule create(
