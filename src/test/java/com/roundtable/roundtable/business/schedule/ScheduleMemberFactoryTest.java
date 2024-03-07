@@ -2,6 +2,7 @@ package com.roundtable.roundtable.business.schedule;
 
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
+import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.house.House;
@@ -24,9 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @Transactional
-class ScheduleMemberFactoryTest {
+class ScheduleMemberFactoryTest extends IntegrationTestSupport {
     @Autowired
     ScheduleMemberFactory scheduleMemberFactory;
 

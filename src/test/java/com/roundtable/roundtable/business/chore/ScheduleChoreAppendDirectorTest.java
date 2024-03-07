@@ -2,6 +2,7 @@ package com.roundtable.roundtable.business.chore;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
@@ -22,9 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @Transactional
-class ScheduleChoreAppendDirectorTest {
+class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
 
     @Autowired
     private ScheduleChoreAppendDirector scheduleChoreAppendDirector;

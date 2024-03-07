@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.member;
 
+import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.entity.member.Gender;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
@@ -10,9 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @Transactional
-class MemberUpdaterTest {
+class MemberUpdaterTest extends IntegrationTestSupport {
     @Autowired
     MemberUpdater memberUpdater;
 

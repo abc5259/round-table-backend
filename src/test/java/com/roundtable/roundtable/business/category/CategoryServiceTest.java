@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.category;
 
+import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.house.House;
@@ -11,9 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @Transactional
-class CategoryServiceTest {
+class CategoryServiceTest extends IntegrationTestSupport {
     @Autowired
     private CategoryService categoryService;
 

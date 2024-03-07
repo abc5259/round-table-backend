@@ -2,6 +2,7 @@ package com.roundtable.roundtable.business.schedule;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.house.CreateScheduleDto;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.chore.Chore;
@@ -19,9 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @Transactional
-class ScheduleServiceTest {
+class ScheduleServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private ScheduleService scheduleService;

@@ -1,3 +1,63 @@
 spring:
   profiles:
     active: local
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
+
+jwt:
+  secretKey: ${JWT_SECRET}
+  access-token-expire-time: 3600000 # 600000 # 10분
+  refresh-token-expire-time: 3600000 # 1시간
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+        format_sql: true
+        show_sql: true
+    hibernate:
+      ddl-auto: create
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:~/roundtable;MODE=MySQL;
+    username: sa
+    password:
+  jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+        format_sql: true
+        show_sql: true
+    hibernate:
+      ddl-auto: create

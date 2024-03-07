@@ -2,6 +2,7 @@ package com.roundtable.roundtable.entity.category;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
 import org.assertj.core.api.Assertions;
@@ -13,9 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @Transactional
-class CategoryRepositoryTest {
+class CategoryRepositoryTest extends IntegrationTestSupport {
     @Autowired
     private CategoryRepository categoryRepository;
 

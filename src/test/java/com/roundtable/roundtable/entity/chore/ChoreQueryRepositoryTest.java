@@ -2,6 +2,7 @@ package com.roundtable.roundtable.entity.chore;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.category.dto.CategoryDetailV1Dto;
@@ -25,9 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
 @Transactional
-class ChoreQueryRepositoryTest {
+class ChoreQueryRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
     private ChoreQueryRepository choreQueryRepository;

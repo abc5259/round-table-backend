@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.chore;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
+import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.category.dto.CategoryDetailV1Dto;
@@ -32,8 +33,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-@SpringBootTest
-class ChoreReaderTest {
+class ChoreReaderTest extends IntegrationTestSupport {
 
     @Autowired
     private ChoreReader choreReader;
