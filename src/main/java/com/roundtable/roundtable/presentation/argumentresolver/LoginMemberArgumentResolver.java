@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.argumentresolver;
 
-import static com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode.*;
+import static com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode.INVALID_AUTH;
 
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;

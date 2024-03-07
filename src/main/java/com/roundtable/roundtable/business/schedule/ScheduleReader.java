@@ -2,7 +2,6 @@ package com.roundtable.roundtable.business.schedule;
 
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
-import com.roundtable.roundtable.global.exception.CoreException;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode;
 import lombok.RequiredArgsConstructor;

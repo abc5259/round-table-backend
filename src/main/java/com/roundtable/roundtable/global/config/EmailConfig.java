@@ -1,8 +1,7 @@
 package com.roundtable.roundtable.global.config;
 
-import java.util.Properties;
+import com.roundtable.roundtable.global.properties.EmailProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;

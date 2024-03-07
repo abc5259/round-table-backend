@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.entity.schedule;
 
 import static com.roundtable.roundtable.entity.schedule.FrequencyType.*;
-import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.*;
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.FREQUENCY_NOT_SUPPORT;
 
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import jakarta.persistence.Column;

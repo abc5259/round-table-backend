@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.entity.schedule;
 
-import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.*;
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.CATEGORY_NOT_SAME_HOUSE;
 
 import com.roundtable.roundtable.entity.common.BaseEntity;
 import com.roundtable.roundtable.entity.category.Category;

@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.presentation.auth;
 
+import com.roundtable.roundtable.global.properties.JwtProperties;
 import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationConverter;
 import com.roundtable.roundtable.business.auth.Token;
 import com.roundtable.roundtable.business.auth.authcode.AuthCode;
@@ -27,8 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    @Value("${jwt.refresh-token-expire-time}")
-    private long REFRESH_TOKEN_EXPIRE_TIME;
+
+    private final JwtProperties jwtProperties;
 
     private final AuthService authService;
 
@@ -61,7 +62,7 @@ public class AuthController {
         ResponseCookie refreshTokenCookie = ResponseCookie
                 .from(JwtAuthenticationConverter.COOKIE_AUTH_TOKEN, token.getRefreshToken())
                 .httpOnly(true) // HttpOnly 속성을 사용하여 JavaScript로 쿠키에 접근하는 것을 방지
-                .maxAge(REFRESH_TOKEN_EXPIRE_TIME) // 쿠키의 만료 시간을 설정 (초 단위, 여기서는 7일)
+                .maxAge(jwtProperties.getRefreshTokenExpireTime()) // 쿠키의 만료 시간을 설정 (초 단위, 여기서는 7일)
                 .path("/")
                 .build(); // 쿠키의 유효 경로 설정
 

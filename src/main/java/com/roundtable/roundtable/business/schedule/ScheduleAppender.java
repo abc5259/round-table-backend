@@ -1,6 +1,9 @@
 package com.roundtable.roundtable.business.schedule;
 
-import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.*;
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.DUPLICATED_MEMBER_ID;
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.FREQUENCY_NOT_SUPPORT;
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.FREQUENCY_NOT_SUPPORT_WEEKLY;
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.INVALID_START_DATE;
 
 import com.roundtable.roundtable.business.member.MemberValidator;
 import com.roundtable.roundtable.entity.house.House;

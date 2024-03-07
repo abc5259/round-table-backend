@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.entity.schedulecomment;
 
-import static com.roundtable.roundtable.global.exception.errorcode.ScheduleCommentErrorCode.*;
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleCommentErrorCode.INVALID_CONTENT_LENGTH;
 
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import jakarta.persistence.Column;

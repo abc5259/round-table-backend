@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.global.config;
+package com.roundtable.roundtable.global.properties;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;

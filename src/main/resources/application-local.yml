@@ -30,6 +30,6 @@ spring:
     auth-code-expiration-millis: 1800000  # 30 * 60 * 1000 == 30분
 
 jwt:
-  secret: ${JWT_SECRET}
+  secretKey: ${JWT_SECRET}
   access-token-expire-time: 3600000 # 600000 # 10분
   refresh-token-expire-time: 3600000 # 1시간

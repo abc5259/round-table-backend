@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.chore;
 
-import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.*;
+import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.DUPLICATED_MEMBER_ID;
 
 import com.roundtable.roundtable.business.member.MemberValidator;
 import com.roundtable.roundtable.entity.chore.Chore;

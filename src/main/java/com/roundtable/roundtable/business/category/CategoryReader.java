@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.category;
 
-import static com.roundtable.roundtable.global.exception.errorcode.CategoryErrorCode.*;
+import static com.roundtable.roundtable.global.exception.errorcode.CategoryErrorCode.NOT_FOUND;
 
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;

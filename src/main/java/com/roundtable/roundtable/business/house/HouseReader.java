@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.house;
 
-import static com.roundtable.roundtable.global.exception.errorcode.HouseErrorCode.*;
+import static com.roundtable.roundtable.global.exception.errorcode.HouseErrorCode.NOT_FOUND;
 
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.entity.house.House;
