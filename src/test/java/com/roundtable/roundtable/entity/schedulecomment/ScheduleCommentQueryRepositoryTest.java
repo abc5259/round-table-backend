@@ -20,7 +20,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +98,7 @@ class ScheduleCommentQueryRepositoryTest {
         ScheduleComment scheduleComment4 = appendScheduleComment(schedule, member4);
 
         CursorPagination cursorPagination = new CursorPagination(scheduleComment1.getId(), 2);
+
         //when
         List<ScheduleCommentDetailDto> scheduleCommentDetailDtos = scheduleCommentQueryRepository
                 .findBySchedule(schedule.getId(), cursorPagination);
