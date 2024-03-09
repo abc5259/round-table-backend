@@ -23,9 +23,6 @@ public class ScheduleCommentQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    /**
-     * api를 만들기 위해 member의 캡슐화를 깨도 되는걸까
-     */
     public List<ScheduleCommentDetailDto> findBySchedule(Long scheduleId, CursorPagination cursorPagination) {
         return queryFactory.select(
                     new QScheduleCommentDetailDto(

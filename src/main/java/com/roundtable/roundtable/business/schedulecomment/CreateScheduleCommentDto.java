@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.schdulecomment;
+package com.roundtable.roundtable.business.schedulecomment;
 
 public record CreateScheduleCommentDto(
         String content,

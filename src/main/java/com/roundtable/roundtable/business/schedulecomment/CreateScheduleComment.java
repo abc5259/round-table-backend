@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.schdulecomment;
+package com.roundtable.roundtable.business.schedulecomment;
 
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;

@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.schedulecomment.request;
 
-import com.roundtable.roundtable.business.schdulecomment.CreateScheduleCommentDto;
+import com.roundtable.roundtable.business.schedulecomment.CreateScheduleCommentDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
