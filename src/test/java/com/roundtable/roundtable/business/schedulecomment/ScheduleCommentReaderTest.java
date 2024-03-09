@@ -85,12 +85,6 @@ class ScheduleCommentReaderTest extends IntegrationTestSupport {
 
      }
 
-    private ScheduleComment appendScheduleComment(Schedule schedule, Member member, String content) {
-        ScheduleComment scheduleComment = ScheduleComment.builder().schedule(schedule).writer(member)
-                .content(Content.builder().content(content).build()).build();
-        return scheduleCommentRepository.save(scheduleComment);
-    }
-
     private Member appendMember(House house) {
         Member member = Member.builder().email("email").password("password").house(house).build();
         return memberRepository.save(member);
@@ -120,5 +114,11 @@ class ScheduleCommentReaderTest extends IntegrationTestSupport {
     private Category appendCategory(House house) {
         Category category = Category.builder().house(house).name("name").point(1).build();
         return categoryRepository.save(category);
+    }
+
+    private ScheduleComment appendScheduleComment(Schedule schedule, Member member, String content) {
+        ScheduleComment scheduleComment = ScheduleComment.builder().schedule(schedule).writer(member)
+                .content(Content.builder().content(content).build()).build();
+        return scheduleCommentRepository.save(scheduleComment);
     }
 }
