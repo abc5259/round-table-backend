@@ -12,7 +12,7 @@ public record CursorBasedPaginationRequest(
         @Min(1) @Max(30)
         Integer limit
 ) {
-    public final static Integer DEFAULT_LAST_ID = 0;
+    public final static Long DEFAULT_LAST_ID = 0L;
     public final static Integer DEFAULT_LIMIT = 20;
 
     public CursorBasedRequest toCursorBasedRequest() {
