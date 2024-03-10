@@ -29,7 +29,7 @@ public class ScheduleReader {
                 .orElseThrow(() -> new NotFoundEntityException(ScheduleErrorCode.NOT_FOUND_ID));
     }
 
-    public ScheduleDetailDto scheduleDetailDto(Long scheduleId) {
+    public ScheduleDetailDto findScheduleDetail(Long scheduleId) {
 
         return scheduleQueryRepository
                 .findScheduleDetail(scheduleId)
