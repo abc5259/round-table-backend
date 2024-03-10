@@ -1,15 +1,12 @@
 package com.roundtable.roundtable.entity.schedule;
 
 import static com.roundtable.roundtable.entity.category.QCategory.*;
-import static com.roundtable.roundtable.entity.schedule.FrequencyType.*;
 import static com.roundtable.roundtable.entity.schedule.QSchedule.*;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.roundtable.roundtable.entity.category.QCategory;
 import com.roundtable.roundtable.entity.schedule.dto.QScheduleDetailDto;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleDetailDto;
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -35,7 +32,7 @@ public class ScheduleQueryRepository {
                         schedule.category.point
                 ))
                 .from(schedule)
-                .join(schedule.category, category).fetchJoin()
+                .join(schedule.category, category)
                 .where(schedule.eq(Schedule.builder().id(scheduleId).build()))
                 .fetchOne();
     }

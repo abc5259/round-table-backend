@@ -19,7 +19,7 @@ public record ScheduleDetailDto(
         List<ScheduleMemberDetailDto> allocators
 ) {
 
-    record CategoryDetailDto(
+    public record CategoryDetailDto(
             Long categoryId,
             String name,
             Integer point
