@@ -2,7 +2,9 @@ package com.roundtable.roundtable.business.schedule;
 
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
+import com.roundtable.roundtable.entity.schedule.ScheduleMemberQueryRepository;
 import com.roundtable.roundtable.entity.schedule.ScheduleMemberRepository;
+import com.roundtable.roundtable.entity.schedule.dto.ScheduleMemberDetailDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,5 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ScheduleMemberReader {
 
-    private final ScheduleMemberRepository scheduleMemberRepository;
+    private final ScheduleMemberQueryRepository scheduleMemberQueryRepository;
+
+    public List<ScheduleMemberDetailDto> findScheduleMemberDetail(Long scheduleId) {
+        return scheduleMemberQueryRepository.findScheduleMemberDetail(scheduleId);
+    }
+
 }

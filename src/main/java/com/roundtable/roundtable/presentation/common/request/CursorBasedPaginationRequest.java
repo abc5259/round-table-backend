@@ -3,7 +3,6 @@ package com.roundtable.roundtable.presentation.common.request;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 public record CursorBasedPaginationRequest(

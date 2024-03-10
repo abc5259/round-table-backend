@@ -89,6 +89,10 @@ public class Schedule extends BaseEntity {
         this.id = id;
     }
 
+    public static Schedule Id(Long scheduleId) {
+        return Schedule.builder().id(scheduleId).build();
+    }
+
     public static Schedule create(
             String name,
             Frequency frequency,
