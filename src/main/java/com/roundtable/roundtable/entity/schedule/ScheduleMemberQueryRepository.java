@@ -26,7 +26,7 @@ public class ScheduleMemberQueryRepository {
                         scheduleMember.sequence
                 ))
                 .from(scheduleMember)
-                .join(scheduleMember.member, member).fetchJoin()
+                .join(scheduleMember.member, member)
                 .where(scheduleMember.schedule.eq(Schedule.Id(scheduleId)))
                 .fetch();
     }

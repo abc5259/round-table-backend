@@ -36,7 +36,7 @@ public class ChoreAppender {
         return savedChore;
     }
 
-    private static void checkDuplicateMember(List<Member> memberIds) {
+    private void checkDuplicateMember(List<Member> memberIds) {
         if(memberIds.size() != memberIds.stream().distinct().count()) {
             throw new CreateEntityException(DUPLICATED_MEMBER_ID);
         }
