@@ -1,9 +1,6 @@
 package com.roundtable.roundtable.business.schedule;
 
-import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleMemberQueryRepository;
-import com.roundtable.roundtable.entity.schedule.ScheduleMemberRepository;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleMemberDetailDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

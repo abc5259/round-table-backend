@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.entity.schedule;
+package com.roundtable.roundtable.business.schedule;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -9,6 +9,13 @@ import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
+import com.roundtable.roundtable.entity.schedule.DivisionType;
+import com.roundtable.roundtable.entity.schedule.Frequency;
+import com.roundtable.roundtable.entity.schedule.FrequencyType;
+import com.roundtable.roundtable.entity.schedule.Schedule;
+import com.roundtable.roundtable.entity.schedule.ScheduleMember;
+import com.roundtable.roundtable.entity.schedule.ScheduleMemberRepository;
+import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleMemberDetailDto;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,10 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
-    
+class ScheduleMemberReaderTest extends IntegrationTestSupport {
     @Autowired
-    private ScheduleMemberQueryRepository scheduleMemberQueryRepository;
+    private ScheduleMemberReader scheduleMemberReader;
 
     @Autowired
     private HouseRepository houseRepository;
@@ -39,10 +45,10 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
     private ScheduleMemberRepository scheduleMemberRepository;
-    
+
     @DisplayName("Schedule에 따른 ScheduleMember의 세부사항을 조회할 수 있다.")
     @Test
-    void findScheduleMemberDetail() {
+    void test() {
         //given
         House house = appendHouse();
 
@@ -60,7 +66,7 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
 
         //when
         List<ScheduleMemberDetailDto> scheduleMemberDetails =
-                scheduleMemberQueryRepository.findScheduleMemberDetail(schedule.getId());
+                scheduleMemberReader.findScheduleMemberDetail(schedule.getId());
 
         //then
         assertThat(scheduleMemberDetails).hasSize(3)
@@ -70,9 +76,8 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
                         Tuple.tuple(member2.getId(), member2.getName(), scheduleMember2.getSequence()),
                         Tuple.tuple(member3.getId(), member3.getName(), scheduleMember3.getSequence())
                 );
-           
-     }
 
+     }
 
     private House appendHouse() {
         House house = House.builder().name("house").build();
@@ -100,13 +105,13 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
         return scheduleRepository.save(schedule);
     }
 
-    private ScheduleMember appendScheduleMember(Schedule schedule, Member member1) {
-        ScheduleMember scheduleMember = ScheduleMember.builder().schedule(schedule).member(member1).sequence(1).build();
-        return scheduleMemberRepository.save(scheduleMember);
-    }
-
     private Category appendCategory(House house) {
         Category category = Category.builder().house(house).name("name").point(1).build();
         return categoryRepository.save(category);
+    }
+
+    private ScheduleMember appendScheduleMember(Schedule schedule, Member member1) {
+        ScheduleMember scheduleMember = ScheduleMember.builder().schedule(schedule).member(member1).sequence(1).build();
+        return scheduleMemberRepository.save(scheduleMember);
     }
 }
