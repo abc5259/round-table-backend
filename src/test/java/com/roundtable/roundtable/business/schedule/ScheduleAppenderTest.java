@@ -7,6 +7,7 @@ import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
+import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
@@ -53,7 +54,7 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
 
     @BeforeEach
     void setUp() {
-        House house = House.of("name1");
+        House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         house = houseRepository.save(house);
 
         Member member1 = Member.builder().email("email1").password("password").build();

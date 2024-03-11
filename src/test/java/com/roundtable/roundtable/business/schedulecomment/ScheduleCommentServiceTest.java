@@ -9,6 +9,7 @@ import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
+import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
@@ -59,7 +60,7 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
     @Test
     void createScheduleComment() {
         //given
-        House house = appendHouse();
+        House house = appendHouse("code");
         Member member = appendMember(house, "email");
         Category category = appendCategory(house);
         Schedule schedule = appendSchedule(category, house);
@@ -84,7 +85,7 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
     @Test
     void createScheduleComment_notFoundMember() {
         //given
-        House house = appendHouse();
+        House house = appendHouse("code");
         Category category = appendCategory(house);
         Schedule schedule = appendSchedule(category, house);
         String contentStr = "content";
@@ -102,7 +103,7 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
     @Test
     void createScheduleComment_notFoundSchedule() {
         //given
-        House house = appendHouse();
+        House house = appendHouse("code");
         Category category = appendCategory(house);
         Member member = appendMember(house, "email");
         String contentStr = "content";
@@ -119,7 +120,7 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
     @Test
     void findByScheduleId() {
         //given
-        House house = appendHouse();
+        House house = appendHouse("code");
         Member member = appendMember(house, "email");
         Category category = appendCategory(house);
         Schedule schedule = appendSchedule(category, house);
@@ -151,7 +152,7 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
     @Test
     void findByScheduleId_fail() {
         //given
-        House house = appendHouse();
+        House house = appendHouse("code");
         Member member = appendMember(house, "email");
         Category category = appendCategory(house);
         Schedule schedule = appendSchedule(category, house);
@@ -162,7 +163,7 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
 
         CursorBasedRequest cursorBasedRequest = new CursorBasedRequest(0L, 4);
 
-        House house2 = appendHouse();
+        House house2 = appendHouse("code2");
         Member loginMember = appendMember(house2, "email2");
 
         //when //then
@@ -178,8 +179,8 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
         return memberRepository.save(member);
     }
 
-    private House appendHouse() {
-        House house = House.builder().name("house").build();
+    private House appendHouse(String code) {
+        House house = House.builder().name("house1").inviteCode(InviteCode.builder().code(code).build()).build();
         houseRepository.save(house);
         return house;
     }

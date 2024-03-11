@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.member;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.entity.house.House;
+import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.global.exception.MemberException.MemberNoHouseException;
 import org.assertj.core.api.Assertions;
@@ -20,7 +21,7 @@ class MemberValidatorTest {
                 .email("email")
                 .password("password")
                 .build();
-        member.enterHouse(House.of("house"));
+        member.enterHouse(House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build());
 
         //when //then
         assertDoesNotThrow(() -> memberValidator.validateMemberInHouse(member));

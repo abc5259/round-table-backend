@@ -7,6 +7,7 @@ import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.house.House;
+import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.Frequency;
@@ -35,7 +36,7 @@ class ChoreAppenderTest extends IntegrationTestSupport {
     @Test
     void test() {
         //given
-        House house = House.of("house");
+        House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         em.persist(house);
         Category category = createCategory(house);
         Member member = Member.builder().email("email").password("password").build();

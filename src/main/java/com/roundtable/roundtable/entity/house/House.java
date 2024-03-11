@@ -2,15 +2,18 @@ package com.roundtable.roundtable.entity.house;
 
 import com.roundtable.roundtable.entity.common.BaseEntity;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class House extends BaseEntity {
     @Id
@@ -20,12 +23,14 @@ public class House extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    public static final int MAX_MEMBER_SIZE = 50;
+    @Embedded
+    private InviteCode inviteCode;
 
     @Builder
-    private House(Long id, String name) {
+    private House(Long id, String name, InviteCode inviteCode) {
         this.id = id;
         this.name = name;
+        this.inviteCode = inviteCode;
     }
 
     public static House of(String name) {
@@ -34,11 +39,14 @@ public class House extends BaseEntity {
                 .build();
     }
 
-    public Long getId() {
-        return id;
+    public static House of(String name, InviteCode inviteCode) {
+        return House.builder()
+                .name(name)
+                .inviteCode(inviteCode)
+                .build();
     }
 
     public boolean isEqualId(House house) {
-        return this.id.equals(house.getId());
+        return getId().equals(house.getId());
     }
 }

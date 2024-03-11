@@ -7,6 +7,7 @@ import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
+import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.global.exception.CoreException;
 import com.roundtable.roundtable.global.exception.errorcode.CategoryErrorCode;
 import org.junit.jupiter.api.DisplayName;
@@ -31,7 +32,7 @@ class CategoryAppenderTest extends IntegrationTestSupport {
     @Test
     void appendCategory() {
         //given
-        House house = House.builder().name("house").build();
+        House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         houseRepository.save(house);
 
         CreateCategory createCategory = new CreateCategory(
@@ -57,7 +58,7 @@ class CategoryAppenderTest extends IntegrationTestSupport {
      @Test
      void appendCategoryWhenDuplicatedCategoryName() {
          //given
-         House house = House.builder().name("house").build();
+         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
          houseRepository.save(house);
 
          String duplicatedCategoryName = "name";

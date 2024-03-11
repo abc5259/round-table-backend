@@ -11,6 +11,7 @@ import com.roundtable.roundtable.entity.chore.dto.ChoreOfMemberDto;
 import com.roundtable.roundtable.entity.common.CursorPagination;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
+import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
 import com.roundtable.roundtable.entity.schedule.Frequency;
@@ -23,7 +24,6 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -55,8 +55,8 @@ class ChoreQueryRepositoryTest extends IntegrationTestSupport {
     @Test
     void findChoresOfMember() {
         //given
-        House house = createHouse();
-        House house2 = createHouse();
+        House house = createHouse("code");
+        House house2 = createHouse("code2");
         houseRepository.save(house);
         houseRepository.save(house2);
 
@@ -127,8 +127,8 @@ class ChoreQueryRepositoryTest extends IntegrationTestSupport {
      @Test
      void findChoresOfHouse() {
          //given
-         House house = createHouse();
-         House house2 = createHouse();
+         House house = createHouse("code");
+         House house2 = createHouse("code2");
          houseRepository.save(house);
          houseRepository.save(house2);
 
@@ -215,8 +215,8 @@ class ChoreQueryRepositoryTest extends IntegrationTestSupport {
     @Test
     void findChoresOfHouse_limit() {
         //given
-        House house = createHouse();
-        House house2 = createHouse();
+        House house = createHouse("code1");
+        House house2 = createHouse("code2");
         houseRepository.save(house);
         houseRepository.save(house2);
 
@@ -292,8 +292,8 @@ class ChoreQueryRepositoryTest extends IntegrationTestSupport {
     @Test
     void findChoresOfHouse_lasChoreId() {
         //given
-        House house = createHouse();
-        House house2 = createHouse();
+        House house = createHouse("code");
+        House house2 = createHouse("code2");
         houseRepository.save(house);
         houseRepository.save(house2);
 
@@ -365,8 +365,8 @@ class ChoreQueryRepositoryTest extends IntegrationTestSupport {
     }
 
 
-    private House createHouse() {
-        return House.builder().name("house").build();
+    private House createHouse(String code) {
+        return House.builder().name("house1").inviteCode(InviteCode.builder().code(code).build()).build();
     }
 
     private Member createMember(String email, String name, House house) {

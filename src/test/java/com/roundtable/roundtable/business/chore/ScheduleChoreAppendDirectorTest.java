@@ -7,6 +7,7 @@ import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.house.House;
+import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
@@ -192,7 +193,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
     }
 
     private House createHouse() {
-        House house = House.of("house");
+        House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         em.persist(house);
         return house;
     }

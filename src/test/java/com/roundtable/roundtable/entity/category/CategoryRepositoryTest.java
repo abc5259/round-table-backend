@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
+import com.roundtable.roundtable.entity.house.InviteCode;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class CategoryRepositoryTest extends IntegrationTestSupport {
     @ParameterizedTest
     void existsByNameAndHouse(String name1, String name2, boolean result) {
         //given
-        House house = House.builder().name("house").build();
+        House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         houseRepository.save(house);
 
         Category category1 = Category.builder()
@@ -51,10 +52,10 @@ class CategoryRepositoryTest extends IntegrationTestSupport {
     @Test
     void existsByNameAndHouseWhenDifferentHouse() {
         //given
-        House house1 = House.builder().name("house1").build();
+        House house1 = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         houseRepository.save(house1);
 
-        House house2 = House.builder().name("house2").build();
+        House house2 = House.builder().name("house2").inviteCode(InviteCode.builder().code("code2").build()).build();
         houseRepository.save(house2);
 
         String name = "name";
