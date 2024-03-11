@@ -5,11 +5,6 @@ import java.security.SecureRandom;
 public class RandomStringGenerator {
 
     private static final String DEFAULT_SALT_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-    private static final int DEFAULT_LENGTH = 18;
-
-    public static String generateRandomString() {
-        return generateRandomString(DEFAULT_LENGTH, DEFAULT_SALT_CHARS);
-    }
 
     public static String generateRandomString(int length) {
         return generateRandomString(length, DEFAULT_SALT_CHARS);

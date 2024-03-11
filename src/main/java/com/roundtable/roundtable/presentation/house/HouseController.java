@@ -22,8 +22,9 @@ public class HouseController {
     private final HouseService houseService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> createHouse(@Login Member loginMember, @Valid @RequestBody CreateHouseRequest createHouseRequest) {
-        houseService.createHouse(createHouseRequest.toCreateHouse(), loginMember);
-        return ResponseEntity.ok().body(SuccessResponse.ok());
+    public ResponseEntity<ApiResponse<Long>> createHouse(@Login Member loginMember, @Valid @RequestBody CreateHouseRequest createHouseRequest) {
+        return ResponseEntity.ok(
+                SuccessResponse.from(houseService.createHouse(createHouseRequest.toCreateHouse(), loginMember))
+        );
     }
 }

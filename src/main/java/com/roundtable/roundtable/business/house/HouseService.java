@@ -12,8 +12,11 @@ public class HouseService {
     private final HouseAppender houseAppender;
     private final MemberHouseManager memberHouseManager;
 
-    public void createHouse(CreateHouse createHouse, Member houseOwner) {
-        houseAppender.appendHouse(createHouse, houseOwner);
+    public Long createHouse(CreateHouse createHouse, Member houseOwner) {
+        Long houseId = houseAppender.appendHouse(createHouse);
+        memberHouseManager.enterHouse(houseId, houseOwner);
+
+        return houseId;
     }
 
     public void enterHouse(Long houseId, Member loginMember) {

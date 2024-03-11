@@ -17,21 +17,22 @@ import org.springframework.stereotype.Component;
 public class HouseAppender {
 
     public final static int INVITE_CODE_REPEAT_COUNT = 3;
+    private static final int INVITE_CODE_LENGTH = 6;
 
     private final HouseReader houseReader;
 
     private final HouseRepository houseRepository;
 
-    public void appendHouse(CreateHouse createHouse, Member houseOwner) {
+    public Long appendHouse(CreateHouse createHouse) {
         House house = House.of(createHouse.name(), createInviteCode());
         houseRepository.save(house);
 
-        houseOwner.enterHouse(house);
+        return house.getId();
     }
 
     private InviteCode createInviteCode() {
         for (int i = 0; i < INVITE_CODE_REPEAT_COUNT; i++) {
-            InviteCode inviteCode = InviteCode.of(RandomStringGenerator.generateRandomString());
+            InviteCode inviteCode = InviteCode.of(RandomStringGenerator.generateRandomString(INVITE_CODE_LENGTH));
             if (!houseReader.isExistInviteCode(inviteCode)) {
                 return inviteCode;
             }
