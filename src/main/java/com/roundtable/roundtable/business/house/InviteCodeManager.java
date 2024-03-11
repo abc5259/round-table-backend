@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class InviteCodeManager {
     public final static int INVITE_CODE_REPEAT_COUNT = 3;
+
     public static final int INVITE_CODE_LENGTH = 6;
 
     private final HouseReader houseReader;

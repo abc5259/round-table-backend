@@ -20,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class ChoreAppender {
 
     private final MemberValidator memberValidator;
+
     private final ChoreMemberAppender choreMemberAppender;
+
     private final ChoreRepository choreRepository;
 
     public Chore appendChore(CreateChore createChore, House house) {

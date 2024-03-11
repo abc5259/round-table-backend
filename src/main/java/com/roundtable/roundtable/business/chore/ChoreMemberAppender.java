@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class ChoreMemberAppender {
+
     private final ChoreMemberRepository choreMemberRepository;
 
     public List<ChoreMember> createChoreMembers(Chore chore, List<Member> members) {
