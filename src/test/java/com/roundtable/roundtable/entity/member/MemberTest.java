@@ -4,6 +4,7 @@ import static com.roundtable.roundtable.entity.member.Gender.*;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.entity.house.House;
+import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.global.exception.MemberException.MemberAlreadyHasHouseException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,8 +50,6 @@ class MemberTest {
         String password = "password";
         Member member = Member.of("email", password, passwordEncoder);
 
-        //when
-        boolean isCorrect = member.isCorrectPassword(password, passwordEncoder);
         //then
         assertThat(member.isCorrectPassword("pppp", passwordEncoder)).isFalse();
     }
@@ -77,7 +76,7 @@ class MemberTest {
     @Test
     void enterHouse() {
         //given
-        House house = House.of("house");
+        House house = House.of("house", InviteCode.builder().code("code").build());
         Member member = Member.of("email", "password", passwordEncoder);
 
         //when
@@ -91,8 +90,8 @@ class MemberTest {
     @Test
     void enterHouse_fail() {
         //given
-        House house1 = House.of("house1");
-        House house2 = House.of("house2");
+        House house1 = House.of("house1", InviteCode.builder().code("code").build());
+        House house2 = House.of("house2", InviteCode.builder().code("code").build());
         Member member = Member.of("email", "password", passwordEncoder);
         member.enterHouse(house1);
 

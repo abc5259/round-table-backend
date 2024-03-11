@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class HouseService {
 
-    private final HouseMaker houseMaker;
+    private final HouseAppender houseAppender;
     private final MemberHouseManager memberHouseManager;
 
     public void createHouse(CreateHouse createHouse, Member houseOwner) {
-        houseMaker.createHouse(createHouse, houseOwner);
+        houseAppender.appendHouse(createHouse, houseOwner);
     }
 
     public void enterHouse(Long houseId, Member loginMember) {

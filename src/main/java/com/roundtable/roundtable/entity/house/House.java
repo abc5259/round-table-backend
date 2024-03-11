@@ -33,12 +33,6 @@ public class House extends BaseEntity {
         this.inviteCode = inviteCode;
     }
 
-    public static House of(String name) {
-        return House.builder()
-                .name(name)
-                .build();
-    }
-
     public static House of(String name, InviteCode inviteCode) {
         return House.builder()
                 .name(name)
