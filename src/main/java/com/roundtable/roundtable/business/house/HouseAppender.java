@@ -4,8 +4,6 @@ import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
 import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.global.exception.CoreException;
-import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import com.roundtable.roundtable.global.exception.CoreException.DuplicatedException;
 import com.roundtable.roundtable.global.exception.errorcode.HouseErrorCode;
 import com.roundtable.roundtable.global.util.RandomStringGenerator;
