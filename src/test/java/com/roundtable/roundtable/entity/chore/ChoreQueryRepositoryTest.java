@@ -14,6 +14,7 @@ import com.roundtable.roundtable.entity.house.HouseRepository;
 import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
+import com.roundtable.roundtable.entity.schedule.DivisionType;
 import com.roundtable.roundtable.entity.schedule.Frequency;
 import com.roundtable.roundtable.entity.schedule.FrequencyType;
 import com.roundtable.roundtable.entity.schedule.Schedule;
@@ -398,6 +399,7 @@ class ChoreQueryRepositoryTest extends IntegrationTestSupport {
                 .sequence(1)
                 .sequenceSize(1)
                 .startDate(searchDate)
+                .divisionType(DivisionType.FIX)
                 .build();
     }
 }

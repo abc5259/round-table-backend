@@ -11,6 +11,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -53,7 +54,8 @@ public class Schedule extends BaseEntity {
     @Column(nullable = false)
     private Integer sequenceSize;
 
-    @Enumerated
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private DivisionType divisionType;
 
     @ManyToOne
