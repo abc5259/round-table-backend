@@ -1,9 +1,6 @@
 package com.roundtable.roundtable.entity.feedback;
 
-import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.common.BaseEntity;
-import com.roundtable.roundtable.entity.member.Member;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -17,20 +14,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Feedback extends BaseEntity {
+public class FeedbackSelection extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String emojiUrl;
-
-    @Column(nullable = false)
-    private String message;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Feedback feedback;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Chore chore;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member from;
+    private PredefinedFeedback predefinedFeedback;
 }
