@@ -1,6 +1,9 @@
 package com.roundtable.roundtable.business.member;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
+import com.roundtable.roundtable.entity.house.House;
+import com.roundtable.roundtable.entity.house.HouseRepository;
+import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.entity.member.Gender;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
@@ -19,11 +22,16 @@ class MemberUpdaterTest extends IntegrationTestSupport {
     @Autowired
     MemberRepository memberRepository;
 
+    @Autowired
+    HouseRepository houseRepository;
+
     @DisplayName("member의 프로필을 업데이트할 수 있다.")
     @Test
     void test() {
         //given
-        Member member = Member.builder().email("email").password("password").build();
+        House house = House.builder().name("name").inviteCode(InviteCode.builder().code("code").build()).build();
+        houseRepository.save(house);
+        Member member = Member.builder().house(house).email("email").password("password").build();
         Member savedMember = memberRepository.save(member);
 
         String name = "name";

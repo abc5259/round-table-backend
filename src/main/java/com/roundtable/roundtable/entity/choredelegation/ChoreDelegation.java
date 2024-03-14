@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,18 +25,22 @@ public class ChoreDelegation extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String content;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Chore chore;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Member delegatedBy;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Member delegatedTo;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private DelegationStatus delegationStatus;
 }

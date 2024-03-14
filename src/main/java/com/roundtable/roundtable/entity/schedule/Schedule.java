@@ -19,6 +19,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -36,31 +37,33 @@ public class Schedule extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
     private String name;
 
     @Embedded
     private Frequency frequency;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate startDate;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalTime startTime;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer sequence;
 
-    @Column(nullable = false)
+    @NotNull
     private Integer sequenceSize;
 
-    @Column(nullable = false)
+    @NotNull
     @Enumerated(EnumType.STRING)
     private DivisionType divisionType;
 
+    @NotNull
     @ManyToOne
     private House house;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
