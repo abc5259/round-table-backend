@@ -38,6 +38,11 @@ public class Frequency {
             throw new CreateEntityException(FREQUENCY_NOT_SUPPORT);
         }
 
+        if(frequencyType.equals(WEEKLY)) {
+            frequencyInterval += 1;
+            if(frequencyInterval == 8) frequencyInterval = 0;
+        }
+
         return new Frequency(frequencyType, frequencyInterval);
 
     }

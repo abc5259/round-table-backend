@@ -74,25 +74,25 @@ public class ScheduleAppender {
         checkWeeklyInterval(createSchedule);
     }
 
-    private static void checkDuplicateMemberId(CreateSchedule createSchedule) {
+    private void checkDuplicateMemberId(CreateSchedule createSchedule) {
         if(createSchedule.memberIds().size() != createSchedule.memberIds().stream().distinct().count()) {
             throw new CreateEntityException(DUPLICATED_MEMBER_ID);
         }
     }
 
-    private static void checkBeforeDate(CreateSchedule createSchedule, LocalDate currDate) {
+    private void checkBeforeDate(CreateSchedule createSchedule, LocalDate currDate) {
         if(createSchedule.startDate().isBefore(currDate)) {
             throw new CreateEntityException(INVALID_START_DATE);
         }
     }
 
-    private static void checkSupportFrequency(CreateSchedule createSchedule) {
+    private void checkSupportFrequency(CreateSchedule createSchedule) {
         if(!Frequency.isSupport(createSchedule.frequencyType(), createSchedule.frequencyInterval())) {
             throw new CreateEntityException(FREQUENCY_NOT_SUPPORT);
         }
     }
 
-    private static void checkWeeklyInterval(CreateSchedule createSchedule) {
+    private void checkWeeklyInterval(CreateSchedule createSchedule) {
         if(createSchedule.frequencyType().equals(FrequencyType.WEEKLY)) {
             DayOfWeek day = DayOfWeek.of(createSchedule.frequencyInterval());
             if(!createSchedule.startDate().getDayOfWeek().equals(day)) {
