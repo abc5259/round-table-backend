@@ -20,6 +20,14 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class Frequency {
 
+    public static final int ONCE_INTERVAL = 0;
+
+    public static final int MINIMUM_DAILY_INTERVAL = 1;
+
+    public static final int MINIMUM_WEEKLY_INTERVAL = 1;
+
+    public static final int MAX_WEEKLY_INTERVAL = 7;
+
     @Enumerated(EnumType.STRING)
     private FrequencyType frequencyType;
 
@@ -49,15 +57,15 @@ public class Frequency {
             return false;
 
         if(frequencyType.equals(ONCE)) {
-            return frequencyInterval == 0;
+            return frequencyInterval == ONCE_INTERVAL;
         }
 
         if(frequencyType.equals(DAILY)) {
-            return frequencyInterval >= 1;
+            return frequencyInterval >= MINIMUM_DAILY_INTERVAL;
         }
 
         if(frequencyType.equals(WEEKLY)) {
-            return frequencyInterval >= 1 && frequencyInterval <= 7;
+            return frequencyInterval >= MINIMUM_WEEKLY_INTERVAL && frequencyInterval <= MAX_WEEKLY_INTERVAL;
         }
 
         return true;
