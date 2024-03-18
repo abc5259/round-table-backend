@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.roundtable.roundtable.entity.schedule.dto.QScheduleDetailDto;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleDetailDto;
 import jakarta.persistence.EntityManager;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -38,7 +39,7 @@ public class ScheduleQueryRepository {
                 ))
                 .from(schedule)
                 .join(schedule.category, category)
-                .where(schedule.eq(Schedule.builder().id(scheduleId).build()))
+                .where(schedule.eq(Schedule.Id(scheduleId)))
                 .fetchOne();
     }
 
@@ -56,20 +57,25 @@ public class ScheduleQueryRepository {
     }
 
     private BooleanExpression getOnceScheduleByDate(LocalDate date) {
-        return schedule.frequency.frequencyType.eq(ONCE).and(schedule.startDate.eq(date));
+        return getFrequencyTypeEq(ONCE).and(schedule.startDate.eq(date));
     }
 
     private BooleanExpression getDailyScheduleByDate(LocalDate date) {
-        return schedule.frequency.frequencyType.eq(DAILY)
-                .and(Expressions.numberTemplate(Integer.class, "function('datediff', {0}, {1})", date,
-                                schedule.startDate)
+        Date sqlDate = Date.valueOf(date);
+
+        return getFrequencyTypeEq(DAILY)
+                .and(Expressions.numberTemplate(Integer.class, "function('TIMESTAMPDIFF', DAY, {0}, {1})",
+                                schedule.startDate, sqlDate)
                         .mod(schedule.frequency.frequencyInterval).eq(0));
     }
 
     private BooleanExpression getWeeklyScheduleBy(LocalDate date) {
-        return schedule.frequency.frequencyType.eq(WEEKLY).and(
-                Expressions.numberTemplate(Integer.class, "WEEKDAY({0})", date)
-                        .eq(schedule.frequency.frequencyInterval.subtract(1))
+        return getFrequencyTypeEq(WEEKLY)
+                .and(Expressions.numberTemplate(Integer.class, "function('DAYOFWEEK', {0})", date).eq(schedule.frequency.frequencyInterval)
         );
+    }
+
+    private BooleanExpression getFrequencyTypeEq(FrequencyType frequencyType) {
+        return schedule.frequency.frequencyType.eq(frequencyType);
     }
 }
