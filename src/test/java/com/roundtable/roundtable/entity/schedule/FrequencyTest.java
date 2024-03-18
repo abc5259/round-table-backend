@@ -106,5 +106,19 @@ class FrequencyTest {
                 .hasMessage(ERROR_MESSAGE);
     }
 
+    @DisplayName("FrequencyType이 WEEKLY 일때 FrequencyInterval은 변경된다.")
+    @ValueSource(ints = {1,2,3,4,5,6})
+    @ParameterizedTest
+    void convertFrequencyInterval(int frequencyInterval) {
+        //given //when
+        Frequency frequency = Frequency.of(FrequencyType.WEEKLY, frequencyInterval);
+
+        //then
+        int result = frequencyInterval + 1;
+        if(result == 8) result = 1;
+        assertThat(frequency.getFrequencyInterval()).isEqualTo(result);
+
+     }
+
 
 }

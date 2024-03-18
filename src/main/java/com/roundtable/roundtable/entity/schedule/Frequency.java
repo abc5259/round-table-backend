@@ -38,10 +38,7 @@ public class Frequency {
             throw new CreateEntityException(FREQUENCY_NOT_SUPPORT);
         }
 
-        if(frequencyType.equals(WEEKLY)) {
-            frequencyInterval += 1;
-            if(frequencyInterval == 8) frequencyInterval = 0;
-        }
+        frequencyInterval = convertFrequencyInterval(frequencyType, frequencyInterval);
 
         return new Frequency(frequencyType, frequencyInterval);
 
@@ -64,6 +61,14 @@ public class Frequency {
         }
 
         return true;
+    }
+
+    private static Integer convertFrequencyInterval(FrequencyType frequencyType, Integer frequencyInterval) {
+        if(frequencyType.equals(WEEKLY)) {
+            frequencyInterval += 1;
+            if(frequencyInterval == 8) frequencyInterval = 1;
+        }
+        return frequencyInterval;
     }
 }
 
