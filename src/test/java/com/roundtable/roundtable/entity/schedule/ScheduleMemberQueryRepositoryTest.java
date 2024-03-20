@@ -121,7 +121,7 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
 
 
          //when
-         List<ScheduleMember> result = scheduleMemberQueryRepository.findMembersBySchedulesWithDivisionConditions(
+         List<ScheduleMember> result = scheduleMemberQueryRepository.findAllocators(
                  schedules, LocalDate.of(2024,3,20));
 
          //then

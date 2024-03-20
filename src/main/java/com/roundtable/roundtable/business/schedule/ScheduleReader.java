@@ -8,6 +8,7 @@ import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleDetailDto;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -34,5 +35,9 @@ public class ScheduleReader {
         return scheduleQueryRepository
                 .findScheduleDetail(scheduleId)
                 .withAllocators(scheduleMemberReader.findScheduleMemberDetail(scheduleId));
+    }
+
+    public List<Schedule> readScheduleByDate(LocalDate date) {
+        return scheduleQueryRepository.findScheduleByDate(date);
     }
 }

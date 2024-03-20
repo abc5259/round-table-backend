@@ -38,7 +38,7 @@ public class ScheduleMemberQueryRepository {
                 .fetch();
     }
 
-    public List<ScheduleMember> findMembersBySchedulesWithDivisionConditions(List<Schedule> schedules, LocalDate now) {
+    public List<ScheduleMember> findAllocators(List<Schedule> schedules, LocalDate now) {
 
         return queryFactory
                 .select(scheduleMember)
