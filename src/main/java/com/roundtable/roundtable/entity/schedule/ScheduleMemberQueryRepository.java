@@ -13,6 +13,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.roundtable.roundtable.entity.schedule.dto.QScheduleMemberDetailDto;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleMemberDetailDto;
 import jakarta.persistence.EntityManager;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
@@ -37,7 +38,7 @@ public class ScheduleMemberQueryRepository {
                 .fetch();
     }
 
-    public List<ScheduleMember> findMembersBySchedulesWithDivisionConditions(List<Schedule> schedules) {
+    public List<ScheduleMember> findMembersBySchedulesWithDivisionConditions(List<Schedule> schedules, LocalDate now) {
 
         return queryFactory
                 .select(scheduleMember)
@@ -47,29 +48,31 @@ public class ScheduleMemberQueryRepository {
                 .where(schedule.in(schedules)
                         .and(
                                 getScheduleDivisionTypeEq(DivisionType.FIX)
-                                .or(getScheduleDivisionTypeEq(DivisionType.ROTATION).and(getRotationCondition())))
+                                .or(getScheduleDivisionTypeEq(DivisionType.ROTATION).and(getRotationCondition(
+                                        now))))
                 )
                 .fetch();
     }
 
     private BooleanExpression getScheduleDivisionTypeEq(DivisionType divisionType) {
-        return scheduleMember.schedule.divisionType.eq(divisionType);
+        return schedule.divisionType.eq(divisionType);
     }
 
-    private BooleanExpression getRotationCondition() {
+    private BooleanExpression getRotationCondition(LocalDate now) {
 
         BooleanExpression dailyCondition = getScheduleFrequencyTypeEq(DAILY)
-                .and(getSequenceEq(calculateSequenceMatchCondition(schedule.frequency.frequencyInterval)));
+                .and(getSequenceEq(calculateSequenceMatchCondition(schedule.frequency.frequencyInterval,
+                        now)));
 
         BooleanExpression weeklyCondition = getScheduleFrequencyTypeEq(WEEKLY)
-                .and(getSequenceEq(calculateSequenceMatchCondition(7)));
+                .and(getSequenceEq(calculateSequenceMatchCondition(7, now)));
 
         BooleanExpression onceCondition = getScheduleFrequencyTypeEq(ONCE);
 
         return dailyCondition.or(weeklyCondition).or(onceCondition);
     }
 
-    private static BooleanExpression getScheduleFrequencyTypeEq(FrequencyType frequencyType) {
+    private BooleanExpression getScheduleFrequencyTypeEq(FrequencyType frequencyType) {
         return schedule.frequency.frequencyType.eq(frequencyType);
     }
 
@@ -77,26 +80,27 @@ public class ScheduleMemberQueryRepository {
         return scheduleMember.sequence.eq(numberExpression);
     }
 
-    private NumberExpression<Integer> calculateSequenceMatchCondition(NumberExpression<Integer> divisor) {
+    private NumberExpression<Integer> calculateSequenceMatchCondition(NumberExpression<Integer> divisor, LocalDate now) {
 
 
-        return calculateDaysDifferenceFromCurrentDate().divide(divisor)
-                .mod(scheduleMember.schedule.sequenceSize)
+        return calculateDaysDifferenceFromCurrentDate(now).divide(divisor)
+                .mod(schedule.sequenceSize)
                 .add(1);
     }
 
-    private NumberExpression<Integer> calculateSequenceMatchCondition(int divisor) {
+    private NumberExpression<Integer> calculateSequenceMatchCondition(int divisor, LocalDate now) {
 
-        return calculateDaysDifferenceFromCurrentDate().divide(divisor)
-                .mod(scheduleMember.schedule.sequenceSize)
+        return calculateDaysDifferenceFromCurrentDate(now).divide(divisor)
+                .mod(schedule.sequenceSize)
                 .add(1);
     }
 
-    private NumberTemplate<Integer> calculateDaysDifferenceFromCurrentDate() {
+    private NumberTemplate<Integer> calculateDaysDifferenceFromCurrentDate(LocalDate now) {
+//        Date sqlDate = Date.from();
         return Expressions.numberTemplate(Integer.class,
-                "DATEDIFF({0}, {1})",
-                Expressions.currentDate(),
-                schedule.startDate);
+                "function('TIMESTAMPDIFF', DAY, {0}, {1})",
+                schedule.startDate,
+                now);
     }
 
 }
