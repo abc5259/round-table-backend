@@ -8,8 +8,11 @@ import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.chore.ChoreRepository;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
+import com.roundtable.roundtable.entity.schedule.Schedule;
+import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +39,10 @@ public class ChoreAppender {
         savedChore.addChoreMembers(choreMembers);
 
         return savedChore;
+    }
+
+    public void appendChoresBy(Map<Schedule, List<Member>> scheduleAllocatorsMap) {
+
     }
 
     private void checkDuplicateMember(List<Member> memberIds) {

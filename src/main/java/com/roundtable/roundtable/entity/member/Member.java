@@ -53,6 +53,12 @@ public class Member extends BaseEntity {
         this.house = house;
     }
 
+    public static Member Id(Long id) {
+        return Member.builder()
+                .id(id)
+                .build();
+    }
+
     public static Member of(String email, String password, PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .email(email)

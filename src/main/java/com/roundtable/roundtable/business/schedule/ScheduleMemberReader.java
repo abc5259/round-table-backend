@@ -1,5 +1,12 @@
 package com.roundtable.roundtable.business.schedule;
 
+import static com.roundtable.roundtable.entity.schedule.QSchedule.schedule;
+import static com.roundtable.roundtable.entity.schedule.QScheduleMember.scheduleMember;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toList;
+
+import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleMemberQueryRepository;
@@ -23,9 +30,8 @@ public class ScheduleMemberReader {
         return scheduleMemberQueryRepository.findScheduleMemberDetail(scheduleId);
     }
 
-    public Map<Schedule, List<ScheduleMember>> readAllocators(List<Schedule> schedules, LocalDate date) {
-        return scheduleMemberQueryRepository.findAllocators(schedules, date).stream()
-                .collect(Collectors.groupingBy(ScheduleMember::getSchedule));
+    public Map<Schedule, List<Member>> readAllocators(List<Schedule> schedules, LocalDate date) {
+        return scheduleMemberQueryRepository.findAllocators(schedules, date);
     }
 
 }

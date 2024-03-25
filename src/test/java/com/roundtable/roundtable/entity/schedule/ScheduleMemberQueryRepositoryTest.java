@@ -121,27 +121,22 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
 
 
          //when
-         List<ScheduleMember> result = scheduleMemberQueryRepository.findAllocators(
-                 schedules, LocalDate.of(2024,3,20));
+         Map<Schedule, List<Member>> result = scheduleMemberQueryRepository.findAllocators(
+                 schedules, LocalDate.of(2024, 3, 20));
 
          //then
-         assertThat(result).hasSize(9);
-
-         Map<Schedule, List<ScheduleMember>> scheduleMap = result.stream()
-                 .collect(Collectors.groupingBy(ScheduleMember::getSchedule));
-
-         assertThat(scheduleMap).hasSize(5);
+         assertThat(result).hasSize(5);
          for(Schedule schedule: schedules) {
-             assertThat(scheduleMap.containsKey(schedule)).isTrue();
+             assertThat(result.containsKey(schedule)).isTrue();
          }
-         verifyScheduleMembers(scheduleMap, schedules.get(0), 3, member1, member2, member3);
-         verifyScheduleMembers(scheduleMap, schedules.get(1), 1, member1);
-         verifyScheduleMembers(scheduleMap, schedules.get(2), 1, member3);
-         verifyScheduleMembers(scheduleMap, schedules.get(3), 3, member1, member2, member3);
-         verifyScheduleMembers(scheduleMap, schedules.get(4), 1, member3);
+         verifyScheduleMembers(result, schedules.get(0), 3, member1, member2, member3);
+         verifyScheduleMembers(result, schedules.get(1), 1, member1);
+         verifyScheduleMembers(result, schedules.get(2), 1, member3);
+         verifyScheduleMembers(result, schedules.get(3), 3, member1, member2, member3);
+         verifyScheduleMembers(result, schedules.get(4), 1, member3);
       }
 
-    private void verifyScheduleMembers(Map<Schedule, List<ScheduleMember>> scheduleMap, Schedule schedule, int expectedSize, Member... expectedMembers) {
+    private void verifyScheduleMembers(Map<Schedule, List<Member>> scheduleMap, Schedule schedule, int expectedSize, Member... expectedMembers) {
         assertThat(scheduleMap.containsKey(schedule)).isTrue();
         assertThat(scheduleMap.get(schedule)).hasSize(expectedSize)
                 .extracting("member")

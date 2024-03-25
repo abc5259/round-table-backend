@@ -31,5 +31,7 @@ public class CategoryAppender {
         if(isExistCategory) {
             throw new CoreException.DuplicatedException(CategoryErrorCode.DUPLICATED_NAME);
         }
+
+
     }
 }

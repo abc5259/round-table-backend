@@ -4,6 +4,7 @@ import com.roundtable.roundtable.business.schedule.ScheduleMemberReader;
 import com.roundtable.roundtable.business.schedule.ScheduleReader;
 import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
+import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import java.time.LocalDate;
@@ -31,11 +32,11 @@ public class SchedulerService {
         List<Schedule> schedules = scheduleReader.readScheduleByDate(targetDate);
 
         //2. 오늘 해야 할 일의 담당자 찾기
-        Map<Schedule, List<ScheduleMember>> scheduleAllocatorsMap =
-                scheduleMemberReader.readAllocators(schedules, targetDate);
+        Map<Schedule, List<Member>> scheduleAllocatorsMap = scheduleMemberReader.readAllocators(schedules, targetDate);
 
         //3. chore insert
 //        Map<Chore, List<ChoreMember>>
+        List<Chore> chores = schedules.stream().map(schedule -> Chore.create(schedule, targetDate)).toList();
 
         //4.
     }

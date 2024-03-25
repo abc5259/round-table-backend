@@ -4,17 +4,22 @@ import static com.roundtable.roundtable.entity.member.QMember.*;
 import static com.roundtable.roundtable.entity.schedule.FrequencyType.*;
 import static com.roundtable.roundtable.entity.schedule.QSchedule.schedule;
 import static com.roundtable.roundtable.entity.schedule.QScheduleMember.*;
+import static java.util.stream.Collectors.*;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.dto.QScheduleMemberDetailDto;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleMemberDetailDto;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -38,20 +43,27 @@ public class ScheduleMemberQueryRepository {
                 .fetch();
     }
 
-    public List<ScheduleMember> findAllocators(List<Schedule> schedules, LocalDate now) {
-
-        return queryFactory
-                .select(scheduleMember)
+    public Map<Schedule, List<Member>> findAllocators(List<Schedule> schedules, LocalDate now) {
+        List<Tuple> results = queryFactory
+                .select(schedule.id, scheduleMember.id)
                 .from(scheduleMember)
                 .join(scheduleMember.member, member)
                 .join(scheduleMember.schedule, schedule)
                 .where(schedule.in(schedules)
                         .and(
                                 getScheduleDivisionTypeEq(DivisionType.FIX)
-                                .or(getScheduleDivisionTypeEq(DivisionType.ROTATION).and(getRotationCondition(
-                                        now))))
+                                        .or(getScheduleDivisionTypeEq(DivisionType.ROTATION).and(getRotationCondition(
+                                                now))))
                 )
                 .fetch();
+
+        return results.stream()
+                .collect(
+                        groupingBy(
+                                result -> Schedule.Id(result.get(schedule.id)),
+                                mapping(result -> Member.Id(result.get(scheduleMember.id)), toList())
+                        )
+                );
     }
 
     private BooleanExpression getScheduleDivisionTypeEq(DivisionType divisionType) {
