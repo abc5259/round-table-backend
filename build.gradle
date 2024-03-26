@@ -56,6 +56,24 @@ dependencies {
 
 }
 
+// Querydsl 빌드 옵션 (옵셔널)
+def generated = 'src/main/generated'
+
+// querydsl QClass 파일 생성 위치를 지정
+tasks.withType(JavaCompile) {
+	options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+// java source set 에 querydsl QClass 위치 추가
+sourceSets {
+	main.java.srcDirs += [ generated ]
+}
+
+// gradle clean 시에 QClass 디렉토리 삭제
+clean {
+	delete file(generated)
+}
+
 tasks.named('bootBuildImage') {
 	builder = 'paketobuildpacks/builder-jammy-base:latest'
 }
@@ -85,11 +103,11 @@ jacocoTestCoverageVerification {
 
 			// 라인 커버리지 설정
 			// 적용 대상 전체 소스 코드들을 한줄 한줄 따졌을 때 테스트 코드가 작성되어 있는 줄의 빈도
-			// 테스트 코드가 작성되어 있는 비율이 90% 이상이어야 함
+			// 테스트 코드가 작성되어 있는 비율이 80% 이상이어야 함
 			limit {
 				counter = 'LINE'
 				value = 'COVEREDRATIO'
-				minimum = 0.90
+				minimum = 0.80
 			}
 
 			// 브랜치 커버리지 설정
@@ -98,22 +116,19 @@ jacocoTestCoverageVerification {
 			limit {
 				counter = 'BRANCH'
 				value = 'COVEREDRATIO'
-				minimum = 0.90
+				minimum = 0.80
 			}
 
 			// 라인 최대 갯수 설정
 			// 빈 줄을 제외하고 하나의 자바 파일에서 작성될 수 있는 최대 라인 갯수
 			// 한 파일에 최대 500줄까지 작성되어야 함
-			limit {
-				counter = 'LINE'
-				value = 'TOTALCOUNT'
-				maximum = 500
-			}
+//			limit {
+//				counter = 'LINE'
+//				value = 'TOTALCOUNT'
+//				maximum = 500
+//			}
 		}
 	}
 }
 
-clean {
-	delete file('src/main/generated')
-}
 

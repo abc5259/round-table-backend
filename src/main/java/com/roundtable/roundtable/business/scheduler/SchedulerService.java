@@ -25,7 +25,7 @@ public class SchedulerService {
     private final ScheduleMemberReader scheduleMemberReader;
 
 
-    @Scheduled(fixedDelay = 1000)
+//    @Scheduled(fixedDelay = 1000)
     public void chore() {
         LocalDate targetDate = LocalDate.now();
         //1. 오늘 해야 할 스케줄 찾기
