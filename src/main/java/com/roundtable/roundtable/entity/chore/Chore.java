@@ -32,10 +32,10 @@ public class Chore extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Schedule schedule;
 
-    @Column(nullable = false)
+    @NotNull
     private boolean isCompleted;
 
-    @Column(nullable = false)
+    @NotNull
     private LocalDate startDate;
 
     @OneToMany(mappedBy = "chore", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
