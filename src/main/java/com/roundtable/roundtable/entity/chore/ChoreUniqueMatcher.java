@@ -22,4 +22,16 @@ public class ChoreUniqueMatcher {
     public List<Chore> getChores() {
         return new ArrayList<>(map.values());
     }
+
+    public List<ChoreMember> getChoreMembers(Chore idChore) {
+        Chore chore = map.get(idChore.getMatchKey());
+
+        if(chore == null) {
+            return new ArrayList<>();
+        }
+
+        return chore.getChoreMembers().stream()
+                .map(choreMember -> choreMember.setBulkInsert(idChore))
+                .toList();
+    }
 }

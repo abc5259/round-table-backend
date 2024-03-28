@@ -28,10 +28,16 @@ public class ChoreBulkRepository {
 
     private final ChoreRepository choreRepository;
 
-    public ChoreBulkRepository(DataSource dataSource, ChoreRepository choreRepository) {
+    private final ChoreMemberBulkRepository choreMemberBulkRepository;
+
+    public ChoreBulkRepository(
+            DataSource dataSource,
+            ChoreRepository choreRepository,
+            ChoreMemberBulkRepository choreMemberBulkRepository) {
         this.dataSource = dataSource;
         this.exTranslator = new SQLErrorCodeSQLExceptionTranslator(dataSource);
         this.choreRepository = choreRepository;
+        this.choreMemberBulkRepository = choreMemberBulkRepository;
     }
 
     public void saveAll(List<Chore> chores) {
@@ -39,12 +45,12 @@ public class ChoreBulkRepository {
     }
 
     public void saveAll(List<Chore> chores, int chunkSize) {
-        ChoreUniqueMatcher choreUniqueMatcher = new ChoreUniqueMatcher(chores);
-        List<List<Chore>> subSets = Lists.partition(choreUniqueMatcher.getChores(), chunkSize);
+        ChoreUniqueMatcher matcher = new ChoreUniqueMatcher(chores);
+        List<List<Chore>> subSets = Lists.partition(matcher.getChores(), chunkSize);
 
         for (List<Chore> subSet : subSets) {
             List<Chore> savedItems = insertChores(subSet);
-
+            choreMemberBulkRepository.insertChores(matcher, savedItems);
         }
     }
 
@@ -78,7 +84,7 @@ public class ChoreBulkRepository {
             return choreRepository.findAllById(generatedKeys);
 
         } catch (SQLException e) {
-            throw Objects.requireNonNull(exTranslator.translate("batchUpdate", sql, e));
+            throw Objects.requireNonNull(exTranslator.translate("insertChores", sql, e));
         } finally {
             close(con, ps, rs);
         }

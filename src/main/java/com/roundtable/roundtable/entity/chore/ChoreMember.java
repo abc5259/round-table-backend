@@ -36,6 +36,13 @@ public class ChoreMember extends BaseEntity {
         this.member = member;
     }
 
+    public ChoreMember setBulkInsert(Chore chore) {
+        return ChoreMember.builder()
+                .chore(chore)
+                .member(member)
+                .build();
+    }
+
     public static ChoreMember create(Chore chore, Member member) {
         return ChoreMember.builder()
                 .chore(chore)
