@@ -58,6 +58,18 @@ public class Chore extends BaseEntity {
                 .build();
     }
 
+    public static Chore create(Schedule schedule, List<ChoreMember> choreMembers, LocalDate startDate) {
+
+        Chore chore = Chore.builder()
+                .schedule(schedule)
+                .startDate(startDate)
+                .build();
+
+        chore.choreMembers = choreMembers;
+
+        return chore;
+    }
+
     public void addChoreMembers(List<ChoreMember> choreMembers) {
         for (ChoreMember choreMember : choreMembers) {
             if(this.choreMembers != null && !this.choreMembers.contains(choreMember)) {

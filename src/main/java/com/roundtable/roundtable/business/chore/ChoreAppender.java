@@ -4,6 +4,7 @@ import static com.roundtable.roundtable.global.exception.errorcode.ScheduleError
 
 import com.roundtable.roundtable.business.member.MemberValidator;
 import com.roundtable.roundtable.entity.chore.Chore;
+import com.roundtable.roundtable.entity.chore.ChoreBulkRepository;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.chore.ChoreRepository;
 import com.roundtable.roundtable.entity.house.House;
@@ -28,6 +29,8 @@ public class ChoreAppender {
 
     private final ChoreRepository choreRepository;
 
+    private final ChoreBulkRepository choreBulkRepository;
+
     public Chore appendChore(CreateChore createChore, House house) {
 
         checkDuplicateMember(createChore.assignedMember());
@@ -41,8 +44,8 @@ public class ChoreAppender {
         return savedChore;
     }
 
-    public void appendChoresBy(Map<Schedule, List<Member>> scheduleAllocatorsMap) {
-
+    public void appendChores(List<Chore> chores) {
+        choreBulkRepository.saveAll(chores);
     }
 
     private void checkDuplicateMember(List<Member> memberIds) {

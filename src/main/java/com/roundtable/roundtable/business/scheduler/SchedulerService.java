@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.scheduler;
 
+import com.roundtable.roundtable.business.chore.ChoreAppender;
 import com.roundtable.roundtable.business.schedule.ScheduleMemberReader;
 import com.roundtable.roundtable.business.schedule.ScheduleReader;
 import com.roundtable.roundtable.entity.chore.Chore;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,6 +25,7 @@ public class SchedulerService {
 
     private final ScheduleReader scheduleReader;
     private final ScheduleMemberReader scheduleMemberReader;
+    private final ChoreAppender choreAppender;
 
 
     @Scheduled(cron = "0 0 0 * * *")
@@ -35,9 +38,11 @@ public class SchedulerService {
         Map<Schedule, List<Member>> scheduleAllocatorsMap = scheduleMemberReader.readAllocators(schedules, targetDate);
 
         //3. chore insert
-//        Map<Chore, List<ChoreMember>>
-        List<Chore> chores = schedules.stream().map(schedule -> Chore.create(schedule, targetDate)).toList();
-
-        //4.
+        List<Chore> chores = scheduleAllocatorsMap.entrySet().stream()
+                .map(entry -> Chore.create(
+                        entry.getKey(),
+                        entry.getValue().stream().map(member -> ChoreMember.create(null, member)).toList(),
+                        targetDate)).toList();
+        choreAppender.appendChores(chores);
     }
 }
