@@ -38,6 +38,8 @@ public class Chore extends BaseEntity {
     @NotNull
     private LocalDate startDate;
 
+    private String matchKey;
+
     @OneToMany(mappedBy = "chore", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<ChoreMember> choreMembers = new ArrayList<>();
 
@@ -62,5 +64,9 @@ public class Chore extends BaseEntity {
                 this.choreMembers.add(choreMember);
             }
         }
+    }
+
+    public void setMatchKey(String matchKey) {
+        this.matchKey = matchKey;
     }
 }
