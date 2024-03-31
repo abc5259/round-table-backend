@@ -15,6 +15,7 @@ import com.roundtable.roundtable.entity.member.MemberRepository;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleMemberDetailDto;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -80,7 +81,7 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
 
      @DisplayName("여러 schedule과 각각의 schedule의 담당 순서에 맞게 ScheduleMember를 조회할 수 있다.")
      @Test
-     void findMembersBySchedulesWithDivisionConditions() {
+     void findAllocators() {
          //given
          House house = appendHouse();
 
@@ -121,27 +122,26 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
 
 
          //when
-         Map<Schedule, List<Member>> result = scheduleMemberQueryRepository.findAllocators(
+         Map<Long, List<Member>> result = scheduleMemberQueryRepository.findAllocators(
                  schedules, LocalDate.of(2024, 3, 20));
 
          //then
          assertThat(result).hasSize(5);
-         for(Schedule schedule: schedules) {
-             assertThat(result.containsKey(schedule)).isTrue();
-         }
-         verifyScheduleMembers(result, schedules.get(0), 3, member1, member2, member3);
-         verifyScheduleMembers(result, schedules.get(1), 1, member1);
-         verifyScheduleMembers(result, schedules.get(2), 1, member3);
-         verifyScheduleMembers(result, schedules.get(3), 3, member1, member2, member3);
-         verifyScheduleMembers(result, schedules.get(4), 1, member3);
-      }
 
-    private void verifyScheduleMembers(Map<Schedule, List<Member>> scheduleMap, Schedule schedule, int expectedSize, Member... expectedMembers) {
-        assertThat(scheduleMap.containsKey(schedule)).isTrue();
-        assertThat(scheduleMap.get(schedule)).hasSize(expectedSize)
-                .extracting("member")
-                .containsExactlyInAnyOrder(expectedMembers);
-    }
+         Map<Long, List<Long>> expectedMap = Map.of(
+                 schedules.get(0).getId(), List.of(member1.getId(), member2.getId(), member3.getId()),
+                 schedules.get(1).getId(), List.of(member1.getId()),
+                 schedules.get(2).getId(), List.of(member3.getId()),
+                 schedules.get(3).getId(), List.of(member1.getId(), member2.getId(), member3.getId()),
+                 schedules.get(4).getId(), List.of(member3.getId())
+         );
+         result.forEach((key, value) -> {
+             assertThat(expectedMap.containsKey(key)).isTrue();
+             assertThat(expectedMap.get(key).size()).isEqualTo(value.size());
+             List<Long> memberIds = result.get(key).stream().map(Member::getId).toList();
+             assertThat(memberIds).isEqualTo(expectedMap.get(key));
+         });
+      }
 
 
     private House appendHouse() {

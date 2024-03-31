@@ -31,7 +31,13 @@ public class ScheduleMemberReader {
     }
 
     public Map<Schedule, List<Member>> readAllocators(List<Schedule> schedules, LocalDate date) {
-        return scheduleMemberQueryRepository.findAllocators(schedules, date);
+        return scheduleMemberQueryRepository.findAllocators(schedules, date).entrySet().stream()
+                .collect(
+                        Collectors.toMap(
+                                entry -> Schedule.Id(entry.getKey()),
+                                Map.Entry::getValue
+                        )
+                );
     }
 
 }

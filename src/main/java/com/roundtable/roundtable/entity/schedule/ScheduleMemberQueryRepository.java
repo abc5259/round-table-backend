@@ -43,9 +43,9 @@ public class ScheduleMemberQueryRepository {
                 .fetch();
     }
 
-    public Map<Schedule, List<Member>> findAllocators(List<Schedule> schedules, LocalDate now) {
+    public Map<Long, List<Member>> findAllocators(List<Schedule> schedules, LocalDate now) {
         List<Tuple> results = queryFactory
-                .select(schedule.id, scheduleMember.id)
+                .select(schedule.id, scheduleMember.member.id)
                 .from(scheduleMember)
                 .join(scheduleMember.member, member)
                 .join(scheduleMember.schedule, schedule)
@@ -60,8 +60,8 @@ public class ScheduleMemberQueryRepository {
         return results.stream()
                 .collect(
                         groupingBy(
-                                result -> Schedule.Id(result.get(schedule.id)),
-                                mapping(result -> Member.Id(result.get(scheduleMember.id)), toList())
+                                result -> result.get(schedule.id),
+                                mapping(result -> Member.Id(result.get(scheduleMember.member.id)), toList())
                         )
                 );
     }

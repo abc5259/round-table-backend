@@ -7,12 +7,9 @@ import com.roundtable.roundtable.entity.chore.Chore;
 import com.roundtable.roundtable.entity.chore.ChoreMember;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -24,7 +21,9 @@ import org.springframework.stereotype.Service;
 public class SchedulerService {
 
     private final ScheduleReader scheduleReader;
+
     private final ScheduleMemberReader scheduleMemberReader;
+
     private final ChoreAppender choreAppender;
 
 
