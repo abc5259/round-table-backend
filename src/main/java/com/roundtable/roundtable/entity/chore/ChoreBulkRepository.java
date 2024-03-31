@@ -16,8 +16,10 @@ import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public class ChoreBulkRepository {
 
     private static final Integer DEFAULT_CHUNK_SIZE = 1_000;
@@ -28,15 +30,19 @@ public class ChoreBulkRepository {
 
     private final ChoreRepository choreRepository;
 
+    private final ChoreMatcherRepository choreMatcherRepository;
+
     private final ChoreMemberBulkRepository choreMemberBulkRepository;
 
     public ChoreBulkRepository(
             DataSource dataSource,
             ChoreRepository choreRepository,
+            ChoreMatcherRepository choreMatcherRepository,
             ChoreMemberBulkRepository choreMemberBulkRepository) {
         this.dataSource = dataSource;
         this.exTranslator = new SQLErrorCodeSQLExceptionTranslator(dataSource);
         this.choreRepository = choreRepository;
+        this.choreMatcherRepository = choreMatcherRepository;
         this.choreMemberBulkRepository = choreMemberBulkRepository;
     }
 
@@ -57,8 +63,8 @@ public class ChoreBulkRepository {
     public List<Chore> insertChores(List<Chore> chores) {
         List<Long> generatedKeys = new ArrayList<>();
 
-        String sql = "INSERT INTO chore (schedule_id, is_completed, start_date, created_at, updated_at) " +
-                "VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+        String sql = "INSERT INTO chore (schedule_id, is_completed, match_key, start_date, created_at, updated_at) " +
+                "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
 
         Connection con = null;
         PreparedStatement ps = null;
@@ -71,17 +77,21 @@ public class ChoreBulkRepository {
             for (Chore chore : chores) {
                 ps.setLong(1, chore.getSchedule().getId());
                 ps.setBoolean(2, chore.isCompleted());
-                ps.setDate(3, Date.valueOf(chore.getStartDate()));
+                ps.setString(3, chore.getMatchKey());
+                ps.setDate(4, Date.valueOf(chore.getStartDate()));
+                ps.addBatch();
             }
 
             ps.executeBatch();
+
+            ps.getGeneratedKeys();
             rs = ps.getGeneratedKeys();
             while (rs.next()) {
                 long generatedKey = rs.getLong(1);
                 generatedKeys.add(generatedKey);
             }
 
-            return choreRepository.findAllById(generatedKeys);
+            return choreMatcherRepository.findAllByIds(generatedKeys);
 
         } catch (SQLException e) {
             throw Objects.requireNonNull(exTranslator.translate("insertChores", sql, e));

@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Chore extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,10 +44,11 @@ public class Chore extends BaseEntity {
     private List<ChoreMember> choreMembers = new ArrayList<>();
 
     @Builder
-    private Chore(Schedule schedule, LocalDate startDate, boolean isCompleted) {
+    private Chore(Schedule schedule, LocalDate startDate, boolean isCompleted, String matchKey) {
         this.schedule = schedule;
         this.startDate = startDate;
         this.isCompleted = isCompleted;
+        this.matchKey = matchKey;
     }
 
     public static Chore create(Schedule schedule, LocalDate startDate) {

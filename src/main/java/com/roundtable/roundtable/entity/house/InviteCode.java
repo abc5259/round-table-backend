@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class InviteCode {
 
     @Column(nullable = false, unique = true)
-    String code;
+    private String code;
 
     @Builder
     private InviteCode(String code) {
