@@ -11,6 +11,7 @@ import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
+import com.roundtable.roundtable.entity.schedule.dto.ScheduleIdDto;
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import java.time.LocalDate;
 import java.util.List;
@@ -47,7 +48,7 @@ public class ChoreAppender {
         return savedChore;
     }
 
-    public void appendChores(Map<Schedule, List<Member>> scheduleAllocatorsMap, LocalDate startDate) {
+    public void appendChores(Map<ScheduleIdDto, List<Member>> scheduleAllocatorsMap, LocalDate startDate) {
         appendChores(choreMapper.toChoreEntities(scheduleAllocatorsMap, startDate));
     }
 

@@ -14,6 +14,7 @@ import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.dto.QScheduleMemberDetailDto;
+import com.roundtable.roundtable.entity.schedule.dto.ScheduleIdDto;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleMemberDetailDto;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
@@ -43,7 +44,7 @@ public class ScheduleMemberQueryRepository {
                 .fetch();
     }
 
-    public Map<Long, List<Member>> findAllocators(List<Schedule> schedules, LocalDate now) {
+    public Map<ScheduleIdDto, List<Member>> findAllocators(List<Schedule> schedules, LocalDate now) {
         List<Tuple> results = queryFactory
                 .select(schedule.id, scheduleMember.member.id)
                 .from(scheduleMember)
@@ -60,7 +61,7 @@ public class ScheduleMemberQueryRepository {
         return results.stream()
                 .collect(
                         groupingBy(
-                                result -> result.get(schedule.id),
+                                result -> new ScheduleIdDto(result.get(schedule.id)),
                                 mapping(result -> Member.Id(result.get(scheduleMember.member.id)), toList())
                         )
                 );

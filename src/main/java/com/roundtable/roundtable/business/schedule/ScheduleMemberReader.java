@@ -10,6 +10,7 @@ import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.entity.schedule.ScheduleMemberQueryRepository;
+import com.roundtable.roundtable.entity.schedule.dto.ScheduleIdDto;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleMemberDetailDto;
 import java.time.LocalDate;
 import java.util.List;
@@ -26,18 +27,12 @@ public class ScheduleMemberReader {
 
     private final ScheduleMemberQueryRepository scheduleMemberQueryRepository;
 
-    public List<ScheduleMemberDetailDto> findScheduleMemberDetail(Long scheduleId) {
+    public List<ScheduleMemberDetailDto> readScheduleMemberDetail(Long scheduleId) {
         return scheduleMemberQueryRepository.findScheduleMemberDetail(scheduleId);
     }
 
-    public Map<Schedule, List<Member>> readAllocators(List<Schedule> schedules, LocalDate date) {
-        return scheduleMemberQueryRepository.findAllocators(schedules, date).entrySet().stream()
-                .collect(
-                        Collectors.toMap(
-                                entry -> Schedule.Id(entry.getKey()),
-                                Map.Entry::getValue
-                        )
-                );
+    public Map<ScheduleIdDto, List<Member>> readAllocators(List<Schedule> schedules, LocalDate date) {
+        return scheduleMemberQueryRepository.findAllocators(schedules, date);
     }
 
 }

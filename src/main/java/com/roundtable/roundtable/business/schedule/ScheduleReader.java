@@ -34,7 +34,7 @@ public class ScheduleReader {
 
         return scheduleQueryRepository
                 .findScheduleDetail(scheduleId)
-                .withAllocators(scheduleMemberReader.findScheduleMemberDetail(scheduleId));
+                .withAllocators(scheduleMemberReader.readScheduleMemberDetail(scheduleId));
     }
 
     public List<Schedule> readScheduleByDate(LocalDate date) {

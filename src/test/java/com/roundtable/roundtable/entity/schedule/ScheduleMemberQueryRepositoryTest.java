@@ -12,6 +12,7 @@ import com.roundtable.roundtable.entity.house.HouseRepository;
 import com.roundtable.roundtable.entity.house.InviteCode;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
+import com.roundtable.roundtable.entity.schedule.dto.ScheduleIdDto;
 import com.roundtable.roundtable.entity.schedule.dto.ScheduleMemberDetailDto;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -122,24 +123,24 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
 
 
          //when
-         Map<Long, List<Member>> result = scheduleMemberQueryRepository.findAllocators(
+         Map<ScheduleIdDto, List<Member>> result = scheduleMemberQueryRepository.findAllocators(
                  schedules, LocalDate.of(2024, 3, 20));
 
          //then
          assertThat(result).hasSize(5);
 
-         Map<Long, List<Long>> expectedMap = Map.of(
-                 schedules.get(0).getId(), List.of(member1.getId(), member2.getId(), member3.getId()),
-                 schedules.get(1).getId(), List.of(member1.getId()),
-                 schedules.get(2).getId(), List.of(member3.getId()),
-                 schedules.get(3).getId(), List.of(member1.getId(), member2.getId(), member3.getId()),
-                 schedules.get(4).getId(), List.of(member3.getId())
+         Map<ScheduleIdDto, List<Long>> expectedMap = Map.of(
+                 new ScheduleIdDto(schedules.get(0).getId()), List.of(member1.getId(), member2.getId(), member3.getId()),
+                 new ScheduleIdDto(schedules.get(1).getId()), List.of(member1.getId()),
+                 new ScheduleIdDto(schedules.get(2).getId()), List.of(member3.getId()),
+                 new ScheduleIdDto(schedules.get(3).getId()), List.of(member1.getId(), member2.getId(), member3.getId()),
+                 new ScheduleIdDto(schedules.get(4).getId()), List.of(member3.getId())
          );
          result.forEach((key, value) -> {
              assertThat(expectedMap.containsKey(key)).isTrue();
              assertThat(expectedMap.get(key).size()).isEqualTo(value.size());
              List<Long> memberIds = result.get(key).stream().map(Member::getId).toList();
-             assertThat(memberIds).isEqualTo(expectedMap.get(key));
+             assertThat(expectedMap.get(key)).isEqualTo(memberIds);
          });
       }
 
