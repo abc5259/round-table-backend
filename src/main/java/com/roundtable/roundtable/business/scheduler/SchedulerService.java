@@ -37,11 +37,6 @@ public class SchedulerService {
         Map<Schedule, List<Member>> scheduleAllocatorsMap = scheduleMemberReader.readAllocators(schedules, targetDate);
 
         //3. chore insert
-        List<Chore> chores = scheduleAllocatorsMap.entrySet().stream()
-                .map(entry -> Chore.create(
-                        entry.getKey(),
-                        entry.getValue().stream().map(member -> ChoreMember.create(null, member)).toList(),
-                        targetDate)).toList();
-        choreAppender.appendChores(chores);
+        choreAppender.appendChores(scheduleAllocatorsMap, targetDate);
     }
 }

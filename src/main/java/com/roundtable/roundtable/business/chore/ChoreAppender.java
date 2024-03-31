@@ -12,6 +12,7 @@ import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.schedule.Schedule;
 import com.roundtable.roundtable.entity.schedule.ScheduleMember;
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,8 @@ public class ChoreAppender {
     private final MemberValidator memberValidator;
 
     private final ChoreMemberAppender choreMemberAppender;
+
+    private final ChoreMapper choreMapper;
 
     private final ChoreRepository choreRepository;
 
@@ -42,6 +45,10 @@ public class ChoreAppender {
         savedChore.addChoreMembers(choreMembers);
 
         return savedChore;
+    }
+
+    public void appendChores(Map<Schedule, List<Member>> scheduleAllocatorsMap, LocalDate startDate) {
+        appendChores(choreMapper.toChoreEntities(scheduleAllocatorsMap, startDate));
     }
 
     public void appendChores(List<Chore> chores) {
