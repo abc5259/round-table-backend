@@ -1,6 +1,9 @@
 package com.roundtable.roundtable.presentation.auth;
 
 import com.roundtable.roundtable.global.properties.JwtProperties;
+import com.roundtable.roundtable.global.response.ApiResponse;
+import com.roundtable.roundtable.global.response.FailResponse;
+import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationConverter;
 import com.roundtable.roundtable.business.auth.Token;
 import com.roundtable.roundtable.business.auth.authcode.AuthCode;
@@ -33,19 +36,21 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/emails/verification-requests")
-    public ResponseEntity<Void> sendAuthCode(@Valid @RequestBody final EmailRequest emailRequest) {
+    @PostMapping("/emails")
+    public ResponseEntity<ApiResponse<Void>> sendAuthCode(@Valid @RequestBody final EmailRequest emailRequest) {
         authService.sendCodeToEmail(emailRequest.email());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 
-    @GetMapping("/emails/verification-requests")
-    public ResponseEntity<Void> isCorrectAuthCode(@Valid @NotBlank @RequestParam final String code) {
+    @GetMapping("/emails")
+    public ResponseEntity<ApiResponse<Void>> isCorrectAuthCode(@Valid @NotBlank @RequestParam final String code) {
         boolean isCorrect = authService.isCorrectAuthCode(new AuthCode(code));
         if(!isCorrect) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.ok().body(FailResponse.fail(
+                    "인증코드가 잘못되었습니다."
+            ));
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 
     @PostMapping("/register")

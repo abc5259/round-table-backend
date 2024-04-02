@@ -34,7 +34,7 @@ public class MemberController {
     // TODO: api url 어떻게 할지 고민..
     // @PATCH /members/me 로 바꾸고 파라미터로 바꿀거 다 받아서 null 값이 아닌 부분만 바꿔주자!
     @PatchMapping("/setting/profile")
-    public ResponseEntity<SuccessResponse<?>> settingProfile(@Login Member loginMember, @Valid @RequestBody final SettingProfileRequest settingProfileRequest) {
+    public ResponseEntity<ApiResponse<Void>> settingProfile(@Login Member loginMember, @Valid @RequestBody final SettingProfileRequest settingProfileRequest) {
         memberService.settingProfile(loginMember, settingProfileRequest.toMemberProfile());
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }

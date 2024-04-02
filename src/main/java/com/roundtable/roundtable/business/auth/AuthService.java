@@ -30,8 +30,8 @@ public class AuthService {
         memberReader.checkDuplicateEmail(email);
 
         AuthCode authCode = AuthCode.createCode();
-        mailProvider.sendEmail(email, "Round Table 이메일 인증 번호", authCode.getCode());
         authCodeStoreStrategy.saveAuthCode(authCode);
+        mailProvider.sendEmail(email, "Round Table 이메일 인증 번호", authCode.getCode());
     }
 
     public boolean isCorrectAuthCode(AuthCode authCode) {

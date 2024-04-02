@@ -17,7 +17,7 @@ public class SuccessResponse<T> extends ApiResponse<T> {
         return new SuccessResponse<>(data);
     }
 
-    public static <T> SuccessResponse<T> ok() {
+    public static <T> SuccessResponse<Void> ok() {
         return new SuccessResponse<>();
     }
 }
