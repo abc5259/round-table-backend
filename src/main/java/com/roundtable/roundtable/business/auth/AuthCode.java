@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.auth.authcode;
+package com.roundtable.roundtable.business.auth;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -16,6 +16,14 @@ public class AuthCode {
 
     public String getCode() {
         return code;
+    }
+
+    public boolean isSameCode(AuthCode authCode) {
+        if(authCode.code == null) {
+            return false;
+        }
+
+        return code.equals(authCode.code);
     }
 
     public static AuthCode createCode() {

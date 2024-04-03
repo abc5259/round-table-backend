@@ -6,16 +6,17 @@ import com.roundtable.roundtable.global.response.FailResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationConverter;
 import com.roundtable.roundtable.business.auth.Token;
-import com.roundtable.roundtable.business.auth.authcode.AuthCode;
+import com.roundtable.roundtable.business.auth.AuthCode;
 import com.roundtable.roundtable.business.auth.AuthService;
 import com.roundtable.roundtable.presentation.auth.request.EmailRequest;
 import com.roundtable.roundtable.presentation.auth.request.LoginRequest;
 import com.roundtable.roundtable.presentation.auth.request.RegisterRequest;
 import com.roundtable.roundtable.presentation.auth.response.LoginResponse;
+import com.roundtable.roundtable.presentation.auth.response.MemberCreateResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -43,8 +44,10 @@ public class AuthController {
     }
 
     @GetMapping("/emails")
-    public ResponseEntity<ApiResponse<Void>> isCorrectAuthCode(@Valid @NotBlank @RequestParam final String code) {
-        boolean isCorrect = authService.isCorrectAuthCode(new AuthCode(code));
+    public ResponseEntity<ApiResponse<Void>> isCorrectAuthCode(
+            @Valid @NotBlank @Email @RequestParam final String email,
+            @Valid @NotBlank @RequestParam final String code) {
+        boolean isCorrect = authService.isCorrectAuthCode(email, new AuthCode(code));
         if(!isCorrect) {
             return ResponseEntity.ok().body(FailResponse.fail(
                     "인증코드가 잘못되었습니다."
@@ -54,9 +57,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> registerMember(@Valid @RequestBody final RegisterRequest memberRegisterRequest) {
-        authService.register(memberRegisterRequest.toRegisterMember());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ApiResponse<MemberCreateResponse>> registerMember(@Valid @RequestBody final RegisterRequest memberRegisterRequest) {
+        Long memberId = authService.register(memberRegisterRequest.toRegisterMember());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                    SuccessResponse.from(new MemberCreateResponse(memberId))
+                );
     }
 
     @PostMapping("/login")

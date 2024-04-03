@@ -2,8 +2,6 @@ package com.roundtable.roundtable.business.auth;
 
 import com.roundtable.roundtable.business.member.MemberMaker;
 import com.roundtable.roundtable.business.member.RegisterMember;
-import com.roundtable.roundtable.business.auth.authcode.AuthCode;
-import com.roundtable.roundtable.business.auth.authcode.AuthCodeStoreStrategy;
 import com.roundtable.roundtable.business.member.LoginManager;
 import com.roundtable.roundtable.business.member.LoginMember;
 import com.roundtable.roundtable.business.member.MemberReader;
@@ -21,7 +19,7 @@ public class AuthService {
     private final MailProvider mailProvider;
     private final MemberReader memberReader;
     private final MemberMaker memberMaker;
-    private final AuthCodeStoreStrategy authCodeStoreStrategy;
+    private final EmailAuthCodeManager emailAuthCodeManager;
     private final LoginManager loginManager;
 
 
@@ -30,19 +28,18 @@ public class AuthService {
         memberReader.checkDuplicateEmail(email);
 
         AuthCode authCode = AuthCode.createCode();
-        authCodeStoreStrategy.saveAuthCode(authCode);
+        emailAuthCodeManager.saveAuthCode(email, authCode);
         mailProvider.sendEmail(email, "Round Table 이메일 인증 번호", authCode.getCode());
     }
 
-    public boolean isCorrectAuthCode(AuthCode authCode) {
-        return authCodeStoreStrategy.isCorrectAuthCode(authCode);
+    public boolean isCorrectAuthCode(String email, AuthCode authCode) {
+        return emailAuthCodeManager.isCorrectAuthCode(email, authCode);
     }
 
-    public void register(final RegisterMember registerMember) {
+    public Long register(final RegisterMember registerMember) {
         memberReader.checkDuplicateEmail(registerMember.email());
         Long memberId = memberMaker.register(registerMember);
-
-        log.info(String.format("ID = %d User 생성", memberId));
+        return memberId;
     }
 
     @Transactional(readOnly = true)
