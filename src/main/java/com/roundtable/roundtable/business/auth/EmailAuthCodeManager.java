@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailAuthCodeManager {
 
-    public static final String AUTH_CODE_STORE_KEY = "authcode";
+    public static final String AUTH_CODE_KEY_PREFIX = "authcode";
 
     public static final long AUTH_CODE_TIME_OUT = 3;
 
@@ -27,15 +27,16 @@ public class EmailAuthCodeManager {
     }
 
     public boolean isCorrectAuthCode(String email, AuthCode authCode) {
-        return authCode.isSameCode(getStoredAuthCode(email));
+        AuthCode storedAuthCode = getStoredAuthCode(email);
+        return authCode.isSameCode(storedAuthCode);
     }
 
     private AuthCode getStoredAuthCode(String email) {
-        String code = valueOperations.get(String.format("%s:%s", AUTH_CODE_STORE_KEY, email));
+        String code = valueOperations.get(getAuthKey(email));
         return new AuthCode(code);
     }
 
-    private String getAuthKey(String email) {
-        return String.format("%s:%s", AUTH_CODE_STORE_KEY, email);
+    public String getAuthKey(String email) {
+        return String.format("%s:%s", AUTH_CODE_KEY_PREFIX, email);
     }
 }
