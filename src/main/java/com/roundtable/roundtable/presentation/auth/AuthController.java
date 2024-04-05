@@ -1,12 +1,12 @@
 package com.roundtable.roundtable.presentation.auth;
 
+import com.roundtable.roundtable.entity.otp.AuthCode;
 import com.roundtable.roundtable.global.properties.JwtProperties;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.FailResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationConverter;
 import com.roundtable.roundtable.business.auth.Token;
-import com.roundtable.roundtable.business.auth.AuthCode;
 import com.roundtable.roundtable.business.auth.AuthService;
 import com.roundtable.roundtable.presentation.auth.request.EmailRequest;
 import com.roundtable.roundtable.presentation.auth.request.LoginRequest;
@@ -47,7 +47,7 @@ public class AuthController {
     public ResponseEntity<ApiResponse<Void>> isCorrectAuthCode(
             @Valid @NotBlank @Email @RequestParam final String email,
             @Valid @NotBlank @RequestParam final String code) {
-        boolean isCorrect = authService.isCorrectAuthCode(email, new AuthCode(code));
+        boolean isCorrect = authService.isCorrectAuthCode(AuthCode.of(email, code));
         if(!isCorrect) {
             return ResponseEntity.ok().body(FailResponse.fail(
                     "인증코드가 잘못되었습니다."
