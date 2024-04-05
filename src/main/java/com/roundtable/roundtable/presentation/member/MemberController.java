@@ -35,7 +35,7 @@ public class MemberController {
     // @PATCH /members/me 로 바꾸고 파라미터로 바꿀거 다 받아서 null 값이 아닌 부분만 바꿔주자!
     @PatchMapping("/setting/profile")
     public ResponseEntity<ApiResponse<Void>> settingProfile(@Login Member loginMember, @Valid @RequestBody final SettingProfileRequest settingProfileRequest) {
-        memberService.settingProfile(loginMember, settingProfileRequest.toMemberProfile());
+        memberService.settingProfile(loginMember.getId(), settingProfileRequest.toMemberProfile());
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 

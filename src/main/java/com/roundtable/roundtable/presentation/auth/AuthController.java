@@ -71,16 +71,9 @@ public class AuthController {
 
         Token token = authService.login(memberLoginRequest.toLoginMember());
 
-        ResponseCookie refreshTokenCookie = ResponseCookie
-                .from(JwtAuthenticationConverter.COOKIE_AUTH_TOKEN, token.getRefreshToken())
-                .httpOnly(true) // HttpOnly 속성을 사용하여 JavaScript로 쿠키에 접근하는 것을 방지
-                .maxAge(jwtProperties.getRefreshTokenExpireTime()) // 쿠키의 만료 시간을 설정 (초 단위, 여기서는 7일)
-                .path("/")
-                .build(); // 쿠키의 유효 경로 설정
-
-        return ResponseEntity
-                .ok()
-                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
-                .body(new LoginResponse(token.getAccessToken()));
+        return ResponseEntity.ok()
+                .body(
+                        new LoginResponse(token.getAccessToken(), token.getRefreshToken())
+                );
     }
 }

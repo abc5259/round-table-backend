@@ -5,16 +5,12 @@ import static org.assertj.core.api.Assertions.*;
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.entity.otp.AuthCode;
 import com.roundtable.roundtable.entity.otp.AuthCodeRedisRepository;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 
 class EmailAuthCodeManagerTest extends IntegrationTestSupport {
 

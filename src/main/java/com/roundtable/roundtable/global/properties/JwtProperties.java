@@ -11,13 +11,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class JwtProperties {
 
     @NotBlank
-    private String secretKey;
+    private final String secretKey;
 
     @NotEmpty
-    private Long accessTokenExpireTime;
+    private final Long accessTokenExpireTime;
 
     @NotEmpty
-    private Long refreshTokenExpireTime;
+    private final Long refreshTokenExpireTime;
 
     public JwtProperties(String secretKey, Long accessTokenExpireTime, Long refreshTokenExpireTime) {
         this.secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());

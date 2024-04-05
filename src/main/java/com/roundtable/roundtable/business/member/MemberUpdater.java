@@ -10,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberUpdater {
 
-    public void settingProfile(final Member member, final MemberProfile memberProfile) {
+    private final MemberReader memberReader;
+
+    public void settingProfile(final Long memberId, final MemberProfile memberProfile) {
+        Member member = memberReader.findById(memberId);
         member.settingProfile(memberProfile.name(), memberProfile.gender());
     }
 

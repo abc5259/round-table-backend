@@ -18,7 +18,7 @@ public class LoginManager {
     public Token login(final LoginMember loginMember) {
         Member member = memberReader.findByEmail(loginMember.email());
         if(member.isCorrectPassword(loginMember.password(), passwordEncoder)) {
-            return jwtProvider.issueToken(member.getId());
+            return jwtProvider.issueToken(member.getId(), member.getHouse().getId());
         }
 
         throw new MemberUnAuthorizationException(MemberErrorCode.INVALID_LOGIN);

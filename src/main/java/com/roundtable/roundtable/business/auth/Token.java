@@ -13,4 +13,8 @@ public class Token {
     public static Token of(String accessToken, String refreshToken) {
         return new Token(accessToken, refreshToken);
     }
+
+    public static Token of(String accessToken) {
+        return new Token(accessToken, null);
+    }
 }

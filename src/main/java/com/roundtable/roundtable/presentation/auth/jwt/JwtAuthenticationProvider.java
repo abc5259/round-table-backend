@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
+import com.roundtable.roundtable.business.auth.JwtPayload;
 import com.roundtable.roundtable.global.exception.AuthenticationException;
 import com.roundtable.roundtable.business.auth.JwtProvider;
 import com.roundtable.roundtable.business.auth.Token;
@@ -27,9 +28,9 @@ public class JwtAuthenticationProvider {
             return null;
         }
 
-        final Long userId = jwtProvider.getSubject(token.getAccessToken());
+        final JwtPayload jwtPayload = jwtProvider.getSubject(token.getAccessToken());
 
-        return new JwtAuthenticationToken(token, userId, null, null);
+        return new JwtAuthenticationToken(token, jwtPayload, null, null);
     }
     public boolean supports(Class<?> authentication) {
         return authentication.isAssignableFrom(JwtAuthenticationToken.class);

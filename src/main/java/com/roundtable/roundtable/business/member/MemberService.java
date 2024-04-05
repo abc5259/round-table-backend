@@ -13,8 +13,8 @@ public class  MemberService {
     private final MemberReader memberReader;
     private final MemberUpdater memberUpdater;
 
-    public void settingProfile(final Member loginMember, final MemberProfile memberProfile) {
-        memberUpdater.settingProfile(loginMember, memberProfile);
+    public void settingProfile(final Long memberId, final MemberProfile memberProfile) {
+        memberUpdater.settingProfile(memberId, memberProfile);
     }
 
     public boolean isExistEmail(String email) {

@@ -2,6 +2,8 @@ package com.roundtable.roundtable.presentation.argumentresolver;
 
 import static com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode.INVALID_AUTH;
 
+import com.roundtable.roundtable.business.auth.JwtPayload;
+import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.entity.member.MemberRepository;
 import com.roundtable.roundtable.global.exception.AuthenticationException;
@@ -19,12 +21,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
-
-    private final MemberRepository memberRepository;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -44,8 +43,10 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
             throw new AuthenticationException(INVALID_AUTH);
         }
 
-        Long userId = (Long) principal;
+        JwtPayload jwtPayload = (JwtPayload) principal;
 
-        return memberRepository.findById(userId).orElseThrow(() -> new NotFoundEntityException(MemberErrorCode.NOT_FOUND));
+        return Member.builder()
+                .id(jwtPayload.userId())
+                .house(House.Id(jwtPayload.houseId()));
     }
 }

@@ -39,7 +39,7 @@ class MemberUpdaterTest extends IntegrationTestSupport {
         MemberProfile memberProfile = new MemberProfile(name, gender);
 
         //when
-        memberUpdater.settingProfile(savedMember, memberProfile);
+        memberUpdater.settingProfile(savedMember.getId(), memberProfile);
 
         //then
         Member findMember = memberRepository.findById(savedMember.getId()).orElseThrow();

@@ -19,16 +19,20 @@ public class JwtProvider {
 
     private final JwtProperties jwtProperties;
 
-    public Token issueToken(Long userId) {
-        return Token.of(generateToken(userId, true), generateToken(userId, false));
+    private static final String USER_ID = "userId";
+    private static final String HOUSE_ID = "houseId";
+
+    public Token issueToken(Long userId, Long houseId) {
+        return Token.of(generateToken(userId, houseId,true), generateToken(userId, houseId,false));
     }
 
-    private String generateToken(Long userId, boolean isAccessToken) {
+    private String generateToken(Long userId, Long houseId, boolean isAccessToken) {
         final Date now = new Date();
         final Date expiration = new Date(now.getTime() + (isAccessToken ? jwtProperties.getAccessTokenExpireTime() : jwtProperties.getRefreshTokenExpireTime()));
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .setSubject(String.valueOf(userId))
+                .claim(USER_ID,userId)
+                .claim(HOUSE_ID, houseId)
                 .setIssuedAt(now)
                 .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
@@ -38,7 +42,6 @@ public class JwtProvider {
     public boolean isValidToken(String token) {
         try {
             Claims claims = getJwtParser().parseClaimsJws(token).getBody();
-
             return !claims.getExpiration().before(new Date());
         } catch (Exception e) {
             return false;
@@ -46,10 +49,11 @@ public class JwtProvider {
     }
 
 
-    public Long getSubject(String token) {
-        return Long.valueOf(getJwtParser().parseClaimsJws(token)
-                .getBody()
-                .getSubject());
+    public JwtPayload getSubject(String token) {
+        Claims claims = getJwtParser().parseClaimsJws(token).getBody();
+        Long userId = claims.get(USER_ID, Long.class);
+        Long houseId = claims.get(HOUSE_ID, Long.class);
+        return new JwtPayload(userId, houseId);
     }
 
     private JwtParser getJwtParser() {

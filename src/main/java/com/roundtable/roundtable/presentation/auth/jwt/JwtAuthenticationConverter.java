@@ -4,6 +4,9 @@ import com.roundtable.roundtable.business.auth.Token;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationConverter;
@@ -13,20 +16,18 @@ import org.springframework.util.StringUtils;
 @Component
 public class JwtAuthenticationConverter implements AuthenticationConverter {
     private static final String AUTHORIZATION = "Authorization";
+
     public static final String AUTHENTICATION_SCHEME_BEAT = "Bearer";
 
-    public static final String COOKIE_AUTH_TOKEN = "authToken";
     @Override
     public Authentication convert(HttpServletRequest request) {
         String accessToken = getAccessTokenFromHttpServletRequest(request);
-        String refreshToken = getRefreshTokenFromHttpCookie(request);
 
-        Token token = null;
-        if(accessToken != null) { //accessToken 이 있을때만 Token 생성
-            token = Token.of(accessToken, refreshToken);
+        if(accessToken == null) { //accessToken 이 있을때만 Token 생성
+            return null;
         }
 
-        return new JwtAuthenticationToken(token, null, null);
+        return new JwtAuthenticationToken(Token.of(accessToken), null, null);
     }
 
     private String getAccessTokenFromHttpServletRequest(HttpServletRequest request) {
@@ -42,13 +43,6 @@ public class JwtAuthenticationConverter implements AuthenticationConverter {
             throw new BadCredentialsException("Empty bearer authentication token");
         }
 
-        return header.substring(7);
-    }
-
-    private String getRefreshTokenFromHttpCookie(HttpServletRequest request) {
-        return Arrays.stream(request.getCookies()).filter(cookie -> JwtAuthenticationConverter.COOKIE_AUTH_TOKEN.equals(cookie.getName()))
-                .findFirst()
-                .map(Cookie::getValue)
-                .orElse(null);
+        return header.substring(AUTHENTICATION_SCHEME_BEAT.length() + 1);
     }
 }
