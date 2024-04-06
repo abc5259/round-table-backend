@@ -3,8 +3,7 @@ package com.roundtable.roundtable.presentation.argumentresolver;
 import static com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode.INVALID_AUTH;
 
 import com.roundtable.roundtable.business.auth.JwtPayload;
-import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.entity.member.Member;
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.global.exception.AuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -17,14 +16,13 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 @Slf4j
-public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
-
+public class LoginAuthMemberArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
 
         boolean hasLoginAnnotation = parameter.hasParameterAnnotation(Login.class);
-        boolean hasMemberType = Member.class.isAssignableFrom(parameter.getParameterType());
-        return hasLoginAnnotation && hasMemberType;
+        boolean hasAuthMemberType = AuthMember.class.isAssignableFrom(parameter.getParameterType());
+        return hasLoginAnnotation && hasAuthMemberType;
     }
 
     @Override
@@ -39,8 +37,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
         JwtPayload jwtPayload = (JwtPayload) principal;
 
-        return Member.builder()
-                .id(jwtPayload.userId())
-                .house(House.Id(jwtPayload.houseId()));
+        return new AuthMember(jwtPayload.userId(), jwtPayload.houseId());
     }
 }

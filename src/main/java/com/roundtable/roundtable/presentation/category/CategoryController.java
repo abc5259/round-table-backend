@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.presentation.category;
 
 import com.roundtable.roundtable.business.category.CategoryService;
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.presentation.category.request.CreateCategoryRequest;
@@ -23,11 +24,14 @@ public class CategoryController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<Long>> createCategory(
-            @Login Member loginMember,
+            @Login AuthMember authMember,
             @Valid @RequestBody CreateCategoryRequest createCategoryRequest
             ) {
         Long categoryId = categoryService.createCategory(
-                createCategoryRequest.toCreateCategory(loginMember.getHouse())
+                createCategoryRequest.toCreateCategory(
+                        authMember.userId(),
+                        authMember.houseId()
+                )
         );
         return ResponseEntity.ok(SuccessResponse.from(categoryId));
     }

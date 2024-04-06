@@ -15,11 +15,12 @@ public record CreateCategoryRequest(
 ) {
 
 
-    public CreateCategory toCreateCategory(House house) {
+    public CreateCategory toCreateCategory(Long memberId, Long houseId) {
         return new CreateCategory(
                 name,
                 point,
-                house
+                memberId,
+                houseId
         );
     }
 }

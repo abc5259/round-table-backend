@@ -8,6 +8,8 @@ import com.roundtable.roundtable.entity.category.CategoryRepository;
 import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.entity.house.HouseRepository;
 import com.roundtable.roundtable.entity.house.InviteCode;
+import com.roundtable.roundtable.entity.member.Member;
+import com.roundtable.roundtable.entity.member.MemberRepository;
 import com.roundtable.roundtable.global.exception.CoreException;
 import com.roundtable.roundtable.global.exception.errorcode.CategoryErrorCode;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +25,9 @@ class CategoryAppenderTest extends IntegrationTestSupport {
     private CategoryAppender categoryAppender;
 
     @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
     private HouseRepository houseRepository;
 
     @Autowired
@@ -34,11 +39,13 @@ class CategoryAppenderTest extends IntegrationTestSupport {
         //given
         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         houseRepository.save(house);
+        Member member = createMemberInHouse(house);
 
         CreateCategory createCategory = new CreateCategory(
                 "name",
                 10,
-                house
+                member.getId(),
+                house.getId()
         );
 
         //when
@@ -46,12 +53,13 @@ class CategoryAppenderTest extends IntegrationTestSupport {
 
         //then
         assertThat(category).isNotNull()
-                .extracting("name", "point", "house")
+                .extracting("name", "point")
                 .contains(
                         createCategory.name(),
-                        createCategory.point(),
-                        createCategory.house()
+                        createCategory.point()
                 );
+
+        assertThat(category.getHouse().getId()).isEqualTo(house.getId());
      }
 
      @DisplayName("같은 하우스내에 중복된 이름의 카테고리를 가질 수 없다.")
@@ -60,6 +68,7 @@ class CategoryAppenderTest extends IntegrationTestSupport {
          //given
          House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
          houseRepository.save(house);
+         Member member = createMemberInHouse(house);
 
          String duplicatedCategoryName = "name";
          Category category = Category.builder()
@@ -72,7 +81,8 @@ class CategoryAppenderTest extends IntegrationTestSupport {
          CreateCategory createCategory = new CreateCategory(
                  duplicatedCategoryName,
                  10,
-                 house
+                 member.getId(),
+                 house.getId()
          );
 
 
@@ -81,4 +91,11 @@ class CategoryAppenderTest extends IntegrationTestSupport {
                  .isInstanceOf(CoreException.DuplicatedException.class)
                  .hasMessage(CategoryErrorCode.DUPLICATED_NAME.getMessage());
       }
+
+    private Member createMemberInHouse(House house) {
+
+        Member member = Member.builder().email("email").password("password").build();
+        member.enterHouse(house);
+        return memberRepository.save(member);
+    }
 }

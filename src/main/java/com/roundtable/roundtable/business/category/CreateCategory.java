@@ -8,6 +8,7 @@ public record CreateCategory(
 
         String name,
         Integer point,
-        House house
+        Long memberId,
+        Long houseId
 ) {
 }
