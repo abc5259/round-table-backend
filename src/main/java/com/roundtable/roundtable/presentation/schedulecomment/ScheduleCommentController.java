@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.presentation.schedulecomment;
 
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
 import com.roundtable.roundtable.business.schedulecomment.ScheduleCommentService;
@@ -31,13 +32,13 @@ public class ScheduleCommentController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<Long>> createScheduleComment(
-            @Login Member member,
+            @Login AuthMember authMember,
             @Valid @RequestBody CreateScheduleCommentRequest createScheduleCommentRequest
             ) {
         return ResponseEntity.ok(
                 SuccessResponse.from(
                         scheduleCommentService.createScheduleComment(
-                                createScheduleCommentRequest.toCreateScheduleCommentDto(member.getId())
+                                createScheduleCommentRequest.toCreateScheduleCommentDto(authMember.memberId())
                         )
                 )
         );
@@ -45,13 +46,13 @@ public class ScheduleCommentController {
 
     @GetMapping("/schedule/{scheduleId}")
     public ResponseEntity<ApiResponse<CursorBasedResponse<List<ScheduleCommentDetailDto>>>> findCommentsByScheduleId(
-            @Login Member member,
+            @Login AuthMember authMember,
             @PathVariable Long scheduleId,
             @ModelAttribute CursorBasedPaginationRequest cursorBasedPaginationRequest
             ) {
         return ResponseEntity.ok(
                 SuccessResponse.from(
-                        scheduleCommentService.findByScheduleId(member, scheduleId, cursorBasedPaginationRequest.toCursorBasedRequest())
+                        scheduleCommentService.findByScheduleId(authMember, scheduleId, cursorBasedPaginationRequest.toCursorBasedRequest())
                 )
         );
     }

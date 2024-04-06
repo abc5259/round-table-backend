@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.presentation.schedule;
 
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.schedule.ScheduleService;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.presentation.schedule.request.CreateScheduleRequest;
@@ -21,14 +22,14 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     public ResponseEntity<ApiResponse<Long>> createSchedule(
-            @Login Member loginMember,
+            @Login AuthMember authMember,
             @Valid @RequestBody CreateScheduleRequest createScheduleRequest) {
 
         LocalDate now = LocalDate.now();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 SuccessResponse.from(
-                        scheduleService.createSchedule(createScheduleRequest.toCreateScheduleDto(), loginMember, now)
+                        scheduleService.createSchedule(createScheduleRequest.toCreateScheduleDto(), authMember, now)
                 )
         );
     }

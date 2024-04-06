@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.schedule;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.house.CreateScheduleDto;
 import com.roundtable.roundtable.entity.category.Category;
 import com.roundtable.roundtable.entity.chore.Chore;
@@ -53,8 +54,10 @@ class ScheduleServiceTest extends IntegrationTestSupport {
                 category.getId()
         );
 
+        AuthMember authMember = new AuthMember(member.getId(), house.getId());
+
         //when
-        Long scheduleId = scheduleService.createSchedule(createScheduleDto, member, now);
+        Long scheduleId = scheduleService.createSchedule(createScheduleDto, authMember, now);
 
         //then
         assertThat(scheduleId).isNotNull();
@@ -86,8 +89,10 @@ class ScheduleServiceTest extends IntegrationTestSupport {
                 category.getId()
         );
 
+        AuthMember authMember = new AuthMember(member.getId(), house.getId());
+
         //when
-        Long scheduleId = scheduleService.createSchedule(createSchedule, member, now);
+        Long scheduleId = scheduleService.createSchedule(createSchedule, authMember, now);
 
         //then
         assertThat(scheduleId).isNotNull();

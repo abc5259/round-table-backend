@@ -29,7 +29,7 @@ public class CategoryController {
             ) {
         Long categoryId = categoryService.createCategory(
                 createCategoryRequest.toCreateCategory(
-                        authMember.userId(),
+                        authMember.memberId(),
                         authMember.houseId()
                 )
         );

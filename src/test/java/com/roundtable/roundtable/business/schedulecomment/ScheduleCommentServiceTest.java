@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.schedulecomment;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
 import com.roundtable.roundtable.entity.category.Category;
@@ -131,9 +132,13 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
 
         CursorBasedRequest cursorBasedRequest = new CursorBasedRequest(0L, 4);
 
+        AuthMember authMember = new AuthMember(member.getId(), house.getId());
+
         //when
-        CursorBasedResponse<List<ScheduleCommentDetailDto>> scheduleCommentResponse = scheduleCommentService.findByScheduleId(
-                member, schedule.getId(), cursorBasedRequest);
+        CursorBasedResponse<List<ScheduleCommentDetailDto>> scheduleCommentResponse =
+                scheduleCommentService.findByScheduleId(
+                        authMember, schedule.getId(), cursorBasedRequest
+                );
 
         //then
         assertThat(scheduleCommentResponse.getLastCursorId()).isEqualTo(scheduleComment4.getId());
@@ -166,12 +171,12 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
         House house2 = appendHouse("code2");
         Member loginMember = appendMember(house2, "email2");
 
+        AuthMember authMember = new AuthMember(loginMember.getId(), house2.getId());
+
         //when //then
-        assertThatThrownBy(() -> scheduleCommentService.findByScheduleId(loginMember, schedule.getId(), cursorBasedRequest))
+        assertThatThrownBy(() -> scheduleCommentService.findByScheduleId(authMember, schedule.getId(), cursorBasedRequest))
                 .isInstanceOf(CreateEntityException.class)
                 .hasMessage(ScheduleCommentErrorCode.NOT_SAME_HOUSE.getMessage());
-
-
     }
 
     private Member appendMember(House house, String email) {

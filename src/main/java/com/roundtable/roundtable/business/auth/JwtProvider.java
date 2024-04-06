@@ -6,11 +6,8 @@ import io.jsonwebtoken.Header;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.annotation.PostConstruct;
-import java.util.Base64;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,8 +19,11 @@ public class JwtProvider {
     private static final String USER_ID = "userId";
     private static final String HOUSE_ID = "houseId";
 
-    public Token issueToken(Long userId, Long houseId) {
-        return Token.of(generateToken(userId, houseId,true), generateToken(userId, houseId,false));
+    public Token issueToken(JwtPayload jwtPayload) {
+        return Token.of(
+                generateToken(jwtPayload.userId(), jwtPayload.houseId(),true),
+                generateToken(jwtPayload.userId(), jwtPayload.houseId(),false)
+        );
     }
 
     private String generateToken(Long userId, Long houseId, boolean isAccessToken) {
@@ -47,7 +47,6 @@ public class JwtProvider {
             return false;
         }
     }
-
 
     public JwtPayload getSubject(String token) {
         Claims claims = getJwtParser().parseClaimsJws(token).getBody();

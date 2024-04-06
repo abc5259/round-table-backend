@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.schedulecomment;
 
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
 import com.roundtable.roundtable.business.member.MemberReader;
@@ -41,9 +42,9 @@ public class ScheduleCommentService {
         return scheduleComment.getId();
     }
 
-    public CursorBasedResponse<List<ScheduleCommentDetailDto>> findByScheduleId(Member loginMember, Long scheduleId, CursorBasedRequest cursorBasedRequest) {
+    public CursorBasedResponse<List<ScheduleCommentDetailDto>> findByScheduleId(AuthMember authMember, Long scheduleId, CursorBasedRequest cursorBasedRequest) {
         Schedule schedule = scheduleReader.findById(scheduleId);
-        if(!schedule.isSameHouse(loginMember)) {
+        if(!schedule.isSameHouse(Member.toAuthMember(authMember.memberId(), authMember.houseId()))) {
             throw new CreateEntityException(ScheduleCommentErrorCode.NOT_SAME_HOUSE);
         }
 

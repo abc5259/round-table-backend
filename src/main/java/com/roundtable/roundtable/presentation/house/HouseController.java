@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.house;
 
-import com.roundtable.roundtable.entity.member.Member;
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.presentation.house.request.CreateHouseRequest;
 import com.roundtable.roundtable.presentation.argumentresolver.Login;
@@ -22,9 +22,9 @@ public class HouseController {
     private final HouseService houseService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Long>> createHouse(@Login Member loginMember, @Valid @RequestBody CreateHouseRequest createHouseRequest) {
+    public ResponseEntity<ApiResponse<Long>> createHouse(@Login AuthMember authMember, @Valid @RequestBody CreateHouseRequest createHouseRequest) {
         return ResponseEntity.ok(
-                SuccessResponse.from(houseService.createHouse(createHouseRequest.toCreateHouse(), loginMember))
+                SuccessResponse.from(houseService.createHouse(createHouseRequest.toCreateHouse(), authMember))
         );
     }
 }

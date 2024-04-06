@@ -1,5 +1,7 @@
 package com.roundtable.roundtable.business.category;
 
+import static com.roundtable.roundtable.global.exception.CoreException.*;
+
 import com.roundtable.roundtable.business.house.HouseValidator;
 import com.roundtable.roundtable.business.member.MemberValidator;
 import com.roundtable.roundtable.entity.category.Category;
@@ -39,7 +41,7 @@ public class CategoryAppender {
     private void checkDuplicatedCategoryName(CreateCategory createCategory) {
         boolean isExistCategory = categoryRepository.existsByNameAndHouse(createCategory.name(), House.Id(createCategory.houseId()));
         if(isExistCategory) {
-            throw new CoreException.DuplicatedException(CategoryErrorCode.DUPLICATED_NAME);
+            throw new DuplicatedException(CategoryErrorCode.DUPLICATED_NAME);
         }
     }
 }

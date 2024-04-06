@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.presentation.member;
 
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.house.HouseService;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.presentation.argumentresolver.Login;
@@ -34,8 +35,8 @@ public class MemberController {
     // TODO: api url 어떻게 할지 고민..
     // @PATCH /members/me 로 바꾸고 파라미터로 바꿀거 다 받아서 null 값이 아닌 부분만 바꿔주자!
     @PatchMapping("/setting/profile")
-    public ResponseEntity<ApiResponse<Void>> settingProfile(@Login Member loginMember, @Valid @RequestBody final SettingProfileRequest settingProfileRequest) {
-        memberService.settingProfile(loginMember.getId(), settingProfileRequest.toMemberProfile());
+    public ResponseEntity<ApiResponse<Void>> settingProfile(@Login AuthMember authMember, @Valid @RequestBody final SettingProfileRequest settingProfileRequest) {
+        memberService.settingProfile(authMember.memberId(), settingProfileRequest.toMemberProfile());
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 
@@ -51,9 +52,8 @@ public class MemberController {
     }
 
     @PatchMapping("/house/{houseId}")
-    public ResponseEntity<ApiResponse<?>> enterHouse(@PathVariable Long houseId, @Login Member loginMember) {
-        houseService.enterHouse(houseId, loginMember);
+    public ResponseEntity<ApiResponse<?>> enterHouse(@PathVariable Long houseId, @Login AuthMember authMember) {
+        houseService.enterHouse(houseId, authMember);
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
-
 }

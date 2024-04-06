@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.business.house;
 
-import com.roundtable.roundtable.business.member.MemberHouseManager;
-import com.roundtable.roundtable.entity.member.Member;
+import com.roundtable.roundtable.business.common.AuthMember;
+import com.roundtable.roundtable.business.member.MemberHouseManagerImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,18 +10,17 @@ import org.springframework.stereotype.Service;
 public class HouseService {
 
     private final HouseAppender houseAppender;
+
     private final MemberHouseManager memberHouseManager;
 
-    public Long createHouse(CreateHouse createHouse, Member houseOwner) {
+    public Long createHouse(CreateHouse createHouse, AuthMember authMember) {
         Long houseId = houseAppender.appendHouse(createHouse);
-        memberHouseManager.enterHouse(houseId, houseOwner);
+        memberHouseManager.enterHouse(houseId, authMember.memberId());
 
         return houseId;
     }
 
-    public void enterHouse(Long houseId, Member loginMember) {
-        memberHouseManager.enterHouse(houseId, loginMember);
+    public void enterHouse(Long houseId, AuthMember authMember) {
+        memberHouseManager.enterHouse(houseId, authMember.memberId());
     }
-
-
 }
