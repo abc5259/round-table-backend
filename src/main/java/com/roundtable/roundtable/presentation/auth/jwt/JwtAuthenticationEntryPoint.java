@@ -18,8 +18,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
-
-        log.error(authException.getMessage());
+        log.warn(authException.getMessage());
         // FailResponse를 JSON 문자열로 변환
         String jsonResponse = objectMapper.writeValueAsString(FailResponse.fail("인증되지 않은 사용자입니다."));
 

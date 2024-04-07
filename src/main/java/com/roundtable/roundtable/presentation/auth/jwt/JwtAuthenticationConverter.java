@@ -1,6 +1,9 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
 import com.roundtable.roundtable.business.auth.Token;
+import com.roundtable.roundtable.global.exception.AuthenticationException;
+import com.roundtable.roundtable.global.exception.AuthenticationException.JwtAuthenticationException;
+import com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -15,34 +18,33 @@ import org.springframework.util.StringUtils;
 
 @Component
 public class JwtAuthenticationConverter implements AuthenticationConverter {
-    private static final String AUTHORIZATION = "Authorization";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
-    public static final String AUTHENTICATION_SCHEME_BEAT = "Bearer";
+    private static final String AUTHENTICATION_SCHEME_BEAT = "Bearer";
+
+    private static final int TOKEN_INDEX = 1;
 
     @Override
     public Authentication convert(HttpServletRequest request) {
         String accessToken = getAccessTokenFromHttpServletRequest(request);
-
-        if(accessToken == null) { //accessToken 이 있을때만 Token 생성
-            return null;
-        }
-
         return new JwtAuthenticationToken(Token.of(accessToken), null, null);
     }
 
     private String getAccessTokenFromHttpServletRequest(HttpServletRequest request) {
-        String header = request.getHeader(AUTHORIZATION);
+        String header = request.getHeader(AUTHORIZATION_HEADER);
         if (header == null) {
-            return null;
+            throw new JwtAuthenticationException(AuthErrorCode.NOT_FOUND_AUTH_HEADER);
         }
         header = header.trim();
+
         if (!StringUtils.startsWithIgnoreCase(header, AUTHENTICATION_SCHEME_BEAT)) {
-            return null;
-        }
-        if (header.equalsIgnoreCase(AUTHENTICATION_SCHEME_BEAT)) {
-            throw new BadCredentialsException("Empty bearer authentication token");
+            throw new JwtAuthenticationException(AuthErrorCode.NOT_START_HEADER_BEAR);
         }
 
-        return header.substring(AUTHENTICATION_SCHEME_BEAT.length() + 1);
+        if (header.equalsIgnoreCase(AUTHENTICATION_SCHEME_BEAT)) {
+            throw new JwtAuthenticationException(AuthErrorCode.NO_FOUND_TOKEN);
+        }
+
+        return header.split(" ")[TOKEN_INDEX];
     }
 }

@@ -14,6 +14,11 @@ public class CoreException extends ApplicationException {
         this.errorCode = errorCode;
     }
 
+    public CoreException(ErrorCode errorCode, Throwable cause) {
+        super(errorCode.getMessage(), cause);
+        this.errorCode = errorCode;
+    }
+
     public static class NotFoundEntityException extends CoreException {
 
         public NotFoundEntityException() {

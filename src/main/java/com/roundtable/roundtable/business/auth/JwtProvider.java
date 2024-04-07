@@ -1,11 +1,13 @@
 package com.roundtable.roundtable.business.auth;
 
+import com.roundtable.roundtable.global.exception.AuthenticationException;
+import com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode;
 import com.roundtable.roundtable.global.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.Jwts.SIG;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -30,32 +32,31 @@ public class JwtProvider {
         final Date now = new Date();
         final Date expiration = new Date(now.getTime() + (isAccessToken ? jwtProperties.getAccessTokenExpireTime() : jwtProperties.getRefreshTokenExpireTime()));
         return Jwts.builder()
-                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .claim(USER_ID,userId)
+                .claim(USER_ID, userId)
                 .claim(HOUSE_ID, houseId)
-                .setIssuedAt(now)
-                .setExpiration(expiration)
-                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecretKey())
+                .issuedAt(now)
+                .expiration(expiration)
+                .signWith(jwtProperties.getSecretKey(), SIG.HS256)
                 .compact();
     }
 
-    public boolean isValidToken(String token) {
-        try {
-            Claims claims = getJwtParser().parseClaimsJws(token).getBody();
-            return !claims.getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public JwtPayload getSubject(String token) {
-        Claims claims = getJwtParser().parseClaimsJws(token).getBody();
+    public JwtPayload extractPayload(String token) {
+        Claims claims = extractClaims(token);
         Long userId = claims.get(USER_ID, Long.class);
         Long houseId = claims.get(HOUSE_ID, Long.class);
         return new JwtPayload(userId, houseId);
     }
 
+    private Claims extractClaims(String token) {
+        try {
+            Claims claims = getJwtParser().parseSignedClaims(token).getPayload();
+            return claims;
+        }catch (JwtException e) {
+            throw new AuthenticationException(AuthErrorCode.JWT_EXTRACT_ERROR, e);
+        }
+    }
+
     private JwtParser getJwtParser() {
-        return Jwts.parser().setSigningKey(jwtProperties.getSecretKey());
+        return Jwts.parser().verifyWith(jwtProperties.getSecretKey()).build();
     }
 }
