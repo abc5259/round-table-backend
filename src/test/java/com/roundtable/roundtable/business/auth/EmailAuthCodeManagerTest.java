@@ -3,8 +3,8 @@ package com.roundtable.roundtable.business.auth;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.entity.otp.AuthCode;
-import com.roundtable.roundtable.entity.otp.AuthCodeRedisRepository;
+import com.roundtable.roundtable.domain.otp.AuthCode;
+import com.roundtable.roundtable.domain.otp.AuthCodeRedisRepository;
 import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,9 +19,6 @@ class EmailAuthCodeManagerTest extends IntegrationTestSupport {
 
     @Autowired
     private AuthCodeRedisRepository authCodeRedisRepository;
-
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
 
     @AfterEach
     void tearDown() {
@@ -62,9 +59,4 @@ class EmailAuthCodeManagerTest extends IntegrationTestSupport {
         assertThat(result1).isTrue();
         assertThat(result2).isFalse();
      }
-
-
-    private Long getExpirationInSeconds(String key) {
-        return redisTemplate.getExpire(key, TimeUnit.SECONDS);
-    }
 }

@@ -3,17 +3,17 @@ package com.roundtable.roundtable.business.schedule;
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.entity.category.Category;
-import com.roundtable.roundtable.entity.category.CategoryRepository;
-import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.entity.house.HouseRepository;
-import com.roundtable.roundtable.entity.house.InviteCode;
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.schedule.DivisionType;
-import com.roundtable.roundtable.entity.schedule.Frequency;
-import com.roundtable.roundtable.entity.schedule.FrequencyType;
-import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.entity.schedule.ScheduleMember;
+import com.roundtable.roundtable.domain.category.Category;
+import com.roundtable.roundtable.domain.category.CategoryRepository;
+import com.roundtable.roundtable.domain.house.House;
+import com.roundtable.roundtable.domain.house.HouseRepository;
+import com.roundtable.roundtable.domain.house.InviteCode;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.DivisionType;
+import com.roundtable.roundtable.domain.schedule.Frequency;
+import com.roundtable.roundtable.domain.schedule.FrequencyType;
+import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.ScheduleMember;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

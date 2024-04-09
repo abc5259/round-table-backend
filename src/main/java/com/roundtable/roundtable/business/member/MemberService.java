@@ -1,6 +1,5 @@
 package com.roundtable.roundtable.business.member;
 
-import com.roundtable.roundtable.entity.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

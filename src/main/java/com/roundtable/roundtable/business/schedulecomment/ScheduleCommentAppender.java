@@ -1,8 +1,8 @@
 package com.roundtable.roundtable.business.schedulecomment;
 
-import com.roundtable.roundtable.entity.schedulecomment.Content;
-import com.roundtable.roundtable.entity.schedulecomment.ScheduleComment;
-import com.roundtable.roundtable.entity.schedulecomment.ScheduleCommentRepository;
+import com.roundtable.roundtable.domain.schedulecomment.Content;
+import com.roundtable.roundtable.domain.schedulecomment.ScheduleComment;
+import com.roundtable.roundtable.domain.schedulecomment.ScheduleCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

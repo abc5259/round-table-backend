@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.business.house;
 
-import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.entity.house.HouseRepository;
+import com.roundtable.roundtable.domain.house.House;
+import com.roundtable.roundtable.domain.house.HouseRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -2,9 +2,8 @@ package com.roundtable.roundtable.business.schedulecomment;
 
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
-import com.roundtable.roundtable.entity.schedulecomment.ScheduleCommentQueryRepository;
-import com.roundtable.roundtable.entity.schedulecomment.ScheduleCommentRepository;
-import com.roundtable.roundtable.entity.schedulecomment.dto.ScheduleCommentDetailDto;
+import com.roundtable.roundtable.domain.schedulecomment.ScheduleCommentQueryRepository;
+import com.roundtable.roundtable.domain.schedulecomment.dto.ScheduleCommentDetailDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

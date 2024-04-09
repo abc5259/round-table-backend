@@ -2,9 +2,9 @@ package com.roundtable.roundtable.business.chore;
 
 import com.roundtable.roundtable.business.schedule.CreateSchedule;
 import com.roundtable.roundtable.business.schedule.ScheduleAppender;
-import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.schedule.Schedule;
+import com.roundtable.roundtable.domain.house.House;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.Schedule;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,17 +1,16 @@
 package com.roundtable.roundtable.business.member;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.entity.house.HouseRepository;
-import com.roundtable.roundtable.entity.house.InviteCode;
-import com.roundtable.roundtable.entity.member.Gender;
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.member.MemberRepository;
+import com.roundtable.roundtable.domain.house.House;
+import com.roundtable.roundtable.domain.house.HouseRepository;
+import com.roundtable.roundtable.domain.house.InviteCode;
+import com.roundtable.roundtable.domain.member.Gender;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.member.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

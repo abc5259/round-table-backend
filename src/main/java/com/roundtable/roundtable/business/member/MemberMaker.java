@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.business.member;
 
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.member.MemberRepository;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

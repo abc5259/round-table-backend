@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.common;
 
-import com.roundtable.roundtable.entity.common.CursorPagination;
+import com.roundtable.roundtable.domain.common.CursorPagination;
 
 public record CursorBasedRequest(
         Long lastId,

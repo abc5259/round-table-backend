@@ -1,10 +1,10 @@
 package com.roundtable.roundtable.business.chore;
 
-import com.roundtable.roundtable.entity.chore.Chore;
-import com.roundtable.roundtable.entity.chore.ChoreMember;
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.entity.schedule.dto.ScheduleIdDto;
+import com.roundtable.roundtable.domain.chore.Chore;
+import com.roundtable.roundtable.domain.chore.ChoreMember;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.dto.ScheduleIdDto;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;

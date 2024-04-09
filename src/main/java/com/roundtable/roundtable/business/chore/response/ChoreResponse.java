@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.business.chore.response;
 
-import com.roundtable.roundtable.entity.category.dto.CategoryDetailV1Dto;
-import com.roundtable.roundtable.entity.chore.dto.ChoreMembersDetailDto;
+import com.roundtable.roundtable.domain.category.dto.CategoryDetailV1Dto;
+import com.roundtable.roundtable.domain.chore.dto.ChoreMembersDetailDto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;

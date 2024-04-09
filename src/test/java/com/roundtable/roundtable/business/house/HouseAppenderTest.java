@@ -3,10 +3,10 @@ package com.roundtable.roundtable.business.house;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.entity.house.HouseRepository;
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.member.MemberRepository;
+import com.roundtable.roundtable.domain.house.House;
+import com.roundtable.roundtable.domain.house.HouseRepository;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.member.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

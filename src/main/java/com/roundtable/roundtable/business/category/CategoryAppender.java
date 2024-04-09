@@ -2,12 +2,10 @@ package com.roundtable.roundtable.business.category;
 
 import static com.roundtable.roundtable.global.exception.CoreException.*;
 
-import com.roundtable.roundtable.business.house.HouseValidator;
 import com.roundtable.roundtable.business.member.MemberValidator;
-import com.roundtable.roundtable.entity.category.Category;
-import com.roundtable.roundtable.entity.category.CategoryRepository;
-import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.global.exception.CoreException;
+import com.roundtable.roundtable.domain.category.Category;
+import com.roundtable.roundtable.domain.category.CategoryRepository;
+import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.global.exception.errorcode.CategoryErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

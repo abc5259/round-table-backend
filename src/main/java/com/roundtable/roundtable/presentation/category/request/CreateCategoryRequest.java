@@ -1,6 +1,5 @@
 package com.roundtable.roundtable.presentation.category.request;
 
-import com.roundtable.roundtable.entity.house.House;
 import com.roundtable.roundtable.business.category.CreateCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

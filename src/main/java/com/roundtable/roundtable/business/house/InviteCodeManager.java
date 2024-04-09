@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.house;
 
-import com.roundtable.roundtable.entity.house.InviteCode;
+import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.global.exception.CoreException.DuplicatedException;
 import com.roundtable.roundtable.global.exception.errorcode.HouseErrorCode;
 import com.roundtable.roundtable.global.util.RandomStringGenerator;

@@ -1,8 +1,8 @@
 package com.roundtable.roundtable.business.chore;
 
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
-import com.roundtable.roundtable.entity.chore.ChoreQueryRepository;
-import com.roundtable.roundtable.entity.chore.dto.ChoreMembersDetailDto;
+import com.roundtable.roundtable.domain.chore.ChoreQueryRepository;
+import com.roundtable.roundtable.domain.chore.dto.ChoreMembersDetailDto;
 import com.roundtable.roundtable.business.chore.response.ChoreOfMemberResponse;
 import com.roundtable.roundtable.business.chore.response.ChoreResponse;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;

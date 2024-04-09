@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.house;
 
-import com.roundtable.roundtable.entity.house.HouseRepository;
+import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.HouseErrorCode;
 import lombok.RequiredArgsConstructor;

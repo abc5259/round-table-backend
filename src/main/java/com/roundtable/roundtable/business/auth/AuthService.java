@@ -5,7 +5,7 @@ import com.roundtable.roundtable.business.member.RegisterMember;
 import com.roundtable.roundtable.business.member.LoginManager;
 import com.roundtable.roundtable.business.member.LoginMember;
 import com.roundtable.roundtable.business.member.MemberReader;
-import com.roundtable.roundtable.entity.otp.AuthCode;
+import com.roundtable.roundtable.domain.otp.AuthCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,20 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final MailProvider mailProvider;
     private final MemberReader memberReader;
     private final MemberMaker memberMaker;
     private final EmailAuthCodeManager emailAuthCodeManager;
     private final LoginManager loginManager;
 
-
-    @Transactional(readOnly = true)
     public void sendCodeToEmail(final String email) {
         memberReader.checkDuplicateEmail(email);
-
-        AuthCode authCode = AuthCode.create(email);
-        emailAuthCodeManager.saveAuthCode(authCode);
-        mailProvider.sendEmail(email, "Round Table 이메일 인증 번호", authCode.getCode());
+        emailAuthCodeManager.saveAuthCodeAndSendMail(AuthCode.create(email), email);
     }
 
     public boolean isCorrectAuthCode(AuthCode authCode) {

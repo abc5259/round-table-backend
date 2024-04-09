@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.business.member;
 
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.member.MemberRepository;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.global.exception.CoreException.DuplicatedException;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
@@ -14,11 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberReader {
-    private final MemberRepository memberRepository;
 
-    public boolean existsById(Long memberId) {
-        return memberRepository.existsById(memberId);
-    }
+    private final MemberRepository memberRepository;
 
     public boolean existEmail(String email) {
         return memberRepository.existsByEmail(email);

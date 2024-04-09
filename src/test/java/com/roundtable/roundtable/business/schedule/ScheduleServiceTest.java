@@ -5,13 +5,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.house.CreateScheduleDto;
-import com.roundtable.roundtable.entity.category.Category;
-import com.roundtable.roundtable.entity.chore.Chore;
-import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.entity.house.InviteCode;
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.schedule.DivisionType;
-import com.roundtable.roundtable.entity.schedule.FrequencyType;
+import com.roundtable.roundtable.domain.category.Category;
+import com.roundtable.roundtable.domain.chore.Chore;
+import com.roundtable.roundtable.domain.house.House;
+import com.roundtable.roundtable.domain.house.InviteCode;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.DivisionType;
+import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,7 +19,6 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

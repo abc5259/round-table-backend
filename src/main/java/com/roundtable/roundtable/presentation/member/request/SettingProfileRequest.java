@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.member.request;
 
-import com.roundtable.roundtable.entity.member.Gender;
+import com.roundtable.roundtable.domain.member.Gender;
 import com.roundtable.roundtable.business.member.MemberProfile;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -3,7 +3,7 @@ package com.roundtable.roundtable.presentation.schedulecomment;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
 import com.roundtable.roundtable.business.schedulecomment.ScheduleCommentService;
-import com.roundtable.roundtable.entity.schedulecomment.dto.ScheduleCommentDetailDto;
+import com.roundtable.roundtable.domain.schedulecomment.dto.ScheduleCommentDetailDto;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.presentation.support.argumentresolver.Login;

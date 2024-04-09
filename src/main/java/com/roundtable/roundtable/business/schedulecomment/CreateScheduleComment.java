@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.business.schedulecomment;
 
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.schedule.Schedule;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.Schedule;
 
 public record CreateScheduleComment(
 

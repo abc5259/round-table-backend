@@ -1,11 +1,9 @@
 package com.roundtable.roundtable.business.schedule;
 
-import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.entity.schedule.ScheduleMember;
-import com.roundtable.roundtable.entity.schedule.ScheduleMemberRepository;
-import com.roundtable.roundtable.entity.schedule.ScheduleQueryRepository;
-import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
-import com.roundtable.roundtable.entity.schedule.dto.ScheduleDetailDto;
+import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.ScheduleQueryRepository;
+import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
+import com.roundtable.roundtable.domain.schedule.dto.ScheduleDetailDto;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode;
 import java.time.LocalDate;

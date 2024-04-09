@@ -1,8 +1,8 @@
 package com.roundtable.roundtable.presentation.schedule.request;
 
 import com.roundtable.roundtable.business.house.CreateScheduleDto;
-import com.roundtable.roundtable.entity.schedule.DivisionType;
-import com.roundtable.roundtable.entity.schedule.FrequencyType;
+import com.roundtable.roundtable.domain.schedule.DivisionType;
+import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

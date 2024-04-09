@@ -7,7 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.entity.house.InviteCode;
+import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.global.exception.CoreException.DuplicatedException;
 import com.roundtable.roundtable.global.exception.errorcode.HouseErrorCode;
 import org.junit.jupiter.api.DisplayName;

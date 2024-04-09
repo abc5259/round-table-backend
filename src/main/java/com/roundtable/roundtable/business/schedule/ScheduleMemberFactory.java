@@ -1,12 +1,12 @@
 package com.roundtable.roundtable.business.schedule;
 
-import static com.roundtable.roundtable.entity.schedule.DivisionType.FIX;
-import static com.roundtable.roundtable.entity.schedule.DivisionType.ROTATION;
+import static com.roundtable.roundtable.domain.schedule.DivisionType.FIX;
+import static com.roundtable.roundtable.domain.schedule.DivisionType.ROTATION;
 
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.schedule.DivisionType;
-import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.entity.schedule.ScheduleMember;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.DivisionType;
+import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.ScheduleMember;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.RequiredArgsConstructor;

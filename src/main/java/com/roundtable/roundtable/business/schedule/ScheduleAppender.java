@@ -6,14 +6,14 @@ import static com.roundtable.roundtable.global.exception.errorcode.ScheduleError
 import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.INVALID_START_DATE;
 
 import com.roundtable.roundtable.business.member.MemberValidator;
-import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.schedule.Frequency;
-import com.roundtable.roundtable.entity.schedule.FrequencyType;
-import com.roundtable.roundtable.entity.schedule.Schedule;
+import com.roundtable.roundtable.domain.house.House;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.Frequency;
+import com.roundtable.roundtable.domain.schedule.FrequencyType;
+import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
-import com.roundtable.roundtable.entity.schedule.ScheduleMember;
-import com.roundtable.roundtable.entity.schedule.ScheduleRepository;
+import com.roundtable.roundtable.domain.schedule.ScheduleMember;
+import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.business.member.MemberReader;
 import java.time.DayOfWeek;
 import java.time.LocalDate;

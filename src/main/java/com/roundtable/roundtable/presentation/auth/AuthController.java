@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.presentation.auth;
 
 import com.roundtable.roundtable.business.auth.Tokens;
-import com.roundtable.roundtable.entity.otp.AuthCode;
+import com.roundtable.roundtable.domain.otp.AuthCode;
 import com.roundtable.roundtable.global.properties.JwtProperties;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.FailResponse;

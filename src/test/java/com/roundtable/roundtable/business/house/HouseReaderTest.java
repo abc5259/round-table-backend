@@ -3,9 +3,9 @@ package com.roundtable.roundtable.business.house;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.entity.house.House;
-import com.roundtable.roundtable.entity.house.HouseRepository;
-import com.roundtable.roundtable.entity.house.InviteCode;
+import com.roundtable.roundtable.domain.house.House;
+import com.roundtable.roundtable.domain.house.HouseRepository;
+import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.HouseErrorCode;
 import org.junit.jupiter.api.DisplayName;

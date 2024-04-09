@@ -1,9 +1,9 @@
 package com.roundtable.roundtable.business.schedule;
 
-import com.roundtable.roundtable.entity.member.Member;
-import com.roundtable.roundtable.entity.schedule.Schedule;
-import com.roundtable.roundtable.entity.schedule.ScheduleMember;
-import com.roundtable.roundtable.entity.schedule.ScheduleMemberRepository;
+import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.ScheduleMember;
+import com.roundtable.roundtable.domain.schedule.ScheduleMemberRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
