@@ -2,10 +2,9 @@ package com.roundtable.roundtable.presentation.category;
 
 import com.roundtable.roundtable.business.category.CategoryService;
 import com.roundtable.roundtable.business.common.AuthMember;
-import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.presentation.category.request.CreateCategoryRequest;
-import com.roundtable.roundtable.presentation.argumentresolver.Login;
+import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

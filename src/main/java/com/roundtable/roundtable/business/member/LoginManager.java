@@ -2,7 +2,7 @@ package com.roundtable.roundtable.business.member;
 
 import com.roundtable.roundtable.business.auth.JwtPayload;
 import com.roundtable.roundtable.business.auth.JwtProvider;
-import com.roundtable.roundtable.business.auth.Token;
+import com.roundtable.roundtable.business.auth.Tokens;
 import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
 import com.roundtable.roundtable.global.exception.MemberException.MemberUnAuthorizationException;
@@ -20,7 +20,7 @@ public class LoginManager {
 
     private final JwtProvider jwtProvider;
 
-    public Token login(final LoginMember loginMember) {
+    public Tokens login(final LoginMember loginMember) {
         Member member = memberReader.findByEmail(loginMember.email());
         if(member.isCorrectPassword(loginMember.password(), passwordEncoder)) {
             return jwtProvider.issueToken(toJwtPayload(member));

@@ -16,12 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberReader {
     private final MemberRepository memberRepository;
 
-    public boolean isExistEmail(String email) {
+    public boolean existsById(Long memberId) {
+        return memberRepository.existsById(memberId);
+    }
+
+    public boolean existEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
 
     public void checkDuplicateEmail(String email) {
-        if(isExistEmail(email)) {
+        if(existEmail(email)) {
             throw new DuplicatedException(MemberErrorCode.DUPLICATED_EMAIL);
         }
     }

@@ -1,9 +1,9 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
 import com.roundtable.roundtable.business.auth.JwtPayload;
+import com.roundtable.roundtable.business.auth.Tokens;
 import com.roundtable.roundtable.global.exception.AuthenticationException;
 import com.roundtable.roundtable.business.auth.JwtProvider;
-import com.roundtable.roundtable.business.auth.Token;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class JwtAuthenticationProvider {
 
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
 
-        Token token = jwtAuthenticationToken.getToken();
+        Tokens token = jwtAuthenticationToken.getTokens();
         final JwtPayload jwtPayload = jwtProvider.extractPayload(token.getAccessToken());
 
         return new JwtAuthenticationToken(token, jwtPayload, null, null);

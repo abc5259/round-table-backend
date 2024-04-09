@@ -21,8 +21,8 @@ public class JwtProvider {
     private static final String USER_ID = "userId";
     private static final String HOUSE_ID = "houseId";
 
-    public Token issueToken(JwtPayload jwtPayload) {
-        return Token.of(
+    public Tokens issueToken(JwtPayload jwtPayload) {
+        return Tokens.of(
                 generateToken(jwtPayload.userId(), jwtPayload.houseId(),true),
                 generateToken(jwtPayload.userId(), jwtPayload.houseId(),false)
         );

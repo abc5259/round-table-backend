@@ -18,6 +18,6 @@ public class  MemberService {
     }
 
     public boolean isExistEmail(String email) {
-        return memberReader.isExistEmail(email);
+        return memberReader.existEmail(email);
     }
 }

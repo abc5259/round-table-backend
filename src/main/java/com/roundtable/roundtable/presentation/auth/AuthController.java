@@ -1,12 +1,11 @@
 package com.roundtable.roundtable.presentation.auth;
 
+import com.roundtable.roundtable.business.auth.Tokens;
 import com.roundtable.roundtable.entity.otp.AuthCode;
 import com.roundtable.roundtable.global.properties.JwtProperties;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.FailResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
-import com.roundtable.roundtable.presentation.auth.jwt.JwtAuthenticationConverter;
-import com.roundtable.roundtable.business.auth.Token;
 import com.roundtable.roundtable.business.auth.AuthService;
 import com.roundtable.roundtable.presentation.auth.request.EmailRequest;
 import com.roundtable.roundtable.presentation.auth.request.LoginRequest;
@@ -17,9 +16,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,7 +66,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginMember(@Valid @RequestBody final LoginRequest memberLoginRequest) {
 
-        Token token = authService.login(memberLoginRequest.toLoginMember());
+        Tokens token = authService.login(memberLoginRequest.toLoginMember());
 
         return ResponseEntity.ok()
                 .body(

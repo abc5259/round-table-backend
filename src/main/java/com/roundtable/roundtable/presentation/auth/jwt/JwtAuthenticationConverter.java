@@ -1,16 +1,9 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
-import com.roundtable.roundtable.business.auth.Token;
-import com.roundtable.roundtable.global.exception.AuthenticationException;
+import com.roundtable.roundtable.business.auth.Tokens;
 import com.roundtable.roundtable.global.exception.AuthenticationException.JwtAuthenticationException;
 import com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.stereotype.Component;
@@ -27,7 +20,7 @@ public class JwtAuthenticationConverter implements AuthenticationConverter {
     @Override
     public Authentication convert(HttpServletRequest request) {
         String accessToken = getAccessTokenFromHttpServletRequest(request);
-        return new JwtAuthenticationToken(Token.of(accessToken), null, null);
+        return new JwtAuthenticationToken(Tokens.of(accessToken), null, null);
     }
 
     private String getAccessTokenFromHttpServletRequest(HttpServletRequest request) {

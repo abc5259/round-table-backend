@@ -2,9 +2,8 @@ package com.roundtable.roundtable.presentation.schedule;
 
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.schedule.ScheduleService;
-import com.roundtable.roundtable.entity.member.Member;
 import com.roundtable.roundtable.presentation.schedule.request.CreateScheduleRequest;
-import com.roundtable.roundtable.presentation.argumentresolver.Login;
+import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import jakarta.validation.Valid;

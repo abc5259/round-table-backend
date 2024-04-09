@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.presentation.argumentresolver;
+package com.roundtable.roundtable.presentation.support.argumentresolver;
 
 import static com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode.INVALID_AUTH;
 
@@ -8,7 +8,6 @@ import com.roundtable.roundtable.global.exception.AuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

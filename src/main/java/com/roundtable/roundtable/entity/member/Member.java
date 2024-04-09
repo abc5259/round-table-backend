@@ -95,5 +95,4 @@ public class Member extends BaseEntity {
 
     public boolean isEnterHouse() {
         return Objects.nonNull(house);
-    }
-}
+    }}

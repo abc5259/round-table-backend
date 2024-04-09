@@ -1,27 +1,27 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
-import com.roundtable.roundtable.business.auth.Token;
+import com.roundtable.roundtable.business.auth.Tokens;
 import java.util.Collection;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
-    private final Token token;
+    private final Tokens tokens;
     private final Object principal;
     private final Object credentials;
 
-    public JwtAuthenticationToken(Token token, Object principal, Object credentials) {
+    public JwtAuthenticationToken(Tokens tokens, Object principal, Object credentials) {
         super(null);
-        this.token = token;
+        this.tokens = tokens;
         this.principal = principal;
         this.credentials = credentials;
         super.setAuthenticated(false);
     }
 
-    public JwtAuthenticationToken(Token token, Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+    public JwtAuthenticationToken(Tokens tokens, Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
-        this.token = token;
+        this.tokens = tokens;
         this.principal = principal;
         this.credentials = credentials;
         super.setAuthenticated(true);
@@ -37,8 +37,8 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
         return this.principal;
     }
 
-    public Token getToken() {
-        return this.token;
+    public Tokens getTokens() {
+        return this.tokens;
     }
 
 }

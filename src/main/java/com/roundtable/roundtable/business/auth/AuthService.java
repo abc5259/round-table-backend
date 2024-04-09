@@ -43,7 +43,7 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public Token login(final LoginMember loginMember) {
+    public Tokens login(final LoginMember loginMember) {
         return loginManager.login(loginMember);
     }
 }
