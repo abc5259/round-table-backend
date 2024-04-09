@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -26,6 +27,7 @@ public record CreateScheduleRequest(
         @NotNull(message = "divisionType에 빈 값이 올 수 없습니다.")
         DivisionType divisionType,
         @NotEmpty(message = "memberIds는 하나 이상이어야 합니다.")
+        @Size(min = 1, max = 30, message = "담당자는 최소 1명 최대 30명까지 가능합니다.")
         List<Long> memberIds,
 
         @NotNull(message = "categoryId에 빈 값이 올 수 없습니다.")

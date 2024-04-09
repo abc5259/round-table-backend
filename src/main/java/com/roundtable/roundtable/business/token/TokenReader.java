@@ -15,10 +15,6 @@ public class TokenReader {
 
     private final TokenRepository tokenRepository;
 
-    public boolean existsByMemberId(Long memberId) {
-        return tokenRepository.existsByMember(Member.Id(memberId));
-    }
-
     public Optional<Token> readByMemberId(Long memberId) {
         return tokenRepository.findByMember(Member.Id(memberId));
     }
