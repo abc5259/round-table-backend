@@ -1,6 +1,8 @@
 package com.roundtable.roundtable.business.auth;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.domain.otp.AuthCode;
@@ -9,6 +11,8 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -19,6 +23,9 @@ class EmailAuthCodeManagerTest extends IntegrationTestSupport {
 
     @Autowired
     private AuthCodeRedisRepository authCodeRedisRepository;
+
+    @Mock
+    private MailProvider mailProvider;
 
     @AfterEach
     void tearDown() {
@@ -59,4 +66,22 @@ class EmailAuthCodeManagerTest extends IntegrationTestSupport {
         assertThat(result1).isTrue();
         assertThat(result2).isFalse();
      }
+
+     @DisplayName("인증코드를 redis에 저장하고 메일을 전송한다.")
+     @Test
+     void saveAuthCodeAndSendMail() {
+         //given
+         String email = "email@domain.com";
+         AuthCode authCode = AuthCode.of(email,"123456");
+
+         doNothing().when(mailProvider).sendEmail(eq(email), anyString(), contains(authCode.getCode()));
+
+         //when
+         emailAuthCodeManager.saveAuthCodeAndSendMail(authCode, email);
+
+         //then
+         AuthCode findAuthCode = authCodeRedisRepository.findById(email).orElse(null);
+         assertThat(findAuthCode).isNotNull();
+         assertThat(findAuthCode.getCode()).isEqualTo(authCode.getCode());
+      }
 }
