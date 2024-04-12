@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class EmailAuthCodeManager {
 
     private final AuthCodeRedisRepository authCodeRedisRepository;
+    
     private final MailProvider mailProvider;
 
     public void saveAuthCode(AuthCode authCode) {

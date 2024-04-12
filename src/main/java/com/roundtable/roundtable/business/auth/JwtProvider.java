@@ -4,6 +4,7 @@ import com.roundtable.roundtable.global.exception.AuthenticationException;
 import com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode;
 import com.roundtable.roundtable.global.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -19,18 +20,19 @@ public class JwtProvider {
     private final JwtProperties jwtProperties;
 
     private static final String USER_ID = "userId";
+
     private static final String HOUSE_ID = "houseId";
 
     public Tokens issueToken(JwtPayload jwtPayload) {
         return Tokens.of(
-                generateToken(jwtPayload.userId(), jwtPayload.houseId(),true),
-                generateToken(jwtPayload.userId(), jwtPayload.houseId(),false)
+                generateToken(jwtPayload.userId(), jwtPayload.houseId(),jwtProperties.getAccessTokenExpireTime()),
+                generateToken(jwtPayload.userId(), jwtPayload.houseId(),jwtProperties.getRefreshTokenExpireTime())
         );
     }
 
-    private String generateToken(Long userId, Long houseId, boolean isAccessToken) {
+    private String generateToken(Long userId, Long houseId, Long expireTime) {
         final Date now = new Date();
-        final Date expiration = new Date(now.getTime() + (isAccessToken ? jwtProperties.getAccessTokenExpireTime() : jwtProperties.getRefreshTokenExpireTime()));
+        final Date expiration = new Date(now.getTime() + expireTime);
         return Jwts.builder()
                 .claim(USER_ID, userId)
                 .claim(HOUSE_ID, houseId)
@@ -49,9 +51,12 @@ public class JwtProvider {
 
     private Claims extractClaims(String token) {
         try {
-            Claims claims = getJwtParser().parseSignedClaims(token).getPayload();
-            return claims;
-        }catch (JwtException e) {
+            return getJwtParser().parseSignedClaims(token).getPayload();
+        }
+        catch (ExpiredJwtException e) {
+            throw new AuthenticationException(AuthErrorCode.JWT_EXPIRED_ERROR, e);
+        }
+        catch (JwtException | IllegalArgumentException e) {
             throw new AuthenticationException(AuthErrorCode.JWT_EXTRACT_ERROR, e);
         }
     }

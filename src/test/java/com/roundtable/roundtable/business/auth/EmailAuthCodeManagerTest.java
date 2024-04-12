@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.core.RedisTemplate;
 
 class EmailAuthCodeManagerTest extends IntegrationTestSupport {
@@ -23,9 +24,6 @@ class EmailAuthCodeManagerTest extends IntegrationTestSupport {
 
     @Autowired
     private AuthCodeRedisRepository authCodeRedisRepository;
-
-    @Mock
-    private MailProvider mailProvider;
 
     @AfterEach
     void tearDown() {
@@ -74,8 +72,6 @@ class EmailAuthCodeManagerTest extends IntegrationTestSupport {
          String email = "email@domain.com";
          AuthCode authCode = AuthCode.of(email,"123456");
 
-         doNothing().when(mailProvider).sendEmail(eq(email), anyString(), contains(authCode.getCode()));
-
          //when
          emailAuthCodeManager.saveAuthCodeAndSendMail(authCode, email);
 
@@ -83,5 +79,6 @@ class EmailAuthCodeManagerTest extends IntegrationTestSupport {
          AuthCode findAuthCode = authCodeRedisRepository.findById(email).orElse(null);
          assertThat(findAuthCode).isNotNull();
          assertThat(findAuthCode.getCode()).isEqualTo(authCode.getCode());
+         verify(mailProvider).sendEmail(eq(email), anyString(), contains(authCode.getCode()));
       }
 }
