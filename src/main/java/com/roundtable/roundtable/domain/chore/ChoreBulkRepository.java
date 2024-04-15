@@ -28,20 +28,16 @@ public class ChoreBulkRepository {
 
     private final SQLExceptionTranslator exTranslator;
 
-    private final ChoreRepository choreRepository;
-
     private final ChoreMatcherRepository choreMatcherRepository;
 
     private final ChoreMemberBulkRepository choreMemberBulkRepository;
 
     public ChoreBulkRepository(
             DataSource dataSource,
-            ChoreRepository choreRepository,
             ChoreMatcherRepository choreMatcherRepository,
             ChoreMemberBulkRepository choreMemberBulkRepository) {
         this.dataSource = dataSource;
         this.exTranslator = new SQLErrorCodeSQLExceptionTranslator(dataSource);
-        this.choreRepository = choreRepository;
         this.choreMatcherRepository = choreMatcherRepository;
         this.choreMemberBulkRepository = choreMemberBulkRepository;
     }
