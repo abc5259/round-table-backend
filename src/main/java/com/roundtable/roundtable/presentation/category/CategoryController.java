@@ -4,8 +4,9 @@ import com.roundtable.roundtable.business.category.CategoryService;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.presentation.category.request.CreateCategoryRequest;
-import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
+import com.roundtable.roundtable.global.support.annotation.Login;
 import com.roundtable.roundtable.global.response.SuccessResponse;
+import com.roundtable.roundtable.global.support.annotation.ValidHasHouse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
+    @ValidHasHouse
     public ResponseEntity<ApiResponse<Long>> createCategory(
             @Login AuthMember authMember,
             @Valid @RequestBody CreateCategoryRequest createCategoryRequest

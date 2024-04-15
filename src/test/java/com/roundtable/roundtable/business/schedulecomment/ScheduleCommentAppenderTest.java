@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.schedulecomment;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
+import com.roundtable.roundtable.business.schedulecomment.dto.CreateScheduleComment;
 import com.roundtable.roundtable.domain.category.Category;
 import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;

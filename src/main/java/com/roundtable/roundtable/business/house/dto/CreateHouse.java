@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.house;
+package com.roundtable.roundtable.business.house.dto;
 
 public record CreateHouse(
         String name

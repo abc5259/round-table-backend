@@ -1,9 +1,10 @@
 package com.roundtable.roundtable.business.member;
 
-import com.roundtable.roundtable.business.auth.JwtPayload;
+import com.roundtable.roundtable.business.auth.dto.JwtPayload;
 import com.roundtable.roundtable.business.auth.JwtProvider;
-import com.roundtable.roundtable.business.auth.Tokens;
-import com.roundtable.roundtable.business.token.CreateToken;
+import com.roundtable.roundtable.business.auth.dto.Tokens;
+import com.roundtable.roundtable.business.member.dto.LoginMember;
+import com.roundtable.roundtable.business.token.dto.CreateToken;
 import com.roundtable.roundtable.business.token.TokenService;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;

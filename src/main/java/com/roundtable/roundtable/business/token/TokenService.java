@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.token;
 
+import com.roundtable.roundtable.business.token.dto.CreateToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

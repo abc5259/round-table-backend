@@ -3,9 +3,10 @@ package com.roundtable.roundtable.presentation.schedule;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.schedule.ScheduleService;
 import com.roundtable.roundtable.presentation.schedule.request.CreateScheduleRequest;
-import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
+import com.roundtable.roundtable.global.support.annotation.Login;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
+import com.roundtable.roundtable.global.support.annotation.ValidHasHouse;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
+    @ValidHasHouse
     public ResponseEntity<ApiResponse<Long>> createSchedule(
             @Login AuthMember authMember,
             @Valid @RequestBody CreateScheduleRequest createScheduleRequest) {

@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.member;
 
+import com.roundtable.roundtable.business.member.dto.RegisterMember;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;

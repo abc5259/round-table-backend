@@ -6,6 +6,7 @@ import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
+import com.roundtable.roundtable.business.schedulecomment.dto.CreateScheduleCommentDto;
 import com.roundtable.roundtable.domain.category.Category;
 import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
@@ -67,37 +68,20 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
         Schedule schedule = appendSchedule(category, house);
         String contentStr = "content";
 
-        CreateScheduleCommentDto createScheduleCommentDto = new CreateScheduleCommentDto(contentStr, member.getId(),
-                schedule.getId());
+        AuthMember authMember = new AuthMember(member.getId(), house.getId());
+
+        CreateScheduleCommentDto createScheduleCommentDto = new CreateScheduleCommentDto(contentStr, schedule.getId());
 
         //when
-        Long scheduleCommentId = scheduleCommentService.createScheduleComment(createScheduleCommentDto);
+        Long scheduleCommentId = scheduleCommentService.createScheduleComment(authMember, createScheduleCommentDto);
 
         //then
         assertThat(scheduleCommentId).isNotNull();
         ScheduleComment scheduleComment = scheduleCommentRepository.findById(scheduleCommentId).orElseThrow();
-        assertThat(scheduleComment).isNotNull()
-                .extracting("writer", "schedule")
-                .contains(member, schedule);
+        assertThat(scheduleComment).isNotNull();
+        assertThat(scheduleComment.getWriter().getId()).isEqualTo(member.getId());
+        assertThat(scheduleComment.getSchedule().getId()).isEqualTo(schedule.getId());
         assertThat(scheduleComment.getContent().getContent()).isEqualTo(contentStr);
-    }
-
-    @DisplayName("member가 존재하지 않는다면 ScheduleComment를 생성할 수 없다.")
-    @Test
-    void createScheduleComment_notFoundMember() {
-        //given
-        House house = appendHouse("code");
-        Category category = appendCategory(house);
-        Schedule schedule = appendSchedule(category, house);
-        String contentStr = "content";
-
-        CreateScheduleCommentDto createScheduleCommentDto = new CreateScheduleCommentDto(contentStr, 1L,
-                schedule.getId());
-
-        //when
-        assertThatThrownBy(() -> scheduleCommentService.createScheduleComment(createScheduleCommentDto))
-                .isInstanceOf(NotFoundEntityException.class)
-                .hasMessage(MemberErrorCode.NOT_FOUND.getMessage());
     }
 
     @DisplayName("schedule이 존재하지 않는다면 ScheduleComment를 생성할 수 없다.")
@@ -109,10 +93,12 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
         Member member = appendMember(house, "email");
         String contentStr = "content";
 
-        CreateScheduleCommentDto createScheduleCommentDto = new CreateScheduleCommentDto(contentStr, member.getId(), 1L);
+        AuthMember authMember = new AuthMember(member.getId(), house.getId());
+
+        CreateScheduleCommentDto createScheduleCommentDto = new CreateScheduleCommentDto(contentStr, 1L);
 
         //when
-        assertThatThrownBy(() -> scheduleCommentService.createScheduleComment(createScheduleCommentDto))
+        assertThatThrownBy(() -> scheduleCommentService.createScheduleComment(authMember, createScheduleCommentDto))
                 .isInstanceOf(NotFoundEntityException.class)
                 .hasMessage(ScheduleErrorCode.NOT_FOUND_ID.getMessage());
     }

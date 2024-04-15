@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.global.config;
 
-import com.roundtable.roundtable.presentation.support.argumentresolver.LoginAuthMemberArgumentResolver;
+import com.roundtable.roundtable.global.support.argumentresolver.LoginAuthMemberArgumentResolver;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +11,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
+    private final LoginAuthMemberArgumentResolver loginAuthMemberArgumentResolver;
+
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new LoginAuthMemberArgumentResolver());
+        resolvers.add(loginAuthMemberArgumentResolver);
     }
 }

@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.house;
 
+import com.roundtable.roundtable.business.house.dto.CreateHouse;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import jakarta.transaction.Transactional;

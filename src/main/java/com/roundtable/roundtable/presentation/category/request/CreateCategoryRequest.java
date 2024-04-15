@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.category.request;
 
-import com.roundtable.roundtable.business.category.CreateCategory;
+import com.roundtable.roundtable.business.category.dto.CreateCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

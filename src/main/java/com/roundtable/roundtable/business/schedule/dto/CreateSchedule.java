@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.schedule;
+package com.roundtable.roundtable.business.schedule.dto;
 
 import com.roundtable.roundtable.domain.category.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;

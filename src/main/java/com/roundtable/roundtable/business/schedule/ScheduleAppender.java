@@ -6,6 +6,7 @@ import static com.roundtable.roundtable.global.exception.errorcode.ScheduleError
 import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.INVALID_START_DATE;
 
 import com.roundtable.roundtable.business.member.MemberValidator;
+import com.roundtable.roundtable.business.schedule.dto.CreateSchedule;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Frequency;
@@ -46,6 +47,17 @@ public class ScheduleAppender {
     }
 
 
+    private void validateCreateSchedule(CreateSchedule createSchedule, LocalDate currDate) {
+
+        checkDuplicateMemberId(createSchedule);
+
+        checkBeforeDate(createSchedule, currDate);
+
+        checkSupportFrequency(createSchedule);
+
+        checkWeeklyInterval(createSchedule);
+    }
+
     private Schedule appendSchedule(CreateSchedule createSchedule, House house, List<Member> members) {
 
         //여기서 카테고리가 같은 하우스인지 체크 해야 할까? 아니면 도메인에게 맡길까?
@@ -61,17 +73,6 @@ public class ScheduleAppender {
         );
 
         return scheduleRepository.save(schedule);
-    }
-
-    private void validateCreateSchedule(CreateSchedule createSchedule, LocalDate currDate) {
-
-        checkDuplicateMemberId(createSchedule);
-
-        checkBeforeDate(createSchedule, currDate);
-
-        checkSupportFrequency(createSchedule);
-
-        checkWeeklyInterval(createSchedule);
     }
 
     private void checkDuplicateMemberId(CreateSchedule createSchedule) {

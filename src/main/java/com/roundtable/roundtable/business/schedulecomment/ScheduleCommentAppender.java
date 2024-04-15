@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.schedulecomment;
 
+import com.roundtable.roundtable.business.schedulecomment.dto.CreateScheduleComment;
 import com.roundtable.roundtable.domain.schedulecomment.Content;
 import com.roundtable.roundtable.domain.schedulecomment.ScheduleComment;
 import com.roundtable.roundtable.domain.schedulecomment.ScheduleCommentRepository;

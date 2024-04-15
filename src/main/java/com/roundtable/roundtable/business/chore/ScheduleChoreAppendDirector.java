@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.business.chore;
 
-import com.roundtable.roundtable.business.schedule.CreateSchedule;
+import com.roundtable.roundtable.business.chore.dto.CreateChore;
+import com.roundtable.roundtable.business.schedule.dto.CreateSchedule;
 import com.roundtable.roundtable.business.schedule.ScheduleAppender;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;

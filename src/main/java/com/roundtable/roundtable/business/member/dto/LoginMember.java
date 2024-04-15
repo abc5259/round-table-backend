@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.member;
+package com.roundtable.roundtable.business.member.dto;
 
 public record LoginMember (
         String email,

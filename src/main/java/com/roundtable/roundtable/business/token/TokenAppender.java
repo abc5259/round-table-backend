@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.token;
 
+import com.roundtable.roundtable.business.token.dto.CreateToken;
 import com.roundtable.roundtable.domain.token.Token;
 import com.roundtable.roundtable.domain.token.TokenRepository;
 import lombok.RequiredArgsConstructor;

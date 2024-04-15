@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.category;
+package com.roundtable.roundtable.business.category.dto;
 
 public record CreateCategory(
 

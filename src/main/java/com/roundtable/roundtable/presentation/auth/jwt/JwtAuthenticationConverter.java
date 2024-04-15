@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.auth.jwt;
 
-import com.roundtable.roundtable.business.auth.Tokens;
+import com.roundtable.roundtable.business.auth.dto.Tokens;
 import com.roundtable.roundtable.global.exception.AuthenticationException.JwtAuthenticationException;
 import com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode;
 import jakarta.servlet.http.HttpServletRequest;

@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.category;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
+import com.roundtable.roundtable.business.category.dto.CreateCategory;
 import com.roundtable.roundtable.domain.category.Category;
 import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
@@ -11,10 +12,7 @@ import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.global.exception.CoreException;
-import com.roundtable.roundtable.global.exception.MemberException.MemberNoHouseException;
-import com.roundtable.roundtable.global.exception.MemberException.MemberNotSameHouseException;
 import com.roundtable.roundtable.global.exception.errorcode.CategoryErrorCode;
-import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,53 +83,11 @@ class CategoryAppenderTest extends IntegrationTestSupport {
                  house.getId()
          );
 
-
          //when //then
          assertThatThrownBy(() -> categoryAppender.appendCategory(createCategory))
                  .isInstanceOf(CoreException.DuplicatedException.class)
                  .hasMessage(CategoryErrorCode.DUPLICATED_NAME.getMessage());
-      }
-
-    @DisplayName("하우스에 속하지 않은 멤버라면 category를 추가할 수 없다.")
-      @Test
-      void appendCategoryWhenNoHasHouseMember() {
-          //given
-          Member member = createMemberInHouse(null);
-
-          CreateCategory createCategory = new CreateCategory(
-                  "category",
-                  10,
-                  member.getId(),
-                  null
-          );
-
-          //when //then
-          assertThatThrownBy(() -> categoryAppender.appendCategory(createCategory))
-                  .isInstanceOf(MemberNoHouseException.class)
-                  .hasMessage(MemberErrorCode.NO_HAS_HOUSE.getMessage());
-       }
-
-       @DisplayName("해당 하우스에 참여하지 않은 Member라면 에러를 던진다.")
-       @Test
-       void appendCategoryWhenNotMathHouseAndMember() {
-           //given
-           House house = createHouse();
-           Member member = createMemberInHouse(house);
-
-           CreateCategory createCategory = new CreateCategory(
-                   "category",
-                   10,
-                   member.getId(),
-                   house.getId() + 1
-           );
-
-           //when //then
-           assertThatThrownBy(() -> categoryAppender.appendCategory(createCategory))
-                   .isInstanceOf(MemberNotSameHouseException.class)
-                   .hasMessage(MemberErrorCode.NOT_SAME_HOUSE.getMessage());
-
-        }
-
+     }
     private House createHouse() {
         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         return houseRepository.save(house);

@@ -2,7 +2,7 @@ package com.roundtable.roundtable.business.category;
 
 import static com.roundtable.roundtable.global.exception.CoreException.*;
 
-import com.roundtable.roundtable.business.member.MemberValidator;
+import com.roundtable.roundtable.business.category.dto.CreateCategory;
 import com.roundtable.roundtable.domain.category.Category;
 import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
@@ -18,8 +18,6 @@ public class CategoryAppender {
 
     private final CategoryRepository categoryRepository;
 
-    private final MemberValidator memberValidator;
-
     public Category appendCategory(CreateCategory createCategory) {
         validate(createCategory);
 
@@ -32,7 +30,6 @@ public class CategoryAppender {
     }
 
     private void validate(CreateCategory createCategory) {
-        memberValidator.validateMemberBelongsToHouse(createCategory.memberId(), createCategory.houseId());
         checkDuplicatedCategoryName(createCategory);
     }
 

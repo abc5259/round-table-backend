@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.house;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
+import com.roundtable.roundtable.business.house.dto.CreateHouse;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.member.Member;

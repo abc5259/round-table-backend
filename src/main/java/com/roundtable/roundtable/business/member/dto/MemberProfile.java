@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.member;
+package com.roundtable.roundtable.business.member.dto;
 
 import com.roundtable.roundtable.domain.member.Gender;
 

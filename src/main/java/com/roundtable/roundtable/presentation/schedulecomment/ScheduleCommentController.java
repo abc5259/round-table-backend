@@ -6,7 +6,8 @@ import com.roundtable.roundtable.business.schedulecomment.ScheduleCommentService
 import com.roundtable.roundtable.domain.schedulecomment.dto.ScheduleCommentDetailDto;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
-import com.roundtable.roundtable.presentation.support.argumentresolver.Login;
+import com.roundtable.roundtable.global.support.annotation.Login;
+import com.roundtable.roundtable.global.support.annotation.ValidHasHouse;
 import com.roundtable.roundtable.presentation.common.request.CursorBasedPaginationRequest;
 import com.roundtable.roundtable.presentation.schedulecomment.request.CreateScheduleCommentRequest;
 import jakarta.validation.Valid;
@@ -29,6 +30,7 @@ public class ScheduleCommentController {
     private final ScheduleCommentService scheduleCommentService;
 
     @PostMapping
+    @ValidHasHouse
     public ResponseEntity<ApiResponse<Long>> createScheduleComment(
             @Login AuthMember authMember,
             @Valid @RequestBody CreateScheduleCommentRequest createScheduleCommentRequest
@@ -36,13 +38,15 @@ public class ScheduleCommentController {
         return ResponseEntity.ok(
                 SuccessResponse.from(
                         scheduleCommentService.createScheduleComment(
-                                createScheduleCommentRequest.toCreateScheduleCommentDto(authMember.memberId())
+                                authMember,
+                                createScheduleCommentRequest.toCreateScheduleCommentDto()
                         )
                 )
         );
     }
 
     @GetMapping("/schedule/{scheduleId}")
+    @ValidHasHouse
     public ResponseEntity<ApiResponse<CursorBasedResponse<List<ScheduleCommentDetailDto>>>> findCommentsByScheduleId(
             @Login AuthMember authMember,
             @PathVariable Long scheduleId,

@@ -1,10 +1,11 @@
 package com.roundtable.roundtable.business.auth;
 
+import com.roundtable.roundtable.business.auth.dto.Tokens;
 import com.roundtable.roundtable.business.member.MemberMaker;
-import com.roundtable.roundtable.business.member.RegisterMember;
+import com.roundtable.roundtable.business.member.MemberValidator;
+import com.roundtable.roundtable.business.member.dto.RegisterMember;
 import com.roundtable.roundtable.business.member.LoginManager;
-import com.roundtable.roundtable.business.member.LoginMember;
-import com.roundtable.roundtable.business.member.MemberReader;
+import com.roundtable.roundtable.business.member.dto.LoginMember;
 import com.roundtable.roundtable.domain.otp.AuthCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +16,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final MemberReader memberReader;
+    private final MemberValidator memberValidator;
     private final MemberMaker memberMaker;
     private final EmailAuthCodeManager emailAuthCodeManager;
     private final LoginManager loginManager;
 
     public void sendCodeToEmail(final String email) {
-        memberReader.checkDuplicateEmail(email);
+        memberValidator.validateDuplicatedEmail(email);
         emailAuthCodeManager.saveAuthCodeAndSendMail(AuthCode.create(email), email);
     }
 
@@ -30,7 +31,7 @@ public class AuthService {
     }
 
     public Long register(final RegisterMember registerMember) {
-        memberReader.checkDuplicateEmail(registerMember.email());
+        memberValidator.validateDuplicatedEmail(registerMember.email());
         return memberMaker.register(registerMember);
     }
 

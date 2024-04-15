@@ -13,7 +13,7 @@ import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
-import com.roundtable.roundtable.business.schedule.CreateSchedule;
+import com.roundtable.roundtable.business.schedule.dto.CreateSchedule;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;

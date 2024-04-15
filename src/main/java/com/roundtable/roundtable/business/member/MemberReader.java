@@ -21,10 +21,8 @@ public class MemberReader {
         return memberRepository.existsByEmail(email);
     }
 
-    public void checkDuplicateEmail(String email) {
-        if(existEmail(email)) {
-            throw new DuplicatedException(MemberErrorCode.DUPLICATED_EMAIL);
-        }
+    public boolean nonExistMemberId(Long memberId) {
+        return !memberRepository.existsById(memberId);
     }
 
     public Member findByEmail(String email) {

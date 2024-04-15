@@ -1,5 +1,7 @@
 package com.roundtable.roundtable.business.auth;
 
+import com.roundtable.roundtable.business.auth.dto.JwtPayload;
+import com.roundtable.roundtable.business.auth.dto.Tokens;
 import com.roundtable.roundtable.global.exception.AuthenticationException;
 import com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode;
 import com.roundtable.roundtable.global.properties.JwtProperties;

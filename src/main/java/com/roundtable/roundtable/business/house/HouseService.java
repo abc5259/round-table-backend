@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.business.house;
 
 import com.roundtable.roundtable.business.common.AuthMember;
-import com.roundtable.roundtable.business.member.MemberHouseManagerImpl;
+import com.roundtable.roundtable.business.house.dto.CreateHouse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

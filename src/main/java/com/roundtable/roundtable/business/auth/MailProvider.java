@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.auth;
 import com.roundtable.roundtable.global.exception.ApplicationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -20,7 +21,7 @@ public class MailProvider {
         SimpleMailMessage emailForm = createEmailForm(toEmail, title, text);
         try {
             emailSender.send(emailForm);
-        } catch (RuntimeException e) {
+        } catch (MailException e) {
             throw new ApplicationException("이메일 전송 예외", e);
         }
     }

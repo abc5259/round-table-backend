@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.chore;
+package com.roundtable.roundtable.business.chore.dto;
 
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Schedule;

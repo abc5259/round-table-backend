@@ -3,8 +3,9 @@ package com.roundtable.roundtable.business.schedulecomment;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
-import com.roundtable.roundtable.business.member.MemberReader;
 import com.roundtable.roundtable.business.schedule.ScheduleReader;
+import com.roundtable.roundtable.business.schedulecomment.dto.CreateScheduleComment;
+import com.roundtable.roundtable.business.schedulecomment.dto.CreateScheduleCommentDto;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedulecomment.ScheduleComment;
@@ -21,13 +22,12 @@ public class ScheduleCommentService {
 
     private final ScheduleCommentAppender scheduleCommentAppender;
     private final ScheduleCommentReader scheduleCommentReader;
-    private final MemberReader memberReader;
     private final ScheduleReader scheduleReader;
 
 
-    public Long createScheduleComment(CreateScheduleCommentDto createScheduleCommentDto) {
+    public Long createScheduleComment(AuthMember authMember, CreateScheduleCommentDto createScheduleCommentDto) {
 
-        Member writer = memberReader.findById(createScheduleCommentDto.writerId());
+        Member writer = Member.toAuthMember(authMember.memberId(), authMember.houseId());
 
         Schedule schedule = scheduleReader.findById(createScheduleCommentDto.scheduleId());
 

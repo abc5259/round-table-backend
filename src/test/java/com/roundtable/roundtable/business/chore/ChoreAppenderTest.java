@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.chore;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
+import com.roundtable.roundtable.business.chore.dto.CreateChore;
 import com.roundtable.roundtable.domain.category.Category;
 import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.chore.ChoreMember;

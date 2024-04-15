@@ -2,6 +2,7 @@ package com.roundtable.roundtable.business.chore;
 
 import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.DUPLICATED_MEMBER_ID;
 
+import com.roundtable.roundtable.business.chore.dto.CreateChore;
 import com.roundtable.roundtable.business.member.MemberValidator;
 import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.chore.ChoreBulkRepository;
@@ -46,14 +47,6 @@ public class ChoreAppender {
         return savedChore;
     }
 
-    public void appendChores(Map<ScheduleIdDto, List<Member>> scheduleAllocatorsMap, LocalDate startDate) {
-        appendChores(choreMapper.toChoreEntities(scheduleAllocatorsMap, startDate));
-    }
-
-    public void appendChores(List<Chore> chores) {
-        choreBulkRepository.saveAll(chores);
-    }
-
     private void checkDuplicateMember(List<Member> memberIds) {
         if(memberIds.size() != memberIds.stream().distinct().count()) {
             throw new CreateEntityException(DUPLICATED_MEMBER_ID);
@@ -64,4 +57,13 @@ public class ChoreAppender {
         Chore chore = Chore.create(createChore.schedule(), createChore.startDate());
         return choreRepository.save(chore);
     }
+
+    public void appendChores(Map<ScheduleIdDto, List<Member>> scheduleAllocatorsMap, LocalDate startDate) {
+        appendChores(choreMapper.toChoreEntities(scheduleAllocatorsMap, startDate));
+    }
+
+    private void appendChores(List<Chore> chores) {
+        choreBulkRepository.saveAll(chores);
+    }
+
 }

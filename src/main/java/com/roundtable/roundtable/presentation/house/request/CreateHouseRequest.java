@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.presentation.house.request;
 
-import com.roundtable.roundtable.business.house.CreateHouse;
+import com.roundtable.roundtable.business.house.dto.CreateHouse;
 import jakarta.validation.constraints.NotBlank;
 
 public record CreateHouseRequest(
