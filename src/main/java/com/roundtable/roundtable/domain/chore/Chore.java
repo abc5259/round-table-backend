@@ -39,7 +39,7 @@ public class Chore extends BaseEntity {
 
     private String matchKey;
 
-    @OneToMany(mappedBy = "chore", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "chore", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
     private List<ChoreMember> choreMembers = new ArrayList<>();
 
     @Builder
@@ -71,6 +71,10 @@ public class Chore extends BaseEntity {
     }
 
     public void addChoreMembers(List<ChoreMember> choreMembers) {
+        if(this.choreMembers == null) {
+            this.choreMembers = new ArrayList<>();
+        }
+
         for (ChoreMember choreMember : choreMembers) {
             if(this.choreMembers != null && !this.choreMembers.contains(choreMember)) {
                 this.choreMembers.add(choreMember);

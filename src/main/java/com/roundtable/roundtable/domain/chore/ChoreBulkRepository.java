@@ -52,7 +52,7 @@ public class ChoreBulkRepository {
 
         for (List<Chore> subSet : subSets) {
             List<Chore> savedItems = insertChores(subSet);
-            choreMemberBulkRepository.insertChores(matcher, savedItems);
+            choreMemberBulkRepository.insertChoreMembers(matcher, savedItems);
         }
     }
 

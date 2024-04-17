@@ -21,6 +21,6 @@ public class ChoreMemberAppender {
                 .map(member -> ChoreMember.create(chore, member))
                 .toList();
 
-        return choreMemberRepository.saveAllAndFlush(choreMembers);
+        return choreMemberRepository.saveAll(choreMembers);
     }
 }
