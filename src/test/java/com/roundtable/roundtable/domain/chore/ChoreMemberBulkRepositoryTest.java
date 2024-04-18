@@ -22,9 +22,6 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -85,6 +82,34 @@ class ChoreMemberBulkRepositoryTest extends IntegrationTestSupport {
         List<Long> expectedIdChores = result.stream().map(choreMember -> choreMember.getChore().getId()).sorted().toList();
         List<Long> idChores = chores.stream().map(Chore::getId).sorted().toList();
         assertThat(idChores).isEqualTo(expectedIdChores);
+    }
+
+    @DisplayName("여러개의 ChoreMember을 한번에 insert할 수 있다.")
+    @Test
+    void saveAll() {
+        //given
+        House house = createHouse();
+        Category category = createCategory(house);
+        Schedule schedule = createSchedule(category, house);
+        Chore chore = createChore(schedule);
+        choreRepository.save(chore);
+
+        final int size = 10;
+        List<ChoreMember> choreMembers = IntStream.rangeClosed(1, size)
+                .mapToObj(i ->
+                        ChoreMember.builder()
+                                    .chore(chore)
+                                    .member(createMember(house, "user" + i + "@example.com"))
+                                    .build())
+                .toList();
+
+        //when
+        choreMemberBulkRepository.saveAll(choreMembers);
+
+        //then
+        List<ChoreMember> result = choreMemberRepository.findAll();
+        assertThat(result).hasSize(size);
+
     }
 
     private House createHouse() {

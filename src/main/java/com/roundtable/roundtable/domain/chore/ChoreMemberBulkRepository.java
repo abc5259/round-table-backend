@@ -28,14 +28,13 @@ public class ChoreMemberBulkRepository {
     @Transactional
     public void insertChoreMembers(ChoreUniqueMatcher matcher, List<Chore> idChores) {
 
-        List<ChoreMember> choreMembers = idChores.stream()
-                .flatMap(idChore -> matcher.getChoreMembers(idChore).stream())
-                .toList();
-
+        // TODO: 해당 stream 메서드로 변경하기
+        List<ChoreMember> choreMembers = matcher.getChoreMembers(idChores);
         saveAll(choreMembers);
     }
 
-    private void saveAll(List<ChoreMember> choreMembers) {
+    @Transactional
+    public void saveAll(List<ChoreMember> choreMembers) {
         String sql = "INSERT INTO chore_member (chore_id, member_id, created_at, updated_at) " +
                 "VALUES (?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
 

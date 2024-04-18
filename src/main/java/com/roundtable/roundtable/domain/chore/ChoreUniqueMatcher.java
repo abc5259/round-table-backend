@@ -36,4 +36,10 @@ public class ChoreUniqueMatcher {
                 .map(choreMember -> choreMember.setBulkInsert(idChore))
                 .toList();
     }
+
+    public List<ChoreMember> getChoreMembers(List<Chore> idChores) {
+        return idChores.stream()
+                .flatMap(idChore -> getChoreMembers(idChore).stream())
+                .toList();
+    }
 }
