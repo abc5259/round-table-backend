@@ -47,4 +47,11 @@ public class EmailAuthCodeManager {
         AuthCode authCode = authCodeRedisRepository.findById(email).orElseThrow(EmailNotVerifiedException::new);
         return authCode.isCanRegister();
     }
+
+    public void validateRegister(String email) {
+        AuthCode authCode = authCodeRedisRepository.findById(email).orElseThrow(EmailNotVerifiedException::new);
+        if(!authCode.isCanRegister()) {
+            throw new EmailNotVerifiedException();
+        }
+    }
 }

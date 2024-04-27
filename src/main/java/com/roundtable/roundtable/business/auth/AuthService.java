@@ -32,6 +32,7 @@ public class AuthService {
 
     public Long register(final RegisterMember registerMember) {
         memberValidator.validateDuplicatedEmail(registerMember.email());
+        emailAuthCodeManager.validateRegister(registerMember.email());
         return memberMaker.register(registerMember);
     }
 
