@@ -5,11 +5,9 @@ import lombok.Getter;
 @Getter
 public class FailResponse<T> extends ApiResponse<T> {
 
-    private final String errorMessage;
 
     private FailResponse(String errorMessage) {
-        super(false, null);
-        this.errorMessage = errorMessage;
+        super(false, null, errorMessage);
     }
 
     public static <T> FailResponse<T> fail() {
