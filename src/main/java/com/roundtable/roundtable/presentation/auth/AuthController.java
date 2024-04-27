@@ -2,7 +2,6 @@ package com.roundtable.roundtable.presentation.auth;
 
 import com.roundtable.roundtable.business.auth.dto.Tokens;
 import com.roundtable.roundtable.domain.otp.AuthCode;
-import com.roundtable.roundtable.global.properties.JwtProperties;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.FailResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
@@ -30,8 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final JwtProperties jwtProperties;
-
     private final AuthService authService;
 
     @PostMapping("/emails")
@@ -46,7 +43,7 @@ public class AuthController {
             @Valid @NotBlank @RequestParam final String code) {
         boolean isCorrect = authService.isCorrectAuthCode(AuthCode.of(email, code));
         if(!isCorrect) {
-            return ResponseEntity.ok().body(FailResponse.fail(
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(FailResponse.fail(
                     "인증코드가 잘못되었습니다."
             ));
         }

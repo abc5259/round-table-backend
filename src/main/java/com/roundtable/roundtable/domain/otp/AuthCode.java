@@ -10,23 +10,34 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RedisHash(value = "authcode", timeToLive = 60 * 3)
+@RedisHash(value = "authcode")
 public class AuthCode {
 
-    private static final int MAX_LENGTH = 6;
+    public static final int MAX_LENGTH = 6;
+
+    public static final Long CODE_TTL = 180L; //3분
+
+    public static final Long REGISTER_TTL = 360L; //6분
 
     @Id
     private String email;
 
     private String code;
 
+    private boolean canRegister;
+
+    @TimeToLive
+    private Long ttl; // TTL 필드
+
     @Builder
-    private AuthCode(String email, String code) {
+    private AuthCode(String email, String code, Long ttl) {
         this.email = email;
         this.code = code;
+        this.ttl = ttl;
     }
 
     public static AuthCode of(String email, String code) {
@@ -46,6 +57,7 @@ public class AuthCode {
         return AuthCode.builder()
                 .email(email)
                 .code(createCode())
+                .ttl(CODE_TTL)
                 .build();
     }
 
@@ -68,5 +80,10 @@ public class AuthCode {
         }
 
         return this.code.equals(authCode.code);
+    }
+
+    public void settingForRegister() {
+       this.canRegister = true;
+       this.ttl = REGISTER_TTL;
     }
 }

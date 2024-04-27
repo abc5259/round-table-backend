@@ -23,4 +23,10 @@ public class AuthenticationException extends CoreException {
             super(errorCode, cause);
         }
     }
+
+    public static class EmailNotVerifiedException extends AuthenticationException {
+        public EmailNotVerifiedException() {
+            super(AuthErrorCode.EMAIL_NOT_VERIFIED);
+        }
+    }
 }
