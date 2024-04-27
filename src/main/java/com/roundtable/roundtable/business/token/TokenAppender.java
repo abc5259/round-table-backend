@@ -14,9 +14,8 @@ public class TokenAppender {
 
     private final TokenRepository tokenRepository;
 
-    public Long appendToken(CreateToken createToken) {
+    public void appendToken(CreateToken createToken) {
         Token token = Token.of(createToken.memberId(), createToken.refreshToken());
         tokenRepository.save(token);
-        return token.getId();
     }
 }

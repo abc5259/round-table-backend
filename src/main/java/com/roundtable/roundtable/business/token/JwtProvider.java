@@ -1,6 +1,6 @@
-package com.roundtable.roundtable.business.auth;
+package com.roundtable.roundtable.business.token;
 
-import com.roundtable.roundtable.business.auth.dto.JwtPayload;
+import com.roundtable.roundtable.business.token.dto.JwtPayload;
 import com.roundtable.roundtable.business.auth.dto.Tokens;
 import com.roundtable.roundtable.global.exception.AuthenticationException;
 import com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode;

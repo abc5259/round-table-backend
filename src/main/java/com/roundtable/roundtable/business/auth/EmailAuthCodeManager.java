@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class EmailAuthCodeManager {
 
-    public static final Long CODE_TTL = 180L; //3분
-
     private final AuthCodeRedisRepository authCodeRedisRepository;
     
     private final MailProvider mailProvider;
@@ -43,14 +41,9 @@ public class EmailAuthCodeManager {
         authCodeRedisRepository.save(storedAuthCode);
     }
 
-    public boolean canRegister(String email) {
-        AuthCode authCode = authCodeRedisRepository.findById(email).orElseThrow(EmailNotVerifiedException::new);
-        return authCode.isCanRegister();
-    }
-
     public void validateRegister(String email) {
         AuthCode authCode = authCodeRedisRepository.findById(email).orElseThrow(EmailNotVerifiedException::new);
-        if(!authCode.isCanRegister()) {
+        if(!authCode.isCheckEmail()) {
             throw new EmailNotVerifiedException();
         }
     }

@@ -3,8 +3,9 @@ package com.roundtable.roundtable.business.auth;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.roundtable.roundtable.business.auth.dto.JwtPayload;
+import com.roundtable.roundtable.business.token.dto.JwtPayload;
 import com.roundtable.roundtable.business.auth.dto.Tokens;
+import com.roundtable.roundtable.business.token.JwtProvider;
 import com.roundtable.roundtable.global.exception.AuthenticationException;
 import com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode;
 import com.roundtable.roundtable.global.properties.JwtProperties;

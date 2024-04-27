@@ -28,7 +28,7 @@ public class AuthCode {
 
     private String code;
 
-    private boolean canRegister;
+    private boolean isCheckEmail;
 
     @TimeToLive
     private Long ttl; // TTL 필드
@@ -83,7 +83,7 @@ public class AuthCode {
     }
 
     public void settingForRegister() {
-       this.canRegister = true;
+       this.isCheckEmail = true;
        this.ttl = REGISTER_TTL;
     }
 }

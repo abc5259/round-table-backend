@@ -2,7 +2,7 @@ package com.roundtable.roundtable.global.support.interceptor;
 
 import static com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode.INVALID_AUTH;
 
-import com.roundtable.roundtable.business.auth.dto.JwtPayload;
+import com.roundtable.roundtable.business.token.dto.JwtPayload;
 import com.roundtable.roundtable.business.member.MemberValidator;
 import com.roundtable.roundtable.global.exception.AuthenticationException;
 import com.roundtable.roundtable.global.support.annotation.ValidHasHouse;

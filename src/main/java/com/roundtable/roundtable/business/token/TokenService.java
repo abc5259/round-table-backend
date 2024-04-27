@@ -1,26 +1,16 @@
 package com.roundtable.roundtable.business.token;
 
-import com.roundtable.roundtable.business.token.dto.CreateToken;
+import com.roundtable.roundtable.business.auth.dto.Tokens;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class TokenService {
 
-    private final TokenReader tokenReader;
+    private final TokenManager tokenManager;
 
-    private final TokenAppender tokenAppender;
-
-    private final TokenUpdater tokenUpdater;
-
-    @Transactional
-    public void saveOrUpdateToken(CreateToken createToken) {
-        tokenReader.readByMemberId(createToken.memberId())
-                .ifPresentOrElse(
-                        token -> tokenUpdater.updateRefreshToken(token, createToken.refreshToken()),
-                        () -> tokenAppender.appendToken(createToken)
-                );
+    public Tokens refresh(String refreshToken) {
+        return tokenManager.refresh(refreshToken);
     }
 }

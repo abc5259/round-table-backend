@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.auth.dto;
+package com.roundtable.roundtable.business.token.dto;
 
 public record JwtPayload(
         Long userId,

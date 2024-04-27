@@ -1,13 +1,16 @@
 package com.roundtable.roundtable.presentation.auth;
 
 import com.roundtable.roundtable.business.auth.dto.Tokens;
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.domain.otp.AuthCode;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.FailResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.business.auth.AuthService;
+import com.roundtable.roundtable.global.support.annotation.Login;
 import com.roundtable.roundtable.presentation.auth.request.EmailRequest;
 import com.roundtable.roundtable.presentation.auth.request.LoginRequest;
+import com.roundtable.roundtable.presentation.auth.request.RefreshTokenRequest;
 import com.roundtable.roundtable.presentation.auth.request.RegisterRequest;
 import com.roundtable.roundtable.presentation.auth.response.LoginResponse;
 import com.roundtable.roundtable.presentation.auth.response.MemberCreateResponse;
