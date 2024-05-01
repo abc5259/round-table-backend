@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String[] whiteList = {"/members/exist","/auth/register", "/auth/login", "/auth/emails"};
+    private static final String[] whiteList = {"/members/exist","/auth/register", "/auth/login", "/auth/emails", "/token/refresh"};
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
     private final JwtAuthenticationConverter jwtAuthenticationConverter;

@@ -61,13 +61,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> loginMember(@Valid @RequestBody final LoginRequest memberLoginRequest) {
+    public ResponseEntity<SuccessResponse<LoginResponse>> loginMember(@Valid @RequestBody final LoginRequest memberLoginRequest) {
 
         Tokens token = authService.login(memberLoginRequest.toLoginMember());
 
         return ResponseEntity.ok()
                 .body(
-                        new LoginResponse(token.getAccessToken(), token.getRefreshToken())
+                        SuccessResponse.from(new LoginResponse(token.getAccessToken(), token.getRefreshToken()))
                 );
     }
 }
