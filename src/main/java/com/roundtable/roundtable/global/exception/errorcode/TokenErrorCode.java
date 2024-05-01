@@ -10,6 +10,6 @@ public enum TokenErrorCode implements ErrorCode {
     private final String message;
     @Override
     public String getMessage() {
-        return null;
+        return message;
     }
 }

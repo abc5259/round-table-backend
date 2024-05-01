@@ -6,10 +6,12 @@ import com.roundtable.roundtable.business.token.dto.CreateToken;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.token.Token;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class TokenManager {
 
@@ -43,6 +45,7 @@ public class TokenManager {
          * 4. refresh token 갱신 (Refresh token rotation)
          * 5. 3에서 새로 발급받은 토큰들 반환
          */
+        log.info(refreshToken);
         JwtPayload jwtPayload = jwtProvider.extractPayload(refreshToken);
         Token token = tokenReader.readByMemberIdAndRefreshToken(jwtPayload.userId(), refreshToken);
         Tokens tokens = jwtProvider.issueToken(jwtPayload);

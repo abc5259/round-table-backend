@@ -13,6 +13,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jwts.SIG;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -59,6 +60,7 @@ public class JwtProvider {
             throw new AuthenticationException(AuthErrorCode.JWT_EXPIRED_ERROR, e);
         }
         catch (JwtException | IllegalArgumentException e) {
+
             throw new AuthenticationException(AuthErrorCode.JWT_EXTRACT_ERROR, e);
         }
     }
