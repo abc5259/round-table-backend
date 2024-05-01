@@ -12,4 +12,9 @@ public enum TokenErrorCode implements ErrorCode {
     public String getMessage() {
         return message;
     }
+
+    @Override
+    public String getCode() {
+        return null;
+    }
 }

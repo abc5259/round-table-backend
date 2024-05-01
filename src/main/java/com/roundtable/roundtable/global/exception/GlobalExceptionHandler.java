@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
         log.warn(errorCode.getMessage(), exception);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(FailResponse.fail(errorCode.getMessage()));
+                .body(FailResponse.fail(errorCode.getMessage(), errorCode.getCode()));
     }
 
     @ExceptionHandler(value = {
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
         log.warn(errorCode.getMessage(), exception);
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(FailResponse.fail(errorCode.getMessage()));
+                .body(FailResponse.fail(errorCode.getMessage(), errorCode.getCode()));
     }
 
     @ExceptionHandler(value = {
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
         log.warn(errorCode.getMessage(), exception);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(FailResponse.fail(errorCode.getMessage()));
+                .body(FailResponse.fail(errorCode.getMessage(), errorCode.getCode()));
     }
 
     @ExceptionHandler(value = {
