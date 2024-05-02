@@ -26,6 +26,6 @@ public enum AuthErrorCode implements ErrorCode {
 
     @Override
     public String getCode() {
-        return null;
+        return code;
     }
 }

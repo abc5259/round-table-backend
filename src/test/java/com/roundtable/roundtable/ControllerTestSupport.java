@@ -19,7 +19,7 @@ public abstract class ControllerTestSupport {
     protected MockMvc mockMvc;
 
     @MockBean
-    private AuthService authService;
+    protected AuthService authService;
 
     @MockBean
     private MemberReader memberReader;
