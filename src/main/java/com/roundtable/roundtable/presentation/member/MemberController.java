@@ -39,6 +39,13 @@ public class MemberController {
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<?>> me(@Login AuthMember authMember) {
+        return ResponseEntity.ok(SuccessResponse.from(
+                memberService.findMemberDetail(authMember.memberId())
+        ));
+    }
+
     @GetMapping("/exist")
     public ResponseEntity<ApiResponse<?>> existMemberEmail(@Valid @ModelAttribute ExistEmailRequest existEmailRequest) {
         boolean isExistEmail = memberService.isExistEmail(existEmailRequest.email());

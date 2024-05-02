@@ -1,6 +1,10 @@
 package com.roundtable.roundtable.business.member;
 
 import com.roundtable.roundtable.business.member.dto.MemberProfile;
+import com.roundtable.roundtable.business.member.dto.response.HouseDetailResponse;
+import com.roundtable.roundtable.business.member.dto.response.MemberDetailResponse;
+import com.roundtable.roundtable.domain.house.House;
+import com.roundtable.roundtable.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,5 +23,31 @@ public class  MemberService {
 
     public boolean isExistEmail(String email) {
         return memberReader.existEmail(email);
+    }
+
+    public MemberDetailResponse findMemberDetail(final Long memberId) {
+
+        Member member = memberReader.findById(memberId);
+
+        if(member.isEnterHouse()) {
+            House house = member.getHouse();
+
+            return new MemberDetailResponse(
+                    member.getId(),
+                    member.getName(),
+                    member.getGender(),
+                    new HouseDetailResponse(
+                            house.getId(),
+                            house.getName()
+                    )
+            );
+        }
+
+        return new MemberDetailResponse(
+                member.getId(),
+                member.getName(),
+                member.getGender(),
+                null
+        );
     }
 }
