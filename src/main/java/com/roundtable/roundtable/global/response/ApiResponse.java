@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.global.response;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
@@ -9,6 +10,7 @@ public class ApiResponse<T> {
     private String message;
     private String code;
 
+    @Builder
     protected ApiResponse(boolean success, T data, String message, String code) {
         this.success = success;
         this.data = data;

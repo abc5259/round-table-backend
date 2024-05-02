@@ -11,6 +11,7 @@ import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Gender;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
+import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,6 +61,17 @@ class MemberServiceTest extends IntegrationTestSupport {
                 .contains(house.getName(), house.getName());
     }
 
+    @DisplayName("사용자 id가 데이터베이스에 없다면 세부사항을 알려할때 에러를 던진다.")
+    @Test
+    void findMemberDetail_non_exist_member_id() {
+        //given
+        Long nonExistMemberId = 1L;
+
+        //when
+        assertThatThrownBy(() -> memberService.findMemberDetail(nonExistMemberId))
+                .isInstanceOf(NotFoundEntityException.class);
+    }
+
     private Member createMember(String name, Gender gender, House house) {
         Member member = Member.builder()
                 .email("email")
@@ -72,7 +84,7 @@ class MemberServiceTest extends IntegrationTestSupport {
     }
 
     private House createHouse(String name) {
-        House house = House.builder().name("name").inviteCode(InviteCode.builder().code("code").build()).build();
+        House house = House.builder().name(name).inviteCode(InviteCode.builder().code("code").build()).build();
         return houseRepository.save(house);
     }
 }
