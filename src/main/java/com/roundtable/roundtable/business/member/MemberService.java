@@ -29,25 +29,22 @@ public class  MemberService {
 
         Member member = memberReader.findById(memberId);
 
-        if(member.isEnterHouse()) {
-            House house = member.getHouse();
-
-            return new MemberDetailResponse(
-                    member.getId(),
-                    member.getName(),
-                    member.getGender(),
-                    new HouseDetailResponse(
-                            house.getId(),
-                            house.getName()
-                    )
-            );
-        }
-
         return new MemberDetailResponse(
                 member.getId(),
                 member.getName(),
                 member.getGender(),
-                null
+                createHouseDetail(member)
         );
+    }
+
+    private HouseDetailResponse createHouseDetail(Member member) {
+        if (member.isEnterHouse()) {
+            House house = member.getHouse();
+            return new HouseDetailResponse(
+                    house.getId(),
+                    house.getName()
+            );
+        }
+        return null;
     }
 }

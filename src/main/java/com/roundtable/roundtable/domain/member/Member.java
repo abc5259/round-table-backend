@@ -44,12 +44,13 @@ public class Member extends BaseEntity {
     private House house;
 
     @Builder
-    private Member(Long id, String email, String password, String name, House house) {
+    private Member(Long id, String email, String password, String name, House house, Gender gender) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.house = house;
+        this.gender = gender;
     }
 
     public static Member Id(Long id) {
