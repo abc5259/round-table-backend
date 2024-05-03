@@ -6,6 +6,7 @@ import com.roundtable.roundtable.presentation.house.request.CreateHouseRequest;
 import com.roundtable.roundtable.global.support.annotation.Login;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.business.house.HouseService;
+import com.roundtable.roundtable.presentation.house.response.CreateHouseResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,10 @@ public class HouseController {
     private final HouseService houseService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Long>> createHouse(@Login AuthMember authMember, @Valid @RequestBody CreateHouseRequest createHouseRequest) {
+    public ResponseEntity<ApiResponse<?>> createHouse(@Login AuthMember authMember, @Valid @RequestBody CreateHouseRequest createHouseRequest) {
+        Long houseId = houseService.createHouse(createHouseRequest.toCreateHouse(), authMember);
         return ResponseEntity.ok(
-                SuccessResponse.from(houseService.createHouse(createHouseRequest.toCreateHouse(), authMember))
+                SuccessResponse.from(new CreateHouseResponse(houseId))
         );
     }
 }

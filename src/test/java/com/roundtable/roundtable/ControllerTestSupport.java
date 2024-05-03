@@ -7,6 +7,7 @@ import com.roundtable.roundtable.business.member.MemberReader;
 import com.roundtable.roundtable.business.member.MemberService;
 import com.roundtable.roundtable.business.member.MemberValidator;
 import com.roundtable.roundtable.presentation.auth.AuthController;
+import com.roundtable.roundtable.presentation.house.HouseController;
 import com.roundtable.roundtable.presentation.member.MemberController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,7 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @MockBean(JpaMetamodelMappingContext.class)
 @WebMvcTest(controllers = {
         AuthController.class,
-        MemberController.class
+        MemberController.class,
+        HouseController.class
 })
 public abstract class ControllerTestSupport {
 
