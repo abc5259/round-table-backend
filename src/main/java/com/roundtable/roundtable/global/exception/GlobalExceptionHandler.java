@@ -84,6 +84,3 @@ public class GlobalExceptionHandler {
     }
 
 }
-
-//        "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNDUzODU2NCwiZXhwIjoxNzE0NTQwMzY0fQ.uErU99BpN8YJxypewAnaNFw9rzRlLUP1iosv6idc9QE",
-//        "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcxNDUzODU2NCwiZXhwIjoxNzE3MTMwNTY0fQ.C-PC7s8isfdha0YucSZn4Ry-uvbt8oeXHxcGYyn10sY"

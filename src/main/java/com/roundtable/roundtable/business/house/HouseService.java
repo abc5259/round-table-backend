@@ -2,7 +2,9 @@ package com.roundtable.roundtable.business.house;
 
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.house.dto.CreateHouse;
+import com.roundtable.roundtable.business.house.dto.event.HouseCreatedEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,10 +15,13 @@ public class HouseService {
 
     private final MemberHouseManager memberHouseManager;
 
+    private final ApplicationEventPublisher eventPublisher;
+
     public Long createHouse(CreateHouse createHouse, AuthMember authMember) {
         Long houseId = houseAppender.appendHouse(createHouse);
         memberHouseManager.enterHouse(houseId, authMember.memberId());
 
+        eventPublisher.publishEvent(new HouseCreatedEvent(authMember.memberId(), houseId, createHouse.inviteEmails()));
         return houseId;
     }
 

@@ -30,6 +30,10 @@ public class MemberReader {
                 .orElseThrow(() -> new NotFoundEntityException(MemberErrorCode.NOT_FOUND));
     }
 
+    public List<Member> findByEmail(List<String> emails) {
+        return memberRepository.findByEmailIn(emails);
+    }
+
     public List<Member> findAllById(List<Long> membersId) {
         List<Member> findMembers = memberRepository.findAllById(membersId);
 
