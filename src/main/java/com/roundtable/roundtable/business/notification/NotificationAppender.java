@@ -39,9 +39,17 @@ public class NotificationAppender {
 
         // 받는 이메일이 있는 멤버중 하우스가 없는 멤버만 걸러냄
         List<Member> receivers = memberReader.findByEmail(createInviteNotification.receiverEmails()).stream()
-                .filter(member -> !member.isEnterHouse()).toList();
+                .filter(member -> !member.isEnterHouse())
+                .toList();
 
         // 알림 만듦
+        List<InviteNotification> savedInviteNotifications = createInviteNotification(createInviteNotification, receivers, house);
+
+        return savedInviteNotifications.stream().map(Notification::getId).toList();
+    }
+
+    private List<InviteNotification> createInviteNotification(CreateInviteNotification createInviteNotification,
+                                                            List<Member> receivers, House house) {
         List<InviteNotification> inviteNotifications = receivers.stream()
                 .map(receiver -> InviteNotification.create(
                         Member.Id(createInviteNotification.senderId()),
@@ -51,8 +59,6 @@ public class NotificationAppender {
                 )
                 .toList();
 
-        List<InviteNotification> savedInviteNotifications = notificationRepository.saveAll(inviteNotifications);
-
-        return savedInviteNotifications.stream().map(Notification::getId).toList();
+        return notificationRepository.saveAll(inviteNotifications);
     }
 }
