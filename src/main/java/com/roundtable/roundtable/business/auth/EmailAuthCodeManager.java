@@ -1,8 +1,8 @@
 package com.roundtable.roundtable.business.auth;
 
+import com.roundtable.roundtable.business.mail.MailProvider;
 import com.roundtable.roundtable.domain.otp.AuthCode;
 import com.roundtable.roundtable.domain.otp.AuthCodeRedisRepository;
-import com.roundtable.roundtable.global.exception.AuthenticationException;
 import com.roundtable.roundtable.global.exception.AuthenticationException.EmailNotVerifiedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

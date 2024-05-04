@@ -1,6 +1,6 @@
 package com.roundtable.roundtable;
 
-import com.roundtable.roundtable.business.auth.MailProvider;
+import com.roundtable.roundtable.business.mail.MailProvider;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;

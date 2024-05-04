@@ -12,6 +12,7 @@ import com.roundtable.roundtable.ControllerTestSupport;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.presentation.house.request.CreateHouseRequest;
 import com.roundtable.roundtable.security.WithMockCustomUser;
+import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -25,7 +26,7 @@ class HouseControllerTest extends ControllerTestSupport {
     @Test
     void createHouse() throws Exception {
         //given
-        CreateHouseRequest request = new CreateHouseRequest("house");
+        CreateHouseRequest request = new CreateHouseRequest("house", new ArrayList<>());
 
         when(houseService.createHouse(request.toCreateHouse(), new AuthMember(anyLong(), anyLong()))).thenReturn(anyLong());
 
@@ -50,7 +51,7 @@ class HouseControllerTest extends ControllerTestSupport {
     @Test
     void createHouse_non_name() throws Exception {
         //given
-        CreateHouseRequest request = new CreateHouseRequest(null);
+        CreateHouseRequest request = new CreateHouseRequest(null, new ArrayList<>());
 
         when(houseService.createHouse(request.toCreateHouse(), new AuthMember(anyLong(), anyLong()))).thenReturn(anyLong());
 

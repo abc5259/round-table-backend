@@ -14,6 +14,7 @@ import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.global.exception.MemberException.MemberAlreadyHasHouseException;
 import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
+import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ class HouseServiceTest extends IntegrationTestSupport {
     @Test
     void createHouse() {
         //given
-        CreateHouse createHouse = new CreateHouse("house");
+        CreateHouse createHouse = new CreateHouse("house", new ArrayList<>());
         Member member = appendMember(null);
         AuthMember authMember = new AuthMember(member.getId(), null);
 
@@ -57,7 +58,7 @@ class HouseServiceTest extends IntegrationTestSupport {
     @Test
     void createHouse_already_enter_house() {
         //given
-        CreateHouse createHouse = new CreateHouse("house");
+        CreateHouse createHouse = new CreateHouse("house", new ArrayList<>());
         House house = appendHouse();
         Member member = appendMember(house);
         AuthMember authMember = new AuthMember(member.getId(), house.getId());

@@ -72,6 +72,33 @@ class MemberServiceTest extends IntegrationTestSupport {
                 .isInstanceOf(NotFoundEntityException.class);
     }
 
+
+    @DisplayName("사용자가 하우스 초대를 받을 수 있는지 알 수 있다.")
+    @Test
+    void canInviteHouse() {
+        //given
+        Member member = createMember("name", Gender.MEN, null);
+
+        //when
+        boolean result = memberService.canInviteHouse(member.getId());
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @DisplayName("하우스에 이미 들어간 사용자가 하우스 초대를 받을 수 없다.")
+    @Test
+    void canInviteHouse_already_enter_house() {
+        //given
+        Member member = createMember("name", Gender.MEN, createHouse("house"));
+
+        //when
+        boolean result = memberService.canInviteHouse(member.getId());
+
+        //then
+        assertThat(result).isFalse();
+    }
+
     private Member createMember(String name, Gender gender, House house) {
         Member member = Member.builder()
                 .email("email")

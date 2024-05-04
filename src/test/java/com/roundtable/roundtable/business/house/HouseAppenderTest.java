@@ -6,6 +6,7 @@ import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.house.dto.CreateHouse;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
+import java.util.ArrayList;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ class HouseAppenderTest extends IntegrationTestSupport {
     @Test
     void appendHouse() {
         //given
-        CreateHouse createHouse = new CreateHouse("house");
+        CreateHouse createHouse = new CreateHouse("house", new ArrayList<>());
 
         //when
         Long result = houseAppender.appendHouse(createHouse);

@@ -14,7 +14,10 @@ import org.springframework.stereotype.Component;
 public class MemberHouseManagerImpl implements MemberHouseManager {
 
     private final HouseReader houseReader;
+
     private final MemberReader memberReader;
+
+
 
     public void enterHouse(Long houseId, Long memberId) {
         House house = houseReader.findById(houseId);

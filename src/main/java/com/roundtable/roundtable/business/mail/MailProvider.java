@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.auth;
+package com.roundtable.roundtable.business.mail;
 
 import com.roundtable.roundtable.global.exception.ApplicationException;
 import lombok.RequiredArgsConstructor;

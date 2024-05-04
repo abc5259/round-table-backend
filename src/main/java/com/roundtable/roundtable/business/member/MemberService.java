@@ -25,6 +25,11 @@ public class  MemberService {
         return memberReader.existEmail(email);
     }
 
+    public boolean canInviteHouse(final Long memberId) {
+        Member member = memberReader.findById(memberId);
+        return !member.isEnterHouse();
+    }
+
     public MemberDetailResponse findMemberDetail(final Long memberId) {
 
         Member member = memberReader.findById(memberId);
