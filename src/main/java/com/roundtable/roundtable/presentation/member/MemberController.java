@@ -6,11 +6,11 @@ import com.roundtable.roundtable.global.support.annotation.Login;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.FailResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
+import com.roundtable.roundtable.presentation.member.request.CheckInviteRequest;
 import com.roundtable.roundtable.presentation.member.request.ExistEmailRequest;
 import com.roundtable.roundtable.presentation.member.request.SettingProfileRequest;
 import com.roundtable.roundtable.business.member.MemberService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -60,8 +59,8 @@ public class MemberController {
     }
 
     @GetMapping("/check-invite")
-    public ResponseEntity<ApiResponse<?>> checkInviteHouse(@Valid @RequestParam @NotBlank(message = "email은 필수입니다.") String email) {
-        memberService.validateCanInviteHouse(email);
+    public ResponseEntity<ApiResponse<?>> checkInviteHouse(@Valid @ModelAttribute CheckInviteRequest checkInviteRequest) {
+        memberService.validateCanInviteHouse(checkInviteRequest.email());
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 

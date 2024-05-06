@@ -76,4 +76,95 @@ class MemberControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.message").isString())
                 .andExpect(jsonPath("$.code").isString());
     }
+
+    @DisplayName("하우스 초대 가능 여부를 알 수 있다.")
+    @WithMockCustomUser
+    @Test
+    void checkInviteHouse() throws Exception {
+        //given
+        String email = "dlwogns3413@domain.com";
+
+        //when
+        mockMvc.perform(
+                        get(API_PREFIX + "/check-invite")
+                                .with(csrf())
+                                .param("email", email)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").isEmpty())
+                .andExpect(jsonPath("$.code").isEmpty());
+
+    }
+
+    @DisplayName("이메일을 파라미터로 주지않으면 에러를 던진다.")
+    @WithMockCustomUser
+    @Test
+    void checkInviteHouseEmptyEmail() throws Exception {
+        //given
+
+
+        //when
+        mockMvc.perform(
+                        get(API_PREFIX + "/check-invite")
+                                .with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value("false"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").isString())
+                .andExpect(jsonPath("$.code").isEmpty());
+
+    }
+
+    @DisplayName("이메일이 비어있으면 실패한다.")
+    @WithMockCustomUser
+    @Test
+    void checkInviteHouseBlankEmail() throws Exception {
+        //given
+        String email = "";
+
+        //when
+        mockMvc.perform(
+                        get(API_PREFIX + "/check-invite")
+                                .with(csrf())
+                                .param("email", email)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value("false"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").isString())
+                .andExpect(jsonPath("$.code").isEmpty());
+
+    }
+
+    @DisplayName("이메일 형식이 아니라면 실패한다.")
+    @WithMockCustomUser
+    @Test
+    void checkInviteHouseNotEmail() throws Exception {
+        //given
+        String email = "dlwogns3413";
+
+        //when
+        mockMvc.perform(
+                        get(API_PREFIX + "/check-invite")
+                                .with(csrf())
+                                .param("email", email)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value("false"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").isString())
+                .andExpect(jsonPath("$.code").isEmpty());
+
+    }
 }

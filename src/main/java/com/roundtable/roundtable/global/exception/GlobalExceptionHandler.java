@@ -3,16 +3,30 @@ package com.roundtable.roundtable.global.exception;
 import com.roundtable.roundtable.global.exception.errorcode.ErrorCode;
 import com.roundtable.roundtable.global.response.FailResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<FailResponse<?>> handleMethodArgumentNotValidException(final MissingServletRequestParameterException exception) {
+        final String defaultErrorMessage = exception.getMessage();
+        log.warn(defaultErrorMessage,exception);
+
+        return ResponseEntity.badRequest()
+                .body(FailResponse.fail(defaultErrorMessage));
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<FailResponse<?>> handleMethodArgumentNotValidException(final MethodArgumentNotValidException exception) {
@@ -82,5 +96,4 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(FailResponse.fail(message));
     }
-
 }
