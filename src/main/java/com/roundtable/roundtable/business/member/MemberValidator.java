@@ -6,14 +6,11 @@ import static java.util.Objects.*;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
-import com.roundtable.roundtable.global.exception.CoreException;
 import com.roundtable.roundtable.global.exception.CoreException.DuplicatedException;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
-import com.roundtable.roundtable.global.exception.MemberException;
 import com.roundtable.roundtable.global.exception.MemberException.MemberAlreadyHasHouseException;
 import com.roundtable.roundtable.global.exception.MemberException.MemberNoHouseException;
 import com.roundtable.roundtable.global.exception.MemberException.MemberNotSameHouseException;
-import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -55,9 +52,7 @@ public class MemberValidator {
         }
     }
 
-    public void validateCanInviteHouse(String email) {
-        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NotFoundEntityException(NOT_FOUND));
-
+    public void validateCanInviteHouse(Member member) {
         if(member.isEnterHouse()) {
             throw new MemberAlreadyHasHouseException();
         }

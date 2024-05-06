@@ -55,6 +55,7 @@ public class  MemberService {
     }
 
     public void validateCanInviteHouse(String email) {
-        memberValidator.validateCanInviteHouse(email);
+        Member member = memberReader.findByEmail(email);
+        memberValidator.validateCanInviteHouse(member);
     }
 }

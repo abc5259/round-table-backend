@@ -12,6 +12,8 @@ import com.roundtable.roundtable.domain.member.Gender;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
+import com.roundtable.roundtable.global.exception.MemberException.MemberAlreadyHasHouseException;
+import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -99,12 +101,59 @@ class MemberServiceTest extends IntegrationTestSupport {
         assertThat(result).isFalse();
     }
 
+    @DisplayName("하우스 초대는 하우스에 들어가지 않은 사용자만 가능하다.")
+    @Test
+    void validateCanInviteHouse() {
+        //given
+        Member member = createMember(null);
+
+        //when //then;
+        assertThatNoException().isThrownBy(() -> memberService.validateCanInviteHouse(member.getEmail()));
+
+    }
+
+    @DisplayName("하우스 초대 검증에서 존재하지 않는 이메일이라면 에러를 던진다.")
+    @Test
+    void validateCanInviteHouseWithNoEmail() {
+        //given
+        String email = "email";
+
+        //when //then
+        assertThatThrownBy(() -> memberService.validateCanInviteHouse(email))
+                .isInstanceOf(NotFoundEntityException.class)
+                .hasMessage(MemberErrorCode.NOT_FOUND.getMessage());
+    }
+
+    @DisplayName("하우스 초대는 하우스에 들어가지 않은 사용자만 가능하다.")
+    @Test
+    void validateCanInviteHouseWithInHouse() {
+        //given
+        House house = createHouse("house");
+        Member member = createMember(house);
+
+        //when //then
+        assertThatThrownBy(() -> memberService.validateCanInviteHouse(member.getEmail()))
+                .isInstanceOf(MemberAlreadyHasHouseException.class)
+                .hasMessage(MemberErrorCode.ALREADY_HAS_HOUSE.getMessage());
+    }
+
     private Member createMember(String name, Gender gender, House house) {
         Member member = Member.builder()
                 .email("email")
                 .password("password")
                 .name(name)
                 .gender(gender)
+                .house(house)
+                .build();
+        return memberRepository.save(member);
+    }
+
+    private Member createMember(House house) {
+        Member member = Member.builder()
+                .email("email")
+                .password("password")
+                .name("name")
+                .gender(Gender.GIRL)
                 .house(house)
                 .build();
         return memberRepository.save(member);

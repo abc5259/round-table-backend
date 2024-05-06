@@ -29,8 +29,4 @@ public class HouseService {
     public void enterHouse(Long houseId, AuthMember authMember) {
         memberHouseManager.enterHouse(houseId, authMember.memberId());
     }
-
-    public boolean existsHouseName(String name) {
-        return houseReader.existsHouseName(name);
-    }
 }
