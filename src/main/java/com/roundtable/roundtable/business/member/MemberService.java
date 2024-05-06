@@ -16,6 +16,7 @@ public class  MemberService {
 
     private final MemberReader memberReader;
     private final MemberUpdater memberUpdater;
+    private final MemberValidator memberValidator;
 
     public void settingProfile(final Long memberId, final MemberProfile memberProfile) {
         memberUpdater.settingProfile(memberId, memberProfile);
@@ -51,5 +52,9 @@ public class  MemberService {
             );
         }
         return null;
+    }
+
+    public void validateCanInviteHouse(String email) {
+        memberValidator.validateCanInviteHouse(email);
     }
 }

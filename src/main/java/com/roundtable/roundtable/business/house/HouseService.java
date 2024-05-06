@@ -16,6 +16,7 @@ public class HouseService {
     private final MemberHouseManager memberHouseManager;
 
     private final ApplicationEventPublisher eventPublisher;
+    private final HouseReader houseReader;
 
     public Long createHouse(CreateHouse createHouse, AuthMember authMember) {
         Long houseId = houseAppender.appendHouse(createHouse);
@@ -27,5 +28,9 @@ public class HouseService {
 
     public void enterHouse(Long houseId, AuthMember authMember) {
         memberHouseManager.enterHouse(houseId, authMember.memberId());
+    }
+
+    public boolean existsHouseName(String name) {
+        return houseReader.existsHouseName(name);
     }
 }

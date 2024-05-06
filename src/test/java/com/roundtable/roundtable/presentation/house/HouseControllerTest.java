@@ -19,7 +19,7 @@ import org.springframework.http.MediaType;
 
 class HouseControllerTest extends ControllerTestSupport {
 
-    private final static String API_PREFIX = "/house";
+    private final static String API_PREFIX = "/houses";
 
     @DisplayName("새로운 하우스를 생성한다.")
     @WithMockCustomUser

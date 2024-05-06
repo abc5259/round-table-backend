@@ -22,5 +22,4 @@ public class HouseReader {
     public boolean isExistInviteCode(InviteCode inviteCode) {
         return houseRepository.existsByInviteCode(inviteCode);
     }
-
 }
