@@ -35,27 +35,12 @@ class MemberValidatorTest extends IntegrationTestSupport {
     @Test
     void validateMemberBelongsToHouse() {
          //given
-         Member member = Member.builder()
-                 .email("email")
-                 .password("password")
-                 .build();
+        Member member = createMemberInHouse(null);
 
-         //when //then
-         assertThatThrownBy(() -> memberValidator.validateMemberBelongsToHouse(member.getId(), null))
+        //when //then
+         assertThatThrownBy(() -> memberValidator.validateMemberBelongsToHouse(member.getId()))
                  .isInstanceOf(MemberNoHouseException.class);
 
-    }
-
-    @DisplayName("하우스에 속하지 않는 멤버라면 에러를 던진다.")
-    @Test
-    void validateMemberBelongsToHouseNotSameHouse() {
-          //given
-          House house = createHouse("house");
-          Member member = createMemberInHouse(house);
-
-          //when
-          assertThatThrownBy(() -> memberValidator.validateMemberBelongsToHouse(member.getId(), house.getId() + 1))
-                  .isInstanceOf(MemberNotSameHouseException.class);
     }
 
     @DisplayName("하우스 초대는 하우스에 들어가지 않은 사용자만 가능하다.")
@@ -68,18 +53,6 @@ class MemberValidatorTest extends IntegrationTestSupport {
         assertThatNoException().isThrownBy(() -> memberValidator.validateCanInviteHouse(member));
 
     }
-
-//    @DisplayName("하우스 초대 검증에서 존재하지 않는 이메일이라면 에러를 던진다.")
-//    @Test
-//    void validateCanInviteHouseWithNoEmail() {
-//        //given
-//        String email = "email";
-//
-//        //when //then
-//        assertThatThrownBy(() -> memberValidator.validateCanInviteHouse(email))
-//                .isInstanceOf(NotFoundEntityException.class)
-//                .hasMessage(MemberErrorCode.NOT_FOUND.getMessage());
-//    }
 
     @DisplayName("하우스 초대는 하우스에 들어가지 않은 사용자만 가능하다.")
     @Test

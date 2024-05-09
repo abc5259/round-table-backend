@@ -5,6 +5,7 @@ import static com.roundtable.roundtable.global.exception.errorcode.ImageErrorCod
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.roundtable.roundtable.domain.image.ImageFile;
 import com.roundtable.roundtable.global.exception.CoreException;
 import java.io.IOException;
 import java.io.InputStream;

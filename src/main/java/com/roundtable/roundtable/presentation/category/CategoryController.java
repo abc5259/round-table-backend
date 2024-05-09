@@ -25,12 +25,12 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     @ValidHasHouse
     public ResponseEntity<ApiResponse<Long>> createCategory(
             @Login AuthMember authMember,
             @RequestPart MultipartFile image,
-            @Valid @RequestBody CreateCategoryRequest createCategoryRequest
+            @Valid @RequestPart CreateCategoryRequest createCategoryRequest
     ) {
         Long categoryId = categoryService.createCategory(
                 image,

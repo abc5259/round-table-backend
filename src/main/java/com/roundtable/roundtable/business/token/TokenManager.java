@@ -10,8 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
 @Slf4j
+@Component
+@Transactional
 @RequiredArgsConstructor
 public class TokenManager {
 
@@ -23,7 +24,6 @@ public class TokenManager {
 
     private final JwtProvider jwtProvider;
 
-    @Transactional
     public Tokens saveOrUpdateToken(Member member) {
         Tokens tokens = jwtProvider.issueToken(toJwtPayload(member));
 
@@ -36,7 +36,6 @@ public class TokenManager {
         return tokens;
     }
 
-    @Transactional
     public Tokens refresh(String refreshToken) {
         /**
          * 1. 사용자가 요청으로 준 refresh token으로 refresh token에서 Payload 추출
@@ -45,7 +44,6 @@ public class TokenManager {
          * 4. refresh token 갱신 (Refresh token rotation)
          * 5. 3에서 새로 발급받은 토큰들 반환
          */
-        log.info(refreshToken);
         JwtPayload jwtPayload = jwtProvider.extractPayload(refreshToken);
         Token token = tokenReader.readByMemberIdAndRefreshToken(jwtPayload.userId(), refreshToken);
         Tokens tokens = jwtProvider.issueToken(jwtPayload);
@@ -55,6 +53,7 @@ public class TokenManager {
     }
 
     private JwtPayload toJwtPayload(Member member) {
+        log.info("Enter house {}", member.getHouse());
         if(member.isEnterHouse()) {
             return new JwtPayload(member.getId(), member.getHouse().getId());
         }
@@ -64,3 +63,4 @@ public class TokenManager {
 
 
 }
+

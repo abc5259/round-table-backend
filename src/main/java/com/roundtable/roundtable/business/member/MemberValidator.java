@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.member;
 import static com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode.*;
 import static java.util.Objects.*;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
@@ -11,7 +12,9 @@ import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityEx
 import com.roundtable.roundtable.global.exception.MemberException.MemberAlreadyHasHouseException;
 import com.roundtable.roundtable.global.exception.MemberException.MemberNoHouseException;
 import com.roundtable.roundtable.global.exception.MemberException.MemberNotSameHouseException;
+import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -36,13 +39,14 @@ public class MemberValidator {
         }
     }
 
-    public void validateMemberBelongsToHouse(Long memberId, Long houseId) {
-        if(isNull(houseId)) {
-            throw new MemberNoHouseException();
+    public void validateMemberBelongsToHouse(Long memberId) {
+        if(memberId == null) {
+            throw new NotFoundEntityException(NOT_FOUND);
         }
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundEntityException(NOT_FOUND));
 
-        if(!memberRepository.existsByIdAndHouse(memberId, House.Id(houseId))) {
-            throw new MemberNotSameHouseException();
+        if(!member.isEnterHouse()) {
+            throw new MemberNoHouseException();
         }
     }
 

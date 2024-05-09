@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.image;
+package com.roundtable.roundtable.domain.image;
 
 import java.io.IOException;
 import java.io.InputStream;

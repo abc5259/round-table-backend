@@ -36,7 +36,7 @@ public class MemberBelongsToHouseInterceptor implements HandlerInterceptor {
 
             JwtPayload jwtPayload = (JwtPayload) principal;
 
-            memberValidator.validateMemberBelongsToHouse(jwtPayload.userId(), jwtPayload.houseId());
+            memberValidator.validateMemberBelongsToHouse(jwtPayload.userId());
         }
 
         return true;

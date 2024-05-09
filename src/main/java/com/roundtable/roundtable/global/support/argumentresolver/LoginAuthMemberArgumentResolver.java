@@ -5,7 +5,9 @@ import static com.roundtable.roundtable.global.exception.errorcode.AuthErrorCode
 import com.roundtable.roundtable.business.token.dto.JwtPayload;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.member.MemberReader;
+import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.global.exception.AuthenticationException;
+import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.global.support.annotation.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,10 +46,11 @@ public class LoginAuthMemberArgumentResolver implements HandlerMethodArgumentRes
 
         JwtPayload jwtPayload = (JwtPayload) principal;
 
-        if(memberReader.nonExistMemberId(jwtPayload.userId())) {
-            throw new AuthenticationException(INVALID_AUTH);
+        try {
+            Member member = memberReader.findById(jwtPayload.userId());
+            return new AuthMember(jwtPayload.userId(), member.getHouse().getId());
+        }catch (NotFoundEntityException e) {
+            throw new AuthenticationException(INVALID_AUTH, e);
         }
-
-        return new AuthMember(jwtPayload.userId(), jwtPayload.houseId());
     }
 }
