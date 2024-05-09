@@ -115,7 +115,7 @@ class ScheduleReaderTest extends IntegrationTestSupport {
     }
 
     private Category appendCategory(House house, String name) {
-        Category category = Category.builder().house(house).name(name).point(1).build();
+        Category category = Category.builder().house(house).name(name).imageUrl("").point(1).build();
         return categoryRepository.save(category);
     }
 }

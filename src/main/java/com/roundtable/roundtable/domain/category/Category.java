@@ -29,21 +29,26 @@ public class Category extends BaseEntity {
     private Integer point;
 
     @NotNull
+    private String imageUrl;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private House house;
 
     @Builder
-    private Category(String name, Integer point, House house) {
+    private Category(String name, Integer point, House house, String imageUrl) {
         this.name = name;
         this.point = point;
         this.house = house;
+        this.imageUrl = imageUrl;
     }
 
-    public static Category create(String name, Integer point, House house) {
+    public static Category create(String name, Integer point, House house, String imageUrl) {
         return Category.builder()
                 .name(name)
                 .point(point)
                 .house(house)
+                .imageUrl(imageUrl)
                 .build();
     }
 

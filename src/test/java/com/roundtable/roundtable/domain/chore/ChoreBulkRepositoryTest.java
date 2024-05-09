@@ -52,7 +52,7 @@ class ChoreBulkRepositoryTest extends IntegrationTestSupport {
         Member member = createMember(house);
         memberRepository.save(member);
 
-        Category category = Category.builder().name("분리 수거").point(100).house(house).build();
+        Category category = Category.builder().name("분리 수거").point(100).imageUrl("").house(house).build();
         categoryRepository.save(category);
 
         Schedule schedule = createSchedule(category, house);

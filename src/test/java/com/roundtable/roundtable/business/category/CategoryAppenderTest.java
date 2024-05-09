@@ -44,7 +44,8 @@ class CategoryAppenderTest extends IntegrationTestSupport {
                 "name",
                 10,
                 member.getId(),
-                house.getId()
+                house.getId(),
+                "image.jpg"
         );
 
         //when
@@ -73,6 +74,7 @@ class CategoryAppenderTest extends IntegrationTestSupport {
                  .name(duplicatedCategoryName)
                  .point(10)
                  .house(house)
+                 .imageUrl("image.jpg")
                  .build();
          categoryRepository.save(category);
 
@@ -80,7 +82,8 @@ class CategoryAppenderTest extends IntegrationTestSupport {
                  duplicatedCategoryName,
                  10,
                  member.getId(),
-                 house.getId()
+                 house.getId(),
+                 "image.jpg"
          );
 
          //when //then

@@ -198,7 +198,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
     }
 
     private Category createCategory(House house) {
-        Category category = Category.builder().house(house).name("name").point(1).build();
+        Category category = Category.builder().house(house).name("name").imageUrl("").point(1).build();
         em.persist(category);
         return category;
     }

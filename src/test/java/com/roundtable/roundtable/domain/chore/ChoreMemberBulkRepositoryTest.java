@@ -138,7 +138,7 @@ class ChoreMemberBulkRepositoryTest extends IntegrationTestSupport {
     }
 
     private Category createCategory(House house) {
-        Category category = Category.builder().name("category").point(100).house(house).build();
+        Category category = Category.builder().name("category").point(100).imageUrl("").house(house).build();
         return categoryRepository.save(category);
     }
 

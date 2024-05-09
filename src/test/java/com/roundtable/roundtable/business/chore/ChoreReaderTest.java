@@ -71,8 +71,8 @@ class ChoreReaderTest extends IntegrationTestSupport {
         Member member3 = createMember("member3", "member3", house2);
         memberRepository.saveAll(List.of(member1, member2, member3));
 
-        Category category = Category.builder().name("분리 수거").point(100).house(house).build();
-        Category category2 = Category.builder().name("분리 수거").point(100).house(house2).build();
+        Category category = Category.builder().name("분리 수거").imageUrl("").point(100).house(house).build();
+        Category category2 = Category.builder().name("분리 수거").imageUrl("").point(100).house(house2).build();
         categoryRepository.save(category);
         categoryRepository.save(category2);
 
@@ -143,8 +143,8 @@ class ChoreReaderTest extends IntegrationTestSupport {
         Member member3 = createMember("member3", "member3", house2);
         memberRepository.saveAll(List.of(member1, member2, member3));
 
-        Category category = Category.builder().name("분리 수거").point(100).house(house).build();
-        Category category2 = Category.builder().name("분리 수거").point(100).house(house2).build();
+        Category category = Category.builder().name("분리 수거").imageUrl("").point(100).house(house).build();
+        Category category2 = Category.builder().name("분리 수거").imageUrl("").point(100).house(house2).build();
         categoryRepository.save(category);
         categoryRepository.save(category2);
 

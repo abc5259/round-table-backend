@@ -24,7 +24,8 @@ public class CategoryAppender {
         Category category = Category.create(
                 createCategory.name(),
                 createCategory.point(),
-                House.Id(createCategory.houseId()));
+                House.Id(createCategory.houseId()),
+                createCategory.imageUrl());
 
         return categoryRepository.save(category);
     }

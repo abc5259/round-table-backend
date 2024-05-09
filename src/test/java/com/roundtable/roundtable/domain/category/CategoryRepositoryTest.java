@@ -35,6 +35,7 @@ class CategoryRepositoryTest extends IntegrationTestSupport {
                 .name(name1)
                 .point(20)
                 .house(house)
+                .imageUrl("")
                 .build();
         categoryRepository.save(category1);
 
@@ -60,6 +61,7 @@ class CategoryRepositoryTest extends IntegrationTestSupport {
                 .name(name)
                 .point(20)
                 .house(house1)
+                .imageUrl("")
                 .build();
         categoryRepository.save(category1);
 
