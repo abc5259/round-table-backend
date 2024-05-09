@@ -64,6 +64,10 @@ dependencies {
 	//guava
 	implementation 'com.google.guava:guava:31.0.1-jre'
 
+	//aws
+	implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.529')
+	implementation 'com.amazonaws:aws-java-sdk-s3'
+
 }
 
 // Querydsl 빌드 옵션 (옵셔널)
