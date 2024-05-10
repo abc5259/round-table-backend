@@ -1,10 +1,9 @@
 package com.roundtable.roundtable;
 
 import com.roundtable.roundtable.business.image.ImageUploader;
-import com.roundtable.roundtable.business.mail.MailProvider;
+import com.roundtable.roundtable.infrastructure.mail.JavaMailProvider;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mail.MailSender;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
@@ -12,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 public abstract class IntegrationTestSupport {
 
     @MockBean
-    protected MailProvider mailProvider;
+    protected JavaMailProvider mailProvider;
 
     @MockBean
     protected ImageUploader imageUploader;

@@ -1,10 +1,11 @@
-package com.roundtable.roundtable.business.image;
+package com.roundtable.roundtable.infrastructure.aws;
 
 import static com.roundtable.roundtable.global.exception.errorcode.ImageErrorCode.*;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.roundtable.roundtable.business.image.ImageUploader;
 import com.roundtable.roundtable.domain.image.ImageFile;
 import com.roundtable.roundtable.global.exception.CoreException;
 import java.io.IOException;
