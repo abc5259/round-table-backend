@@ -6,7 +6,6 @@ import com.roundtable.roundtable.presentation.schedule.request.CreateScheduleReq
 import com.roundtable.roundtable.global.support.annotation.Login;
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
-import com.roundtable.roundtable.global.support.annotation.ValidHasHouse;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;

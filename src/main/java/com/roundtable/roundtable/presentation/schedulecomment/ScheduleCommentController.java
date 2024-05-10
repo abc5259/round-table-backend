@@ -7,7 +7,6 @@ import com.roundtable.roundtable.domain.schedulecomment.dto.ScheduleCommentDetai
 import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.global.support.annotation.Login;
-import com.roundtable.roundtable.global.support.annotation.ValidHasHouse;
 import com.roundtable.roundtable.presentation.common.request.CursorBasedPaginationRequest;
 import com.roundtable.roundtable.presentation.schedulecomment.request.CreateScheduleCommentRequest;
 import jakarta.validation.Valid;

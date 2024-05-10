@@ -26,7 +26,7 @@ class JwtProviderTest {
         JwtProvider jwtProvider = createJwtProvider();
 
         //when
-        Tokens tokens = jwtProvider.issueToken(new JwtPayload(1L, 1L));
+        Tokens tokens = jwtProvider.issueToken(new JwtPayload(1L));
 
         //then
         assertThat(tokens.getAccessToken()).isNotNull();
@@ -39,7 +39,7 @@ class JwtProviderTest {
      void extractPayload() {
          //given
          JwtProvider jwtProvider = createJwtProvider();
-         JwtPayload jwtPayload = new JwtPayload(1L, 1L);
+         JwtPayload jwtPayload = new JwtPayload(1L);
          Tokens tokens = jwtProvider.issueToken(jwtPayload);
 
          //when
@@ -70,7 +70,7 @@ class JwtProviderTest {
         //given
         JwtProperties jwtProperties = createJwtProperties(0L, 0L);
         JwtProvider jwtProvider = new JwtProvider(jwtProperties);
-        Tokens tokens = jwtProvider.issueToken(new JwtPayload(10L, 10L));
+        Tokens tokens = jwtProvider.issueToken(new JwtPayload(10L));
 
         //when //then
         assertThatThrownBy(() -> jwtProvider.extractPayload(tokens.getAccessToken()))

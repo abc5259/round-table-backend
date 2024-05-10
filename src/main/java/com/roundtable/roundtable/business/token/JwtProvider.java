@@ -24,21 +24,18 @@ public class JwtProvider {
 
     private static final String USER_ID = "userId";
 
-    private static final String HOUSE_ID = "houseId";
-
     public Tokens issueToken(JwtPayload jwtPayload) {
         return Tokens.of(
-                generateToken(jwtPayload.userId(), jwtPayload.houseId(),jwtProperties.getAccessTokenExpireTime()),
-                generateToken(jwtPayload.userId(), jwtPayload.houseId(),jwtProperties.getRefreshTokenExpireTime())
+                generateToken(jwtPayload.userId(),jwtProperties.getAccessTokenExpireTime()),
+                generateToken(jwtPayload.userId(),jwtProperties.getRefreshTokenExpireTime())
         );
     }
 
-    private String generateToken(Long userId, Long houseId, Long expireTime) {
+    private String generateToken(Long userId, Long expireTime) {
         final Date now = new Date();
         final Date expiration = new Date(now.getTime() + expireTime);
         return Jwts.builder()
                 .claim(USER_ID, userId)
-                .claim(HOUSE_ID, houseId)
                 .issuedAt(now)
                 .expiration(expiration)
                 .signWith(jwtProperties.getSecretKey(), SIG.HS256)
@@ -48,8 +45,7 @@ public class JwtProvider {
     public JwtPayload extractPayload(String token) {
         Claims claims = extractClaims(token);
         Long userId = claims.get(USER_ID, Long.class);
-        Long houseId = claims.get(HOUSE_ID, Long.class);
-        return new JwtPayload(userId, houseId);
+        return new JwtPayload(userId);
     }
 
     private Claims extractClaims(String token) {

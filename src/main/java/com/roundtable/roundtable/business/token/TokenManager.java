@@ -25,7 +25,7 @@ public class TokenManager {
     private final JwtProvider jwtProvider;
 
     public Tokens saveOrUpdateToken(Member member) {
-        Tokens tokens = jwtProvider.issueToken(toJwtPayload(member));
+        Tokens tokens = jwtProvider.issueToken(new JwtPayload(member.getId()));
 
         tokenReader.readByMemberId(member.getId())
                 .ifPresentOrElse(
@@ -50,15 +50,6 @@ public class TokenManager {
         tokenUpdater.updateRefreshToken(token, tokens.getRefreshToken());
 
         return tokens;
-    }
-
-    private JwtPayload toJwtPayload(Member member) {
-        log.info("Enter house {}", member.getHouse());
-        if(member.isEnterHouse()) {
-            return new JwtPayload(member.getId(), member.getHouse().getId());
-        }
-
-        return new JwtPayload(member.getId(), null);
     }
 
 

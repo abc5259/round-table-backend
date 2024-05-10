@@ -15,7 +15,7 @@ public class WithMockCustomUserSecurityContextFactory implements WithSecurityCon
 
         JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(
                 Tokens.of(mockCustomUser.accessToken(), mockCustomUser.refreshToken()),
-                new JwtPayload(mockCustomUser.userId(), mockCustomUser.houseId()),
+                new JwtPayload(mockCustomUser.userId()),
                 null,
                 null
         );

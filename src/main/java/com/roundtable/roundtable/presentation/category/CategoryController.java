@@ -6,14 +6,12 @@ import com.roundtable.roundtable.global.response.ApiResponse;
 import com.roundtable.roundtable.presentation.category.request.CreateCategoryRequest;
 import com.roundtable.roundtable.global.support.annotation.Login;
 import com.roundtable.roundtable.global.response.SuccessResponse;
-import com.roundtable.roundtable.global.support.annotation.ValidHasHouse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +24,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @PostMapping(value = "/{houseId}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    @ValidHasHouse
+    @PostMapping(value = "/house/{houseId}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ApiResponse<Long>> createCategory(
             @Login AuthMember authMember,
             @PathVariable Long houseId,
