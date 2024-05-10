@@ -29,32 +29,32 @@ public class ScheduleCommentController {
 
     private final ScheduleCommentService scheduleCommentService;
 
-    @PostMapping
-    @ValidHasHouse
+    @PostMapping("/house/{houseId}")
     public ResponseEntity<ApiResponse<Long>> createScheduleComment(
             @Login AuthMember authMember,
+            @PathVariable Long houseId,
             @Valid @RequestBody CreateScheduleCommentRequest createScheduleCommentRequest
             ) {
         return ResponseEntity.ok(
                 SuccessResponse.from(
                         scheduleCommentService.createScheduleComment(
-                                authMember,
+                                authMember.toHouseAuthMember(houseId),
                                 createScheduleCommentRequest.toCreateScheduleCommentDto()
                         )
                 )
         );
     }
 
-    @GetMapping("/schedule/{scheduleId}")
-    @ValidHasHouse
+    @GetMapping("/schedule/{scheduleId}/house/{houseId}")
     public ResponseEntity<ApiResponse<CursorBasedResponse<List<ScheduleCommentDetailDto>>>> findCommentsByScheduleId(
             @Login AuthMember authMember,
             @PathVariable Long scheduleId,
+            @PathVariable Long houseId,
             @ModelAttribute CursorBasedPaginationRequest cursorBasedPaginationRequest
             ) {
         return ResponseEntity.ok(
                 SuccessResponse.from(
-                        scheduleCommentService.findByScheduleId(authMember, scheduleId, cursorBasedPaginationRequest.toCursorBasedRequest())
+                        scheduleCommentService.findByScheduleId(authMember.toHouseAuthMember(houseId), scheduleId, cursorBasedPaginationRequest.toCursorBasedRequest())
                 )
         );
     }

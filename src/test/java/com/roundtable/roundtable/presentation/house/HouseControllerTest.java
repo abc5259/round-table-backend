@@ -28,7 +28,7 @@ class HouseControllerTest extends ControllerTestSupport {
         //given
         CreateHouseRequest request = new CreateHouseRequest("house", new ArrayList<>());
 
-        when(houseService.createHouse(request.toCreateHouse(), new AuthMember(anyLong(), anyLong()))).thenReturn(anyLong());
+        when(houseService.createHouse(request.toCreateHouse(), new AuthMember(anyLong(), eq(null)))).thenReturn(1L);
 
         //when
         mockMvc.perform(
@@ -53,7 +53,7 @@ class HouseControllerTest extends ControllerTestSupport {
         //given
         CreateHouseRequest request = new CreateHouseRequest(null, new ArrayList<>());
 
-        when(houseService.createHouse(request.toCreateHouse(), new AuthMember(anyLong(), anyLong()))).thenReturn(anyLong());
+        when(houseService.createHouse(request.toCreateHouse(), new AuthMember(anyLong(), anyLong()))).thenReturn(1L);
 
         //when
         mockMvc.perform(

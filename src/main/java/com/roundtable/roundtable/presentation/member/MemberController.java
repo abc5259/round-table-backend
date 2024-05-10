@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -64,8 +65,8 @@ public class MemberController {
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }
 
-    @PatchMapping("/house/{houseId}")
-    public ResponseEntity<ApiResponse<?>> enterHouse(@PathVariable Long houseId, @Login AuthMember authMember) {
+    @PatchMapping("/house")
+    public ResponseEntity<ApiResponse<?>> enterHouse(@RequestParam Long houseId, @Login AuthMember authMember) {
         houseService.enterHouse(houseId, authMember);
         return ResponseEntity.ok().body(SuccessResponse.ok());
     }

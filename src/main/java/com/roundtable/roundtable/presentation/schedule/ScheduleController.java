@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,17 +25,17 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping
-    @ValidHasHouse
+    @PostMapping("/{houseId}")
     public ResponseEntity<ApiResponse<Long>> createSchedule(
             @Login AuthMember authMember,
+            @PathVariable Long houseId,
             @Valid @RequestBody CreateScheduleRequest createScheduleRequest) {
 
         LocalDate now = LocalDate.now();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 SuccessResponse.from(
-                        scheduleService.createSchedule(createScheduleRequest.toCreateScheduleDto(), authMember, now)
+                        scheduleService.createSchedule(createScheduleRequest.toCreateScheduleDto(), authMember.toHouseAuthMember(houseId), now)
                 )
         );
     }

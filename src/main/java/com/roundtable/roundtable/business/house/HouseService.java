@@ -16,7 +16,6 @@ public class HouseService {
     private final MemberHouseManager memberHouseManager;
 
     private final ApplicationEventPublisher eventPublisher;
-    private final HouseReader houseReader;
 
     public Long createHouse(CreateHouse createHouse, AuthMember authMember) {
         Long houseId = houseAppender.appendHouse(createHouse);
