@@ -15,7 +15,9 @@ import com.roundtable.roundtable.global.exception.CoreException;
 import com.roundtable.roundtable.global.exception.errorcode.CategoryErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -44,12 +46,14 @@ class CategoryAppenderTest extends IntegrationTestSupport {
                 "name",
                 10,
                 member.getId(),
-                house.getId(),
-                "image.jpg"
+                house.getId()
         );
 
+        MockMultipartFile mockImageFile = createMockImageFile();
+        Mockito.when(imageUploader.upload(mockImageFile)).thenReturn(Mockito.anyString());
+
         //when
-        Category category = categoryAppender.appendCategory(createCategory);
+        Category category = categoryAppender.appendCategory(mockImageFile, createCategory);
 
         //then
         assertThat(category).isNotNull()
@@ -82,15 +86,18 @@ class CategoryAppenderTest extends IntegrationTestSupport {
                  duplicatedCategoryName,
                  10,
                  member.getId(),
-                 house.getId(),
-                 "image.jpg"
+                 house.getId()
          );
 
+         MockMultipartFile mockImageFile = createMockImageFile();
+         Mockito.when(imageUploader.upload(mockImageFile)).thenReturn("image.jpg");
+
          //when //then
-         assertThatThrownBy(() -> categoryAppender.appendCategory(createCategory))
+         assertThatThrownBy(() -> categoryAppender.appendCategory(mockImageFile, createCategory))
                  .isInstanceOf(CoreException.DuplicatedException.class)
                  .hasMessage(CategoryErrorCode.DUPLICATED_NAME.getMessage());
-     }
+    }
+
     private House createHouse() {
         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         return houseRepository.save(house);
@@ -100,5 +107,18 @@ class CategoryAppenderTest extends IntegrationTestSupport {
 
         Member member = Member.builder().email("email").password("password").house(house).build();
         return memberRepository.save(member);
+    }
+
+    private MockMultipartFile createMockImageFile() {
+        // 예제를 위한 임시 이미지 데이터 생성 (실제 이미지 데이터는 다릅니다)
+        byte[] imageData = new byte[100]; // 100 바이트 크기의 더미 데이터
+        for (int i = 0; i < imageData.length; i++) {
+            imageData[i] = (byte)(Math.random() * 256); // 임의의 데이터로 채움
+        }
+        return  new MockMultipartFile(
+                "image",          // 폼의 input 필드 이름
+                "example.png",          // 업로드 파일 이름
+                "image/png",            // 파일 콘텐츠 타입
+                imageData);
     }
 }

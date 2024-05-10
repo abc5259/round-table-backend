@@ -19,8 +19,7 @@ public record CreateCategoryRequest(
                 name,
                 point,
                 memberId,
-                houseId,
-                null
+                houseId
         );
     }
 }

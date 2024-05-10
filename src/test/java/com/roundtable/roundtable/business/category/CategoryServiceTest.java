@@ -56,7 +56,7 @@ class CategoryServiceTest extends IntegrationTestSupport {
                 house.getId()
         );
         MockMultipartFile mockImageFile = createMockImageFile();
-        Mockito.when(imageUploader.upload(mockImageFile)).thenReturn(Mockito.anyString());
+        Mockito.when(imageUploader.upload(mockImageFile)).thenReturn("image.jpg");
 
         //when
         Long categoryId = categoryService.createCategory(mockImageFile, createCategory);
@@ -102,7 +102,7 @@ class CategoryServiceTest extends IntegrationTestSupport {
         );
 
         MockMultipartFile mockImageFile = createMockImageFile();
-        Mockito.when(imageUploader.upload(mockImageFile)).thenReturn(Mockito.anyString());
+        Mockito.when(imageUploader.upload(mockImageFile)).thenReturn("image.jpg");
 
         //when //then
         assertThatThrownBy(() -> categoryService.createCategory(mockImageFile, createCategory))

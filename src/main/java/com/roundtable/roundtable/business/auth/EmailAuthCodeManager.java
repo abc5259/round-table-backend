@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.auth;
 
-import com.roundtable.roundtable.infrastructure.mail.JavaMailProvider;
+import com.roundtable.roundtable.business.mail.MailProvider;
 import com.roundtable.roundtable.domain.otp.AuthCode;
 import com.roundtable.roundtable.domain.otp.AuthCodeRedisRepository;
 import com.roundtable.roundtable.global.exception.AuthenticationException.EmailNotVerifiedException;
@@ -13,7 +13,7 @@ public class EmailAuthCodeManager {
 
     private final AuthCodeRedisRepository authCodeRedisRepository;
     
-    private final JavaMailProvider mailProvider;
+    private final MailProvider mailProvider;
 
     public void saveAuthCode(AuthCode authCode) {
         authCodeRedisRepository.save(authCode);

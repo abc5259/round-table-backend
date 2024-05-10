@@ -14,15 +14,10 @@ public class CategoryService {
 
     private final CategoryAppender categoryAppender;
 
-    private final ImageUploader imageUploader;
-
     public Long createCategory(MultipartFile image, CreateCategory createCategory) {
-        String imageUrl = imageUploader.upload(image);
         Category category = categoryAppender.appendCategory(
-                new CreateCategory(
-                    createCategory,
-                    imageUrl
-                )
+                image,
+                createCategory
         );
         return category.getId();
     }
