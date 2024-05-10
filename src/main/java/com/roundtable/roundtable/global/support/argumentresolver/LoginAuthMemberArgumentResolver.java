@@ -47,9 +47,8 @@ public class LoginAuthMemberArgumentResolver implements HandlerMethodArgumentRes
         JwtPayload jwtPayload = (JwtPayload) principal;
 
         try {
-            Member member = memberReader.findById(jwtPayload.userId());
-            return new AuthMember(jwtPayload.userId(), member.getHouse().getId());
-        }catch (NotFoundEntityException e) {
+            return new AuthMember(jwtPayload.userId());
+        }catch (NullPointerException e) {
             throw new AuthenticationException(INVALID_AUTH, e);
         }
     }

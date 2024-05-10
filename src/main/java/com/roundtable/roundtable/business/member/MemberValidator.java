@@ -61,5 +61,11 @@ public class MemberValidator {
             throw new MemberAlreadyHasHouseException();
         }
     }
+
+    public void validateExistMemberId(Long memberId) {
+        if(!memberRepository.existsById(memberId)) {
+            throw new NotFoundEntityException(MemberErrorCode.NOT_FOUND);
+        }
+    }
 }
 
