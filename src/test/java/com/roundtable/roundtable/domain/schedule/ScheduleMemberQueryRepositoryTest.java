@@ -5,8 +5,6 @@ import static com.roundtable.roundtable.domain.schedule.FrequencyType.*;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.domain.category.Category;
-import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
@@ -40,9 +38,6 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
     private ScheduleRepository scheduleRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
     private ScheduleMemberRepository scheduleMemberRepository;
     
     @DisplayName("Schedule에 따른 ScheduleMember의 세부사항을 조회할 수 있다.")
@@ -55,7 +50,7 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
         Member member2 = appendMember(house, "member2", "email2");
         Member member3 = appendMember(house, "member3", "email3");
 
-        Category category = appendCategory(house);
+        Category category = Category.CLEANING;
 
         Schedule schedule = appendSchedule(category, house);
 
@@ -88,7 +83,7 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
          Member member2 = appendMember(house, "member2", "email2");
          Member member3 = appendMember(house, "member3", "email3");
 
-         Category category = appendCategory(house);
+         Category category = Category.CLEANING;
 
          //한번만
          Frequency frequency1 = Frequency.builder().frequencyType(ONCE).frequencyInterval(0).build();
@@ -192,10 +187,5 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
     private ScheduleMember appendScheduleMember(Schedule schedule, Member member1, int sequence) {
         ScheduleMember scheduleMember = ScheduleMember.builder().schedule(schedule).member(member1).sequence(sequence).build();
         return scheduleMemberRepository.save(scheduleMember);
-    }
-
-    private Category appendCategory(House house) {
-        Category category = Category.builder().house(house).name("name").imageUrl("").point(1).build();
-        return categoryRepository.save(category);
     }
 }

@@ -1,6 +1,5 @@
 package com.roundtable.roundtable.domain.schedule;
 
-import static com.roundtable.roundtable.domain.category.QCategory.*;
 import static com.roundtable.roundtable.domain.schedule.FrequencyType.*;
 import static com.roundtable.roundtable.domain.schedule.QSchedule.*;
 
@@ -33,12 +32,9 @@ public class ScheduleQueryRepository {
                         schedule.startDate,
                         schedule.startTime,
                         schedule.divisionType,
-                        schedule.category.id,
-                        schedule.category.name,
-                        schedule.category.point
+                        schedule.category
                 ))
                 .from(schedule)
-                .join(schedule.category, category)
                 .where(schedule.eq(Schedule.Id(scheduleId)))
                 .fetchOne();
     }

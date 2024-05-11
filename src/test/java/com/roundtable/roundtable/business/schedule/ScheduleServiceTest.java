@@ -5,11 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.house.CreateScheduleDto;
-import com.roundtable.roundtable.domain.category.Category;
 import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import jakarta.persistence.EntityManager;
@@ -39,7 +39,7 @@ class ScheduleServiceTest extends IntegrationTestSupport {
         LocalDate now = LocalDate.now();
 
         House house = createHouse();
-        Category category = createCategory(house);
+        Category category = Category.CLEANING;
         Member member = createMemberInHouse(house);
 
         CreateScheduleDto createScheduleDto = new CreateScheduleDto(
@@ -50,7 +50,7 @@ class ScheduleServiceTest extends IntegrationTestSupport {
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
                 List.of(member.getId()),
-                category.getId()
+                category
         );
 
         AuthMember authMember = new AuthMember(member.getId(), house.getId());
@@ -74,7 +74,7 @@ class ScheduleServiceTest extends IntegrationTestSupport {
         LocalDate now = LocalDate.of(2024,2,14);
 
         House house = createHouse();
-        Category category = createCategory(house);
+        Category category = Category.CLEANING;
         Member member = createMemberInHouse(house);
 
         CreateScheduleDto createSchedule = new CreateScheduleDto(
@@ -85,7 +85,7 @@ class ScheduleServiceTest extends IntegrationTestSupport {
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
                 List.of(member.getId()),
-                category.getId()
+                category
         );
 
         AuthMember authMember = new AuthMember(member.getId(), house.getId());
@@ -108,12 +108,6 @@ class ScheduleServiceTest extends IntegrationTestSupport {
         member.enterHouse(house);
         em.persist(member);
         return member;
-    }
-
-    private Category createCategory(House house) {
-        Category category = Category.builder().house(house).imageUrl("").name("name").point(1).build();
-        em.persist(category);
-        return category;
     }
 
     private House createHouse() {

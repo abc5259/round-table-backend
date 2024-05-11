@@ -3,12 +3,12 @@ package com.roundtable.roundtable.business.chore;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.domain.category.Category;
 import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.chore.ChoreMember;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
@@ -41,7 +41,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
         LocalDate now = LocalDate.now();
 
         House house = createHouse();
-        Category category = createCategory(house);
+        Category category = Category.CLEANING;
         Member member = createMemberInHouse(house, "email");
 
         CreateSchedule createSchedule = new CreateSchedule(
@@ -87,7 +87,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
         LocalDate now = LocalDate.of(2024,2,14);
 
         House house = createHouse();
-        Category category = createCategory(house);
+        Category category = Category.CLEANING;
         Member member = createMemberInHouse(house, "email");
 
         CreateSchedule createSchedule = new CreateSchedule(
@@ -131,7 +131,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
         LocalDate now = LocalDate.now();
 
         House house = createHouse();
-        Category category = createCategory(house);
+        Category category = Category.CLEANING;
         Member member1 = createMemberInHouse(house, "email1");
         Member member2 = createMemberInHouse(house, "email2");
 
@@ -195,11 +195,5 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         em.persist(house);
         return house;
-    }
-
-    private Category createCategory(House house) {
-        Category category = Category.builder().house(house).name("name").imageUrl("").point(1).build();
-        em.persist(category);
-        return category;
     }
 }

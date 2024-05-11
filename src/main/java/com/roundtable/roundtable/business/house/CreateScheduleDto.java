@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.business.house;
 
 import com.roundtable.roundtable.business.schedule.dto.CreateSchedule;
-import com.roundtable.roundtable.domain.category.Category;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import java.time.LocalDate;
@@ -16,8 +16,8 @@ public record CreateScheduleDto(
     LocalTime startTime,
     DivisionType divisionType,
     List<Long> memberIds,
-    Long categoryId) {
-    public CreateSchedule toCreateSchedule(Category category) {
+    Category category) {
+    public CreateSchedule toCreateSchedule() {
         return new CreateSchedule(
                 name,
                 frequencyType,

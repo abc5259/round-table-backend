@@ -3,12 +3,11 @@ package com.roundtable.roundtable.business.schedule;
 import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.domain.category.Category;
-import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Frequency;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
@@ -32,9 +31,6 @@ class ScheduleMemberFactoryTest extends IntegrationTestSupport {
 
     @Autowired
     HouseRepository houseRepository;
-
-    @Autowired
-    CategoryRepository categoryRepository;
 
     @DisplayName("분담방식이 고정이라면 ScheduleMember의 sequence가 모두 1인 ScheduleMember를 만든다.")
     @Test
@@ -90,7 +86,7 @@ class ScheduleMemberFactoryTest extends IntegrationTestSupport {
 
     private Schedule createSchedule(DivisionType divisionType) {
         House house = createHouse();
-        Category category = createCategory(house);
+        Category category = Category.COOKING;
         return Schedule.create("schedule", Frequency.of(FrequencyType.DAILY, 1), LocalDate.now(),
                 LocalTime.of(11, 1), divisionType, house, 1, category);
     }
@@ -99,11 +95,6 @@ class ScheduleMemberFactoryTest extends IntegrationTestSupport {
     private House createHouse() {
         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         return houseRepository.save(house);
-    }
-
-    private Category createCategory(House house) {
-        Category category = Category.builder().house(house).name("name").imageUrl("").point(1).build();
-        return categoryRepository.save(category);
     }
 
 }

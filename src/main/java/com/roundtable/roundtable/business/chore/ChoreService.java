@@ -15,11 +15,11 @@ public class ChoreService {
 
     private final ChoreReader choreReader;
 
-    public List<ChoreOfMemberResponse> findChoresOfMember(Long memberId, LocalDate date, Long houseId) {
-        return choreReader.readChoresOfMember(memberId, date, houseId);
-    }
-
-    public CursorBasedResponse<List<ChoreResponse>> findChoresOfHouse(LocalDate date, Long houseId, CursorBasedRequest cursorBasedRequest) {
-        return choreReader.readChoresOfHouse(date, houseId, cursorBasedRequest);
-    }
+//    public List<ChoreOfMemberResponse> findChoresOfMember(Long memberId, LocalDate date, Long houseId) {
+//        return choreReader.readChoresOfMember(memberId, date, houseId);
+//    }
+//
+//    public CursorBasedResponse<List<ChoreResponse>> findChoresOfHouse(LocalDate date, Long houseId, CursorBasedRequest cursorBasedRequest) {
+//        return choreReader.readChoresOfHouse(date, houseId, cursorBasedRequest);
+//    }
 }

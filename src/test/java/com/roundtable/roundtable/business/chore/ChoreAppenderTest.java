@@ -4,12 +4,12 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.chore.dto.CreateChore;
-import com.roundtable.roundtable.domain.category.Category;
 import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.chore.ChoreMember;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Frequency;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
@@ -38,7 +38,7 @@ class ChoreAppenderTest extends IntegrationTestSupport {
         //given
         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
         em.persist(house);
-        Category category = createCategory(house);
+        Category category = Category.CLEANING;
         Member member = Member.builder().email("email").password("password").build();
         member.enterHouse(house);
         em.persist(member);
@@ -76,11 +76,5 @@ class ChoreAppenderTest extends IntegrationTestSupport {
                 .containsExactlyInAnyOrder(
                         tuple(chore, member)
                 );
-    }
-
-    private Category createCategory(House house) {
-        Category category = Category.builder().house(house).name("name").imageUrl("").point(1).build();
-        em.persist(category);
-        return category;
     }
 }

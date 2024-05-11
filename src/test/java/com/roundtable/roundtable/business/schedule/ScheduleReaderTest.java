@@ -3,11 +3,10 @@ package com.roundtable.roundtable.business.schedule;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.domain.category.Category;
-import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Frequency;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
@@ -33,9 +32,6 @@ class ScheduleReaderTest extends IntegrationTestSupport {
     private ScheduleRepository scheduleRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
     private ScheduleReader scheduleReader;
 
     @DisplayName("id를 기반으로 schedule을 조회할 수 있다.")
@@ -43,7 +39,7 @@ class ScheduleReaderTest extends IntegrationTestSupport {
     void findById() {
         //given
         House house = appendHouse();
-        Category category = appendCategory(house, "category");
+        Category category = Category.COOKING;
         Schedule schedule = appendSchedule(category, house, "schedule");
 
         //when
@@ -67,7 +63,7 @@ class ScheduleReaderTest extends IntegrationTestSupport {
     void findScheduleDetail() {
         //given
         House house = appendHouse();
-        Category category = appendCategory(house, "category");
+        Category category = Category.COOKING;
         Schedule schedule = appendSchedule(category, house, "schedule");
 
         //when
@@ -83,12 +79,7 @@ class ScheduleReaderTest extends IntegrationTestSupport {
                         schedule.getStartDate(),
                         schedule.getStartTime(),
                         schedule.getDivisionType(),
-                        new ScheduleDetailDto.CategoryDetailDto(
-                                category.getId(),
-                                category.getName(),
-                                category.getPoint()
-                        ));
-
+                        schedule.getCategory());
 
      }
 
@@ -112,10 +103,5 @@ class ScheduleReaderTest extends IntegrationTestSupport {
                 .divisionType(DivisionType.FIX)
                 .build();
         return scheduleRepository.save(schedule);
-    }
-
-    private Category appendCategory(House house, String name) {
-        Category category = Category.builder().house(house).name(name).imageUrl("").point(1).build();
-        return categoryRepository.save(category);
     }
 }

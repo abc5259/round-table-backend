@@ -4,13 +4,12 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.schedulecomment.dto.CreateScheduleComment;
-import com.roundtable.roundtable.domain.category.Category;
-import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Frequency;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
@@ -39,8 +38,6 @@ class ScheduleCommentAppenderTest extends IntegrationTestSupport {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     @DisplayName("ScheduleComment를 ScheduleComment 테이블에 추가한다.")
     @Test
@@ -48,7 +45,7 @@ class ScheduleCommentAppenderTest extends IntegrationTestSupport {
         //given
         House house = appendHouse();
         Member member = appendMember(house);
-        Category category = appendCategory(house);
+        Category category = Category.CLEANING;
         Schedule schedule = appendSchedule(category, house);
 
         String contentStr = "content";
@@ -92,10 +89,5 @@ class ScheduleCommentAppenderTest extends IntegrationTestSupport {
                 .divisionType(DivisionType.FIX)
                 .build();
         return scheduleRepository.save(schedule);
-    }
-
-    private Category appendCategory(House house) {
-        Category category = Category.builder().house(house).name("name").imageUrl("").point(1).build();
-        return categoryRepository.save(category);
     }
 }

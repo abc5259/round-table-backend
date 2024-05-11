@@ -1,11 +1,11 @@
 package com.roundtable.roundtable.domain.schedule.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Frequency;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public record ScheduleDetailDto(
@@ -15,19 +15,9 @@ public record ScheduleDetailDto(
         LocalDate startDate,
         LocalTime startTime,
         DivisionType divisionType,
-        CategoryDetailDto category,
+        Category category,
         List<ScheduleMemberDetailDto> allocators
 ) {
-
-    public record CategoryDetailDto(
-            Long categoryId,
-            String name,
-            Integer point
-    ) {
-        @QueryProjection
-        public CategoryDetailDto {
-        }
-    }
 
     @QueryProjection
     public ScheduleDetailDto(Long scheduleId,
@@ -36,22 +26,8 @@ public record ScheduleDetailDto(
                              LocalDate startDate,
                              LocalTime startTime,
                              DivisionType divisionType,
-                             Long categoryId,
-                             String categoryName,
-                             Integer categoryPoint) {
-        this(
-                scheduleId,
-                name,
-                frequency,
-                startDate,
-                startTime,
-                divisionType,
-                new CategoryDetailDto(
-                        categoryId,
-                        categoryName,
-                        categoryPoint
-                ),
-                new ArrayList<>());
+                             Category category) {
+        this(scheduleId, name, frequency, startDate, startTime, divisionType, category, null);
     }
 
     public ScheduleDetailDto withAllocators(List<ScheduleMemberDetailDto> allocators) {

@@ -4,9 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.domain.category.Category;
-import com.roundtable.roundtable.domain.category.CategoryRepository;
-import com.roundtable.roundtable.domain.category.dto.CategoryDetailV1Dto;
 import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.chore.ChoreMember;
 import com.roundtable.roundtable.domain.chore.ChoreMemberRepository;
@@ -16,6 +13,7 @@ import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Frequency;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
@@ -49,9 +47,6 @@ class ChoreReaderTest extends IntegrationTestSupport {
     private MemberRepository memberRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
     private ScheduleRepository scheduleRepository;
 
     @Autowired
@@ -71,10 +66,8 @@ class ChoreReaderTest extends IntegrationTestSupport {
         Member member3 = createMember("member3", "member3", house2);
         memberRepository.saveAll(List.of(member1, member2, member3));
 
-        Category category = Category.builder().name("분리 수거").imageUrl("").point(100).house(house).build();
-        Category category2 = Category.builder().name("분리 수거").imageUrl("").point(100).house(house2).build();
-        categoryRepository.save(category);
-        categoryRepository.save(category2);
+        Category category = Category.CLEANING;
+        Category category2 = Category.GROCERY;
 
         LocalDate searchDate = LocalDate.of(2024, 2, 24);
 
@@ -109,22 +102,14 @@ class ChoreReaderTest extends IntegrationTestSupport {
                                 chore1.isCompleted(),
                                 chore1.getStartDate(),
                                 schedule1.getStartTime(),
-                                new CategoryDetailV1Dto(
-                                        category.getId(),
-                                        category.getName(),
-                                        category.getPoint()
-                                )),
+                                category),
                         tuple(
                                 chore3.getId(),
                                 schedule2.getName(),
                                 chore3.isCompleted(),
                                 chore3.getStartDate(),
                                 schedule2.getStartTime(),
-                                new CategoryDetailV1Dto(
-                                        category.getId(),
-                                        category.getName(),
-                                        category.getPoint()
-                                ))
+                                category)
                 );
 
     }
@@ -143,10 +128,8 @@ class ChoreReaderTest extends IntegrationTestSupport {
         Member member3 = createMember("member3", "member3", house2);
         memberRepository.saveAll(List.of(member1, member2, member3));
 
-        Category category = Category.builder().name("분리 수거").imageUrl("").point(100).house(house).build();
-        Category category2 = Category.builder().name("분리 수거").imageUrl("").point(100).house(house2).build();
-        categoryRepository.save(category);
-        categoryRepository.save(category2);
+        Category category = Category.CLEANING;
+        Category category2 = Category.COOKING;
 
         LocalDate searchDate = LocalDate.of(2024, 2, 24);
 
@@ -185,11 +168,7 @@ class ChoreReaderTest extends IntegrationTestSupport {
                                 chore1.getStartDate(),
                                 schedule1.getStartTime(),
                                 List.of(member1.getName(), member2.getName()),
-                                new CategoryDetailV1Dto(
-                                        category.getId(),
-                                        category.getName(),
-                                        category.getPoint()
-                                )),
+                                category),
                         tuple(
                                 chore2.getId(),
                                 schedule2.getName(),
@@ -197,11 +176,7 @@ class ChoreReaderTest extends IntegrationTestSupport {
                                 chore2.getStartDate(),
                                 schedule2.getStartTime(),
                                 List.of(member2.getName()),
-                                new CategoryDetailV1Dto(
-                                        category.getId(),
-                                        category.getName(),
-                                        category.getPoint()
-                                )),
+                                category),
                         tuple(
                                 chore3.getId(),
                                 schedule2.getName(),
@@ -209,11 +184,7 @@ class ChoreReaderTest extends IntegrationTestSupport {
                                 chore3.getStartDate(),
                                 schedule2.getStartTime(),
                                 List.of(member1.getName()),
-                                new CategoryDetailV1Dto(
-                                        category.getId(),
-                                        category.getName(),
-                                        category.getPoint()
-                                ))
+                                category)
                 );
 
     }

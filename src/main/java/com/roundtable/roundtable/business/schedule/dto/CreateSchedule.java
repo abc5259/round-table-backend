@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.schedule.dto;
 
-import com.roundtable.roundtable.domain.category.Category;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import java.time.LocalDate;

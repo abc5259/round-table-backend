@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.presentation.schedule.request;
 
 import com.roundtable.roundtable.business.house.CreateScheduleDto;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import jakarta.validation.constraints.NotBlank;
@@ -30,8 +31,8 @@ public record CreateScheduleRequest(
         @Size(min = 1, max = 30, message = "담당자는 최소 1명 최대 30명까지 가능합니다.")
         List<Long> memberIds,
 
-        @NotNull(message = "categoryId에 빈 값이 올 수 없습니다.")
-        Long categoryId
+        @NotNull(message = "category에 빈 값이 올 수 없습니다.")
+        Category category
 ) {
     public CreateScheduleDto toCreateScheduleDto() {
         return new CreateScheduleDto(
@@ -42,7 +43,7 @@ public record CreateScheduleRequest(
                 startTime
                 ,divisionType
                 ,memberIds,
-                categoryId
+                category
         );
     }
 }

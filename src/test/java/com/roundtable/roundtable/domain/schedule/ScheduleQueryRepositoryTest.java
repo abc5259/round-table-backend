@@ -3,8 +3,6 @@ package com.roundtable.roundtable.domain.schedule;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.domain.category.Category;
-import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
@@ -28,15 +26,12 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-
     @DisplayName("스케줄의 상세 내용을 조회할 수 있다.")
     @Test
     void test() {
         //given
         House house = appendHouse();
-        Category category = appendCategory(house, "category");
+        Category category = Category.CLEANING;
         Frequency frequency = Frequency.builder().frequencyType(FrequencyType.DAILY).frequencyInterval(2).build();
         Schedule schedule = appendSchedule(category, house, "schedule", frequency, LocalDate.now());
 
@@ -53,11 +48,7 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
                         schedule.getStartDate(),
                         schedule.getStartTime(),
                         schedule.getDivisionType(),
-                        new ScheduleDetailDto.CategoryDetailDto(
-                                category.getId(),
-                                category.getName(),
-                                category.getPoint()
-                        ));
+                        category);
 
      }
 
@@ -66,7 +57,7 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
      void findScheduleByDate() {
          //given
          House house = appendHouse();
-         Category category = appendCategory(house, "category");
+         Category category = Category.CLEANING;
          Frequency frequency1 = Frequency.builder().frequencyType(FrequencyType.ONCE).frequencyInterval(0).build();
 
          //2틀 간격
@@ -116,10 +107,5 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
                 .divisionType(DivisionType.FIX)
                 .build();
         return scheduleRepository.save(schedule);
-    }
-
-    private Category appendCategory(House house, String name) {
-        Category category = Category.builder().house(house).name(name).imageUrl("").point(1).build();
-        return categoryRepository.save(category);
     }
 }

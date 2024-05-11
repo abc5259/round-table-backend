@@ -1,18 +1,13 @@
 package com.roundtable.roundtable.domain.schedule;
 
-import static com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode.CATEGORY_NOT_SAME_HOUSE;
-
 import com.roundtable.roundtable.domain.common.BaseEntity;
-import com.roundtable.roundtable.domain.category.Category;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
-import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -63,7 +58,7 @@ public class Schedule extends BaseEntity {
     private House house;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
@@ -107,10 +102,6 @@ public class Schedule extends BaseEntity {
             int sequenceSize,
             Category category
     ) {
-
-        if(!category.isSameHouse(house)) {
-            throw new CreateEntityException(CATEGORY_NOT_SAME_HOUSE);
-        }
 
         return Schedule.builder()
                 .name(name)

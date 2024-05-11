@@ -3,14 +3,13 @@ package com.roundtable.roundtable.domain.schedulecomment;
 import static org.assertj.core.groups.Tuple.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.domain.category.Category;
-import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.common.CursorPagination;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Frequency;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
@@ -43,9 +42,6 @@ class ScheduleCommentQueryRepositoryTest extends IntegrationTestSupport {
     private ScheduleRepository scheduleRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
     private ScheduleCommentRepository scheduleCommentRepository;
 
     @DisplayName("스케줄에 달린 댓글들을 조회할 수 있다.")
@@ -57,7 +53,7 @@ class ScheduleCommentQueryRepositoryTest extends IntegrationTestSupport {
         Member member2 = appendMember(house, "member2", "email2");
         Member member3 = appendMember(house, "member3", "email3");
         Member member4 = appendMember(house, "member4", "email4");
-        Category category = appendCategory(house);
+        Category category = Category.CLEANING;
         Schedule schedule = appendSchedule(category, house);
         ScheduleComment scheduleComment1 = appendScheduleComment(schedule, member1);
         ScheduleComment scheduleComment2 = appendScheduleComment(schedule, member2);
@@ -90,7 +86,7 @@ class ScheduleCommentQueryRepositoryTest extends IntegrationTestSupport {
         Member member2 = appendMember(house, "member2", "email2");
         Member member3 = appendMember(house, "member3", "email3");
         Member member4 = appendMember(house, "member4", "email4");
-        Category category = appendCategory(house);
+        Category category = Category.CLEANING;
         Schedule schedule = appendSchedule(category, house);
         ScheduleComment scheduleComment1 = appendScheduleComment(schedule, member1);
         ScheduleComment scheduleComment2 = appendScheduleComment(schedule, member2);
@@ -144,11 +140,6 @@ class ScheduleCommentQueryRepositoryTest extends IntegrationTestSupport {
                 .divisionType(DivisionType.FIX)
                 .build();
         return scheduleRepository.save(schedule);
-    }
-
-    private Category appendCategory(House house) {
-        Category category = Category.builder().house(house).name("name").imageUrl("").point(1).build();
-        return categoryRepository.save(category);
     }
 
 }

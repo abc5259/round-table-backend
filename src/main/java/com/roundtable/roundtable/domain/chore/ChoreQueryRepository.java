@@ -1,6 +1,5 @@
 package com.roundtable.roundtable.domain.chore;
 
-import static com.roundtable.roundtable.domain.category.QCategory.*;
 import static com.roundtable.roundtable.domain.chore.QChore.*;
 import static com.roundtable.roundtable.domain.chore.QChoreMember.*;
 import static com.roundtable.roundtable.domain.member.QMember.*;
@@ -9,7 +8,6 @@ import static com.roundtable.roundtable.domain.schedule.QSchedule.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.roundtable.roundtable.domain.category.dto.QCategoryDetailV1Dto;
 import com.roundtable.roundtable.domain.chore.dto.ChoreMembersDetailDto;
 import com.roundtable.roundtable.domain.chore.dto.ChoreOfMemberDto;
 import com.roundtable.roundtable.domain.chore.dto.QChoreMembersDetailDto;
@@ -42,16 +40,11 @@ public class ChoreQueryRepository {
                         chore.isCompleted,
                         chore.startDate,
                         schedule.startTime,
-                        new QCategoryDetailV1Dto(
-                                category.id,
-                                category.name,
-                                category.point
-                        )
+                        schedule.category
                 ))
                 .from(choreMember)
                 .join(choreMember.chore, chore).on(getChoreMemberEq(memberId))
                 .join(chore.schedule, schedule)
-                .join(schedule.category, category)
                 .where(getChoreStartDateEq(date).and(getScheduleHouseEq(houseId)))
                 .fetch();
     }
@@ -66,17 +59,12 @@ public class ChoreQueryRepository {
                         chore.startDate,
                         schedule.startTime,
                         Expressions.stringTemplate("GROUP_CONCAT({0})", member.name),
-                        new QCategoryDetailV1Dto(
-                                category.id,
-                                category.name,
-                                category.point
-                        )
+                        schedule.category
                 ))
                 .from(choreMember)
                 .join(choreMember.chore, chore)
                 .join(choreMember.member, member)
                 .join(chore.schedule, schedule)
-                .join(schedule.category, category)
                 .where(getChoreStartDateEq(date).and(getScheduleHouseEq(houseId)).and(getChoreIdGt(cursor.lastId())))
                 .groupBy(chore)
                 .limit(cursor.limit())

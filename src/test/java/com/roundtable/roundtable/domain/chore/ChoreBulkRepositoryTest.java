@@ -3,13 +3,12 @@ package com.roundtable.roundtable.domain.chore;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.domain.category.Category;
-import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Frequency;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
@@ -37,9 +36,6 @@ class ChoreBulkRepositoryTest extends IntegrationTestSupport {
     private MemberRepository memberRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
     private ScheduleRepository scheduleRepository;
 
     @DisplayName("여러개의 Chore을 한번에 insert할 수 있다.")
@@ -52,8 +48,7 @@ class ChoreBulkRepositoryTest extends IntegrationTestSupport {
         Member member = createMember(house);
         memberRepository.save(member);
 
-        Category category = Category.builder().name("분리 수거").point(100).imageUrl("").house(house).build();
-        categoryRepository.save(category);
+        Category category = Category.CLEANING;
 
         Schedule schedule = createSchedule(category, house);
         scheduleRepository.save(schedule);

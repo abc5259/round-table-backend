@@ -3,13 +3,12 @@ package com.roundtable.roundtable.domain.chore;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.domain.category.Category;
-import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Frequency;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
@@ -34,9 +33,6 @@ class ChoreMemberBulkRepositoryTest extends IntegrationTestSupport {
     private MemberRepository memberRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
     private ScheduleRepository scheduleRepository;
 
     @Autowired
@@ -53,7 +49,7 @@ class ChoreMemberBulkRepositoryTest extends IntegrationTestSupport {
     void insertChoreMembers() {
         //given
         House house = createHouse();
-        Category category = createCategory(house);
+        Category category = Category.CLEANING;
         Schedule schedule = createSchedule(category, house);
 
         final int size = 10;
@@ -89,7 +85,7 @@ class ChoreMemberBulkRepositoryTest extends IntegrationTestSupport {
     void saveAll() {
         //given
         House house = createHouse();
-        Category category = createCategory(house);
+        Category category = Category.CLEANING;
         Schedule schedule = createSchedule(category, house);
         Chore chore = createChore(schedule);
         choreRepository.save(chore);
@@ -135,11 +131,6 @@ class ChoreMemberBulkRepositoryTest extends IntegrationTestSupport {
                 .divisionType(DivisionType.FIX)
                 .build();
         return scheduleRepository.save(schedule);
-    }
-
-    private Category createCategory(House house) {
-        Category category = Category.builder().name("category").point(100).imageUrl("").house(house).build();
-        return categoryRepository.save(category);
     }
 
     private Chore createChore(Schedule schedule) {

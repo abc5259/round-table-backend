@@ -4,13 +4,12 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.schedule.dto.CreateSchedule;
-import com.roundtable.roundtable.domain.category.Category;
-import com.roundtable.roundtable.domain.category.CategoryRepository;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
+import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
@@ -47,9 +46,6 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
     ScheduleMemberRepository scheduleMemberRepository;
 
     @Autowired
-    CategoryRepository categoryRepository;
-
-    @Autowired
     EntityManager entityManager;
 
     @BeforeEach
@@ -70,10 +66,9 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
         //given
         House house = houseRepository.findAll().get(0);
         List<Long> memberIds = memberRepository.findAll().stream().map(Member::getId).toList();
-        Category category = createCategory(house);
 
         CreateSchedule request =
-                creatCreateRequest("schedule1", FrequencyType.ONCE, 0, memberIds, DivisionType.FIX, LocalDate.now(),category);
+                creatCreateRequest("schedule1", FrequencyType.ONCE, 0, memberIds, DivisionType.FIX, LocalDate.now(), Category.CLEANING);
 
         //when
         Schedule schedule = scheduleAppender.appendSchedule(request, house, LocalDate.now());
@@ -82,7 +77,7 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
         assertThat(schedule).isNotNull()
                 .extracting("id", "name", "startDate", "startTime", "sequence", "sequenceSize", "category")
                 .contains(
-                        schedule.getId(), request.name(), request.startDate(), request.startTime(), 1, memberIds.size(), category
+                        schedule.getId(), request.name(), request.startDate(), request.startTime(), 1, memberIds.size(), Category.CLEANING
                 );
         assertThat(schedule.getFrequency())
                 .extracting("frequencyType", "frequencyInterval")
@@ -107,10 +102,9 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
         //given
         House house = houseRepository.findAll().get(0);
         List<Long> memberIds = memberRepository.findAll().stream().map(Member::getId).toList();
-        Category category = createCategory(house);
 
         CreateSchedule request =
-                creatCreateRequest("schedule1", FrequencyType.ONCE, 0, memberIds, DivisionType.ROTATION, LocalDate.now(),category);
+                creatCreateRequest("schedule1", FrequencyType.ONCE, 0, memberIds, DivisionType.ROTATION, LocalDate.now(), Category.CLEANING);
 
         //when
         Schedule schedule = scheduleAppender.appendSchedule(request, house, LocalDate.now());
@@ -119,7 +113,7 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
         assertThat(schedule).isNotNull()
                 .extracting("id", "name", "startDate", "startTime", "sequence", "sequenceSize", "category")
                 .contains(
-                        schedule.getId(), request.name(), request.startDate(), request.startTime(), 1, memberIds.size(), category
+                        schedule.getId(), request.name(), request.startDate(), request.startTime(), 1, memberIds.size(), Category.CLEANING
                 );
         assertThat(schedule.getFrequency())
                 .extracting("frequencyType", "frequencyInterval")
@@ -141,13 +135,12 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
     void createScheduleWhenDuplicatedMemberId_fail() {
         //given
         House house = houseRepository.findAll().get(0);
-        Category category = createCategory(house);
         List<Long> memberIds = memberRepository.findAll().stream().map(Member::getId).toList();
         List<Long> duplicatedIds = new ArrayList<>(memberIds);
         duplicatedIds.add(memberIds.get(0));
 
         CreateSchedule request =
-                creatCreateRequest("schedule1", FrequencyType.DAILY, 2, duplicatedIds, DivisionType.FIX, LocalDate.now(),category);
+                creatCreateRequest("schedule1", FrequencyType.DAILY, 2, duplicatedIds, DivisionType.FIX, LocalDate.now(), Category.CLEANING);
 
         //when //then
         assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
@@ -161,13 +154,12 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
     void createScheduleWhenBeforeDate_fail() {
         //given
         House house = houseRepository.findAll().get(0);
-        Category category = createCategory(house);
         List<Long> memberIds = memberRepository.findAll().stream().map(Member::getId).toList();
 
         LocalDate startDate = LocalDate.now().minusDays(1);
 
         CreateSchedule request =
-                creatCreateRequest("schedule1", FrequencyType.DAILY, 2, memberIds, DivisionType.FIX, startDate,category);
+                creatCreateRequest("schedule1", FrequencyType.DAILY, 2, memberIds, DivisionType.FIX, startDate, Category.CLEANING);
 
         //when //then
         assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
@@ -181,14 +173,13 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
     void createSchedule_WEEKLY_fail() {
         //given
         House house = houseRepository.findAll().get(0);
-        Category category = createCategory(house);
         List<Long> memberIds = memberRepository.findAll().stream().map(Member::getId).toList();
 
         LocalDate startDate = LocalDate.now();
         DayOfWeek day = startDate.getDayOfWeek().plus(1);
 
         CreateSchedule request =
-                creatCreateRequest("schedule1", FrequencyType.WEEKLY, day.getValue(), memberIds, DivisionType.FIX, startDate,category);
+                creatCreateRequest("schedule1", FrequencyType.WEEKLY, day.getValue(), memberIds, DivisionType.FIX, startDate, Category.CLEANING);
 
         //when //then
         assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
@@ -209,14 +200,13 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
     void createSchedule_frequency_fail(String type, int interval) {
         //given
         House house = houseRepository.findAll().get(0);
-        Category category = createCategory(house);
         List<Long> memberIds = memberRepository.findAll().stream().map(Member::getId).toList();
 
         LocalDate startDate = LocalDate.now();
 
         FrequencyType frequencyType = FrequencyType.valueOf(type);
         CreateSchedule request =
-                creatCreateRequest("schedule1", frequencyType, interval, memberIds, DivisionType.FIX, startDate,category);
+                creatCreateRequest("schedule1", frequencyType, interval, memberIds, DivisionType.FIX, startDate, Category.CLEANING);
 
         //when //then
         assertThatThrownBy(() -> scheduleAppender.appendSchedule(request, house, LocalDate.now()))
@@ -238,9 +228,4 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
                 category
         );
      }
-
-    private Category createCategory(House house) {
-        Category category = Category.builder().house(house).name("name").imageUrl("").point(1).build();
-        return categoryRepository.save(category);
-    }
 }

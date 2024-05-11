@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.domain.chore.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import com.roundtable.roundtable.domain.category.dto.CategoryDetailV1Dto;
+import com.roundtable.roundtable.domain.schedule.Category;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -12,7 +12,7 @@ public record ChoreMembersDetailDto(
         LocalDate startDate,
         LocalTime startTime,
         String memberNames,
-        CategoryDetailV1Dto category
+        Category category
 ) {
 
     @QueryProjection

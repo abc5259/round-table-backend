@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.business.chore.dto.response;
 
-import com.roundtable.roundtable.domain.category.dto.CategoryDetailV1Dto;
 import com.roundtable.roundtable.domain.chore.dto.ChoreMembersDetailDto;
+import com.roundtable.roundtable.domain.schedule.Category;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -13,7 +13,7 @@ public record ChoreResponse(
         LocalDate startDate,
         LocalTime startTime,
         List<String> memberNames,
-        CategoryDetailV1Dto category
+        Category category
 ) {
 
     public static ChoreResponse create(ChoreMembersDetailDto choreMembersDetailDto) {
