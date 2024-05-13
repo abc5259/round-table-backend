@@ -34,4 +34,11 @@ public class MemberException extends CoreException {
             super(MemberErrorCode.NOT_SAME_HOUSE);
         }
     }
+
+    public static class InvalidHouseMemberException extends MemberException {
+
+        public InvalidHouseMemberException() {
+            super(MemberErrorCode.INVALID_HOUSE_MEMBER);
+        }
+    }
 }

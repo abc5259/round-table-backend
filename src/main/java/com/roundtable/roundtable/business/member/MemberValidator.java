@@ -9,6 +9,7 @@ import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.global.exception.CoreException.DuplicatedException;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
+import com.roundtable.roundtable.global.exception.MemberException.InvalidHouseMemberException;
 import com.roundtable.roundtable.global.exception.MemberException.MemberAlreadyHasHouseException;
 import com.roundtable.roundtable.global.exception.MemberException.MemberNoHouseException;
 import com.roundtable.roundtable.global.exception.MemberException.MemberNotSameHouseException;
@@ -47,6 +48,16 @@ public class MemberValidator {
 
         if(!member.isEnterHouse()) {
             throw new MemberNoHouseException();
+        }
+    }
+
+    public void validateMemberBelongsTo(Long memberId, Long houseId) {
+        if(houseId == null) {
+            throw new InvalidHouseMemberException();
+        }
+
+        if(!memberRepository.existsByIdAndHouse(memberId, House.Id(houseId))) {
+            throw new InvalidHouseMemberException();
         }
     }
 

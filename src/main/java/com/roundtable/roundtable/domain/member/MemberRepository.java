@@ -13,4 +13,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findByHouse(House house);
 
     List<Member> findByEmailIn(List<String> emails);
+
+    boolean existsByIdAndHouse(Long memberId, House house);
 }
