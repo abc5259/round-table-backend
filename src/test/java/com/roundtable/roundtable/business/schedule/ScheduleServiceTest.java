@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.common.AuthMember;
-import com.roundtable.roundtable.business.house.CreateScheduleDto;
+import com.roundtable.roundtable.business.schedule.dto.CreateScheduleDto;
 import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.InviteCode;

@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.member;
 
+import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.global.exception.CoreException.DuplicatedException;
@@ -47,5 +48,9 @@ public class MemberReader {
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotFoundEntityException(MemberErrorCode.NOT_FOUND));
+    }
+
+    public List<Member> findAllByHouseId(Long houseId) {
+        return memberRepository.findByHouse(House.Id(houseId));
     }
 }

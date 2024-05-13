@@ -1,6 +1,5 @@
-package com.roundtable.roundtable.business.house;
+package com.roundtable.roundtable.business.schedule.dto;
 
-import com.roundtable.roundtable.business.schedule.dto.CreateSchedule;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.FrequencyType;

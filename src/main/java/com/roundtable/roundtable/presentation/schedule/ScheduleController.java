@@ -24,7 +24,7 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping("/{houseId}")
+    @PostMapping("/house/{houseId}")
     public ResponseEntity<ApiResponse<Long>> createSchedule(
             @Login AuthMember authMember,
             @PathVariable Long houseId,

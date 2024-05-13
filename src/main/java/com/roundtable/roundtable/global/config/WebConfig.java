@@ -20,8 +20,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final MemberBelongsToHouseInterceptor memberBelongsToHouseInterceptor;
 
-    private static final String[] whiteList = {"/members/exist","/auth/register", "/auth/login", "/auth/emails", "/token/refresh"};
-
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(loginAuthMemberArgumentResolver);
@@ -40,6 +38,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(memberBelongsToHouseInterceptor)
                 .order(2)
-                .addPathPatterns("/**/house/{houseId}");
+                .addPathPatterns("/**/house/{houseId}")
+                .addPathPatterns("/**/houses/{houseId}");
     }
 }

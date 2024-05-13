@@ -37,6 +37,8 @@ public class Member extends BaseEntity {
     @NotNull
     private String password;
 
+    private String profileUrl;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -44,13 +46,14 @@ public class Member extends BaseEntity {
     private House house;
 
     @Builder
-    private Member(Long id, String email, String password, String name, House house, Gender gender) {
+    private Member(Long id, String email, String password, String name, House house, Gender gender, String profileUrl) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.house = house;
         this.gender = gender;
+        this.profileUrl = profileUrl;
     }
 
     public static Member Id(Long id) {
