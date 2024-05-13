@@ -1,8 +1,9 @@
 package com.roundtable.roundtable.business.member;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
+import com.roundtable.roundtable.business.house.dto.HouseMember;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
@@ -15,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-class MemberReaderTest extends IntegrationTestSupport {
+class MemberHouseManagerImplTest extends IntegrationTestSupport {
 
     @Autowired
-    private MemberReader memberReader;
+    private MemberHouseManagerImpl memberHouseManager;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -28,7 +29,7 @@ class MemberReaderTest extends IntegrationTestSupport {
 
     @DisplayName("하우스에 속한 모든 맴버를 조회할 수 있다.")
     @Test
-    void findAllByHouseId() {
+    void findHouseMembers() {
         //given
         House house1 = createHouse("code1");
         House house2 = createHouse("code2");
@@ -38,28 +39,14 @@ class MemberReaderTest extends IntegrationTestSupport {
         Member member3 = createMember(house2, "email3");
 
         //when
-        List<Member> result = memberReader.findAllByHouseId(house1.getId());
+        List<HouseMember> result = memberHouseManager.findHouseMembers(house1.getId());
 
         //then
         assertThat(result).hasSize(2)
-                .extracting("id", "email")
+                .extracting("memberId")
                 .contains(
-                        tuple(member.getId(), member.getEmail()),
-                        tuple(member2.getId(), member2.getEmail())
+                        member.getId(), member2.getId()
                 );
-    }
-
-    @DisplayName("하우스에 속한 멤버가 없을때 빈 배열을 리턴한다")
-    @Test
-    void findAllByHouseIdWithNoMember() {
-        //given
-        House house1 = createHouse("code1");
-
-        //when
-        List<Member> result = memberReader.findAllByHouseId(house1.getId());
-
-        //then
-        assertThat(result).hasSize(0);
     }
 
     public House createHouse(String code) {
