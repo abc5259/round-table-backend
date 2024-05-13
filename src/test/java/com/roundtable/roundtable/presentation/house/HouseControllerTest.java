@@ -10,9 +10,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.roundtable.roundtable.ControllerTestSupport;
 import com.roundtable.roundtable.business.common.AuthMember;
+import com.roundtable.roundtable.business.house.dto.HouseMember;
 import com.roundtable.roundtable.presentation.house.request.CreateHouseRequest;
+import com.roundtable.roundtable.presentation.house.response.HouseMemberResponse;
 import com.roundtable.roundtable.security.WithMockCustomUser;
 import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -68,6 +71,32 @@ class HouseControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.data").isEmpty())
                 .andExpect(jsonPath("$.message").value("하우스 이름은 필수입니다."))
                 .andExpect(jsonPath("$.code").isEmpty());
+
+    }
+
+    @DisplayName("하우스에 속한 맴버를 조회한다.")
+    @WithMockCustomUser
+    @Test
+    void findHouseMembers() throws Exception {
+        //given
+
+        HouseMember houseMember = new HouseMember(1L, "name", "url");
+
+        when(houseService.findHouseMembers(any())).thenReturn(List.of(houseMember));
+
+        //when
+        mockMvc.perform(
+                        get(API_PREFIX + "/1")
+                                .with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data").isArray())
+                .andExpect(jsonPath("$.message").isEmpty())
+                .andExpect(jsonPath("$.code").isEmpty());
+
 
     }
 }
