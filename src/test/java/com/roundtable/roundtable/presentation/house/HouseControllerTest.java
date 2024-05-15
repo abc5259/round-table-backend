@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 
 class HouseControllerTest extends ControllerTestSupport {
 
@@ -79,24 +81,27 @@ class HouseControllerTest extends ControllerTestSupport {
     @Test
     void findHouseMembers() throws Exception {
         //given
-
-        HouseMember houseMember = new HouseMember(1L, "name", "url");
-
-        when(houseService.findHouseMembers(any())).thenReturn(List.of(houseMember));
+        List<HouseMember> houseMembers = List.of(
+                new HouseMember(1L, "name", "url")
+        );
+        when(houseService.findHouseMembers(any())).thenReturn(houseMembers);
 
         //when
-        mockMvc.perform(
+        ResultActions resultActions = mockMvc.perform(
                         get(API_PREFIX + "/1")
                                 .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON)
-                )
+                );
+
+        //then
+
+        resultActions
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isArray())
                 .andExpect(jsonPath("$.message").isEmpty())
                 .andExpect(jsonPath("$.code").isEmpty());
-
 
     }
 }

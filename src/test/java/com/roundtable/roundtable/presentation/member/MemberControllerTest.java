@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 class MemberControllerTest extends ControllerTestSupport {
 
     private static final String API_PREFIX = "/members";
+
     @DisplayName("내 정보를 알 수 있다.")
     @WithMockCustomUser
     @Test

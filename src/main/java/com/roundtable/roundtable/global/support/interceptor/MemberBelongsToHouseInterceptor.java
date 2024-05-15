@@ -12,8 +12,11 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @RequiredArgsConstructor
@@ -29,7 +32,7 @@ public class MemberBelongsToHouseInterceptor implements HandlerInterceptor {
 
         final Map<String, String> pathVariables = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 
-        if (Objects.isNull(pathVariables.get(PATH_VARIABLE_KEY))) {
+        if (pathVariables == null || Objects.isNull(pathVariables.get(PATH_VARIABLE_KEY))) {
             return true;
         }
 

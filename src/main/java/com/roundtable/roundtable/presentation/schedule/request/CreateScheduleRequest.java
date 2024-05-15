@@ -16,20 +16,26 @@ import java.util.List;
 public record CreateScheduleRequest(
         @NotBlank(message = "name에 빈 값이 올 수 없습니다.")
         String name,
+
         @NotNull(message = "frequencyType에 빈 값이 올 수 없습니다.")
         FrequencyType frequencyType,
+
         @NotNull(message = "frequencyInterval에 빈 값이 올 수 없습니다.")
         @PositiveOrZero(message = "frequencyInterval은 0이상이어야 합니다.")
         Integer frequencyInterval,
+
         @NotNull(message = "startDate에 빈 값이 올 수 없습니다.")
         LocalDate startDate,
+
         @NotNull(message = "startTime에 빈 값이 올 수 없습니다.")
         LocalTime startTime,
+
         @NotNull(message = "divisionType에 빈 값이 올 수 없습니다.")
         DivisionType divisionType,
-        @NotEmpty(message = "memberIds는 하나 이상이어야 합니다.")
+
         @Size(min = 1, max = 30, message = "담당자는 최소 1명 최대 30명까지 가능합니다.")
         List<Long> memberIds,
+
         @NotNull(message = "category에 빈 값이 올 수 없습니다.")
         Category category
 ) {

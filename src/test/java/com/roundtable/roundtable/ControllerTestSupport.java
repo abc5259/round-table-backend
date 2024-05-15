@@ -6,9 +6,11 @@ import com.roundtable.roundtable.business.house.HouseService;
 import com.roundtable.roundtable.business.member.MemberReader;
 import com.roundtable.roundtable.business.member.MemberService;
 import com.roundtable.roundtable.business.member.MemberValidator;
+import com.roundtable.roundtable.business.schedule.ScheduleService;
 import com.roundtable.roundtable.presentation.auth.AuthController;
 import com.roundtable.roundtable.presentation.house.HouseController;
 import com.roundtable.roundtable.presentation.member.MemberController;
+import com.roundtable.roundtable.presentation.schedule.ScheduleController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,7 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = {
         AuthController.class,
         MemberController.class,
-        HouseController.class
+        HouseController.class,
+        ScheduleController.class,
 })
 public abstract class ControllerTestSupport {
 
@@ -43,4 +46,7 @@ public abstract class ControllerTestSupport {
 
     @MockBean
     protected HouseService houseService;
+
+    @MockBean
+    protected ScheduleService scheduleService;
 }
