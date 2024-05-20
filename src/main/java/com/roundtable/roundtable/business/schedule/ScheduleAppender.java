@@ -59,8 +59,6 @@ public class ScheduleAppender {
     }
 
     private Schedule appendSchedule(CreateSchedule createSchedule, House house, List<Member> members) {
-
-        //여기서 카테고리가 같은 하우스인지 체크 해야 할까? 아니면 도메인에게 맡길까?
         Schedule schedule = Schedule.create(
                 createSchedule.name(),
                 Frequency.of(createSchedule.frequencyType(), createSchedule.frequencyInterval()),

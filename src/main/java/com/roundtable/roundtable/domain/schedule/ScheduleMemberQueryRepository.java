@@ -52,8 +52,7 @@ public class ScheduleMemberQueryRepository {
                 .where(schedule.in(schedules)
                         .and(
                                 getScheduleDivisionTypeEq(DivisionType.FIX)
-                                        .or(getScheduleDivisionTypeEq(DivisionType.ROTATION).and(getRotationCondition(
-                                                now))))
+                                        .or(getScheduleDivisionTypeEq(DivisionType.ROTATION).and(getRotationCondition(now))))
                 )
                 .fetch();
 

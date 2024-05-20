@@ -68,10 +68,10 @@ class ScheduleControllerTest extends ControllerTestSupport {
 
     }
 
-    @DisplayName("스케줄을 생성할떄 이름이 없다면 실패한다.")
+    @DisplayName("스케줄을 생성할떄 요청 body에 잘못된 값을 주면 실패한다.")
     @WithMockCustomUser
     @ParameterizedTest
-    @MethodSource("invalidRequestProvider")
+    @MethodSource("invalidCreateScheduleRequestProvider")
     void createScheduleWithInvalidRequest(
             String name,
             FrequencyType frequencyType,
@@ -116,7 +116,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
 
     }
 
-    private static Stream<Arguments> invalidRequestProvider() {
+    private static Stream<Arguments> invalidCreateScheduleRequestProvider() {
         return Stream.of(
                 Arguments.of(
                         null,
