@@ -178,7 +178,6 @@ class ScheduleCommentServiceTest extends IntegrationTestSupport {
                 .category(category)
                 .startDate(LocalDate.now())
                 .startTime(LocalTime.MAX)
-                .frequency(Frequency.builder().frequencyType(FrequencyType.DAILY).frequencyInterval(2).build())
                 .sequence(1)
                 .sequenceSize(1)
                 .house(house)

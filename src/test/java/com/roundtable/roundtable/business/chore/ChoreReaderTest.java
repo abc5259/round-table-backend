@@ -218,7 +218,6 @@ class ChoreReaderTest extends IntegrationTestSupport {
                 .startTime(LocalTime.of(1, 0))
                 .category(category)
                 .house(house)
-                .frequency(Frequency.builder().frequencyType(FrequencyType.DAILY).frequencyInterval(2).build())
                 .sequence(1)
                 .sequenceSize(1)
                 .startDate(searchDate)

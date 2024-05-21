@@ -38,12 +38,11 @@ class ScheduleControllerTest extends ControllerTestSupport {
         //given
         CreateScheduleRequest request = new CreateScheduleRequest(
                 "name",
-                FrequencyType.ONCE,
-                0,
                 LocalDate.now(),
                 LocalTime.now(),
                 DivisionType.FIX,
                 List.of(1L),
+                List.of(1),
                 Category.CLEANING
         );
 
@@ -74,24 +73,22 @@ class ScheduleControllerTest extends ControllerTestSupport {
     @MethodSource("invalidCreateScheduleRequestProvider")
     void createScheduleWithInvalidRequest(
             String name,
-            FrequencyType frequencyType,
-            Integer frequencyInterval,
             LocalDate localDate,
             LocalTime localTime,
             DivisionType divisionType,
             List<Long> memberIds,
+            List<Integer> dayIds,
             Category category,
             String expectedMessage
     ) throws Exception {
         //given
         CreateScheduleRequest request = new CreateScheduleRequest(
                 name,
-                frequencyType,
-                frequencyInterval,
                 localDate,
                 localTime,
                 divisionType,
                 memberIds,
+                dayIds,
                 category
         );
 

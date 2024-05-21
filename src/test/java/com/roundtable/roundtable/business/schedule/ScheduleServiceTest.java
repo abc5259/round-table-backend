@@ -11,7 +11,6 @@ import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
-import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -44,13 +43,12 @@ class ScheduleServiceTest extends IntegrationTestSupport {
 
         CreateScheduleDto createScheduleDto = new CreateScheduleDto(
                 "schedule1",
-                FrequencyType.DAILY,
-                2,
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
                 List.of(member.getId()),
-                category
+                category,
+                List.of(1)
         );
 
         AuthMember authMember = new AuthMember(member.getId(), house.getId());
@@ -79,13 +77,12 @@ class ScheduleServiceTest extends IntegrationTestSupport {
 
         CreateScheduleDto createSchedule = new CreateScheduleDto(
                 "schedule1",
-                FrequencyType.DAILY,
-                2,
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
                 List.of(member.getId()),
-                category
+                category,
+                List.of(1)
         );
 
         AuthMember authMember = new AuthMember(member.getId(), house.getId());

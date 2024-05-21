@@ -46,13 +46,12 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
 
         CreateSchedule createSchedule = new CreateSchedule(
                 "schedule1",
-                FrequencyType.DAILY,
-                2,
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
                 List.of(member.getId()),
-                category
+                category,
+                List.of(1)
         );
 
         //when
@@ -92,13 +91,12 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
 
         CreateSchedule createSchedule = new CreateSchedule(
                 "schedule1",
-                FrequencyType.DAILY,
-                2,
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
                 List.of(member.getId()),
-                category
+                category,
+                List.of(1)
         );
 
         //when
@@ -137,13 +135,12 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
 
         CreateSchedule createSchedule = new CreateSchedule(
                 "schedule1",
-                FrequencyType.DAILY,
-                2,
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.ROTATION,
                 List.of(member1.getId(), member2.getId()),
-                category
+                category,
+                List.of(1)
         );
 
         //when

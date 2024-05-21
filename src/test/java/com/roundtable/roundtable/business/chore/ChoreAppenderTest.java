@@ -11,8 +11,6 @@ import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
-import com.roundtable.roundtable.domain.schedule.Frequency;
-import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
@@ -47,7 +45,6 @@ class ChoreAppenderTest extends IntegrationTestSupport {
 
         Schedule schedule = Schedule.create(
                 "schedule1",
-                Frequency.of(FrequencyType.DAILY, 2),
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,

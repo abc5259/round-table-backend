@@ -2,6 +2,7 @@ package com.roundtable.roundtable.business.schedule;
 
 import static com.roundtable.roundtable.domain.schedule.DivisionType.FIX;
 import static com.roundtable.roundtable.domain.schedule.DivisionType.ROTATION;
+import static com.roundtable.roundtable.domain.schedule.Schedule.*;
 
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ScheduleMemberFactory {
-    public static final int START_SEQUENCE = 1;
 
     public List<ScheduleMember> createScheduleMembers(List<Member> members, Schedule schedule) {
         List<ScheduleMember> scheduleMembers = null;

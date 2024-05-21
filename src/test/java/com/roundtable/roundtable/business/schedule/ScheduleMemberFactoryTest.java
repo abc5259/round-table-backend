@@ -9,8 +9,6 @@ import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
-import com.roundtable.roundtable.domain.schedule.Frequency;
-import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
 import java.time.LocalDate;
@@ -87,7 +85,7 @@ class ScheduleMemberFactoryTest extends IntegrationTestSupport {
     private Schedule createSchedule(DivisionType divisionType) {
         House house = createHouse();
         Category category = Category.COOKING;
-        return Schedule.create("schedule", Frequency.of(FrequencyType.DAILY, 1), LocalDate.now(),
+        return Schedule.create("schedule", LocalDate.now(),
                 LocalTime.of(11, 1), divisionType, house, 1, category);
     }
 

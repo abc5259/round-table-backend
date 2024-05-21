@@ -75,7 +75,6 @@ class ScheduleReaderTest extends IntegrationTestSupport {
                 .containsExactly(
                         schedule.getId(),
                         schedule.getName(),
-                        schedule.getFrequency(),
                         schedule.getStartDate(),
                         schedule.getStartTime(),
                         schedule.getDivisionType(),
@@ -96,7 +95,6 @@ class ScheduleReaderTest extends IntegrationTestSupport {
                 .category(category)
                 .startDate(LocalDate.now())
                 .startTime(LocalTime.of(11,11))
-                .frequency(Frequency.builder().frequencyType(FrequencyType.DAILY).frequencyInterval(2).build())
                 .sequence(1)
                 .sequenceSize(1)
                 .house(house)

@@ -27,9 +27,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class ScheduleAppender {
+
     private final MemberReader memberReader;
     private final MemberValidator memberValidator;
     private final ScheduleMemberAppender scheduleMemberAppender;
+    private final ScheduleDayAppender scheduleDayAppender;
     private final ScheduleRepository scheduleRepository;
 
     public Schedule appendSchedule(CreateSchedule createSchedule, House house, LocalDate currDate) {
@@ -40,8 +42,12 @@ public class ScheduleAppender {
 
         Schedule schedule = appendSchedule(createSchedule, house, members);
 
+        // 스케줄 담당자 추가
         List<ScheduleMember> scheduleMembers = scheduleMemberAppender.createScheduleMembers(members, schedule);
         schedule.addScheduleMembers(scheduleMembers);
+
+        //스케줄 수행 요일 추가
+        scheduleDayAppender.append(schedule, createSchedule.dayIds());
 
         return schedule;
     }
@@ -52,16 +58,11 @@ public class ScheduleAppender {
         checkDuplicateMemberId(createSchedule);
 
         checkBeforeDate(createSchedule, currDate);
-
-        checkSupportFrequency(createSchedule);
-
-        checkWeeklyInterval(createSchedule);
     }
 
     private Schedule appendSchedule(CreateSchedule createSchedule, House house, List<Member> members) {
         Schedule schedule = Schedule.create(
                 createSchedule.name(),
-                Frequency.of(createSchedule.frequencyType(), createSchedule.frequencyInterval()),
                 createSchedule.startDate(),
                 createSchedule.startTime(),
                 createSchedule.divisionType(),
@@ -82,21 +83,6 @@ public class ScheduleAppender {
     private void checkBeforeDate(CreateSchedule createSchedule, LocalDate currDate) {
         if(createSchedule.startDate().isBefore(currDate)) {
             throw new CreateEntityException(INVALID_START_DATE);
-        }
-    }
-
-    private void checkSupportFrequency(CreateSchedule createSchedule) {
-        if(!Frequency.isSupport(createSchedule.frequencyType(), createSchedule.frequencyInterval())) {
-            throw new CreateEntityException(FREQUENCY_NOT_SUPPORT);
-        }
-    }
-
-    private void checkWeeklyInterval(CreateSchedule createSchedule) {
-        if(createSchedule.frequencyType().equals(FrequencyType.WEEKLY)) {
-            DayOfWeek day = DayOfWeek.of(createSchedule.frequencyInterval());
-            if(!createSchedule.startDate().getDayOfWeek().equals(day)) {
-                throw new CreateEntityException(FREQUENCY_NOT_SUPPORT_WEEKLY);
-            }
         }
     }
 

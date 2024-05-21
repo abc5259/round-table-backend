@@ -44,7 +44,6 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
                 .containsExactly(
                         schedule.getId(),
                         schedule.getName(),
-                        schedule.getFrequency(),
                         schedule.getStartDate(),
                         schedule.getStartTime(),
                         schedule.getDivisionType(),
@@ -52,40 +51,6 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
 
      }
 
-     @DisplayName("해당 날짜에 시행하는 스케줄을 조회할 수 있다.")
-     @Test
-     void findScheduleByDate() {
-         //given
-         House house = appendHouse();
-         Category category = Category.CLEANING;
-         Frequency frequency1 = Frequency.builder().frequencyType(FrequencyType.ONCE).frequencyInterval(0).build();
-
-         //2틀 간격
-         Frequency frequency2 = Frequency.builder().frequencyType(FrequencyType.DAILY).frequencyInterval(2).build();
-         //4일 간격
-         Frequency frequency3 = Frequency.builder().frequencyType(FrequencyType.DAILY).frequencyInterval(4).build();
-
-         //화요일마다
-         Frequency frequency4 = Frequency.builder().frequencyType(FrequencyType.WEEKLY).frequencyInterval(3).build();
-         //수요일마다
-         Frequency frequency5 = Frequency.builder().frequencyType(FrequencyType.WEEKLY).frequencyInterval(4).build();
-
-         LocalDate date = LocalDate.of(2024,3,18); //월요일
-         LocalDate targetDate = LocalDate.of(2024, 3, 20); //수요일
-
-         Schedule schedule = appendSchedule(category, house, "schedule1", frequency1, targetDate);
-         Schedule schedule2 = appendSchedule(category, house, "schedule2", frequency2, date);
-         Schedule schedule3 = appendSchedule(category, house, "schedule3", frequency3, date);
-         Schedule schedule4 = appendSchedule(category, house, "schedule4", frequency4, date);
-         Schedule schedule5 = appendSchedule(category, house, "schedule5", frequency5, date);
-
-         //when
-         List<Schedule> schedules = scheduleQueryRepository.findScheduleByDate(targetDate);
-
-         //then
-         assertThat(schedules).hasSize(3)
-                 .containsExactly(schedule, schedule2, schedule5);
-      }
 
     private House appendHouse() {
         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
@@ -100,7 +65,6 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
                 .category(category)
                 .startDate(startDate)
                 .startTime(LocalTime.of(11,11))
-                .frequency(frequency)
                 .sequence(1)
                 .sequenceSize(1)
                 .house(house)

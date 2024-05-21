@@ -27,15 +27,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Schedule extends BaseEntity {
+
+    public static final int START_SEQUENCE = 1;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     private String name;
-
-    @Embedded
-    private Frequency frequency;
 
     @NotNull
     private LocalDate startDate;
@@ -67,7 +67,6 @@ public class Schedule extends BaseEntity {
     @Builder
     private Schedule(Long id,
                      String name,
-                     Frequency frequency,
                      LocalDate startDate,
                      LocalTime startTime,
                      Integer sequence,
@@ -77,7 +76,6 @@ public class Schedule extends BaseEntity {
                      Category category) {
 
         this.name = name;
-        this.frequency = frequency;
         this.startDate = startDate;
         this.startTime = startTime;
         this.sequence = sequence;
@@ -94,7 +92,6 @@ public class Schedule extends BaseEntity {
 
     public static Schedule create(
             String name,
-            Frequency frequency,
             LocalDate startDate,
             LocalTime startTime,
             DivisionType divisionType,
@@ -105,12 +102,11 @@ public class Schedule extends BaseEntity {
 
         return Schedule.builder()
                 .name(name)
-                .frequency(frequency)
                 .startDate(startDate)
                 .startTime(startTime)
                 .divisionType(divisionType)
                 .house(house)
-                .sequence(1)
+                .sequence(START_SEQUENCE)
                 .sequenceSize(sequenceSize)
                 .category(category)
                 .build();

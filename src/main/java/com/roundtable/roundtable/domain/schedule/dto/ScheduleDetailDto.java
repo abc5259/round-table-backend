@@ -11,7 +11,6 @@ import java.util.List;
 public record ScheduleDetailDto(
         Long scheduleId,
         String name,
-        Frequency frequency,
         LocalDate startDate,
         LocalTime startTime,
         DivisionType divisionType,
@@ -22,19 +21,17 @@ public record ScheduleDetailDto(
     @QueryProjection
     public ScheduleDetailDto(Long scheduleId,
                              String name,
-                             Frequency frequency,
                              LocalDate startDate,
                              LocalTime startTime,
                              DivisionType divisionType,
                              Category category) {
-        this(scheduleId, name, frequency, startDate, startTime, divisionType, category, null);
+        this(scheduleId, name, startDate, startTime, divisionType, category, null);
     }
 
     public ScheduleDetailDto withAllocators(List<ScheduleMemberDetailDto> allocators) {
         return new ScheduleDetailDto(
                 this.scheduleId(),
                 this.name(),
-                this.frequency(),
                 this.startDate(),
                 this.startTime(),
                 this.divisionType(),

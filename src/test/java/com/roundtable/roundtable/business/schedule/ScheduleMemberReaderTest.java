@@ -16,7 +16,6 @@ import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Frequency;
-import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
 import com.roundtable.roundtable.domain.schedule.ScheduleMemberRepository;
@@ -160,7 +159,6 @@ class ScheduleMemberReaderTest extends IntegrationTestSupport {
                 .category(category)
                 .startDate(LocalDate.now())
                 .startTime(LocalTime.MAX)
-                .frequency(Frequency.builder().frequencyType(FrequencyType.DAILY).frequencyInterval(2).build())
                 .sequence(1)
                 .sequenceSize(1)
                 .house(house)
@@ -180,7 +178,6 @@ class ScheduleMemberReaderTest extends IntegrationTestSupport {
                 .category(category)
                 .startDate(startDate)
                 .startTime(LocalTime.of(11,11))
-                .frequency(frequency)
                 .sequence(1)
                 .sequenceSize(sequenceSize)
                 .house(house)

@@ -1,7 +1,10 @@
 package com.roundtable.roundtable.domain.schedule;
 
+import com.roundtable.roundtable.global.exception.CoreException;
+import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import java.time.DayOfWeek;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -32,6 +35,31 @@ public class Day {
     private Day(Integer id, String dayOfWeek) {
         this.id = id;
         this.dayOfWeek = dayOfWeek;
+    }
+
+    public static Day forId(int id) {
+        return switch (id) {
+            case 1 -> MONDAY;
+            case 2 -> TUESDAY;
+            case 3 -> WEDNESDAY;
+            case 4 -> THURSDAY;
+            case 5 -> FRIDAY;
+            case 6 -> SATURDAY;
+            case 7 -> SUNDAY;
+            default -> throw new NotFoundEntityException();
+        };
+    }
+
+    public static Day forDayOfWeek(DayOfWeek dayOfWeek) {
+        return switch (dayOfWeek) {
+            case MONDAY -> MONDAY;
+            case TUESDAY -> TUESDAY;
+            case WEDNESDAY -> WEDNESDAY;
+            case THURSDAY -> THURSDAY;
+            case FRIDAY -> FRIDAY;
+            case SATURDAY -> SATURDAY;
+            case SUNDAY -> SUNDAY;
+        };
     }
 
 }
