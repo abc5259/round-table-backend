@@ -33,7 +33,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
     private EntityManager em;
 
 
-    @DisplayName("시작날짜가 오늘과 같다면 스케줄과 집안일 둘다 추가한다.")
+    @DisplayName("반복 스케줄 타입에서 시작날짜가 오늘과 같다면 스케줄과 집안일 둘다 추가한다.")
     @Test
     void appendWhenStartDateWithToday() {
         //given
@@ -79,7 +79,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
                 .contains(schedule);
     }
 
-    @DisplayName("시작날짜가 오늘이 아니라면 스케줄만 추가한다.")
+    @DisplayName("반복 스케줄 타입에서 시작날짜가 오늘이 아니라면 스케줄만 추가한다.")
     @Test
     void appendWhenStartDateWithNotToday() {
         //given
@@ -123,7 +123,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
         assertThat(chore).hasSize(0);
     }
 
-    @DisplayName("시작날짜가 오늘이라 스케줄과 집안일을 둘다 생성해야 할때 스케줄의 분담방식이 로테이션이라면 스케줄을 맡은 멤버와 집안일을 맡은 멤버는 다를 수 있다.")
+    @DisplayName("반복 스케줄 타입에서 시작날짜가 오늘이라 스케줄과 집안일을 둘다 생성해야 할때 스케줄의 분담방식이 로테이션이라면 스케줄을 맡은 멤버와 집안일을 맡은 멤버는 다를 수 있다.")
     @Test
     void appendWhenStartDateWithTodayAndDifMembers() {
         //given

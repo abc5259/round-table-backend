@@ -1,7 +1,5 @@
 package com.roundtable.roundtable.business.schedule;
 
-import static com.roundtable.roundtable.domain.schedule.DivisionType.FIX;
-import static com.roundtable.roundtable.domain.schedule.DivisionType.ROTATION;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
@@ -17,12 +15,10 @@ import com.roundtable.roundtable.domain.schedule.ScheduleMember;
 import com.roundtable.roundtable.domain.schedule.ScheduleMemberRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleType;
-import com.roundtable.roundtable.domain.schedule.dto.ScheduleIdDto;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleMemberDetailDto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

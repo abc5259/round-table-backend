@@ -24,6 +24,17 @@ public class ScheduleChoreAppendDirector {
     private final ChoreMembersChooser choreMembersChooser;
 
     public Schedule append(CreateSchedule createSchedule, House house, LocalDate now) {
+        Schedule schedule = null;
+
+        switch (createSchedule.scheduleType()) {
+            case REPEAT -> schedule = createRepeatSchedule(createSchedule, house, now);
+            case ONE_TIME -> schedule = createOneTimeSchedule(createSchedule, house, now);
+        }
+
+        return schedule;
+    }
+
+    private Schedule createRepeatSchedule(CreateSchedule createSchedule, House house, LocalDate now) {
         Schedule schedule = scheduleAppender.appendSchedule(createSchedule, house, now);
 
         if(isStartToday(createSchedule, now)) {
@@ -31,6 +42,15 @@ public class ScheduleChoreAppendDirector {
 
             choreAppender.appendChore(new CreateChore(now, schedule, members), house);
         }
+        return schedule;
+    }
+
+    private Schedule createOneTimeSchedule(CreateSchedule createSchedule, House house, LocalDate now) {
+        Schedule schedule = scheduleAppender.appendSchedule(createSchedule, house, now);
+
+        List<Member> members = choreMembersChooser.chooseChoreMembers(schedule.getScheduleMembers());
+
+        choreAppender.appendChore(new CreateChore(schedule.getStartDate(), schedule, members), house);
 
         return schedule;
     }
@@ -38,4 +58,5 @@ public class ScheduleChoreAppendDirector {
     private boolean isStartToday(CreateSchedule createSchedule, LocalDate now) {
         return createSchedule.startDate().equals(now);
     }
+
 }
