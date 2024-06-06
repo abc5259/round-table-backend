@@ -13,6 +13,7 @@ import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import com.roundtable.roundtable.domain.schedulecomment.dto.MemberDetailDto;
 import com.roundtable.roundtable.domain.schedulecomment.dto.ScheduleCommentDetailDto;
 import java.time.LocalDate;
@@ -135,6 +136,7 @@ class ScheduleCommentQueryRepositoryTest extends IntegrationTestSupport {
                 .sequenceSize(1)
                 .house(house)
                 .divisionType(DivisionType.FIX)
+                .scheduleType(ScheduleType.REPEAT)
                 .build();
         return scheduleRepository.save(schedule);
     }

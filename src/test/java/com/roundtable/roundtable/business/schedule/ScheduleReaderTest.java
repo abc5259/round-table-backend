@@ -10,6 +10,7 @@ import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleDetailDto;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode;
@@ -97,6 +98,7 @@ class ScheduleReaderTest extends IntegrationTestSupport {
                 .sequenceSize(1)
                 .house(house)
                 .divisionType(DivisionType.FIX)
+                .scheduleType(ScheduleType.REPEAT)
                 .build();
         return scheduleRepository.save(schedule);
     }

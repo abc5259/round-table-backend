@@ -67,6 +67,7 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
                 .sequenceSize(1)
                 .house(house)
                 .divisionType(DivisionType.FIX)
+                .scheduleType(ScheduleType.REPEAT)
                 .build();
         return scheduleRepository.save(schedule);
     }

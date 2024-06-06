@@ -11,6 +11,7 @@ import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -86,7 +87,7 @@ class ScheduleMemberFactoryTest extends IntegrationTestSupport {
         House house = createHouse();
         Category category = Category.COOKING;
         return Schedule.create("schedule", LocalDate.now(),
-                LocalTime.of(11, 1), divisionType, house, 1, category);
+                LocalTime.of(11, 1), divisionType, ScheduleType.REPEAT, house, 1, category);
     }
 
 

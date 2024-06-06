@@ -12,6 +12,7 @@ import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -126,6 +127,7 @@ class ChoreMemberBulkRepositoryTest extends IntegrationTestSupport {
                 .sequenceSize(1)
                 .startDate(LocalDate.now())
                 .divisionType(DivisionType.FIX)
+                .scheduleType(ScheduleType.REPEAT)
                 .build();
         return scheduleRepository.save(schedule);
     }

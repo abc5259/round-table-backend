@@ -16,6 +16,7 @@ import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
 import com.roundtable.roundtable.domain.schedule.ScheduleMemberRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleIdDto;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleMemberDetailDto;
 import java.time.LocalDate;
@@ -100,6 +101,7 @@ class ScheduleMemberReaderTest extends IntegrationTestSupport {
                 .sequenceSize(1)
                 .house(house)
                 .divisionType(DivisionType.FIX)
+                .scheduleType(ScheduleType.REPEAT)
                 .build();
         return scheduleRepository.save(schedule);
     }
@@ -118,6 +120,7 @@ class ScheduleMemberReaderTest extends IntegrationTestSupport {
                 .sequenceSize(sequenceSize)
                 .house(house)
                 .divisionType(divisionType)
+                .scheduleType(ScheduleType.REPEAT)
                 .build();
         return scheduleRepository.save(schedule);
     }

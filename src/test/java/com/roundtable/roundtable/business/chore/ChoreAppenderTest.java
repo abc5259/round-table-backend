@@ -12,6 +12,7 @@ import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -48,6 +49,7 @@ class ChoreAppenderTest extends IntegrationTestSupport {
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
+                ScheduleType.REPEAT,
                 member.getHouse(),
                 1,
                 category

@@ -12,6 +12,7 @@ import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
 import com.roundtable.roundtable.domain.schedule.ScheduleMemberRepository;
@@ -161,6 +162,7 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
                 startDate,
                 LocalTime.of(23,0),
                 divisionType,
+                ScheduleType.REPEAT,
                 memberIds,
                 category,
                 dayIds

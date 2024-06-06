@@ -12,6 +12,7 @@ import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -91,6 +92,7 @@ class ChoreBulkRepositoryTest extends IntegrationTestSupport {
                 .name("name")
                 .startTime(LocalTime.of(1, 0))
                 .category(category)
+                .scheduleType(ScheduleType.REPEAT)
                 .house(house)
                 .sequence(1)
                 .sequenceSize(1)

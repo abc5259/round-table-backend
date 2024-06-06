@@ -11,6 +11,7 @@ import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -46,6 +47,7 @@ class ScheduleServiceTest extends IntegrationTestSupport {
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
+                ScheduleType.REPEAT,
                 List.of(member.getId()),
                 category,
                 List.of(1)
@@ -80,6 +82,7 @@ class ScheduleServiceTest extends IntegrationTestSupport {
                 startDate,
                 LocalTime.of(1, 0),
                 DivisionType.FIX,
+                ScheduleType.REPEAT,
                 List.of(member.getId()),
                 category,
                 List.of(1)

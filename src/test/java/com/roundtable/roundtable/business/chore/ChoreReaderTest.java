@@ -21,6 +21,7 @@ import com.roundtable.roundtable.business.chore.dto.response.ChoreOfMemberRespon
 import com.roundtable.roundtable.business.chore.dto.response.ChoreResponse;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -220,6 +221,7 @@ class ChoreReaderTest extends IntegrationTestSupport {
                 .sequenceSize(1)
                 .startDate(searchDate)
                 .divisionType(DivisionType.FIX)
+                .scheduleType(ScheduleType.REPEAT)
                 .build();
     }
 
