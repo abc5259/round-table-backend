@@ -9,7 +9,6 @@ import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleDetailDto;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +31,14 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
         //given
         House house = appendHouse();
         Category category = Category.CLEANING;
-        Frequency frequency = Frequency.builder().frequencyType(FrequencyType.DAILY).frequencyInterval(2).build();
-        Schedule schedule = appendSchedule(category, house, "schedule", frequency, LocalDate.now());
+        Schedule schedule = appendSchedule(category, house, "schedule", LocalDate.now());
 
         //when
         ScheduleDetailDto scheduleDetail = scheduleQueryRepository.findScheduleDetail(schedule.getId());
 
         //then
         assertThat(scheduleDetail).isNotNull()
-                .extracting("scheduleId", "name", "frequency", "startDate", "startTime", "divisionType", "category")
+                .extracting("scheduleId", "name", "startDate", "startTime", "divisionType", "category")
                 .containsExactly(
                         schedule.getId(),
                         schedule.getName(),
@@ -58,7 +56,7 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
         return house;
     }
 
-    private Schedule appendSchedule(Category category, House house, String name, Frequency frequency,
+    private Schedule appendSchedule(Category category, House house, String name,
                                     LocalDate startDate) {
         Schedule schedule = Schedule.builder()
                 .name(name)

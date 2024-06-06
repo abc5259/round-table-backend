@@ -10,7 +10,6 @@ import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
-import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
 import com.roundtable.roundtable.business.schedule.dto.CreateSchedule;

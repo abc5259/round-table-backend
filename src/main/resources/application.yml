@@ -35,7 +35,9 @@ spring:
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  sql:
+    init:
+      mode: always
   jpa:
     properties:
       hibernate:
@@ -44,6 +46,7 @@ spring:
         show_sql: true
     hibernate:
       ddl-auto: create
+    defer-datasource-initialization: true
 
   data:
     redis:
@@ -61,7 +64,9 @@ spring:
     url: jdbc:h2:mem:~/roundtable;MODE=MySQL;
     username: sa
     password:
-
+  sql:
+    init:
+      mode: always
   jpa:
     properties:
       hibernate:
@@ -70,6 +75,7 @@ spring:
         show_sql: true
     hibernate:
       ddl-auto: create
+    defer-datasource-initialization: true
 
   data:
     redis:

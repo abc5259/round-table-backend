@@ -10,12 +10,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.roundtable.roundtable.ControllerTestSupport;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
-import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import com.roundtable.roundtable.presentation.schedule.request.CreateScheduleRequest;
 import com.roundtable.roundtable.security.WithMockCustomUser;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -117,122 +117,101 @@ class ScheduleControllerTest extends ControllerTestSupport {
         return Stream.of(
                 Arguments.of(
                         null,
-                        FrequencyType.ONCE,
-                        0,
                         LocalDate.now(),
                         LocalTime.now(),
                         DivisionType.FIX,
                         List.of(1L),
+                        List.of(1),
                         Category.CLEANING,
                         "name에 빈 값이 올 수 없습니다."
                 ),
                 Arguments.of(
                         " ",
-                        FrequencyType.ONCE,
-                        0,
                         LocalDate.now(),
                         LocalTime.now(),
                         DivisionType.FIX,
                         List.of(1L),
+                        List.of(1),
                         Category.CLEANING,
                         "name에 빈 값이 올 수 없습니다."
                 ),
                 Arguments.of(
                         "name",
                         null,
-                        0,
-                        LocalDate.now(),
                         LocalTime.now(),
                         DivisionType.FIX,
                         List.of(1L),
-                        Category.CLEANING,
-                        "frequencyType에 빈 값이 올 수 없습니다."
-                ),
-                Arguments.of(
-                        "name",
-                        FrequencyType.ONCE,
-                        null,
-                        LocalDate.now(),
-                        LocalTime.now(),
-                        DivisionType.FIX,
-                        List.of(1L),
-                        Category.CLEANING,
-                        "frequencyInterval에 빈 값이 올 수 없습니다."
-                ),
-                Arguments.of(
-                        "name",
-                        FrequencyType.ONCE,
-                        -1,
-                        LocalDate.now(),
-                        LocalTime.now(),
-                        DivisionType.FIX,
-                        List.of(1L),
-                        Category.CLEANING,
-                        "frequencyInterval은 0이상이어야 합니다."
-                ),
-                Arguments.of(
-                        "name",
-                        FrequencyType.ONCE,
-                        0,
-                        null,
-                        LocalTime.now(),
-                        DivisionType.FIX,
-                        List.of(1L),
+                        List.of(1),
                         Category.CLEANING,
                         "startDate에 빈 값이 올 수 없습니다."
                 ),
                 Arguments.of(
                         "name",
-                        FrequencyType.ONCE,
-                        0,
                         LocalDate.now(),
                         null,
                         DivisionType.FIX,
                         List.of(1L),
+                        List.of(1),
                         Category.CLEANING,
                         "startTime에 빈 값이 올 수 없습니다."
                 ),
                 Arguments.of(
                         "name",
-                        FrequencyType.ONCE,
-                        0,
                         LocalDate.now(),
                         LocalTime.now(),
                         null,
                         List.of(1L),
+                        List.of(1),
                         Category.CLEANING,
                         "divisionType에 빈 값이 올 수 없습니다."
                 ),
                 Arguments.of(
                         "name",
-                        FrequencyType.ONCE,
-                        0,
                         LocalDate.now(),
                         LocalTime.now(),
                         DivisionType.FIX,
                         List.of(),
+                        List.of(1),
                         Category.CLEANING,
                         "담당자는 최소 1명 최대 30명까지 가능합니다."
                 ),
                 Arguments.of(
                         "name",
-                        FrequencyType.ONCE,
-                        0,
                         LocalDate.now(),
                         LocalTime.now(),
                         DivisionType.FIX,
                         LongStream.rangeClosed(1,31).boxed().toList(),
+                        List.of(1),
                         Category.CLEANING,
                         "담당자는 최소 1명 최대 30명까지 가능합니다."
                 ),
                 Arguments.of(
                         "name",
-                        FrequencyType.ONCE,
-                        0,
+                        LocalDate.now(),
+                        LocalTime.now(),
+                        DivisionType.FIX,
+                        List.of(1L),
+                        List.of(),
+                        Category.CLEANING,
+                        "Day는 최소 1개 최대 7개까지 가능합니다."
+                ),
+                Arguments.of(
+                        "name",
+                        LocalDate.now(),
+                        LocalTime.now(),
+                        DivisionType.FIX,
+                        List.of(1L),
+                        IntStream.rangeClosed(1,8).boxed().toList(),
+                        Category.CLEANING,
+                        "Day는 최소 1개 최대 7개까지 가능합니다."
+                ),
+                Arguments.of(
+                        "name",
                         LocalDate.now(),
                         LocalTime.now(),
                         DivisionType.FIX,
                         LongStream.rangeClosed(1,30).boxed().toList(),
+                        IntStream.rangeClosed(1,7).boxed().toList(),
                         null,
                         "category에 빈 값이 올 수 없습니다."
                 )

@@ -3,7 +3,6 @@ package com.roundtable.roundtable.domain.schedule.dto;
 import com.querydsl.core.annotations.QueryProjection;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
-import com.roundtable.roundtable.domain.schedule.Frequency;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;

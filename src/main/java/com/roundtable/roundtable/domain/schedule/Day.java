@@ -4,12 +4,14 @@ import com.roundtable.roundtable.global.exception.CoreException;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.DayOfWeek;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "days")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Day {
     public static final int MONDAY_ID = 1;

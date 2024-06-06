@@ -8,8 +8,6 @@ import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
-import com.roundtable.roundtable.domain.schedule.Frequency;
-import com.roundtable.roundtable.domain.schedule.FrequencyType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleDetailDto;
@@ -71,7 +69,7 @@ class ScheduleReaderTest extends IntegrationTestSupport {
 
         //then
         assertThat(scheduleDetail).isNotNull()
-                .extracting("scheduleId", "name", "frequency", "startDate", "startTime", "divisionType", "category")
+                .extracting("scheduleId", "name",  "startDate", "startTime", "divisionType", "category")
                 .containsExactly(
                         schedule.getId(),
                         schedule.getName(),

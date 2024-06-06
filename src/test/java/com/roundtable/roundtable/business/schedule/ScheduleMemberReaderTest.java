@@ -2,9 +2,6 @@ package com.roundtable.roundtable.business.schedule;
 
 import static com.roundtable.roundtable.domain.schedule.DivisionType.FIX;
 import static com.roundtable.roundtable.domain.schedule.DivisionType.ROTATION;
-import static com.roundtable.roundtable.domain.schedule.FrequencyType.DAILY;
-import static com.roundtable.roundtable.domain.schedule.FrequencyType.ONCE;
-import static com.roundtable.roundtable.domain.schedule.FrequencyType.WEEKLY;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
@@ -15,7 +12,6 @@ import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
-import com.roundtable.roundtable.domain.schedule.Frequency;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
 import com.roundtable.roundtable.domain.schedule.ScheduleMemberRepository;
@@ -82,65 +78,6 @@ class ScheduleMemberReaderTest extends IntegrationTestSupport {
 
      }
 
-    @DisplayName("특정 날짜에 Schedule을 해야하는 Member를 조회할 수 있다.")
-     @Test
-     void readAllocators() {
-         //given
-         House house = appendHouse();
-
-         Member member1 = appendMember(house, "member1", "email1");
-         Member member2 = appendMember(house, "member2", "email2");
-         Member member3 = appendMember(house, "member3", "email3");
-
-         Category category = Category.CLEANING;
-
-         //한번만
-         Frequency frequency1 = Frequency.builder().frequencyType(ONCE).frequencyInterval(0).build();
-
-         //1일 간격
-         Frequency frequency2 = Frequency.builder().frequencyType(DAILY).frequencyInterval(1).build();
-         //2일 간격
-         Frequency frequency3 = Frequency.builder().frequencyType(DAILY).frequencyInterval(2).build();
-
-         //수요일마다
-         Frequency frequency4 = Frequency.builder().frequencyType(WEEKLY).frequencyInterval(4).build();
-
-         LocalDate targetDate = LocalDate.of(2024, 3, 20); //수요일
-
-         List<Schedule> schedules = List.of(
-                 appendSchedule(category, house, "schedule1", frequency1, targetDate, FIX, 3),
-                 appendSchedule(category, house, "schedule2", frequency2, LocalDate.of(2024,3,17), ROTATION, 3),
-                 appendSchedule(category, house, "schedule3", frequency3, LocalDate.of(2024,3,16), ROTATION, 3),
-                 appendSchedule(category, house, "schedule4", frequency3, LocalDate.of(2024,3,16), FIX, 3),
-                 appendSchedule(category, house, "schedule5", frequency4, LocalDate.of(2024,3,6), ROTATION, 3)
-         );
-
-         for(int i=0; i<5; i++) {
-             appendScheduleMember(schedules.get(i), member1, 1);
-             appendScheduleMember(schedules.get(i), member2, 2);
-             appendScheduleMember(schedules.get(i), member3, 3);
-         }
-         //when
-         Map<ScheduleIdDto, List<Member>> result = scheduleMemberReader.readAllocators(schedules, targetDate);
-
-         //then
-         assertThat(result).hasSize(5);
-         Map<ScheduleIdDto, List<Long>> expectedMap = Map.of(
-                new ScheduleIdDto(schedules.get(0).getId()), List.of(member1.getId(), member2.getId(), member3.getId()),
-                new ScheduleIdDto(schedules.get(1).getId()), List.of(member1.getId()),
-                new ScheduleIdDto(schedules.get(2).getId()), List.of(member3.getId()),
-                new ScheduleIdDto(schedules.get(3).getId()), List.of(member1.getId(), member2.getId(), member3.getId()),
-                new ScheduleIdDto(schedules.get(4).getId()), List.of(member3.getId())
-         );
-         result.forEach((key, value) -> {
-             assertThat(expectedMap.containsKey(key)).isTrue();
-             assertThat(expectedMap.get(key).size()).isEqualTo(value.size());
-             List<Long> memberIds = result.get(key).stream().map(Member::getId).toList();
-             assertThat(expectedMap.get(key)).isEqualTo(memberIds);
-         });
-
-
-      }
 
     private House appendHouse() {
         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
@@ -170,7 +107,6 @@ class ScheduleMemberReaderTest extends IntegrationTestSupport {
     private Schedule appendSchedule(Category category,
                                     House house,
                                     String name,
-                                    Frequency frequency,
                                     LocalDate startDate,
                                     DivisionType divisionType, int sequenceSize) {
         Schedule schedule = Schedule.builder()
