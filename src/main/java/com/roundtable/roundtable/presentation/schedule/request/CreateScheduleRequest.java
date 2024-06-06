@@ -33,13 +33,13 @@ public record CreateScheduleRequest(
         @NotNull(message = "category에 빈 값이 올 수 없습니다.")
         Category category
 ) {
-    public CreateScheduleDto toCreateRepeatScheduleDto() {
+    public CreateScheduleDto toCreateScheduleDto(ScheduleType scheduleType) {
         return new CreateScheduleDto(
                 name,
                 startDate,
-                startTime
-                ,divisionType,
-                ScheduleType.REPEAT,
+                startTime,
+                divisionType,
+                scheduleType,
                 memberIds,
                 category,
                 dayIds

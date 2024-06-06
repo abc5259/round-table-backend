@@ -2,6 +2,7 @@ package com.roundtable.roundtable.presentation.schedule;
 
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.schedule.ScheduleService;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import com.roundtable.roundtable.presentation.schedule.request.CreateScheduleRequest;
 import com.roundtable.roundtable.global.support.annotation.Login;
 import com.roundtable.roundtable.global.response.ApiResponse;
@@ -24,8 +25,8 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping("/house/{houseId}")
-    public ResponseEntity<ApiResponse<Long>> createSchedule(
+    @PostMapping("/repeat/house/{houseId}")
+    public ResponseEntity<ApiResponse<Long>> createRepeatSchedule(
             @Login AuthMember authMember,
             @PathVariable Long houseId,
             @Valid @RequestBody CreateScheduleRequest createScheduleRequest) {
@@ -34,7 +35,22 @@ public class ScheduleController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 SuccessResponse.from(
-                        scheduleService.createSchedule(createScheduleRequest.toCreateRepeatScheduleDto(), authMember.toHouseAuthMember(houseId), now)
+                        scheduleService.createSchedule(createScheduleRequest.toCreateScheduleDto(ScheduleType.REPEAT), authMember.toHouseAuthMember(houseId), now)
+                )
+        );
+    }
+
+    @PostMapping("/one-time/house/{houseId}")
+    public ResponseEntity<ApiResponse<Long>> createOneTimeSchedule(
+            @Login AuthMember authMember,
+            @PathVariable Long houseId,
+            @Valid @RequestBody CreateScheduleRequest createScheduleRequest) {
+
+        LocalDate now = LocalDate.now();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                SuccessResponse.from(
+                        scheduleService.createSchedule(createScheduleRequest.toCreateScheduleDto(ScheduleType.ONE_TIME), authMember.toHouseAuthMember(houseId), now)
                 )
         );
     }

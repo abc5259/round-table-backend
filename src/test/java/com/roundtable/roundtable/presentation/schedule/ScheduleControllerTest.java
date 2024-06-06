@@ -31,10 +31,10 @@ class ScheduleControllerTest extends ControllerTestSupport {
 
     private static final String API_PREFIX = "/schedule";
 
-    @DisplayName("스케줄을 생성할 수 있다.")
+    @DisplayName("반복 스케줄을 생성할 수 있다.")
     @WithMockCustomUser
     @Test
-    void createSchedule() throws Exception {
+    void createRepeatSchedule() throws Exception {
         //given
         CreateScheduleRequest request = new CreateScheduleRequest(
                 "name",
@@ -50,7 +50,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post(API_PREFIX + "/house/{houseId}", 1L)
+                post(API_PREFIX + "/repeat/house/{houseId}", 1L)
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -67,11 +67,47 @@ class ScheduleControllerTest extends ControllerTestSupport {
 
     }
 
-    @DisplayName("스케줄을 생성할떄 요청 body에 잘못된 값을 주면 실패한다.")
+    @DisplayName("일회성 스케줄을 생성할 수 있다.")
+    @WithMockCustomUser
+    @Test
+    void createOneTimeSchedule() throws Exception {
+        //given
+        CreateScheduleRequest request = new CreateScheduleRequest(
+                "name",
+                LocalDate.now(),
+                LocalTime.now(),
+                DivisionType.FIX,
+                List.of(1L),
+                List.of(1),
+                Category.CLEANING
+        );
+
+        Mockito.when(scheduleService.createSchedule(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(1L);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                post(API_PREFIX + "/one-time/house/{houseId}", 1L)
+                        .with(csrf())
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        resultActions
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.success").value("true"))
+                .andExpect(jsonPath("$.data").value(1L))
+                .andExpect(jsonPath("$.message").isEmpty())
+                .andExpect(jsonPath("$.code").isEmpty());
+
+    }
+
+    @DisplayName("반복 스케줄을 생성할떄 요청 body에 잘못된 값을 주면 실패한다.")
     @WithMockCustomUser
     @ParameterizedTest
     @MethodSource("invalidCreateScheduleRequestProvider")
-    void createScheduleWithInvalidRequest(
+    void createRepeatScheduleWithInvalidRequest(
             String name,
             LocalDate localDate,
             LocalTime localTime,
@@ -96,7 +132,53 @@ class ScheduleControllerTest extends ControllerTestSupport {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post(API_PREFIX + "/house/{houseId}", 1L)
+                post(API_PREFIX + "/repeat/house/{houseId}", 1L)
+                        .with(csrf())
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        resultActions
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value("false"))
+                .andExpect(jsonPath("$.data").isEmpty())
+                .andExpect(jsonPath("$.message").value(expectedMessage))
+                .andExpect(jsonPath("$.code").isEmpty());
+
+    }
+
+    @DisplayName("일회성 스케줄을 생성할떄 요청 body에 잘못된 값을 주면 실패한다.")
+    @WithMockCustomUser
+    @ParameterizedTest
+    @MethodSource("invalidCreateScheduleRequestProvider")
+    void createOneTimeScheduleWithInvalidRequest(
+            String name,
+            LocalDate localDate,
+            LocalTime localTime,
+            DivisionType divisionType,
+            List<Long> memberIds,
+            List<Integer> dayIds,
+            Category category,
+            String expectedMessage
+    ) throws Exception {
+        //given
+        CreateScheduleRequest request = new CreateScheduleRequest(
+                name,
+                localDate,
+                localTime,
+                divisionType,
+                memberIds,
+                dayIds,
+                category
+        );
+
+        Mockito.when(scheduleService.createSchedule(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(1L);
+
+        //when
+        ResultActions resultActions = mockMvc.perform(
+                post(API_PREFIX + "/one-time/house/{houseId}", 1L)
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
