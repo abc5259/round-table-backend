@@ -13,6 +13,7 @@ import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleIdDto;
 import com.roundtable.roundtable.global.exception.CoreException.CreateEntityException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

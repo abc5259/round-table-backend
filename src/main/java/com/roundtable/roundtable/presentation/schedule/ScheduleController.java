@@ -34,7 +34,7 @@ public class ScheduleController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 SuccessResponse.from(
-                        scheduleService.createSchedule(createScheduleRequest.toCreateScheduleDto(), authMember.toHouseAuthMember(houseId), now)
+                        scheduleService.createSchedule(createScheduleRequest.toCreateRepeatScheduleDto(), authMember.toHouseAuthMember(houseId), now)
                 )
         );
     }

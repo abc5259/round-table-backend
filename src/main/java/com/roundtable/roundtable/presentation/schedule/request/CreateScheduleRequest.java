@@ -3,6 +3,7 @@ package com.roundtable.roundtable.presentation.schedule.request;
 import com.roundtable.roundtable.business.schedule.dto.CreateScheduleDto;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -32,13 +33,14 @@ public record CreateScheduleRequest(
         @NotNull(message = "category에 빈 값이 올 수 없습니다.")
         Category category
 ) {
-    public CreateScheduleDto toCreateScheduleDto() {
+    public CreateScheduleDto toCreateRepeatScheduleDto() {
         return new CreateScheduleDto(
                 name,
                 startDate,
                 startTime
-                ,divisionType
-                ,memberIds,
+                ,divisionType,
+                ScheduleType.REPEAT,
+                memberIds,
                 category,
                 dayIds
         );

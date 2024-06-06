@@ -59,6 +59,7 @@ public class ScheduleAppender {
                 createSchedule.startDate(),
                 createSchedule.startTime(),
                 createSchedule.divisionType(),
+                createSchedule.scheduleType(),
                 house,
                 members.size(),
                 createSchedule.category()

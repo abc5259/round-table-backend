@@ -6,6 +6,7 @@ import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleIdDto;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Component;
@@ -16,8 +17,10 @@ public class ChoreMapper {
     public List<Chore> toChoreEntities(Map<ScheduleIdDto, List<Member>> scheduleAllocatorsMap, LocalDate startDate) {
         return scheduleAllocatorsMap.entrySet().stream()
                 .map(entry -> Chore.create(
-                        Schedule.Id(entry.getKey().id()),
-                        entry.getValue().stream().map(member -> ChoreMember.create(null, member)).toList(),
-                        startDate)).toList();
+                            Schedule.Id(entry.getKey().id()),
+                            entry.getValue().stream().map(member -> ChoreMember.create(null, member)).toList(),
+                            startDate
+                        )
+                ).toList();
     }
 }

@@ -54,6 +54,10 @@ public class Schedule extends BaseEntity {
     private DivisionType divisionType;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
+    private ScheduleType scheduleType;
+
+    @NotNull
     @ManyToOne
     private House house;
 
@@ -72,6 +76,7 @@ public class Schedule extends BaseEntity {
                      Integer sequence,
                      Integer sequenceSize,
                      DivisionType divisionType,
+                     ScheduleType scheduleType,
                      House house,
                      Category category) {
 
@@ -81,6 +86,7 @@ public class Schedule extends BaseEntity {
         this.sequence = sequence;
         this.sequenceSize = sequenceSize;
         this.divisionType = divisionType;
+        this.scheduleType = scheduleType;
         this.house = house;
         this.category = category;
         this.id = id;
@@ -95,6 +101,7 @@ public class Schedule extends BaseEntity {
             LocalDate startDate,
             LocalTime startTime,
             DivisionType divisionType,
+            ScheduleType scheduleType,
             House house,
             int sequenceSize,
             Category category
@@ -105,6 +112,7 @@ public class Schedule extends BaseEntity {
                 .startDate(startDate)
                 .startTime(startTime)
                 .divisionType(divisionType)
+                .scheduleType(scheduleType)
                 .house(house)
                 .sequence(START_SEQUENCE)
                 .sequenceSize(sequenceSize)
