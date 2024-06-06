@@ -18,6 +18,7 @@ import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,6 +181,55 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
                 .extracting("chore", "member")
                 .containsExactlyInAnyOrder(
                         tuple(chores.get(0), member1)
+                );
+    }
+
+    @DisplayName("반복 스케줄 타입에서는 무조건 스케줄과 집안일 둘다 추가한다.")
+    @Test
+    void appendOneTimeScheduleWhenStartDateWithToday() {
+        //given
+        LocalDate startDate = LocalDate.of(2024,2,15);
+        LocalDate now = LocalDate.of(2024,2,14);
+
+        House house = createHouse();
+        Category category = Category.CLEANING;
+        Member member = createMemberInHouse(house, "email");
+
+        CreateSchedule createSchedule = new CreateSchedule(
+                "schedule1",
+                startDate,
+                LocalTime.of(1, 0),
+                DivisionType.FIX,
+                ScheduleType.ONE_TIME,
+                List.of(member.getId()),
+                category,
+                List.of(1)
+        );
+
+        //when
+        Schedule schedule = scheduleChoreAppendDirector.append(createSchedule, house, now);
+
+        //then
+        assertThat(schedule.getId()).isNotNull();
+        assertThat(schedule).isNotNull()
+                .extracting( "name", "sequence", "sequenceSize", "divisionType", "scheduleType","house", "category")
+                .contains(
+                        createSchedule.name(),
+                        1,
+                        createSchedule.memberIds().size(),
+                        createSchedule.divisionType(),
+                        createSchedule.scheduleType(),
+                        house,
+                        category
+                );
+
+        List<Chore> chore = em.createQuery("select c from Chore c", Chore.class)
+                .getResultList();
+
+        assertThat(chore).hasSize(1)
+                .extracting("schedule", "startDate")
+                .contains(
+                        Tuple.tuple(schedule, createSchedule.startDate())
                 );
     }
 
