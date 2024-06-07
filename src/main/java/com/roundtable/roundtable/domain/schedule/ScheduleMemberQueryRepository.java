@@ -38,7 +38,7 @@ public class ScheduleMemberQueryRepository {
                 .fetch();
     }
 
-    public Map<ScheduleIdDto, List<Member>> findAllocators(List<Schedule> schedules, LocalDate now) {
+    public Map<ScheduleIdDto, List<Member>> findAllocators(List<Schedule> schedules) {
         List<Tuple> results = queryFactory
                 .select(schedule.id, scheduleMember.member.id)
                 .from(scheduleMember)
