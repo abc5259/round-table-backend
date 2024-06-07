@@ -49,9 +49,7 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
         Member member2 = appendMember(house, "member2", "email2");
         Member member3 = appendMember(house, "member3", "email3");
 
-        Category category = Category.CLEANING;
-
-        Schedule schedule = appendSchedule(category, house);
+        Schedule schedule = appendSchedule(Category.CLEANING, house, 1, 3);
 
         ScheduleMember scheduleMember1 = appendScheduleMember(schedule, member1, 1);
         ScheduleMember scheduleMember2 = appendScheduleMember(schedule, member2, 1);
@@ -70,7 +68,41 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
                         Tuple.tuple(member3.getId(), member3.getName(), scheduleMember3.getSequence())
                 );
            
-     }
+    }
+
+    @DisplayName("스케줄의 오늘 담당자를 조회할 수 있다.")
+    @Test
+    void findAllocators() {
+        //given
+        House house = appendHouse();
+        Member member1 = appendMember(house, "member1", "email1");
+        Member member2 = appendMember(house, "member2", "email2");
+        Member member3 = appendMember(house, "member3", "email3");
+
+        Schedule schedule1 = appendSchedule(Category.CLEANING, house, 1, 3);
+
+        ScheduleMember scheduleMember1 = appendScheduleMember(schedule1, member1, 1);
+        ScheduleMember scheduleMember2 = appendScheduleMember(schedule1, member2, 1);
+        ScheduleMember scheduleMember3 = appendScheduleMember(schedule1, member3, 2);
+
+        Schedule schedule2 = appendSchedule(Category.CLEANING, house, 1, 3);
+
+        ScheduleMember scheduleMember4 = appendScheduleMember(schedule2, member1, 1);
+        ScheduleMember scheduleMember5 = appendScheduleMember(schedule2, member2, 2);
+        ScheduleMember scheduleMember6 = appendScheduleMember(schedule2, member3, 3);
+
+        //when
+        Map<ScheduleIdDto, List<Member>> allocators = scheduleMemberQueryRepository.findAllocators(List.of(schedule1, schedule2));
+
+        //then
+        assertThat(allocators.get(new ScheduleIdDto(schedule1.getId()))).hasSize(2)
+                .extracting("id")
+                .contains(member1.getId(), member2.getId());
+
+        assertThat(allocators.get(new ScheduleIdDto(schedule2.getId()))).hasSize(1)
+                .extracting("id")
+                .contains(member1.getId());
+    }
 
 
 
@@ -85,16 +117,16 @@ class ScheduleMemberQueryRepositoryTest extends IntegrationTestSupport {
         return memberRepository.save(member);
     }
 
-    private Schedule appendSchedule(Category category, House house) {
+    private Schedule appendSchedule(Category category, House house, int sequence, int sequenceSize) {
         Schedule schedule = Schedule.builder()
                 .name("schedule")
                 .category(category)
                 .startDate(LocalDate.now())
                 .startTime(LocalTime.MAX)
-                .sequence(1)
-                .sequenceSize(1)
+                .sequence(sequence)
+                .sequenceSize(sequenceSize)
                 .house(house)
-                .divisionType(FIX)
+                .divisionType(ROTATION)
                 .scheduleType(ScheduleType.REPEAT)
                 .build();
         return scheduleRepository.save(schedule);

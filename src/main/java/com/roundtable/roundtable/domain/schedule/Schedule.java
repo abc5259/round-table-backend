@@ -108,6 +108,11 @@ public class Schedule extends BaseEntity {
             Category category
     ) {
 
+        //분담방식이 FIX 라면 sequence 크기는 최대 1
+        if(divisionType == DivisionType.FIX) {
+            sequenceSize = 1;
+        }
+
         return Schedule.builder()
                 .name(name)
                 .startDate(startDate)

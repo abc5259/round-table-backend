@@ -74,7 +74,7 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
         assertThat(schedule).isNotNull()
                 .extracting("id", "name", "startDate", "startTime", "sequence", "sequenceSize", "category")
                 .contains(
-                        schedule.getId(), request.name(), request.startDate(), request.startTime(), 1, memberIds.size(), Category.CLEANING
+                        schedule.getId(), request.name(), request.startDate(), request.startTime(), 1, 1, Category.CLEANING
                 );
         List<ScheduleMember> scheduleMembers = scheduleMemberRepository.findAll();
         assertThat(scheduleMembers).hasSize(2)

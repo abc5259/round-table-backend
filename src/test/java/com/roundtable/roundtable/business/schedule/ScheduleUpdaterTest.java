@@ -39,7 +39,7 @@ class ScheduleUpdaterTest extends IntegrationTestSupport {
     @Autowired
     private EntityManager em;
 
-    @DisplayName("")
+    @DisplayName("여러 스케줄의 sequence를 증가시킬 수 있다.")
     @Test
     void updateSequence() {
         //given
