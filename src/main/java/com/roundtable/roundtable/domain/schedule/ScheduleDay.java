@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.domain.schedule;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,10 +19,10 @@ public class ScheduleDay {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Schedule schedule;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Day day;
 
     @Builder
