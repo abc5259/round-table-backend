@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChoreMapper {
 
-    public List<Chore> toChoreEntities(Map<ScheduleIdDto, List<Member>> scheduleAllocatorsMap, LocalDate startDate) {
+    public List<Chore> toEntities(Map<ScheduleIdDto, List<Member>> scheduleAllocatorsMap, LocalDate startDate) {
         return scheduleAllocatorsMap.entrySet().stream()
                 .map(entry -> Chore.create(
                             Schedule.Id(entry.getKey().id()),

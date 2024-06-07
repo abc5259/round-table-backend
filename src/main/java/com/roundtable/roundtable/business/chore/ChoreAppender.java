@@ -60,7 +60,7 @@ public class ChoreAppender {
     }
 
     public void appendChores(Map<ScheduleIdDto, List<Member>> scheduleAllocatorsMap, LocalDate startDate) {
-        appendChores(choreMapper.toChoreEntities(scheduleAllocatorsMap, startDate));
+        appendChores(choreMapper.toEntities(scheduleAllocatorsMap, startDate));
     }
 
     private void appendChores(List<Chore> chores) {
