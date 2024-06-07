@@ -1,6 +1,6 @@
-package com.roundtable.roundtable.domain.schedule;
+package com.roundtable.roundtable.business.schedule;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.domain.house.House;
@@ -8,8 +8,18 @@ import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
+import com.roundtable.roundtable.domain.schedule.Category;
+import com.roundtable.roundtable.domain.schedule.Day;
+import com.roundtable.roundtable.domain.schedule.DivisionType;
+import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.ScheduleDay;
+import com.roundtable.roundtable.domain.schedule.ScheduleDayRepository;
+import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
+import com.roundtable.roundtable.domain.schedule.ScheduleType;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
@@ -17,8 +27,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+class ScheduleDayReaderTest extends IntegrationTestSupport {
 
-class ScheduleDayRepositoryTest extends IntegrationTestSupport {
+    @Autowired
+    private ScheduleDayReader scheduleDayReader;
+
     @Autowired
     private ScheduleDayRepository scheduleDayRepository;
 
@@ -31,9 +44,9 @@ class ScheduleDayRepositoryTest extends IntegrationTestSupport {
     @Autowired
     private ScheduleRepository scheduleRepository;
 
-    @DisplayName("요일에 해당하는 스케줄을 찾을 수 있다.")
+    @DisplayName("Date에 해당하는 스케줄을 찾을 수 있다.")
     @Test
-    void findSchedulesByDay() {
+    void readScheduleByDate() {
         //given
         House house = appendHouse();
         Member member = appendMember(house);
@@ -44,11 +57,16 @@ class ScheduleDayRepositoryTest extends IntegrationTestSupport {
         appendScheduleDay(schedule2, Day.MONDAY);
         appendScheduleDay(schedule3, Day.SATURDAY);
 
+        // 현재 날짜 가져오기
+        LocalDate today = LocalDate.now();
+        // 그 주의 월요일 날짜 가져오기
+        LocalDate monday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
         //when
-        List<Schedule> schedules = scheduleDayRepository.findSchedulesByDay(Day.MONDAY);
+        List<Schedule> schedules = scheduleDayReader.readScheduleByDate(monday);
 
         //then
-        assertThat(schedules).hasSize(2)
+        Assertions.assertThat(schedules).hasSize(2)
                 .extracting("id", "name")
                 .contains(
                         Tuple.tuple(schedule1.getId(), schedule1.getName()),
@@ -56,7 +74,6 @@ class ScheduleDayRepositoryTest extends IntegrationTestSupport {
                 );
 
     }
-
     private ScheduleDay appendScheduleDay(Schedule schedule1, Day day) {
         ScheduleDay scheduleDay = ScheduleDay.builder().schedule(schedule1).day(day).build();
         return scheduleDayRepository.save(scheduleDay);
@@ -87,4 +104,5 @@ class ScheduleDayRepositoryTest extends IntegrationTestSupport {
                 .build();
         return scheduleRepository.save(schedule);
     }
+
 }
