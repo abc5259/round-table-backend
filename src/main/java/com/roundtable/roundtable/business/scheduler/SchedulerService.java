@@ -31,7 +31,7 @@ public class SchedulerService {
 
 
     @Scheduled(cron = "0 0 0 * * *")
-    public void chore() {
+    public void createChores() {
         LocalDate targetDate = LocalDate.now();
 
         //1. 오늘 해야 할 스케줄 찾기

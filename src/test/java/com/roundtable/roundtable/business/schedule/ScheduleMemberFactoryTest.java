@@ -87,7 +87,7 @@ class ScheduleMemberFactoryTest extends IntegrationTestSupport {
         House house = createHouse();
         Category category = Category.COOKING;
         return Schedule.create("schedule", LocalDate.now(),
-                LocalTime.of(11, 1), divisionType, ScheduleType.REPEAT, house, 1, category);
+                LocalTime.of(11, 1), divisionType, ScheduleType.REPEAT, house, 1, category, LocalDate.now());
     }
 
 

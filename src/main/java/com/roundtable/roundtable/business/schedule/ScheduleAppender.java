@@ -35,7 +35,7 @@ public class ScheduleAppender {
         List<Member> members = memberReader.findAllById(createSchedule.memberIds());
         memberValidator.validateMembersSameHouse(members,house);
 
-        Schedule schedule = appendSchedule(createSchedule, house, members);
+        Schedule schedule = appendSchedule(createSchedule, house, members, currDate);
 
         // 스케줄 담당자 추가
         List<ScheduleMember> scheduleMembers = scheduleMemberAppender.createScheduleMembers(members, schedule);
@@ -53,7 +53,7 @@ public class ScheduleAppender {
         validateBeforeDate(createSchedule, currDate);
     }
 
-    private Schedule appendSchedule(CreateSchedule createSchedule, House house, List<Member> members) {
+    private Schedule appendSchedule(CreateSchedule createSchedule, House house, List<Member> members, LocalDate currDate) {
         Schedule schedule = Schedule.create(
                 createSchedule.name(),
                 createSchedule.startDate(),
@@ -62,7 +62,8 @@ public class ScheduleAppender {
                 createSchedule.scheduleType(),
                 house,
                 members.size(),
-                createSchedule.category()
+                createSchedule.category(),
+                currDate
         );
 
         return scheduleRepository.save(schedule);

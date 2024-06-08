@@ -29,6 +29,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Schedule extends BaseEntity {
 
+    public static final int DEFAULT_SEQUENCE = 0;
+
     public static final int START_SEQUENCE = 1;
 
     @Id
@@ -105,7 +107,8 @@ public class Schedule extends BaseEntity {
             ScheduleType scheduleType,
             House house,
             int sequenceSize,
-            Category category
+            Category category,
+            LocalDate currDate
     ) {
 
         //분담방식이 FIX 라면 sequence 크기는 최대 1
@@ -120,7 +123,7 @@ public class Schedule extends BaseEntity {
                 .divisionType(divisionType)
                 .scheduleType(scheduleType)
                 .house(house)
-                .sequence(START_SEQUENCE)
+                .sequence(startDate.isAfter(currDate) ? DEFAULT_SEQUENCE : START_SEQUENCE)
                 .sequenceSize(sequenceSize)
                 .category(category)
                 .build();

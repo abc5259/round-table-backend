@@ -8,8 +8,9 @@ public enum NotificationType{
     INVITE(Values.INVITE);
 
     NotificationType(String val) {
-        if (!this.name().equals(val))
+        if (!this.name().equals(val)) {
             throw new IllegalArgumentException("Incorrect use of GroupType");
+        }
     }
 
     public static class Values {
