@@ -65,7 +65,7 @@ class ScheduleDayReaderTest extends IntegrationTestSupport {
         LocalDate monday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
 
         //when
-        List<Schedule> schedules = scheduleDayReader.readScheduleByDate(monday);
+        List<Schedule> schedules = scheduleDayReader.readRepeatScheduleByDate(monday);
 
         //then
         Assertions.assertThat(schedules).hasSize(2)

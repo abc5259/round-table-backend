@@ -34,8 +34,8 @@ public class SchedulerService {
     public void createChores() {
         LocalDate targetDate = LocalDate.now();
 
-        //1. 오늘 해야 할 스케줄 찾기
-        List<Schedule> schedules = scheduleDayReader.readScheduleByDate(targetDate);
+        //1. 오늘 해야 할 반복 스케줄 찾기
+        List<Schedule> schedules = scheduleDayReader.readRepeatScheduleByDate(targetDate);
 
         //2. 오늘 해야 할 스케줄 sequence 업데이트 (sequence값으로 해당 스케줄의 담당자를 찾기때문에 담당자 찾기 전에 해당 날에 맞게 업데이트 해줘야함)
         scheduleUpdater.updateSequence(schedules);

@@ -47,7 +47,7 @@ class ScheduleDayRepositoryTest extends IntegrationTestSupport {
         appendScheduleDay(schedule3, Day.SATURDAY);
 
         //when
-        List<Schedule> schedules = scheduleDayRepository.findSchedulesByDay(Day.MONDAY);
+        List<Schedule> schedules = scheduleDayRepository.findRepeatSchedulesByDay(Day.MONDAY);
 
         //then
         assertThat(schedules).hasSize(2)

@@ -16,8 +16,8 @@ public class ScheduleDayReader {
 
     private final ScheduleDayRepository scheduleDayRepository;
 
-    public List<Schedule> readScheduleByDate(LocalDate date) {
+    public List<Schedule> readRepeatScheduleByDate(LocalDate date) {
         Day day = Day.forDayOfWeek(date.getDayOfWeek());
-        return scheduleDayRepository.findSchedulesByDay(day);
+        return scheduleDayRepository.findRepeatSchedulesByDay(day);
     }
 }
