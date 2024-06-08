@@ -49,4 +49,10 @@ public class ChoreMember extends BaseEntity {
                 .member(member)
                 .build();
     }
+
+    public static ChoreMember createBulkChoreMember(Member member) {
+        return ChoreMember.builder()
+                .member(member)
+                .build();
+    }
 }

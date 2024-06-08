@@ -18,7 +18,7 @@ public class ChoreMapper {
         return scheduleAllocatorsMap.entrySet().stream()
                 .map(entry -> Chore.create(
                             Schedule.Id(entry.getKey().id()),
-                            entry.getValue().stream().map(member -> ChoreMember.create(null, member)).toList(),
+                            entry.getValue().stream().map(ChoreMember::createBulkChoreMember).toList(),
                             startDate
                         )
                 ).toList();

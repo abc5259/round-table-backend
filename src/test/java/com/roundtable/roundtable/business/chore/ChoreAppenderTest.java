@@ -76,4 +76,16 @@ class ChoreAppenderTest extends IntegrationTestSupport {
                         tuple(chore, member)
                 );
     }
+
+    @DisplayName("여러 Chore을 저장할 수 있다.")
+    @Test
+    void appendChores() {
+        //given
+
+
+        //when
+
+        //then
+
+    }
 }
