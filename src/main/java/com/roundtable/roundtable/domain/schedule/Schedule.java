@@ -1,5 +1,7 @@
 package com.roundtable.roundtable.domain.schedule;
 
+import static com.roundtable.roundtable.domain.schedule.DivisionType.*;
+
 import com.roundtable.roundtable.domain.common.BaseEntity;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
@@ -112,7 +114,7 @@ public class Schedule extends BaseEntity {
     ) {
 
         //분담방식이 FIX 라면 sequence 크기는 최대 1
-        if(divisionType == DivisionType.FIX) {
+        if(divisionType == FIX) {
             sequenceSize = 1;
         }
 
@@ -123,10 +125,18 @@ public class Schedule extends BaseEntity {
                 .divisionType(divisionType)
                 .scheduleType(scheduleType)
                 .house(house)
-                .sequence(startDate.isAfter(currDate) ? DEFAULT_SEQUENCE : START_SEQUENCE)
+                .sequence(calculateSequence(divisionType, startDate, currDate))
                 .sequenceSize(sequenceSize)
                 .category(category)
                 .build();
+    }
+
+    private static int calculateSequence(DivisionType divisionType, LocalDate startDate, LocalDate currDate) {
+        if(divisionType == ROTATION) {
+            return startDate.isAfter(currDate) ? DEFAULT_SEQUENCE : START_SEQUENCE;
+        }
+
+        return DEFAULT_SEQUENCE;
     }
 
     public void addScheduleMembers(List<ScheduleMember> scheduleMembers) {

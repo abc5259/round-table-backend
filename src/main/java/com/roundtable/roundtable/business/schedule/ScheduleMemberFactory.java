@@ -37,12 +37,12 @@ public class ScheduleMemberFactory {
         return assignedMembers.stream().map(member -> ScheduleMember.of(
                 member,
                 schedule,
-                START_SEQUENCE
+                DEFAULT_SEQUENCE
         )).toList();
     }
 
     private List<ScheduleMember> toScheduleMembersWithIncreaseSequence(List<Member> assignedMembers, Schedule schedule) {
-        AtomicInteger index = new AtomicInteger(START_SEQUENCE-1);
+        AtomicInteger index = new AtomicInteger(DEFAULT_SEQUENCE);
 
         return assignedMembers.stream().map(member -> ScheduleMember.of(
                 member,

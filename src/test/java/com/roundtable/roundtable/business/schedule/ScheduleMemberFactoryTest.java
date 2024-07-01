@@ -31,7 +31,7 @@ class ScheduleMemberFactoryTest extends IntegrationTestSupport {
     @Autowired
     HouseRepository houseRepository;
 
-    @DisplayName("분담방식이 고정이라면 ScheduleMember의 sequence가 모두 1인 ScheduleMember를 만든다.")
+    @DisplayName("분담방식이 고정이라면 ScheduleMember의 sequence가 모두 DEFAULT SEQUENCE인 ScheduleMember를 만든다.")
     @Test
     void createScheduleMembers_FIX() {
         //given
@@ -47,8 +47,8 @@ class ScheduleMemberFactoryTest extends IntegrationTestSupport {
         Assertions.assertThat(scheduleMembers).hasSize(2)
                 .extracting("sequence", "member")
                 .containsExactly(
-                        tuple(1, member1),
-                        tuple(1, member2)
+                        tuple(Schedule.DEFAULT_SEQUENCE, member1),
+                        tuple(Schedule.DEFAULT_SEQUENCE, member2)
                 );
 
      }
