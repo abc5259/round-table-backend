@@ -31,9 +31,9 @@ class ScheduleServiceTest extends IntegrationTestSupport {
     @Autowired
     private EntityManager em;
 
-    @DisplayName("시작날짜가 오늘과 같다면 스케줄과 집안일 둘다 생성한다.")
+    @DisplayName("반복 스케줄에서 시작날짜가 오늘과 같다면 스케줄과 집안일 둘다 생성한다.")
     @Test
-    void createScheduleWhenStartDateWithToday() {
+    void createScheduleWhenStartDateWithTodayAndRepeatSchedule() {
         //given
         LocalDate startDate = LocalDate.now();
         LocalDate now = LocalDate.now();
@@ -66,9 +66,9 @@ class ScheduleServiceTest extends IntegrationTestSupport {
         assertThat(chore).hasSize(1);
     }
 
-    @DisplayName("시작날짜가 오늘이 아니라면 스케줄만 생성한다.")
+    @DisplayName("반복 스케줄에서 시작날짜가 오늘이 아니라면 스케줄만 생성한다.")
     @Test
-    void createScheduleWhenStartDateWithNotToday() {
+    void createScheduleWhenStartDateWithNotTodayAndRepeatSchedule() {
         //given
         LocalDate startDate = LocalDate.of(2024,2,15);
         LocalDate now = LocalDate.of(2024,2,14);
@@ -100,6 +100,80 @@ class ScheduleServiceTest extends IntegrationTestSupport {
                 .getResultList();
 
         assertThat(chore).hasSize(0);
+    }
+
+    @DisplayName("일회성 스케줄에서 시작날짜가 오늘이라면 스케줄과 집안일을 같이 생성한다.")
+    @Test
+    void createScheduleWhenStartDateWithTodayAndOneTimeSchedule() {
+        //given
+        LocalDate startDate = LocalDate.of(2024,2,14);
+        LocalDate now = LocalDate.of(2024,2,14);
+
+        House house = createHouse();
+        Category category = Category.CLEANING;
+        Member member = createMemberInHouse(house);
+
+        CreateScheduleDto createSchedule = new CreateScheduleDto(
+                "schedule1",
+                startDate,
+                LocalTime.of(1, 0),
+                DivisionType.FIX,
+                ScheduleType.ONE_TIME,
+                List.of(member.getId()),
+                category,
+                List.of(1)
+        );
+
+        AuthMember authMember = new AuthMember(member.getId(), house.getId());
+
+        //when
+        Long scheduleId = scheduleService.createSchedule(createSchedule, authMember, now);
+
+        //then
+        assertThat(scheduleId).isNotNull();
+
+        List<Chore> chore = em.createQuery("select c from Chore c", Chore.class)
+                .getResultList();
+
+        assertThat(chore).hasSize(1);
+
+    }
+
+    @DisplayName("일회성 스케줄에서 시작날짜가 오늘이 아니더라도 스케줄과 집안일을 같이 생성한다.")
+    @Test
+    void createScheduleWhenStartDateWithNotTodayAndOneTimeSchedule() {
+        //given
+        LocalDate startDate = LocalDate.of(2024,2,15);
+        LocalDate now = LocalDate.of(2024,2,14);
+
+        House house = createHouse();
+        Category category = Category.CLEANING;
+        Member member = createMemberInHouse(house);
+
+        CreateScheduleDto createSchedule = new CreateScheduleDto(
+                "schedule1",
+                startDate,
+                LocalTime.of(1, 0),
+                DivisionType.FIX,
+                ScheduleType.ONE_TIME,
+                List.of(member.getId()),
+                category,
+                List.of(1)
+        );
+
+        AuthMember authMember = new AuthMember(member.getId(), house.getId());
+
+        //when
+        Long scheduleId = scheduleService.createSchedule(createSchedule, authMember, now);
+
+        //then
+        assertThat(scheduleId).isNotNull();
+
+        List<Chore> chore = em.createQuery("select c from Chore c", Chore.class)
+                .getResultList();
+
+        assertThat(chore).hasSize(1);
+
     }
 
     private Member createMemberInHouse(House house) {

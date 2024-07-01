@@ -39,9 +39,9 @@ public class ScheduleChoreAppendDirector {
 
         if(isStartToday(createSchedule, now)) {
             List<Member> members = choreMembersChooser.chooseChoreMembers(schedule.getScheduleMembers());
-
             choreAppender.appendChore(new CreateChore(now, schedule, members), house);
         }
+
         return schedule;
     }
 
@@ -49,7 +49,6 @@ public class ScheduleChoreAppendDirector {
         Schedule schedule = scheduleAppender.appendSchedule(createSchedule, house, now);
 
         List<Member> members = choreMembersChooser.chooseChoreMembers(schedule.getScheduleMembers());
-
         choreAppender.appendChore(new CreateChore(schedule.getStartDate(), schedule, members), house);
 
         return schedule;
