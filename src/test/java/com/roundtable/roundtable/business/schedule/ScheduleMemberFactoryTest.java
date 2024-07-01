@@ -47,8 +47,8 @@ class ScheduleMemberFactoryTest extends IntegrationTestSupport {
         Assertions.assertThat(scheduleMembers).hasSize(2)
                 .extracting("sequence", "member")
                 .containsExactly(
-                        tuple(Schedule.DEFAULT_SEQUENCE, member1),
-                        tuple(Schedule.DEFAULT_SEQUENCE, member2)
+                        tuple(Schedule.START_SEQUENCE, member1),
+                        tuple(Schedule.START_SEQUENCE, member2)
                 );
 
      }

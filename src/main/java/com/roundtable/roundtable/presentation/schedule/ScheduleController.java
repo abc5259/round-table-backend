@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/house/{houseId}/schedule")
 @RequiredArgsConstructor
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping("/repeat/house/{houseId}")
+    @PostMapping("/repeat")
     public ResponseEntity<ApiResponse<Long>> createRepeatSchedule(
             @Login AuthMember authMember,
             @PathVariable Long houseId,
@@ -40,7 +40,7 @@ public class ScheduleController {
         );
     }
 
-    @PostMapping("/one-time/house/{houseId}")
+    @PostMapping("/one-time")
     public ResponseEntity<ApiResponse<Long>> createOneTimeSchedule(
             @Login AuthMember authMember,
             @PathVariable Long houseId,

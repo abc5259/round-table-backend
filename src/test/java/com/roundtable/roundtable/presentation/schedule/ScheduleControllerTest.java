@@ -29,7 +29,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 class ScheduleControllerTest extends ControllerTestSupport {
 
-    private static final String API_PREFIX = "/schedule";
+    private static final String API_PREFIX = "/house/{houseId}/schedule";
 
     @DisplayName("반복 스케줄을 생성할 수 있다.")
     @WithMockCustomUser
@@ -50,7 +50,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post(API_PREFIX + "/repeat/house/{houseId}", 1L)
+                post(API_PREFIX + "/repeat", 1L)
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +86,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post(API_PREFIX + "/one-time/house/{houseId}", 1L)
+                post(API_PREFIX + "/one-time", 1L)
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -132,7 +132,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post(API_PREFIX + "/repeat/house/{houseId}", 1L)
+                post(API_PREFIX + "/repeat", 1L)
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -178,7 +178,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
 
         //when
         ResultActions resultActions = mockMvc.perform(
-                post(API_PREFIX + "/one-time/house/{houseId}", 1L)
+                post(API_PREFIX + "/one-time", 1L)
                         .with(csrf())
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)

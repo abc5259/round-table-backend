@@ -136,7 +136,7 @@ public class Schedule extends BaseEntity {
             return startDate.isAfter(currDate) ? DEFAULT_SEQUENCE : START_SEQUENCE;
         }
 
-        return DEFAULT_SEQUENCE;
+        return START_SEQUENCE;
     }
 
     public void addScheduleMembers(List<ScheduleMember> scheduleMembers) {

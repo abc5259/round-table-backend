@@ -8,8 +8,8 @@ import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -37,17 +37,16 @@ public class ScheduleMemberFactory {
         return assignedMembers.stream().map(member -> ScheduleMember.of(
                 member,
                 schedule,
-                DEFAULT_SEQUENCE
+                START_SEQUENCE
         )).toList();
     }
 
     private List<ScheduleMember> toScheduleMembersWithIncreaseSequence(List<Member> assignedMembers, Schedule schedule) {
-        AtomicInteger index = new AtomicInteger(DEFAULT_SEQUENCE);
+        int[] sequence = { START_SEQUENCE };
 
-        return assignedMembers.stream().map(member -> ScheduleMember.of(
-                member,
-                schedule,
-                index.getAndIncrement() + 1
-        )).toList();
+        return assignedMembers.stream()
+                .map(member -> ScheduleMember.of(member, schedule, sequence[0]++))
+                .toList();
     }
+
 }

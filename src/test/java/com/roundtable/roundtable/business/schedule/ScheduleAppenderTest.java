@@ -80,8 +80,8 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
         assertThat(scheduleMembers).hasSize(2)
                 .extracting("sequence", "Schedule")
                 .contains(
-                        tuple(Schedule.DEFAULT_SEQUENCE,schedule),
-                        tuple(Schedule.DEFAULT_SEQUENCE,schedule)
+                        tuple(Schedule.START_SEQUENCE,schedule),
+                        tuple(Schedule.START_SEQUENCE,schedule)
                 );
 
 
