@@ -5,6 +5,7 @@ import com.roundtable.roundtable.business.schedule.dto.CreateSchedule;
 import com.roundtable.roundtable.business.schedule.ScheduleAppender;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.Day;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import java.time.LocalDate;
 import java.util.List;
@@ -55,7 +56,14 @@ public class ScheduleChoreAppendDirector {
     }
 
     private boolean isStartToday(CreateSchedule createSchedule, LocalDate now) {
-        return createSchedule.startDate().equals(now);
+        return createSchedule.startDate().equals(now) && isStartDayIncludedInDayIds(createSchedule.dayIds(), createSchedule.startDate());
+    }
+
+    private boolean isStartDayIncludedInDayIds(List<Integer> dayIds, LocalDate startDate) {
+        Day targetDay = Day.forDayOfWeek(startDate.getDayOfWeek());
+        return dayIds.stream()
+                .map(Day::forId)
+                .anyMatch(day -> day == targetDay);
     }
 
 }

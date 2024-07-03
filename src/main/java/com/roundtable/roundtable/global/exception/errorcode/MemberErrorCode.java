@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum MemberErrorCode implements ErrorCode {
-    DUPLICATED_EMAIL("아미 존재하는 이메일입니다."),
+    DUPLICATED_EMAIL("이미 존재하는 이메일입니다."),
     NOT_FOUND("해당 유저가 존재하지 않습니다."),
     INVALID_LOGIN("이메일 또는 패스워드가 틀렸습니다."),
     ALREADY_HAS_HOUSE("참여중인 하우스가 있습니다."),
