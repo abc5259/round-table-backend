@@ -38,17 +38,20 @@ public class Chore extends BaseEntity {
     @NotNull
     private LocalDate startDate;
 
+    private String completedImageUrl;
+
     private String matchKey;
 
     @OneToMany(mappedBy = "chore", cascade = {CascadeType.REMOVE}, orphanRemoval = true)
     private List<ChoreMember> choreMembers = new ArrayList<>();
 
     @Builder
-    private Chore(Schedule schedule, LocalDate startDate, boolean isCompleted, String matchKey) {
+    private Chore(Schedule schedule, LocalDate startDate, boolean isCompleted, String matchKey, String completedImageUrl) {
         this.schedule = schedule;
         this.startDate = startDate;
         this.isCompleted = isCompleted;
         this.matchKey = matchKey;
+        this.completedImageUrl = completedImageUrl;
     }
 
     public static Chore create(Schedule schedule, LocalDate startDate) {
