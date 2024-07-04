@@ -9,6 +9,7 @@ import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Category;
+import com.roundtable.roundtable.domain.schedule.Day;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
@@ -53,7 +54,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
                 ScheduleType.REPEAT,
                 List.of(member.getId()),
                 category,
-                List.of(1)
+                List.of(Day.forDayOfWeek(startDate.getDayOfWeek()).getId())
         );
 
         //when
@@ -144,7 +145,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
                 ScheduleType.REPEAT,
                 List.of(member1.getId(), member2.getId()),
                 category,
-                List.of(1)
+                List.of(Day.forDayOfWeek(startDate.getDayOfWeek()).getId())
         );
 
         //when

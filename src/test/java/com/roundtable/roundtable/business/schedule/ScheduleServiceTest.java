@@ -10,6 +10,7 @@ import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Category;
+import com.roundtable.roundtable.domain.schedule.Day;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import jakarta.persistence.EntityManager;
@@ -50,7 +51,7 @@ class ScheduleServiceTest extends IntegrationTestSupport {
                 ScheduleType.REPEAT,
                 List.of(member.getId()),
                 category,
-                List.of(1)
+                List.of(Day.forDayOfWeek(startDate.getDayOfWeek()).getId())
         );
 
         AuthMember authMember = new AuthMember(member.getId(), house.getId());

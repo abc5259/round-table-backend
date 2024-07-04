@@ -62,4 +62,11 @@ public class Day {
         };
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
 }
