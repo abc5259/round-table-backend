@@ -35,9 +35,9 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
     private EntityManager em;
 
 
-    @DisplayName("반복 스케줄 타입에서 시작날짜가 오늘과 같다면 스케줄과 집안일 둘다 추가한다.")
+    @DisplayName("반복 스케줄 타입에서 시작날짜가 오늘이면서 시작 날짜에 해당하는 요일이 반복 하는 요일에 포함된다면면 스케줄과 집안일 둘다 추가한다.")
     @Test
-    void appendWhenStartDateWithToday() {
+    void appendWhenStartDateWithTodayAndIncludeDay() {
         //given
         LocalDate startDate = LocalDate.now();
         LocalDate now = LocalDate.now();
@@ -79,6 +79,50 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
         assertThat(chore).hasSize(1)
                 .extracting("schedule")
                 .contains(schedule);
+    }
+
+    @DisplayName("반복 스케줄 타입에서 시작날짜가 오늘이면서 시작 날짜에 해당하는 요일이 반복 하는 요일에 포함되지 않는다면 스케줄만 추가한다.")
+    @Test
+    void appendWhenStartDateWithTodayAndNotIncludeDay() {
+        //given
+        LocalDate startDate = LocalDate.now();
+        LocalDate now = LocalDate.now();
+
+        House house = createHouse();
+        Category category = Category.CLEANING;
+        Member member = createMemberInHouse(house, "email");
+
+        CreateSchedule createSchedule = new CreateSchedule(
+                "schedule1",
+                startDate,
+                LocalTime.of(1, 0),
+                DivisionType.FIX,
+                ScheduleType.REPEAT,
+                List.of(member.getId()),
+                category,
+                List.of(Day.forDayOfWeek(startDate.getDayOfWeek().minus(1)).getId())
+        );
+
+        //when
+        Schedule schedule = scheduleChoreAppendDirector.append(createSchedule, house, now);
+
+        //then
+        assertThat(schedule.getId()).isNotNull();
+        assertThat(schedule).isNotNull()
+                .extracting( "name", "sequence", "sequenceSize", "divisionType", "house", "category")
+                .contains(
+                        createSchedule.name(),
+                        1,
+                        createSchedule.memberIds().size(),
+                        createSchedule.divisionType(),
+                        house,
+                        category
+                );
+
+        List<Chore> chore = em.createQuery("select c from Chore c", Chore.class)
+                .getResultList();
+
+        assertThat(chore).hasSize(0);
     }
 
     @DisplayName("반복 스케줄 타입에서 시작날짜가 오늘이 아니라면 스케줄만 추가한다.")
@@ -185,7 +229,7 @@ class ScheduleChoreAppendDirectorTest extends IntegrationTestSupport {
                 );
     }
 
-    @DisplayName("반복 스케줄 타입에서는 무조건 스케줄과 집안일 둘다 추가한다.")
+    @DisplayName("일회성 스케줄 타입에서는 무조건 스케줄과 집안일 둘다 추가한다.")
     @Test
     void appendOneTimeScheduleWhenStartDateWithToday() {
         //given
