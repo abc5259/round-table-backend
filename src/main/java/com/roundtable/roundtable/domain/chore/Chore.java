@@ -12,7 +12,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -46,7 +45,8 @@ public class Chore extends BaseEntity {
     private List<ChoreMember> choreMembers = new ArrayList<>();
 
     @Builder
-    private Chore(Schedule schedule, LocalDate startDate, boolean isCompleted, String matchKey, String completedImageUrl) {
+    private Chore(Long id, Schedule schedule, LocalDate startDate, boolean isCompleted, String matchKey, String completedImageUrl) {
+        this.id = id;
         this.schedule = schedule;
         this.startDate = startDate;
         this.isCompleted = isCompleted;
@@ -74,6 +74,12 @@ public class Chore extends BaseEntity {
         return chore;
     }
 
+    public static Chore Id(Long choreId) {
+        return Chore.builder().
+                id(choreId).
+                build();
+    }
+
     public void addChoreMembers(List<ChoreMember> choreMembers) {
         if(this.choreMembers == null) {
             this.choreMembers = new ArrayList<>();
@@ -88,5 +94,10 @@ public class Chore extends BaseEntity {
 
     public void setMatchKey(String matchKey) {
         this.matchKey = matchKey;
+    }
+
+    public void complete(String imageUrl) {
+        isCompleted = true;
+        completedImageUrl = imageUrl;
     }
 }

@@ -1,11 +1,15 @@
 package com.roundtable.roundtable.business.chore;
 
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
+import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.chore.ChoreQueryRepository;
+import com.roundtable.roundtable.domain.chore.ChoreRepository;
 import com.roundtable.roundtable.domain.chore.dto.ChoreMembersDetailDto;
 import com.roundtable.roundtable.business.chore.dto.response.ChoreOfMemberResponse;
 import com.roundtable.roundtable.business.chore.dto.response.ChoreResponse;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
+import com.roundtable.roundtable.global.exception.CoreException;
+import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ChoreReader {
+
+    private final ChoreRepository choreRepository;
     private final ChoreQueryRepository choreQueryRepository;
 
     public List<ChoreOfMemberResponse> readChoresOfMember(Long memberId, LocalDate date, Long houseId) {
@@ -31,5 +37,10 @@ public class ChoreReader {
         Long lastChoreId = choresOfHouse.get(choresOfHouse.size() - 1).choreId();
 
         return CursorBasedResponse.of(choreResponses, lastChoreId);
+    }
+
+    public Chore readById(Long choreId) {
+        Chore chore = choreRepository.findById(choreId).orElseThrow(NotFoundEntityException::new);
+        return chore;
     }
 }
