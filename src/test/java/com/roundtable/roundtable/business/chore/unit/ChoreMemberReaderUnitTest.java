@@ -1,15 +1,12 @@
-package com.roundtable.roundtable.business.chore;
+package com.roundtable.roundtable.business.chore.unit;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.roundtable.roundtable.IntegrationTestSupport;
+import com.roundtable.roundtable.business.chore.ChoreMemberReader;
 import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.chore.ChoreMemberRepository;
 import com.roundtable.roundtable.domain.member.Member;
-import com.roundtable.roundtable.domain.member.MemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ChoreMemberReaderTest {
+class ChoreMemberReaderUnitTest {
 
     @Mock
     private ChoreMemberRepository choreMemberRepository;
