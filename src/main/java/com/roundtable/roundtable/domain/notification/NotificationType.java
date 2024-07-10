@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum NotificationType{
-    INVITE(Values.INVITE);
+    INVITE(Values.INVITE),
+    CHORE_COMPLETE(Values.CHORE_COMPLETE);
 
     NotificationType(String val) {
         if (!this.name().equals(val)) {
@@ -15,5 +16,6 @@ public enum NotificationType{
 
     public static class Values {
         public static final String INVITE = "INVITE";
+        public static final String CHORE_COMPLETE = "CHORE_COMPLETE";
     }
 }

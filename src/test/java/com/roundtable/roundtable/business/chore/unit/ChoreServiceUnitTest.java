@@ -123,7 +123,6 @@ public class ChoreServiceUnitTest {
         Long choreId = 1L;
         Chore chore = Chore.builder().id(choreId).isCompleted(true).build();
         MultipartFile file = new MockMultipartFile("file", "test.png", "image/png", new byte[]{});
-        String imageUrl = "imageUrl";
         AuthMember authMember = new AuthMember(memberId);
 
         given(choreReader.readById(choreId)).willReturn(chore);
@@ -133,6 +132,5 @@ public class ChoreServiceUnitTest {
         assertThatThrownBy(() -> choreService.completeChore(authMember, choreId, file))
                 .isInstanceOf(CoreException.class)
                 .hasMessage(ImageErrorCode.UPLOAD_ERROR.getMessage());
-
     }
 }

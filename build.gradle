@@ -33,6 +33,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	//embedded-redis
 	implementation("it.ozimov:embedded-redis:0.7.2")
+	// Google Firebase Admin
+	implementation 'com.google.firebase:firebase-admin:9.2.0'
 
 
 	compileOnly 'org.projectlombok:lombok'

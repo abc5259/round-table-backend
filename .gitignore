@@ -44,3 +44,6 @@ out/
 
 ## aws
 src/main/resources/application-aws.yml
+
+## fcm
+firebase/
