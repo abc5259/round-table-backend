@@ -24,7 +24,26 @@ public class NotificationEventListener {
         try {
             notificationAppender.append(
                     new CreateInviteNotification(
+                            houseCreatedEvent.appenderId(),
                             houseCreatedEvent.houseId(),
+                            houseCreatedEvent.invitedEmails()
+                    )
+            );
+        }catch (CoreException e) {
+            ErrorCode errorCode = e.getErrorCode();
+            log.warn("[HouseCreatedEvent 에러] - " + errorCode.getMessage() + " " + errorCode.getCode(), e);
+        }catch (RuntimeException e) {
+            log.warn("[HouseCreatedEvent 에러] - " + e.getMessage(), e);
+        }
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Async
+    public void createChoreCompleteNotification(HouseCreatedEvent houseCreatedEvent) {
+        try {
+            notificationAppender.append(
+                    new CreateInviteNotification(
+                            houseCreatedEvent.appenderId(),
                             houseCreatedEvent.houseId(),
                             houseCreatedEvent.invitedEmails()
                     )

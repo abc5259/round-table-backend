@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.chore;
 
+import com.roundtable.roundtable.business.chore.dto.event.ChoreCompleteEvent;
 import com.roundtable.roundtable.business.chore.dto.response.ChoreResponse;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
@@ -7,10 +8,12 @@ import com.roundtable.roundtable.business.chore.dto.response.ChoreOfMemberRespon
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
 import com.roundtable.roundtable.business.image.ImageUploader;
 import com.roundtable.roundtable.domain.chore.Chore;
+import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.global.exception.ChoreException.AlreadyCompletedException;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +25,7 @@ public class ChoreService {
     private final ChoreReader choreReader;
     private final ChoreValidator choreValidator;
     private final ImageUploader imageUploader;
+    private final ApplicationEventPublisher eventPublisher;
 
 //    public List<ChoreOfMemberResponse> findChoresOfMember(Long memberId, LocalDate date, Long houseId) {
 //        return choreReader.readChoresOfMember(memberId, date, houseId);
@@ -44,5 +48,7 @@ public class ChoreService {
 
         String imageUrl = imageUploader.upload(completedImage);
         chore.complete(imageUrl);
+
+        eventPublisher.publishEvent(new ChoreCompleteEvent(choreId));
     }
 }
