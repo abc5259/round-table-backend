@@ -49,6 +49,6 @@ public class ChoreService {
         String imageUrl = imageUploader.upload(completedImage);
         chore.complete(imageUrl);
 
-        eventPublisher.publishEvent(new ChoreCompleteEvent(choreId));
+        eventPublisher.publishEvent(new ChoreCompleteEvent(authMember.houseId(), choreId, authMember.memberId()));
     }
 }

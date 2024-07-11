@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.notification;
 
+import com.roundtable.roundtable.business.chore.dto.event.ChoreCompleteEvent;
 import com.roundtable.roundtable.business.house.dto.event.HouseCreatedEvent;
 import com.roundtable.roundtable.business.notification.dto.CreateInviteNotification;
 import com.roundtable.roundtable.global.exception.CoreException;
@@ -17,6 +18,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class NotificationEventListener {
 
     private final NotificationAppender notificationAppender;
+    private final ChoreCompleteNotificationAppender choreCompleteNotificationAppender;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
@@ -39,20 +41,18 @@ public class NotificationEventListener {
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
-    public void createChoreCompleteNotification(HouseCreatedEvent houseCreatedEvent) {
+    public void createChoreCompleteNotification(ChoreCompleteEvent choreCompleteEvent) {
         try {
-            notificationAppender.append(
-                    new CreateInviteNotification(
-                            houseCreatedEvent.appenderId(),
-                            houseCreatedEvent.houseId(),
-                            houseCreatedEvent.invitedEmails()
-                    )
+            choreCompleteNotificationAppender.append(
+                    choreCompleteEvent.houseId(),
+                    choreCompleteEvent.completedChoreId(),
+                    choreCompleteEvent.completedMemberId()
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.warn("[HouseCreatedEvent 에러] - " + errorCode.getMessage() + " " + errorCode.getCode(), e);
+            log.warn("[ChoreCompleteEvent 에러] - " + errorCode.getMessage() + " " + errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.warn("[HouseCreatedEvent 에러] - " + e.getMessage(), e);
+            log.warn("[ChoreCompleteEvent 에러] - " + e.getMessage(), e);
         }
     }
 }

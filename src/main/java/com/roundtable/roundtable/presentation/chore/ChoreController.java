@@ -24,10 +24,11 @@ public class ChoreController {
     @PatchMapping("/{choreId}/complete")
     public ResponseEntity<ApiResponse<Void>> completeChore(
             @Login AuthMember authMember,
+            @PathVariable("houseId") Long houseId,
             @PathVariable("choreId") Long choreId,
             @RequestPart("completedImage") MultipartFile completedImage) {
 
-        choreService.completeChore(authMember, choreId, completedImage);
+        choreService.completeChore(authMember.toHouseAuthMember(houseId), choreId, completedImage);
 
         return ResponseEntity.ok(SuccessResponse.ok());
     }

@@ -100,4 +100,8 @@ public class Chore extends BaseEntity {
         isCompleted = true;
         completedImageUrl = imageUrl;
     }
+
+    public String getName() {
+        return schedule.getName();
+    }
 }
