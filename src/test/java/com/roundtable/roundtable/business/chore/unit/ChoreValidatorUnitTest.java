@@ -29,10 +29,10 @@ public class ChoreValidatorUnitTest {
     @Test
     void validateChoreAssignedToMember() {
         //given
-        given(choreMemberReader.existByMemberIdAndChoreId(1L, 1L)).willReturn(false);
+        given(choreMemberReader.existByMemberIdAndChoreId(1L, 2L)).willReturn(false);
 
         //when //then
-        assertThatThrownBy(() -> choreValidator.validateChoreAssignedToMember(1L, 1L))
+        assertThatThrownBy(() -> choreValidator.validateChoreAssignedToMember(2L, 1L))
                 .isInstanceOf(NotFoundEntityException.class);
 
     }
@@ -41,10 +41,10 @@ public class ChoreValidatorUnitTest {
     @Test
     void validateChoreAssignedToMember_noThrow() {
         //given
-        given(choreMemberReader.existByMemberIdAndChoreId(1L, 1L)).willReturn(true);
+        given(choreMemberReader.existByMemberIdAndChoreId(1L, 2L)).willReturn(true);
 
         //when //then
-        assertDoesNotThrow(() -> choreValidator.validateChoreAssignedToMember(1L, 1L));
+        assertDoesNotThrow(() -> choreValidator.validateChoreAssignedToMember(2L, 1L));
     }
 
     @DisplayName("집안일을 완료했으면 에러를 던진다.")
