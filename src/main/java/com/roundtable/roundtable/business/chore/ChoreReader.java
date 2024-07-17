@@ -30,8 +30,7 @@ public class ChoreReader {
     }
 
     public CursorBasedResponse<List<ChoreResponse>> readChoresOfHouse(LocalDate date, Long houseId, CursorBasedRequest cursorBasedRequest) {
-        List<ChoreMembersDetailDto> choresOfHouse = choreQueryRepository.findChoresOfHouse(
-                date, houseId, cursorBasedRequest.toCursorPagination());
+        List<ChoreMembersDetailDto> choresOfHouse = choreQueryRepository.findChoresOfHouse(date, houseId, cursorBasedRequest.toCursorPagination());
 
         List<ChoreResponse> choreResponses = choresOfHouse.stream().map(ChoreResponse::create).toList();
         Long lastChoreId = choresOfHouse.get(choresOfHouse.size() - 1).choreId();

@@ -4,6 +4,7 @@ import static com.roundtable.roundtable.domain.chore.QChore.*;
 import static com.roundtable.roundtable.domain.chore.QChoreMember.*;
 import static com.roundtable.roundtable.domain.member.QMember.*;
 import static com.roundtable.roundtable.domain.schedule.QSchedule.*;
+import static com.roundtable.roundtable.domain.schedule.QScheduleDay.*;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
@@ -15,6 +16,8 @@ import com.roundtable.roundtable.domain.chore.dto.QChoreOfMemberDto;
 import com.roundtable.roundtable.domain.common.CursorPagination;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.QScheduleDay;
+import com.roundtable.roundtable.domain.schedule.ScheduleDay;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
@@ -44,7 +47,7 @@ public class ChoreQueryRepository {
                 ))
                 .from(choreMember)
                 .join(choreMember.chore, chore).on(getChoreMemberEq(memberId))
-                .join(chore.schedule, schedule)
+                .join(choreMember.chore.schedule, schedule)
                 .where(getChoreStartDateEq(date).and(getScheduleHouseEq(houseId)))
                 .fetch();
     }
@@ -76,8 +79,7 @@ public class ChoreQueryRepository {
     }
 
     private BooleanExpression getChoreMemberEq(Long memberId) {
-        Member member = Member.builder().id(memberId).build();
-        return choreMember.member.eq(member);
+        return choreMember.member.eq(Member.Id(memberId));
     }
 
     private BooleanExpression getChoreStartDateEq(LocalDate date) {
@@ -85,7 +87,6 @@ public class ChoreQueryRepository {
     }
 
     private BooleanExpression getScheduleHouseEq(Long houseId) {
-        House house = House.builder().id(houseId).build();
-        return schedule.house.eq(house);
+        return schedule.house.eq(House.Id(houseId));
     }
 }

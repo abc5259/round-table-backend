@@ -27,13 +27,13 @@ public class ChoreService {
     private final ImageUploader imageUploader;
     private final ApplicationEventPublisher eventPublisher;
 
-//    public List<ChoreOfMemberResponse> findChoresOfMember(Long memberId, LocalDate date, Long houseId) {
-//        return choreReader.readChoresOfMember(memberId, date, houseId);
-//    }
-//
-//    public CursorBasedResponse<List<ChoreResponse>> findChoresOfHouse(LocalDate date, Long houseId, CursorBasedRequest cursorBasedRequest) {
-//        return choreReader.readChoresOfHouse(date, houseId, cursorBasedRequest);
-//    }
+    public List<ChoreOfMemberResponse> findChoresOfMember(AuthMember authMember, LocalDate date) {
+        return choreReader.readChoresOfMember(authMember.memberId(), date, authMember.houseId());
+    }
+
+    public CursorBasedResponse<List<ChoreResponse>> findChoresOfHouse(LocalDate date, Long houseId, CursorBasedRequest cursorBasedRequest) {
+        return choreReader.readChoresOfHouse(date, houseId, cursorBasedRequest);
+    }
 
     @Transactional
     public void completeChore(
