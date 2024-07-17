@@ -15,7 +15,7 @@ public class ChoreValidator {
 
 
     public void validateChoreAssignedToMember(Long choreId, Long memberId) {
-        boolean exist = choreMemberReader.existByMemberIdAndChoreId(choreId, memberId);
+        boolean exist = choreMemberReader.existByMemberIdAndChoreId(memberId, choreId);
         if (!exist) {
             throw new NotFoundEntityException();
         }

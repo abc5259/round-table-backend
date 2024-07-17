@@ -8,8 +8,6 @@ import com.roundtable.roundtable.business.chore.dto.response.ChoreOfMemberRespon
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
 import com.roundtable.roundtable.business.image.ImageUploader;
 import com.roundtable.roundtable.domain.chore.Chore;
-import com.roundtable.roundtable.domain.member.Member;
-import com.roundtable.roundtable.global.exception.ChoreException.AlreadyCompletedException;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 public class ChoreService {
-
     private final ChoreReader choreReader;
     private final ChoreValidator choreValidator;
     private final ImageUploader imageUploader;
@@ -40,7 +37,6 @@ public class ChoreService {
             AuthMember authMember,
             Long choreId,
             MultipartFile completedImage) {
-
         choreValidator.validateChoreAssignedToMember(choreId, authMember.memberId());
 
         Chore chore = choreReader.readById(choreId);
