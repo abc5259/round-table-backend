@@ -40,7 +40,7 @@ public class ChoreCompleteNotificationAppender {
                                 receiver,
                                 completedChoreId,
                                 completedChore.getName(),
-                                String.join(",", memberNames)
+                                memberNames
         )).toList();
 
         notificationRepository.saveAll(choreCompleteNotifications);
