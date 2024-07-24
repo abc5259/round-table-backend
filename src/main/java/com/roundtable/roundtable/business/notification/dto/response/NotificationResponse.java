@@ -4,7 +4,12 @@ import java.time.LocalDateTime;
 
 public record NotificationResponse(
         Long id,
-        LocalDateTime createdAt
-
+        String type,
+        LocalDateTime createdAt,
+        Long invitedHouseId,
+        String invitedHouseName,
+        Long choreId,
+        String choreName,
+        String memberNames
 ) {
 }
