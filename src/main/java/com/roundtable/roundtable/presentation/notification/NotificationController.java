@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.presentation.notification;
 
 import com.roundtable.roundtable.business.common.AuthMember;
+import com.roundtable.roundtable.business.common.CursorBasedResponse;
 import com.roundtable.roundtable.business.notification.NotificationService;
 import com.roundtable.roundtable.business.notification.dto.response.NotificationResponse;
 import com.roundtable.roundtable.global.response.ApiResponse;
@@ -23,7 +24,7 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<NotificationResponse>>> findLoginUserNotification(
+    public ResponseEntity<ApiResponse<CursorBasedResponse<List<NotificationResponse>>>> findLoginUserNotification(
             @Login AuthMember authMember,
             @ModelAttribute CursorBasedPaginationRequest cursorBasedPaginationRequest
             ) {
