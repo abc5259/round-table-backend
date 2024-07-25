@@ -18,12 +18,12 @@ public class NotificationReader {
 
     private final NotificationRepository notificationRepository;
 
-    public List<Notification> readNotificationsByReceiverId(Long receiverId, CursorBasedRequest cursorBasedRequest) {
+    public List<Notification> readNotificationsByReceiverId(Long receiverId, Long houseId, CursorBasedRequest cursorBasedRequest) {
 
         if(cursorBasedRequest.lastId().equals(DEFAULT_LAST_ID)) {
-            return notificationRepository.findTopNotificationsByReceiverId(receiverId, PageRequest.of(0, cursorBasedRequest.limit()));
+            return notificationRepository.findTopNotificationsByReceiverId(receiverId, houseId, PageRequest.of(0, cursorBasedRequest.limit()));
         }
 
-        return notificationRepository.findNextNotificationsByReceiverId(receiverId, cursorBasedRequest.lastId(), PageRequest.of(0, cursorBasedRequest.limit()));
+        return notificationRepository.findNextNotificationsByReceiverId(receiverId, houseId, cursorBasedRequest.lastId(), PageRequest.of(0, cursorBasedRequest.limit()));
     }
 }

@@ -4,8 +4,6 @@ import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
 import com.roundtable.roundtable.business.notification.dto.response.NotificationResponse;
-import com.roundtable.roundtable.domain.notification.ChoreCompleteNotification;
-import com.roundtable.roundtable.domain.notification.InviteNotification;
 import com.roundtable.roundtable.domain.notification.Notification;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +17,7 @@ public class NotificationService {
 
     public CursorBasedResponse<List<NotificationResponse>> findNotificationsByMemberId(CursorBasedRequest cursorBasedRequest, AuthMember authMember) {
         List<Notification> notifications = notificationReader.readNotificationsByReceiverId(authMember.memberId(),
+                authMember.houseId(),
                 cursorBasedRequest);
 
         Long lastCursorId = notifications.isEmpty() ? 0 : notifications.get(notifications.size() - 1).getId();

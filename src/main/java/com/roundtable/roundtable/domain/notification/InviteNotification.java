@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.domain.notification;
 
 
+import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.NotificationType.Values;
 import jakarta.persistence.DiscriminatorValue;
@@ -22,7 +23,7 @@ public class InviteNotification extends Notification {
 
     @Builder
     private InviteNotification(Member sender, Member receiver, Long invitedHouseId, String invitedHouseName) {
-        super(sender, receiver);
+        super(sender, receiver, null);
         this.invitedHouseId = invitedHouseId;
         this.invitedHouseName = invitedHouseName;
     }

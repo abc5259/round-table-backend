@@ -4,6 +4,7 @@ import com.roundtable.roundtable.business.chore.ChoreMemberReader;
 import com.roundtable.roundtable.business.chore.ChoreReader;
 import com.roundtable.roundtable.business.member.MemberReader;
 import com.roundtable.roundtable.domain.chore.Chore;
+import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.ChoreCompleteNotification;
 import com.roundtable.roundtable.domain.notification.NotificationRepository;
@@ -38,6 +39,7 @@ public class ChoreCompleteNotificationAppender {
                         ChoreCompleteNotification.create(
                                 sender,
                                 receiver,
+                                House.Id(houseId),
                                 completedChoreId,
                                 completedChore.getName(),
                                 memberNames

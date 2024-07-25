@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.domain.notification;
 
 import com.roundtable.roundtable.domain.common.BaseEntity;
+import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
@@ -35,8 +36,12 @@ public class Notification extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member receiver;
 
-    protected Notification(Member sender, Member receiver) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    private House house;
+
+    protected Notification(Member sender, Member receiver, House house) {
         this.sender = sender;
         this.receiver = receiver;
+        this.house = house;
     }
 }

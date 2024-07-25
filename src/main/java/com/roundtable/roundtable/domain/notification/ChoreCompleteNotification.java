@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.domain.notification;
 
+import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.NotificationType.Values;
 import jakarta.persistence.DiscriminatorValue;
@@ -24,17 +25,18 @@ public class ChoreCompleteNotification extends Notification {
     private String memberNames;
 
     @Builder
-    private ChoreCompleteNotification(Member sender, Member receiver, Long choreId, String choreName, String memberNames) {
-        super(sender, receiver);
+    private ChoreCompleteNotification(Member sender, Member receiver, House house, Long choreId, String choreName, String memberNames) {
+        super(sender, receiver, house);
         this.choreId = choreId;
         this.choreName = choreName;
         this.memberNames = memberNames;
     }
 
-    public static ChoreCompleteNotification create(Member sender, Member receiver, Long choreId, String choreName, List<String> memberNames) {
+    public static ChoreCompleteNotification create(Member sender, Member receiver, House house, Long choreId, String choreName, List<String> memberNames) {
         return ChoreCompleteNotification.builder()
                 .sender(sender)
                 .receiver(receiver)
+                .house(house)
                 .choreId(choreId)
                 .choreName(choreName)
                 .memberNames(String.join(",", memberNames))

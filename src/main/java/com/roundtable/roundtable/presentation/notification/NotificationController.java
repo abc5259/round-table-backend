@@ -13,22 +13,31 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/house/{houseId}/notifications")
+//@RequestMapping("/house/{houseId}/notifications")
 @RequiredArgsConstructor
 public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @GetMapping
+    @GetMapping("/house/{houseId}/notifications")
     public ResponseEntity<ApiResponse<CursorBasedResponse<List<NotificationResponse>>>> findLoginUserNotification(
             @Login AuthMember authMember,
+            @PathVariable Long houseId,
             @ModelAttribute CursorBasedPaginationRequest cursorBasedPaginationRequest
             ) {
 
-        return ResponseEntity.ok(SuccessResponse.from(notificationService.findNotificationsByMemberId(cursorBasedPaginationRequest.toCursorBasedRequest(), authMember)));
+        return ResponseEntity.ok(
+                SuccessResponse.from(
+                        notificationService.findNotificationsByMemberId(
+                                cursorBasedPaginationRequest.toCursorBasedRequest(),
+                                authMember.toHouseAuthMember(houseId)
+                        )
+                )
+        );
     }
 }
