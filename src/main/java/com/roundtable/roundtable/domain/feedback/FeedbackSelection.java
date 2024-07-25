@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,18 @@ public class FeedbackSelection extends BaseEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private PredefinedFeedback predefinedFeedback;
+
+    @Builder
+    private FeedbackSelection(Long id, Feedback feedback, PredefinedFeedback predefinedFeedback) {
+        this.id = id;
+        this.feedback = feedback;
+        this.predefinedFeedback = predefinedFeedback;
+    }
+
+    public static FeedbackSelection create(Feedback feedback, PredefinedFeedback predefinedFeedback) {
+        return FeedbackSelection.builder()
+                .feedback(feedback)
+                .predefinedFeedback(predefinedFeedback)
+                .build();
+    }
 }
