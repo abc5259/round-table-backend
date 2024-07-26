@@ -11,6 +11,6 @@ public record CreateFeedback(
         Member sender,
         Member receiver,
         Chore chore,
-        List<Long> predefinedFeedbackIds
+        List<Integer> predefinedFeedbackIds
 ) {
 }

@@ -27,8 +27,7 @@ public class FeedbackAppender {
     private final PredefinedFeedbackRepository predefinedFeedbackRepository;
 
     public Feedback append(CreateFeedback createFeedback) {
-        List<PredefinedFeedback> predefinedFeedbacks = predefinedFeedbackRepository.findByIdIn(
-                createFeedback.predefinedFeedbackIds());
+        List<PredefinedFeedback> predefinedFeedbacks = predefinedFeedbackRepository.findByIdIn(createFeedback.predefinedFeedbackIds());
 
         if(createFeedback.predefinedFeedbackIds().size() != predefinedFeedbacks.size()) {
             throw new NotFoundEntityException(NOT_FOUND_PREDEFINED_FEEDBACK);
