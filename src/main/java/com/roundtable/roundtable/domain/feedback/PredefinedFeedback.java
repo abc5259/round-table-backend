@@ -16,7 +16,7 @@ public class PredefinedFeedback extends BaseEntity {
     @Id
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String feedbackText;
 
     @Builder

@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.domain.chore;
 
 import com.roundtable.roundtable.domain.common.BaseEntity;
+import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -103,5 +104,9 @@ public class Chore extends BaseEntity {
 
     public String getName() {
         return schedule.getName();
+    }
+
+    public boolean isSameHouse(Long houseId) {
+        return schedule.isSameHouse(houseId);
     }
 }

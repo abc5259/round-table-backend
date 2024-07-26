@@ -155,6 +155,10 @@ public class Schedule extends BaseEntity {
         return member.isSameHouse(house);
     }
 
+    public boolean isSameHouse(long houseId) {
+        return house.isEqualId(House.Id(houseId));
+    }
+
     public void increaseSequence() {
         sequence += 1;
         if(sequence > sequenceSize) {

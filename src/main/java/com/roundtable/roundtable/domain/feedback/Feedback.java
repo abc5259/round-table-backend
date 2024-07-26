@@ -42,27 +42,21 @@ public class Feedback extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member sender;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member receiver;
-
     @Builder
-    private Feedback(Long id, Emoji emoji, String message, Chore chore, Member sender, Member receiver) {
+    private Feedback(Long id, Emoji emoji, String message, Chore chore, Member sender) {
         this.id = id;
         this.emoji = emoji;
         this.message = message;
         this.chore = chore;
         this.sender = sender;
-        this.receiver = receiver;
     }
 
-    public static Feedback create(Emoji emoji, String message, Chore chore, Member sender, Member receiver) {
+    public static Feedback create(Emoji emoji, String message, Chore chore, Member sender) {
         return Feedback.builder()
                 .emoji(emoji)
                 .message(message)
                 .chore(chore)
                 .sender(sender)
-                .receiver(receiver)
                 .build();
     }
 }

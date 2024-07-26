@@ -9,9 +9,9 @@ import com.roundtable.roundtable.domain.feedback.FeedbackSelection;
 import com.roundtable.roundtable.domain.feedback.FeedbackSelectionRepository;
 import com.roundtable.roundtable.domain.feedback.PredefinedFeedback;
 import com.roundtable.roundtable.domain.feedback.PredefinedFeedbackRepository;
-import com.roundtable.roundtable.global.exception.CoreException;
+import com.roundtable.roundtable.global.exception.ChoreException.NotCompletedException;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
-import com.roundtable.roundtable.global.exception.errorcode.FeedbackErrorCode;
+import com.roundtable.roundtable.global.exception.MemberException.MemberNotSameHouseException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,16 @@ public class FeedbackAppender {
     private final FeedbackSelectionRepository feedbackSelectionRepository;
     private final PredefinedFeedbackRepository predefinedFeedbackRepository;
 
-    public Feedback append(CreateFeedback createFeedback) {
+    public Feedback append(CreateFeedback createFeedback, Long houseId) {
+        if(!createFeedback.chore().isCompleted()) {
+            throw new NotCompletedException();
+        }
+
+        if(!createFeedback.chore().isSameHouse(houseId)) {
+            throw new MemberNotSameHouseException();
+        }
+
+
         List<PredefinedFeedback> predefinedFeedbacks = predefinedFeedbackRepository.findByIdIn(createFeedback.predefinedFeedbackIds());
 
         if(createFeedback.predefinedFeedbackIds().size() != predefinedFeedbacks.size()) {
@@ -34,7 +43,7 @@ public class FeedbackAppender {
         }
 
         Feedback feedback = feedbackRepository.save(
-                Feedback.create(createFeedback.emoji(), createFeedback.message(), createFeedback.chore(), createFeedback.sender(), createFeedback.receiver())
+                Feedback.create(createFeedback.emoji(), createFeedback.message(), createFeedback.chore(), createFeedback.sender())
         );
 
         appendFeedbackSelections(predefinedFeedbacks, feedback);

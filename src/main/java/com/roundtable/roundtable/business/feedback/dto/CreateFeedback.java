@@ -9,7 +9,6 @@ public record CreateFeedback(
         Emoji emoji,
         String message,
         Member sender,
-        Member receiver,
         Chore chore,
         List<Integer> predefinedFeedbackIds
 ) {

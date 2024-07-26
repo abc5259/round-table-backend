@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.feedback;
 
+import static com.roundtable.roundtable.global.exception.errorcode.FeedbackErrorCode.*;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
@@ -23,10 +24,12 @@ import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleType;
+import com.roundtable.roundtable.global.exception.ChoreException.NotCompletedException;
+import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
+import com.roundtable.roundtable.global.exception.MemberException.MemberNotSameHouseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -69,16 +72,15 @@ class FeedbackAppenderTest extends IntegrationTestSupport {
     @Test
     void append() {
         //given
-        House house = createHouse();
-        Member member1 = createMember("email1", house);
-        Member member2 = createMember("email2", house);
+        House house = createHouse("code");
+        Member sender = createMember("email1", house);
         Schedule schedule = createSchedule(house);
         Chore chore = createChore(schedule, true);
 
-        CreateFeedback createFeedback = new CreateFeedback(Emoji.FIRE, "좋아요", member1, member2, chore, List.of(1, 2));
+        CreateFeedback createFeedback = new CreateFeedback(Emoji.FIRE, "좋아요", sender, chore, List.of(1, 2));
 
         //when
-        Feedback result = feedbackAppender.append(createFeedback);
+        Feedback result = feedbackAppender.append(createFeedback, house.getId());
 
         //then
         List<Feedback> feedbacks = feedbackRepository.findAll();
@@ -86,12 +88,11 @@ class FeedbackAppenderTest extends IntegrationTestSupport {
 
         assertThat(feedbacks).hasSize(1);
         assertThat(feedbacks.get(0))
-                .extracting("emoji", "message", "sender", "receiver", "chore")
+                .extracting("emoji", "message", "sender", "chore")
                 .contains(
                         Emoji.FIRE,
                         "좋아요",
-                        member1,
-                        member2,
+                        sender,
                         chore
                 );
         assertThat(feedbackSelections).hasSize(2)
@@ -99,8 +100,58 @@ class FeedbackAppenderTest extends IntegrationTestSupport {
                 .contains(result, result);
     }
 
-    public House createHouse() {
-        House house = House.builder().name("name").inviteCode(InviteCode.builder().code("code").build()).build();
+    @DisplayName("완료되지 않은 집안일이라면 피드백을 생성할 수 없다.")
+    @Test
+    void append_with_not_completed_feedback() {
+        //given
+        House house = createHouse("code");
+        Member sender = createMember("email1", house);
+        Schedule schedule = createSchedule(house);
+        Chore chore = createChore(schedule, false);
+
+        CreateFeedback createFeedback = new CreateFeedback(Emoji.FIRE, "좋아요", sender, chore, List.of(1, 2));
+
+        //when //then
+        assertThatThrownBy(() -> feedbackAppender.append(createFeedback, house.getId()))
+                .isInstanceOf(NotCompletedException.class);
+    }
+
+    @DisplayName("존재하지 않은 기본 탬플릿 피드백을 준다면 예외를 던진다.")
+    @Test
+    void append_with_not_exist_predefined_feedback() {
+        //given
+        House house = createHouse("code");
+        Member sender = createMember("email1", house);
+        Schedule schedule = createSchedule(house);
+        Chore chore = createChore(schedule, true);
+
+        CreateFeedback createFeedback = new CreateFeedback(Emoji.FIRE, "좋아요", sender, chore, List.of(4));
+
+        //when //then
+        assertThatThrownBy(() -> feedbackAppender.append(createFeedback, house.getId()))
+                .isInstanceOf(NotFoundEntityException.class)
+                .hasMessage(NOT_FOUND_PREDEFINED_FEEDBACK.getMessage());
+    }
+
+    @DisplayName("다른 하우스의 집안일에 대해 피드백을 줄 수 없다.")
+    @Test
+    void append_with_not_same_member_chore_house() {
+        //given
+        House house = createHouse("code");
+        House house2 = createHouse("code2");
+        Member sender = createMember("email1", house);
+        Schedule schedule = createSchedule(house2);
+        Chore chore = createChore(schedule, true);
+
+        CreateFeedback createFeedback = new CreateFeedback(Emoji.FIRE, "좋아요", sender, chore, List.of(1,2));
+
+        //when //then
+        assertThatThrownBy(() -> feedbackAppender.append(createFeedback, house.getId()))
+                .isInstanceOf(MemberNotSameHouseException.class);
+    }
+
+    public House createHouse(String code) {
+        House house = House.builder().name("name").inviteCode(InviteCode.builder().code(code).build()).build();
         return houseRepository.save(house);
     }
 

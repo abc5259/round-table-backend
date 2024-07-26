@@ -4,6 +4,7 @@ import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityEx
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class Day {
     @Id
     private Integer id;
 
+    @NotNull
     private String dayOfWeek;
 
     private Day(Integer id, String dayOfWeek) {
