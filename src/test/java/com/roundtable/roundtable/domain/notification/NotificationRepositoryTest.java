@@ -69,7 +69,7 @@ class NotificationRepositoryTest extends IntegrationTestSupport {
         for(int i=1; i<=10; i++) {
             notificationRepository.save(new Notification(sender, receiver, house));
         }
-        List<Notification> topNotifications = notificationRepository.findTopNotificationsByReceiverId(2L, house.getId(),
+        List<Notification> topNotifications = notificationRepository.findTopNotificationsByReceiverId(receiver.getId(), house.getId(),
                 PageRequest.of(0, 5));
         Long lastId = topNotifications.get(topNotifications.size() - 1).getId();
 
