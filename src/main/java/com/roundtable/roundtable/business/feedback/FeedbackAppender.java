@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.feedback;
 import static com.roundtable.roundtable.global.exception.errorcode.FeedbackErrorCode.*;
 
 import com.roundtable.roundtable.business.feedback.dto.CreateFeedback;
+import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.feedback.Feedback;
 import com.roundtable.roundtable.domain.feedback.FeedbackRepository;
 import com.roundtable.roundtable.domain.feedback.FeedbackSelection;
@@ -27,20 +28,12 @@ public class FeedbackAppender {
     private final PredefinedFeedbackRepository predefinedFeedbackRepository;
 
     public Feedback append(CreateFeedback createFeedback, Long houseId) {
-        if(!createFeedback.chore().isCompleted()) {
-            throw new NotCompletedException();
-        }
 
-        if(!createFeedback.chore().isSameHouse(houseId)) {
-            throw new MemberNotSameHouseException();
-        }
-
+        validateCompletedChore(createFeedback.chore());
+        validateChoreSenderSameHouse(createFeedback.chore(), houseId);
 
         List<PredefinedFeedback> predefinedFeedbacks = predefinedFeedbackRepository.findByIdIn(createFeedback.predefinedFeedbackIds());
-
-        if(createFeedback.predefinedFeedbackIds().size() != predefinedFeedbacks.size()) {
-            throw new NotFoundEntityException(NOT_FOUND_PREDEFINED_FEEDBACK);
-        }
+        validateAllPredefinedFeedbacksExist(createFeedback, predefinedFeedbacks);
 
         Feedback feedback = feedbackRepository.save(
                 Feedback.create(createFeedback.emoji(), createFeedback.message(), createFeedback.chore(), createFeedback.sender())
@@ -49,6 +42,24 @@ public class FeedbackAppender {
         appendFeedbackSelections(predefinedFeedbacks, feedback);
 
         return feedback;
+    }
+
+    private void validateCompletedChore(Chore chore) {
+        if(!chore.isCompleted()) {
+            throw new NotCompletedException();
+        }
+    }
+
+    private void validateChoreSenderSameHouse(Chore chore, Long houseId) {
+        if(!chore.isSameHouse(houseId)) {
+            throw new MemberNotSameHouseException();
+        }
+    }
+
+    private void validateAllPredefinedFeedbacksExist(CreateFeedback createFeedback, List<PredefinedFeedback> predefinedFeedbacks) {
+        if(createFeedback.predefinedFeedbackIds().size() != predefinedFeedbacks.size()) {
+            throw new NotFoundEntityException(NOT_FOUND_PREDEFINED_FEEDBACK);
+        }
     }
 
     private void appendFeedbackSelections(List<PredefinedFeedback> predefinedFeedbacks, Feedback feedback) {
