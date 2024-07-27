@@ -3,7 +3,7 @@ package com.roundtable.roundtable.business.house;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.house.dto.CreateHouse;
 import com.roundtable.roundtable.business.house.dto.HouseMember;
-import com.roundtable.roundtable.business.house.dto.event.HouseCreatedEvent;
+import com.roundtable.roundtable.business.house.event.HouseCreatedEvent;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;

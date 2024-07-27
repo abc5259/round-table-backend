@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.*;
 import com.roundtable.roundtable.business.chore.ChoreReader;
 import com.roundtable.roundtable.business.chore.ChoreService;
 import com.roundtable.roundtable.business.chore.ChoreValidator;
-import com.roundtable.roundtable.business.chore.dto.event.ChoreCompleteEvent;
+import com.roundtable.roundtable.business.chore.event.ChoreCompleteEvent;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.image.ImageUploader;
 import com.roundtable.roundtable.domain.chore.Chore;

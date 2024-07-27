@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.business.house.dto.event;
+package com.roundtable.roundtable.business.house.event;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.roundtable.roundtable.business.chore;
 
-import com.roundtable.roundtable.business.chore.dto.event.ChoreCompleteEvent;
+import com.roundtable.roundtable.business.chore.event.ChoreCompleteEvent;
 import com.roundtable.roundtable.business.chore.dto.response.ChoreResponse;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
@@ -19,9 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 public class ChoreService {
+
     private final ChoreReader choreReader;
+
     private final ChoreValidator choreValidator;
+
     private final ImageUploader imageUploader;
+
     private final ApplicationEventPublisher eventPublisher;
 
     public List<ChoreOfMemberResponse> findChoresOfMember(AuthMember authMember, LocalDate date) {

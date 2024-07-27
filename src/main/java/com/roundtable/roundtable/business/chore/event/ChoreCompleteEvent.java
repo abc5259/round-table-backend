@@ -1,6 +1,4 @@
-package com.roundtable.roundtable.business.chore.dto.event;
-
-import java.util.List;
+package com.roundtable.roundtable.business.chore.event;
 
 public record ChoreCompleteEvent(
         Long houseId,
