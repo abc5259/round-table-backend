@@ -32,9 +32,9 @@ class FeedbackNotificationAppenderUnitTest {
     void append() {
         //given
         Long feedbackId = 1L;
-        Long houseId = 1L;
-        Long choreId = 1L;
-        Long senderId = 1L;
+        Long houseId = 2L;
+        Long choreId = 3L;
+        Long senderId = 4L;
 
         Member sender = Member.builder().id(1L).name("sender").build();
         List<Member> receivers = List.of(
