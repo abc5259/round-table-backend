@@ -59,7 +59,9 @@ public class NotificationEventListener {
         }
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    /**
+     * 고민.. 이 메서드는 무조건 트랜잭션 끝난 후 실행되야함
+     */
     @EventListener
     @Async
     public void createFeedbackNotification(CreateFeedbackEvent createFeedbackEvent) {
