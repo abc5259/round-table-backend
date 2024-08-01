@@ -1,7 +1,7 @@
 package com.roundtable.roundtable.global.config;
 
 import com.roundtable.roundtable.global.support.argumentresolver.LoginAuthMemberArgumentResolver;
-import com.roundtable.roundtable.global.support.interceptor.CheckExistMemberInterceptor;
+import com.roundtable.roundtable.global.support.interceptor.LoginCheckInterceptor;
 import com.roundtable.roundtable.global.support.interceptor.MemberBelongsToHouseInterceptor;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final LoginAuthMemberArgumentResolver loginAuthMemberArgumentResolver;
 
-    private final CheckExistMemberInterceptor checkExistMemberInterceptor;
+    private final LoginCheckInterceptor loginCheckInterceptor;
 
     private final MemberBelongsToHouseInterceptor memberBelongsToHouseInterceptor;
 
@@ -27,7 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(checkExistMemberInterceptor)
+        registry.addInterceptor(loginCheckInterceptor)
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/members/exist")

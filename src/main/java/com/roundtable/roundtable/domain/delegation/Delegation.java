@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.domain.choredelegation;
+package com.roundtable.roundtable.domain.delegation;
 
 import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.common.BaseEntity;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChoreDelegation extends BaseEntity {
+public class Delegation extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,11 +33,11 @@ public class ChoreDelegation extends BaseEntity {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member delegatedBy;
+    private Member sender;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member delegatedTo;
+    private Member receiver;
 
     @NotNull
     @Enumerated(EnumType.STRING)

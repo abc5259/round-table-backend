@@ -22,8 +22,11 @@ import org.springframework.stereotype.Component;
 public class NotificationFactory {
 
     private final HouseReader houseReader;
+
     private final MemberReader memberReader;
+
     private final ChoreReader choreReader;
+
     private final ChoreMemberReader choreMemberReader;
 
     public List<FeedbackNotification> createFeedbackNotifications(Long feedbackId, Long houseId, Long choreId, Long senderId) {

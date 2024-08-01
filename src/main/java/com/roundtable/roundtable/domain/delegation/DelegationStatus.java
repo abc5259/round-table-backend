@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.domain.choredelegation;
+package com.roundtable.roundtable.domain.delegation;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

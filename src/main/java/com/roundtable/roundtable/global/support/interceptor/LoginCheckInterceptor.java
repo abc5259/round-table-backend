@@ -14,9 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 @RequiredArgsConstructor
-public class CheckExistMemberInterceptor implements HandlerInterceptor {
-
-    private final MemberValidator memberValidator;
+public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -27,10 +25,6 @@ public class CheckExistMemberInterceptor implements HandlerInterceptor {
         if(principal == null) {
             throw new AuthenticationException(INVALID_AUTH);
         }
-
-        JwtPayload jwtPayload = (JwtPayload) principal;
-
-        memberValidator.validateExistMemberId(jwtPayload.userId());
 
         return true;
     }
