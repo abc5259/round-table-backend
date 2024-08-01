@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-class ChoreCompleteNotificationAppenderTest extends IntegrationTestSupport {
+class ChoreCompleteInviteNotificationAppenderTest extends IntegrationTestSupport {
 
     @Autowired
     private ChoreCompleteNotificationAppender choreCompleteNotificationAppender;

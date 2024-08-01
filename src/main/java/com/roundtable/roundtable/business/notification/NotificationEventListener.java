@@ -19,15 +19,15 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 public class NotificationEventListener {
 
-    private final NotificationAppender notificationAppender;
+    private final InviteNotificationAppender inviteNotificationAppender;
     private final ChoreCompleteNotificationAppender choreCompleteNotificationAppender;
     private final FeedbackNotificationAppender feedbackNotificationAppender;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
-    public void createNotification(HouseCreatedEvent houseCreatedEvent) {
+    public void createInviteNotification(HouseCreatedEvent houseCreatedEvent) {
         try {
-            notificationAppender.append(
+            inviteNotificationAppender.append(
                     new CreateInviteNotification(
                             houseCreatedEvent.appenderId(),
                             houseCreatedEvent.houseId(),
@@ -36,9 +36,9 @@ public class NotificationEventListener {
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.warn("[HouseCreatedEvent 에러] - " + errorCode.getMessage() + " " + errorCode.getCode(), e);
+            log.error("[HouseCreatedEvent 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.warn("[HouseCreatedEvent 에러] - " + e.getMessage(), e);
+            log.error("[HouseCreatedEvent 에러] - {}", e.getMessage(), e);
         }
     }
 
@@ -53,9 +53,9 @@ public class NotificationEventListener {
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.warn("[ChoreCompleteEvent 에러] - " + errorCode.getMessage() + " " + errorCode.getCode(), e);
+            log.error("[ChoreCompleteEvent 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.warn("[ChoreCompleteEvent 에러] - " + e.getMessage(), e);
+            log.error("[ChoreCompleteEvent 에러] - {}", e.getMessage(), e);
         }
     }
 

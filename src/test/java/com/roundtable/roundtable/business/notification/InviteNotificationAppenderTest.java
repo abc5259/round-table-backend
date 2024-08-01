@@ -15,17 +15,16 @@ import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityEx
 import com.roundtable.roundtable.global.exception.errorcode.HouseErrorCode;
 import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-class NotificationAppenderTest extends IntegrationTestSupport {
+class InviteNotificationAppenderTest extends IntegrationTestSupport {
 
     @Autowired
-    private NotificationAppender notificationAppender;
+    private InviteNotificationAppender inviteNotificationAppender;
 
     @Autowired
     private NotificationRepository notificationRepository;
@@ -53,7 +52,7 @@ class NotificationAppenderTest extends IntegrationTestSupport {
         );
 
         //when
-        List<Long> results = notificationAppender.append(createInviteNotification);
+        List<Long> results = inviteNotificationAppender.append(createInviteNotification);
 
         //then
         List<Notification> notifications = notificationRepository.findAllById(results);
@@ -79,7 +78,7 @@ class NotificationAppenderTest extends IntegrationTestSupport {
         );
 
         //when //then
-        assertThatThrownBy(() -> notificationAppender.append(createInviteNotification))
+        assertThatThrownBy(() -> inviteNotificationAppender.append(createInviteNotification))
                 .isInstanceOf(NotFoundEntityException.class)
                 .hasMessage(HouseErrorCode.NOT_FOUND.getMessage());
     }
@@ -101,7 +100,7 @@ class NotificationAppenderTest extends IntegrationTestSupport {
         );
 
         //when //then
-        assertThatThrownBy(() -> notificationAppender.append(createInviteNotification))
+        assertThatThrownBy(() -> inviteNotificationAppender.append(createInviteNotification))
                 .isInstanceOf(NotFoundEntityException.class)
                 .hasMessage(MemberErrorCode.NOT_FOUND.getMessage());
     }
