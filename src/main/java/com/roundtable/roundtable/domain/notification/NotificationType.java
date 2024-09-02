@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum NotificationType{
     INVITE(Values.INVITE),
     CHORE_COMPLETE(Values.CHORE_COMPLETE),
-    Feedback(Values.FEEDBACK);
+    FEEDBACK(Values.FEEDBACK);
 
     NotificationType(String val) {
         if (!this.name().equals(val)) {

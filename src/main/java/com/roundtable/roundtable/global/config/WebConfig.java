@@ -34,7 +34,9 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/auth/register")
                 .excludePathPatterns("/auth/login")
                 .excludePathPatterns("/auth/emails")
-                .excludePathPatterns("/token/refresh");
+                .excludePathPatterns("/token/refresh")
+                .excludePathPatterns("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**");
+
 
         registry.addInterceptor(memberBelongsToHouseInterceptor)
                 .order(2)
