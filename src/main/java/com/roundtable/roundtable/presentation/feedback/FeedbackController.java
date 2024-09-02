@@ -1,10 +1,12 @@
 package com.roundtable.roundtable.presentation.feedback;
 
 import com.roundtable.roundtable.business.feedback.FeedbackService;
-import com.roundtable.roundtable.global.response.ApiResponse;
+import com.roundtable.roundtable.global.response.ResponseDto;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.presentation.feedback.request.CreateFeedbackRequest;
 import com.roundtable.roundtable.presentation.feedback.response.CreateFeedbackResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +23,10 @@ public class FeedbackController {
 
     private final FeedbackService feedbackService;
 
+    @Operation(summary = "집안일 피드백 전송", description = "집안일에 대한 피드백을 전송합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
     @PostMapping
-    public ResponseEntity<ApiResponse<CreateFeedbackResponse>> createFeedback(
+    public ResponseEntity<ResponseDto<CreateFeedbackResponse>> createFeedback(
             @PathVariable Long houseId,
             @Valid @RequestBody CreateFeedbackRequest createFeedbackRequest
     ) {

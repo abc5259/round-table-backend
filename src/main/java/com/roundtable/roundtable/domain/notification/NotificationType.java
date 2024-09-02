@@ -1,7 +1,5 @@
 package com.roundtable.roundtable.domain.notification;
 
-import com.roundtable.roundtable.domain.feedback.Feedback;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

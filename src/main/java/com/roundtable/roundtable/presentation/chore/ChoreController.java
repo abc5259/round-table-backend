@@ -5,10 +5,12 @@ import com.roundtable.roundtable.business.chore.dto.response.ChoreOfMemberRespon
 import com.roundtable.roundtable.business.chore.dto.response.ChoreResponse;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
-import com.roundtable.roundtable.global.response.ApiResponse;
+import com.roundtable.roundtable.global.response.ResponseDto;
 import com.roundtable.roundtable.global.response.SuccessResponse;
 import com.roundtable.roundtable.global.support.annotation.Login;
 import com.roundtable.roundtable.presentation.common.request.CursorBasedPaginationRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +32,10 @@ public class ChoreController {
 
     private final ChoreService choreService;
 
+    @Operation(summary = "잡안일 완료", description = "집안일을 완료합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
     @PatchMapping("/{choreId}/complete")
-    public ResponseEntity<ApiResponse<Void>> completeChore(
+    public ResponseEntity<ResponseDto<Void>> completeChore(
             @Login AuthMember authMember,
             @PathVariable("houseId") Long houseId,
             @PathVariable("choreId") Long choreId,
@@ -42,8 +46,10 @@ public class ChoreController {
         return ResponseEntity.ok(SuccessResponse.ok());
     }
 
+    @Operation(summary = "내 집안일 조회", description = "오늘 해야할 내 집안일을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/me")
-    public ResponseEntity<ApiResponse<List<ChoreOfMemberResponse>>> findChoreOfLoginUser(
+    public ResponseEntity<ResponseDto<List<ChoreOfMemberResponse>>> findChoreOfLoginUser(
             @Login AuthMember authMember,
             @PathVariable("houseId") Long houseId,
             @RequestParam(required = false) LocalDate date
@@ -53,8 +59,10 @@ public class ChoreController {
         return ResponseEntity.ok(SuccessResponse.from(chores));
     }
 
+    @Operation(summary = "하우스 집안일 조회", description = "하우스의 오늘 집안일을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping
-    public ResponseEntity<ApiResponse<CursorBasedResponse<List<ChoreResponse>>>> findChoreOfLoginUser(
+    public ResponseEntity<ResponseDto<CursorBasedResponse<List<ChoreResponse>>>> findChoreOfLoginUser(
             @Login AuthMember authMember,
             @PathVariable("houseId") Long houseId,
             @RequestParam(required = false) LocalDate date,

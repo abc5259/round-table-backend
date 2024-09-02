@@ -3,7 +3,7 @@ package com.roundtable.roundtable.global.response;
 import lombok.Getter;
 
 @Getter
-public class FailResponse<T> extends ApiResponse<T> {
+public class FailResponse<T> extends ResponseDto<T> {
 
 
     private FailResponse(String errorMessage, String code) {

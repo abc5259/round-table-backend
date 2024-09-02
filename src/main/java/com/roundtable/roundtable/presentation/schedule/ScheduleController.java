@@ -5,8 +5,10 @@ import com.roundtable.roundtable.business.schedule.ScheduleService;
 import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import com.roundtable.roundtable.presentation.schedule.request.CreateScheduleRequest;
 import com.roundtable.roundtable.global.support.annotation.Login;
-import com.roundtable.roundtable.global.response.ApiResponse;
+import com.roundtable.roundtable.global.response.ResponseDto;
 import com.roundtable.roundtable.global.response.SuccessResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +27,10 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
+    @Operation(summary = "반복 스케줄 생성", description = "반복 스케줄을 생성합니다.")
+    @ApiResponse(responseCode = "201", description = "성공")
     @PostMapping("/repeat")
-    public ResponseEntity<ApiResponse<Long>> createRepeatSchedule(
+    public ResponseEntity<ResponseDto<Long>> createRepeatSchedule(
             @Login AuthMember authMember,
             @PathVariable Long houseId,
             @Valid @RequestBody CreateScheduleRequest createScheduleRequest) {
@@ -40,8 +44,10 @@ public class ScheduleController {
         );
     }
 
+    @Operation(summary = "일회성 스케줄 생성", description = "일회성 스케줄을 생성합니다.")
+    @ApiResponse(responseCode = "201", description = "성공")
     @PostMapping("/one-time")
-    public ResponseEntity<ApiResponse<Long>> createOneTimeSchedule(
+    public ResponseEntity<ResponseDto<Long>> createOneTimeSchedule(
             @Login AuthMember authMember,
             @PathVariable Long houseId,
             @Valid @RequestBody CreateScheduleRequest createScheduleRequest) {
