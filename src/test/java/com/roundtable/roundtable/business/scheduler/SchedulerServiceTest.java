@@ -86,7 +86,7 @@ class SchedulerServiceTest extends IntegrationTestSupport {
     }
 
     private void createScheduleDay(Day day, Schedule schedule) {
-        ScheduleDay scheduleDay = ScheduleDay.builder().day(day).schedule(schedule).build();
+        ScheduleDay scheduleDay = ScheduleDay.builder().dayOfWeek(day).schedule(schedule).build();
         scheduleDayRepository.save(scheduleDay);
     }
 

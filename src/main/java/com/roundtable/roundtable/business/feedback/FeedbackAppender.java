@@ -38,7 +38,6 @@ public class FeedbackAppender {
         Feedback feedback = feedbackRepository.save(
                 Feedback.create(createFeedback.emoji(), createFeedback.message(), createFeedback.chore(), createFeedback.sender())
         );
-
         appendFeedbackSelections(predefinedFeedbacks, feedback);
 
         return feedback;

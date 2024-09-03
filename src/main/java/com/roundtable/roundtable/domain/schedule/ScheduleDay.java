@@ -1,6 +1,8 @@
 package com.roundtable.roundtable.domain.schedule;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,13 +27,13 @@ public class ScheduleDay {
     private Schedule schedule;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Day day;
+    @Enumerated(EnumType.STRING)
+    private Day dayOfWeek;
 
     @Builder
-    private ScheduleDay(Schedule schedule, Day day) {
+    private ScheduleDay(Schedule schedule, Day dayOfWeek) {
         this.schedule = schedule;
-        this.day = day;
+        this.dayOfWeek = dayOfWeek;
     }
 
     public static ScheduleDay create(Schedule schedule, Day day) {

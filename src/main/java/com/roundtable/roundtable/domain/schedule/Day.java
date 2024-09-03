@@ -1,45 +1,26 @@
 package com.roundtable.roundtable.domain.schedule;
 
-import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import java.time.DayOfWeek;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Entity
-@Table(name = "days")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Day {
-    public static final int MONDAY_ID = 1;
-    public static final int TUESDAY_ID = 2;
-    public static final int WEDNESDAY_ID = 3;
-    public static final int THURSDAY_ID = 4;
-    public static final int FRIDAY_ID = 5;
-    public static final int SATURDAY_ID = 6;
-    public static final int SUNDAY_ID = 7;
-    public static final Day MONDAY = new Day(MONDAY_ID, "MONDAY");
-    public static final Day TUESDAY = new Day(TUESDAY_ID, "TUESDAY");
-    public static final Day WEDNESDAY = new Day(WEDNESDAY_ID, "WEDNESDAY");
-    public static final Day THURSDAY = new Day(THURSDAY_ID, "THURSDAY");
-    public static final Day FRIDAY = new Day(FRIDAY_ID, "FRIDAY");
-    public static final Day SATURDAY = new Day(SATURDAY_ID, "SATURDAY");
-    public static final Day SUNDAY = new Day(SUNDAY_ID, "SUNDAY");
+@Getter
+public enum Day {
+    MONDAY(1),
+    TUESDAY(2),
+    WEDNESDAY(3),
+    THURSDAY(4),
+    FRIDAY(5),
+    SATURDAY(6),
+    SUNDAY(7)
+    ;
 
-    @Id
-    private Integer id;
+    private final int id;
 
-    @NotNull
-    private String dayOfWeek;
-
-    private Day(Integer id, String dayOfWeek) {
+    Day(int id) {
         this.id = id;
-        this.dayOfWeek = dayOfWeek;
     }
 
-    public static Day forId(int id) {
+    public static Day fromId(int id) {
         return switch (id) {
             case 1 -> MONDAY;
             case 2 -> TUESDAY;
@@ -48,7 +29,7 @@ public class Day {
             case 5 -> FRIDAY;
             case 6 -> SATURDAY;
             case 7 -> SUNDAY;
-            default -> throw new NotFoundEntityException();
+            default -> throw new IllegalStateException("Unexpected value: " + id);
         };
     }
 
@@ -62,13 +43,5 @@ public class Day {
             case SATURDAY -> SATURDAY;
             case SUNDAY -> SUNDAY;
         };
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getDayOfWeek() {
-        return dayOfWeek;
     }
 }

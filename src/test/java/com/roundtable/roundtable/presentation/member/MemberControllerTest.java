@@ -14,7 +14,7 @@ import com.roundtable.roundtable.business.member.dto.response.HouseDetailRespons
 import com.roundtable.roundtable.business.member.dto.response.MemberDetailResponse;
 import com.roundtable.roundtable.domain.member.Gender;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
-import com.roundtable.roundtable.global.response.ApiResponse;
+import com.roundtable.roundtable.global.response.ResponseDto;
 import com.roundtable.roundtable.security.WithMockCustomUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ class MemberControllerTest extends ControllerTestSupport {
         );
         when(memberService.findMemberDetail(anyLong())).thenReturn(response);
 
-        ApiResponse<Object> expectedResult = ApiResponse.builder()
+        ResponseDto<Object> expectedResult = ResponseDto.builder()
                 .success(true)
                 .data(response)
                 .build();

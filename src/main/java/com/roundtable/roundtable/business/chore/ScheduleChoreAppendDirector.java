@@ -62,7 +62,7 @@ public class ScheduleChoreAppendDirector {
     private boolean isStartDayIncludedInDayIds(List<Integer> dayIds, LocalDate startDate) {
         Day targetDay = Day.forDayOfWeek(startDate.getDayOfWeek());
         return dayIds.stream()
-                .map(Day::forId)
+                .map(Day::fromId)
                 .anyMatch(day -> day == targetDay);
     }
 

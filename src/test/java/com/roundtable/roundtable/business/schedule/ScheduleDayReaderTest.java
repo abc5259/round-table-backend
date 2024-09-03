@@ -77,7 +77,7 @@ class ScheduleDayReaderTest extends IntegrationTestSupport {
 
     }
     private ScheduleDay appendScheduleDay(Schedule schedule1, Day day) {
-        ScheduleDay scheduleDay = ScheduleDay.builder().schedule(schedule1).day(day).build();
+        ScheduleDay scheduleDay = ScheduleDay.builder().schedule(schedule1).dayOfWeek(day).build();
         return scheduleDayRepository.save(scheduleDay);
     }
 

@@ -43,7 +43,7 @@ class HouseControllerTest extends ControllerTestSupport {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data.houseId").isNumber())
                 .andExpect(jsonPath("$.message").isEmpty())
