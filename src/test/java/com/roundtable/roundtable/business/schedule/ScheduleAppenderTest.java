@@ -93,7 +93,6 @@ class ScheduleAppenderTest extends IntegrationTestSupport {
     void createSchedule_ROTATION() {
         //given
         House house = houseRepository.findAll().get(0);
-        System.out.println("house = " + house);
         List<Long> memberIds = memberRepository.findAll().stream().map(Member::getId).toList();
 
         CreateSchedule request =
