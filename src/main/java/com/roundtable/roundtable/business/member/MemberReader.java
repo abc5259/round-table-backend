@@ -35,7 +35,7 @@ public class MemberReader {
         return memberRepository.findByEmailIn(emails);
     }
 
-    public List<Member> findAllById(List<Long> membersId) {
+    public List<Member> findAllByIdOrThrow(List<Long> membersId) {
         List<Member> findMembers = memberRepository.findAllById(membersId);
 
         if(findMembers.size() != membersId.size()) {

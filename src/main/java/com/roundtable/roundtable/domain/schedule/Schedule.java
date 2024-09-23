@@ -31,9 +31,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Schedule extends BaseEntity {
 
-    public static final int DEFAULT_SEQUENCE = 0;
-
-    public static final int START_SEQUENCE = 1;
+    public static final int START_SEQUENCE = 0;
+    public static final int SEQUENCE_STEP = 1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,6 +72,9 @@ public class Schedule extends BaseEntity {
     @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<ScheduleMember> scheduleMembers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<ScheduleDay> scheduleDays = new ArrayList<>();
+
     @Builder
     private Schedule(Long id,
                      String name,
@@ -109,8 +111,7 @@ public class Schedule extends BaseEntity {
             ScheduleType scheduleType,
             House house,
             int sequenceSize,
-            Category category,
-            LocalDate currDate
+            Category category
     ) {
 
         //분담방식이 FIX 라면 sequence 크기는 최대 1
@@ -125,26 +126,10 @@ public class Schedule extends BaseEntity {
                 .divisionType(divisionType)
                 .scheduleType(scheduleType)
                 .house(house)
-                .sequence(calculateSequence(divisionType, startDate, currDate))
+                .sequence(START_SEQUENCE)
                 .sequenceSize(sequenceSize)
                 .category(category)
                 .build();
-    }
-
-    private static int calculateSequence(DivisionType divisionType, LocalDate startDate, LocalDate currDate) {
-        if(divisionType == ROTATION) {
-            return startDate.isAfter(currDate) ? DEFAULT_SEQUENCE : START_SEQUENCE;
-        }
-
-        return START_SEQUENCE;
-    }
-
-    public void addScheduleMembers(List<ScheduleMember> scheduleMembers) {
-        for (ScheduleMember scheduleMember : scheduleMembers) {
-            if(!this.scheduleMembers.contains(scheduleMember)) {
-                this.scheduleMembers.add(scheduleMember);
-            }
-        }
     }
 
     public boolean isEqualSequence(Integer sequence) {
@@ -160,9 +145,6 @@ public class Schedule extends BaseEntity {
     }
 
     public void increaseSequence() {
-        sequence += 1;
-        if(sequence > sequenceSize) {
-            sequence = START_SEQUENCE;
-        }
+        sequence = (sequence + SEQUENCE_STEP) % sequenceSize;
     }
 }

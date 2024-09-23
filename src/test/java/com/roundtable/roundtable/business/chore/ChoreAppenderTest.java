@@ -75,8 +75,7 @@ class ChoreAppenderTest extends IntegrationTestSupport {
                 ScheduleType.REPEAT,
                 member.getHouse(),
                 1,
-                category,
-                startDate
+                category
         );
         em.persist(schedule);
 

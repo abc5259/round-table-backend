@@ -35,11 +35,9 @@ public class ScheduleController {
             @PathVariable Long houseId,
             @Valid @RequestBody CreateScheduleRequest createScheduleRequest) {
 
-        LocalDate now = LocalDate.now();
-
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 SuccessResponse.from(
-                        scheduleService.createSchedule(createScheduleRequest.toCreateScheduleDto(ScheduleType.REPEAT), authMember.toHouseAuthMember(houseId), now)
+                        scheduleService.create(createScheduleRequest.toCreateScheduleDto(ScheduleType.REPEAT), authMember.toHouseAuthMember(houseId))
                 )
         );
     }
@@ -52,11 +50,9 @@ public class ScheduleController {
             @PathVariable Long houseId,
             @Valid @RequestBody CreateScheduleRequest createScheduleRequest) {
 
-        LocalDate now = LocalDate.now();
-
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 SuccessResponse.from(
-                        scheduleService.createSchedule(createScheduleRequest.toCreateScheduleDto(ScheduleType.ONE_TIME), authMember.toHouseAuthMember(houseId), now)
+                        scheduleService.create(createScheduleRequest.toCreateScheduleDto(ScheduleType.ONE_TIME), authMember.toHouseAuthMember(houseId))
                 )
         );
     }

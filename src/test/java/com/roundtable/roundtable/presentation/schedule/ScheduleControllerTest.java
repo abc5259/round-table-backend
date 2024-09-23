@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.roundtable.roundtable.ControllerTestSupport;
 import com.roundtable.roundtable.domain.schedule.Category;
+import com.roundtable.roundtable.domain.schedule.Day;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.presentation.schedule.request.CreateScheduleRequest;
 import com.roundtable.roundtable.security.WithMockCustomUser;
@@ -42,11 +43,11 @@ class ScheduleControllerTest extends ControllerTestSupport {
                 LocalTime.now(),
                 DivisionType.FIX,
                 List.of(1L),
-                List.of(1),
+                List.of(Day.MONDAY),
                 Category.CLEANING
         );
 
-        Mockito.when(scheduleService.createSchedule(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(1L);
+        Mockito.when(scheduleService.create(Mockito.any(), Mockito.any())).thenReturn(1L);
 
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -78,11 +79,11 @@ class ScheduleControllerTest extends ControllerTestSupport {
                 LocalTime.now(),
                 DivisionType.FIX,
                 List.of(1L),
-                List.of(1),
+                List.of(Day.MONDAY),
                 Category.CLEANING
         );
 
-        Mockito.when(scheduleService.createSchedule(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(1L);
+        Mockito.when(scheduleService.create(Mockito.any(), Mockito.any())).thenReturn(1L);
 
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -113,7 +114,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
             LocalTime localTime,
             DivisionType divisionType,
             List<Long> memberIds,
-            List<Integer> dayIds,
+            List<Day> days,
             Category category,
             String expectedMessage
     ) throws Exception {
@@ -124,11 +125,11 @@ class ScheduleControllerTest extends ControllerTestSupport {
                 localTime,
                 divisionType,
                 memberIds,
-                dayIds,
+                days,
                 category
         );
 
-        Mockito.when(scheduleService.createSchedule(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(1L);
+        Mockito.when(scheduleService.create(Mockito.any(), Mockito.any())).thenReturn(1L);
 
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -159,7 +160,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
             LocalTime localTime,
             DivisionType divisionType,
             List<Long> memberIds,
-            List<Integer> dayIds,
+            List<Day> days,
             Category category,
             String expectedMessage
     ) throws Exception {
@@ -170,11 +171,11 @@ class ScheduleControllerTest extends ControllerTestSupport {
                 localTime,
                 divisionType,
                 memberIds,
-                dayIds,
+                days,
                 category
         );
 
-        Mockito.when(scheduleService.createSchedule(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(1L);
+        Mockito.when(scheduleService.create(Mockito.any(), Mockito.any())).thenReturn(1L);
 
         //when
         ResultActions resultActions = mockMvc.perform(
@@ -203,7 +204,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         LocalTime.now(),
                         DivisionType.FIX,
                         List.of(1L),
-                        List.of(1),
+                        List.of(Day.MONDAY),
                         Category.CLEANING,
                         "name에 빈 값이 올 수 없습니다."
                 ),
@@ -213,7 +214,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         LocalTime.now(),
                         DivisionType.FIX,
                         List.of(1L),
-                        List.of(1),
+                        List.of(Day.MONDAY),
                         Category.CLEANING,
                         "name에 빈 값이 올 수 없습니다."
                 ),
@@ -223,7 +224,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         LocalTime.now(),
                         DivisionType.FIX,
                         List.of(1L),
-                        List.of(1),
+                        List.of(Day.MONDAY),
                         Category.CLEANING,
                         "startDate에 빈 값이 올 수 없습니다."
                 ),
@@ -233,7 +234,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         null,
                         DivisionType.FIX,
                         List.of(1L),
-                        List.of(1),
+                        List.of(Day.MONDAY),
                         Category.CLEANING,
                         "startTime에 빈 값이 올 수 없습니다."
                 ),
@@ -243,7 +244,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         LocalTime.now(),
                         null,
                         List.of(1L),
-                        List.of(1),
+                        List.of(Day.MONDAY),
                         Category.CLEANING,
                         "divisionType에 빈 값이 올 수 없습니다."
                 ),
@@ -253,7 +254,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         LocalTime.now(),
                         DivisionType.FIX,
                         List.of(),
-                        List.of(1),
+                        List.of(Day.MONDAY),
                         Category.CLEANING,
                         "담당자는 최소 1명 최대 30명까지 가능합니다."
                 ),
@@ -263,7 +264,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         LocalTime.now(),
                         DivisionType.FIX,
                         LongStream.rangeClosed(1,31).boxed().toList(),
-                        List.of(1),
+                        List.of(Day.MONDAY),
                         Category.CLEANING,
                         "담당자는 최소 1명 최대 30명까지 가능합니다."
                 ),
@@ -283,9 +284,9 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         LocalTime.now(),
                         DivisionType.FIX,
                         List.of(1L),
-                        IntStream.rangeClosed(1,8).boxed().toList(),
+                        List.of(Day.MONDAY, Day.MONDAY),
                         Category.CLEANING,
-                        "Day는 최소 1개 최대 7개까지 가능합니다."
+                        "중복된 Day 객체가 존재합니다."
                 ),
                 Arguments.of(
                         "name",
@@ -293,7 +294,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         LocalTime.now(),
                         DivisionType.FIX,
                         LongStream.rangeClosed(1,30).boxed().toList(),
-                        IntStream.rangeClosed(1,7).boxed().toList(),
+                        List.of(Day.MONDAY),
                         null,
                         "category에 빈 값이 올 수 없습니다."
                 )

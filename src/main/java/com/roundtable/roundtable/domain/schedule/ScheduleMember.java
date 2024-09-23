@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
+import java.util.stream.IntStream;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,5 +54,18 @@ public class ScheduleMember extends BaseEntity {
 
     public boolean isManager() {
         return this.schedule.isEqualSequence(sequence);
+    }
+
+    public static List<ScheduleMember> createScheduleMembers(DivisionType divisionType, List<Member> members, Schedule schedule) {
+
+        if(divisionType == DivisionType.FIX) {
+            return members.stream()
+                    .map(item -> ScheduleMember.of(item, schedule, Schedule.START_SEQUENCE))
+                    .toList();
+        }
+
+        return IntStream.range(0, members.size())
+                .mapToObj(i -> ScheduleMember.of(members.get(i), schedule, Schedule.START_SEQUENCE + i))
+                .toList();
     }
 }
