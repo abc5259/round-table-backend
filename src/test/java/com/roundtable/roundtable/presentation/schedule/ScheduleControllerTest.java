@@ -284,16 +284,6 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         LocalTime.now(),
                         DivisionType.FIX,
                         List.of(1L),
-                        IntStream.rangeClosed(1,8).boxed().toList(),
-                        Category.CLEANING,
-                        "Day는 최소 1개 최대 7개까지 가능합니다."
-                ),
-                Arguments.of(
-                        "name",
-                        LocalDate.now(),
-                        LocalTime.now(),
-                        DivisionType.FIX,
-                        List.of(1L),
                         List.of(Day.MONDAY, Day.MONDAY),
                         Category.CLEANING,
                         "중복된 Day 객체가 존재합니다."
@@ -304,7 +294,7 @@ class ScheduleControllerTest extends ControllerTestSupport {
                         LocalTime.now(),
                         DivisionType.FIX,
                         LongStream.rangeClosed(1,30).boxed().toList(),
-                        IntStream.rangeClosed(1,7).boxed().toList(),
+                        List.of(Day.MONDAY),
                         null,
                         "category에 빈 값이 올 수 없습니다."
                 )
