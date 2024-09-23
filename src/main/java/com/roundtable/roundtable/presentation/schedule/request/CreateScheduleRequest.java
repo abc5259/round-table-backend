@@ -2,6 +2,7 @@ package com.roundtable.roundtable.presentation.schedule.request;
 
 import com.roundtable.roundtable.business.schedule.dto.CreateScheduleDto;
 import com.roundtable.roundtable.domain.schedule.Category;
+import com.roundtable.roundtable.domain.schedule.Day;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import org.hibernate.validator.constraints.UniqueElements;
 
 public record CreateScheduleRequest(
         @NotBlank(message = "name에 빈 값이 올 수 없습니다.")
@@ -28,7 +30,8 @@ public record CreateScheduleRequest(
         List<Long> memberIds,
 
         @Size(min = 1, max = 7, message = "Day는 최소 1개 최대 7개까지 가능합니다.")
-        List<Integer> dayIds,
+        @UniqueElements(message = "중복된 Day 객체가 존재합니다.")
+        List<Day> days,
 
         @NotNull(message = "category에 빈 값이 올 수 없습니다.")
         Category category
@@ -42,7 +45,7 @@ public record CreateScheduleRequest(
                 scheduleType,
                 memberIds,
                 category,
-                dayIds
+                days
         );
     }
 }

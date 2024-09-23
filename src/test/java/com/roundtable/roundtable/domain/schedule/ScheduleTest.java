@@ -21,11 +21,11 @@ class ScheduleTest {
         Assertions.assertThat(schedule.getSequence()).isEqualTo(2);
     }
 
-    @DisplayName("sequence를 증가시킬때 sequenceSize보다 크다면 다시 처음으로 돌아간다.")
+    @DisplayName("sequence를 증가시킬때 sequenceSize와 같다면 다시 처음으로 돌아간다.")
     @Test
     void increaseSequenceWithMax() {
         //given
-        Schedule schedule = Schedule.builder().sequence(3).sequenceSize(3).build();
+        Schedule schedule = Schedule.builder().sequence(2).sequenceSize(3).build();
 
         //when
         schedule.increaseSequence();

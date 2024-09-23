@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,5 +39,12 @@ public class ScheduleDay {
 
     public static ScheduleDay create(Schedule schedule, Day day) {
         return new ScheduleDay(schedule, day);
+    }
+
+    public static List<ScheduleDay> createScheduleDays(Schedule schedule, List<Day> days) {
+
+        return days.stream()
+                .map(day -> ScheduleDay.create(schedule, day))
+                .toList();
     }
 }
