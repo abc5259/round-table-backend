@@ -12,7 +12,8 @@ public enum ScheduleErrorCode implements ErrorCode {
     DUPLICATED_MEMBER_ID("집안일 할당자로 중복된 member는 올 수 없습니다."),
     NOT_FOUND_ID("id에 해당하는 schedule이 없습니다."),
     NOT_ASSIGNED_MANAGER("해당 스케줄을 담당하는 담당자가 아닙니다."),
-    ALREADY_COMPLETION_SCHEDULE("이미 완료된 스케줄입니다.")
+    ALREADY_COMPLETION_SCHEDULE("이미 완료된 스케줄입니다."),
+    NOT_TODAY_SCHEDULE("오늘 수행해야 할 스케줄이 아닙니다.");
     ;
 
     private final String message;

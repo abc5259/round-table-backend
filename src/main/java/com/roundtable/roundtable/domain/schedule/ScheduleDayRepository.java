@@ -8,4 +8,6 @@ import org.springframework.data.repository.query.Param;
 public interface ScheduleDayRepository extends JpaRepository<ScheduleDay, Long> {
     @Query("SELECT sc FROM ScheduleDay sd join sd.schedule sc WHERE sd.dayOfWeek = :dayOfWeek AND sc.scheduleType = 'REPEAT'")
     List<Schedule> findRepeatSchedulesByDay(@Param("dayOfWeek") Day dayOfWeek);
+
+    boolean existsByScheduleIdAndDayOfWeek(Long scheduleId, Day dayOfWeek);
 }

@@ -2,6 +2,7 @@ package com.roundtable.roundtable.domain.schedule;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,6 @@ class ScheduleMemberTest {
     @Test
     void isManager() {
         //given
-
         int managerSequence = 2;
         int notManagerSequence = 3;
 
@@ -36,5 +36,28 @@ class ScheduleMemberTest {
         //then
         assertThat(result1).isTrue();
         assertThat(result2).isFalse();
+     }
+
+     @DisplayName("스케줄을 완료한다.")
+     @Test
+     void complete() {
+         //given
+         int managerSequence = 1;
+
+         Schedule schedule = Schedule.builder()
+                 .sequence(managerSequence)
+                 .sequenceSize(3)
+                 .build();
+
+         ScheduleMember sut = ScheduleMember.builder()
+                 .schedule(schedule)
+                 .sequence(managerSequence)
+                 .build();
+
+         //when
+         sut.complete();
+
+         //then
+         assertThat(schedule.getSequence()).isEqualTo(managerSequence + 1);
      }
 }
