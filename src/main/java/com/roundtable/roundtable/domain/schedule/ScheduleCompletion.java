@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
+import lombok.Builder;
 
 @Entity
 public class ScheduleCompletion extends BaseEntity {
@@ -21,4 +22,17 @@ public class ScheduleCompletion extends BaseEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Schedule schedule;
+
+    @Builder
+    private ScheduleCompletion(Long id, LocalDate completionDate, Schedule schedule) {
+        this.completionDate = completionDate;
+        this.schedule = schedule;
+    }
+
+    public static ScheduleCompletion create(Schedule schedule, LocalDate completionDate) {
+        return ScheduleCompletion.builder()
+                .schedule(schedule)
+                .completionDate(completionDate)
+                .build();
+    }
 }

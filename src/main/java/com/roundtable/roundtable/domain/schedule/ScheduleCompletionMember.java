@@ -23,4 +23,9 @@ public class ScheduleCompletionMember extends BaseEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
+    public ScheduleCompletionMember(ScheduleCompletion scheduleCompletion, Member member) {
+        this.scheduleCompletion = scheduleCompletion;
+        this.member = member;
+    }
 }

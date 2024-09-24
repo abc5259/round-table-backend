@@ -2,6 +2,7 @@ package com.roundtable.roundtable.domain.schedule;
 
 import static com.roundtable.roundtable.domain.schedule.DivisionType.*;
 
+import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.domain.common.BaseEntity;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
@@ -73,6 +74,9 @@ public class Schedule extends BaseEntity {
     private List<ScheduleMember> scheduleMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<ExtraScheduleMember> extraScheduleMembers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private List<ScheduleDay> scheduleDays = new ArrayList<>();
 
     @Builder
@@ -113,11 +117,15 @@ public class Schedule extends BaseEntity {
             int sequenceSize,
             Category category
     ) {
+        if(scheduleType == ScheduleType.ONE_TIME && divisionType != FIX) {
+            throw new IllegalArgumentException("일회성 스케줄은 고정 분담 방식만 사용가능합니다.");
+        }
 
         //분담방식이 FIX 라면 sequence 크기는 최대 1
         if(divisionType == FIX) {
             sequenceSize = 1;
         }
+
 
         return Schedule.builder()
                 .name(name)
@@ -144,7 +152,15 @@ public class Schedule extends BaseEntity {
         return house.isEqualId(House.Id(houseId));
     }
 
-    public void increaseSequence() {
+    public void complete() {
+        increaseSequence();
+    }
+
+    private void increaseSequence() {
+        if(divisionType == FIX) {
+            return;
+        }
+
         sequence = (sequence + SEQUENCE_STEP) % sequenceSize;
     }
 }

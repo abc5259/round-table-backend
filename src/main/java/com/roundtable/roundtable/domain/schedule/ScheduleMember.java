@@ -68,4 +68,15 @@ public class ScheduleMember extends BaseEntity {
                 .mapToObj(i -> ScheduleMember.of(members.get(i), schedule, Schedule.START_SEQUENCE + i))
                 .toList();
     }
+
+    public void complete() {
+        if(!isManager()) {
+            throw new IllegalArgumentException("스케줄을 담당하는 담당자가 아닙니다.");
+        }
+        schedule.complete();
+    }
+
+    public ScheduleCompletionMember toScheduleCompletionMember(ScheduleCompletion scheduleCompletion) {
+        return new ScheduleCompletionMember(scheduleCompletion, member);
+    }
 }
