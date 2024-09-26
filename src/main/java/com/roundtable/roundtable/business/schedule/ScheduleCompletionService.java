@@ -43,7 +43,7 @@ public class ScheduleCompletionService {
 
         List<ScheduleMember> managers = scheduleMemberRepository.findByScheduleIdAndSequence(scheduleId, manager.getSequence());
         appendScheduleCompletionMember(managers, scheduleCompletion);
-        applicationEventPublisher.publishEvent(new ScheduleCompletionEvent(scheduleId, managers.stream().map(ScheduleMember::getId).toList()));
+        applicationEventPublisher.publishEvent(new ScheduleCompletionEvent(member.houseId(), scheduleId, managers.stream().map(ScheduleMember::getId).toList()));
     }
 
     private void validateCompletionSchedule(Long scheduleId, LocalDate completionDate) {

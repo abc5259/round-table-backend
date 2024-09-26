@@ -23,6 +23,7 @@ public class NotificationEventListener {
     private final InviteNotificationAppender inviteNotificationAppender;
     private final ChoreCompleteNotificationAppender choreCompleteNotificationAppender;
     private final FeedbackNotificationAppender feedbackNotificationAppender;
+    private final ScheduleCompletionNotificationAppender scheduleCompletionNotificationAppender;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
@@ -64,7 +65,11 @@ public class NotificationEventListener {
     @Async
     public void createScheduleCompletionNotification(ScheduleCompletionEvent scheduleCompletionEvent) {
         try {
-
+            scheduleCompletionNotificationAppender.append(
+                    scheduleCompletionEvent.houseId(),
+                    scheduleCompletionEvent.scheduleId(),
+                    scheduleCompletionEvent.managerIds()
+            );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
             log.error("[ChoreCompleteEvent 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
