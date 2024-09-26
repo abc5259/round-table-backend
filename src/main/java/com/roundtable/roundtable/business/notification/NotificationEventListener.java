@@ -4,6 +4,7 @@ import com.roundtable.roundtable.business.chore.event.ChoreCompleteEvent;
 import com.roundtable.roundtable.business.feedback.event.CreateFeedbackEvent;
 import com.roundtable.roundtable.business.house.event.HouseCreatedEvent;
 import com.roundtable.roundtable.business.notification.dto.CreateInviteNotification;
+import com.roundtable.roundtable.business.schedule.dto.ScheduleCompletionEvent;
 import com.roundtable.roundtable.global.exception.CoreException;
 import com.roundtable.roundtable.global.exception.errorcode.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,19 @@ public class NotificationEventListener {
                     choreCompleteEvent.completedChoreId(),
                     choreCompleteEvent.completedMemberId()
             );
+        }catch (CoreException e) {
+            ErrorCode errorCode = e.getErrorCode();
+            log.error("[ChoreCompleteEvent 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
+        }catch (RuntimeException e) {
+            log.error("[ChoreCompleteEvent 에러] - {}", e.getMessage(), e);
+        }
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Async
+    public void createScheduleCompletionNotification(ScheduleCompletionEvent scheduleCompletionEvent) {
+        try {
+
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
             log.error("[ChoreCompleteEvent 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);

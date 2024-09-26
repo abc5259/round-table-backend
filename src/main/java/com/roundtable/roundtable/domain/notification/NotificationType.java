@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 public enum NotificationType{
     INVITE(Values.INVITE),
     CHORE_COMPLETE(Values.CHORE_COMPLETE),
+    SCHEDULE_COMPLETE(Values.SCHEDULE_COMPLETION),
     FEEDBACK(Values.FEEDBACK);
 
     NotificationType(String val) {
@@ -18,5 +19,6 @@ public enum NotificationType{
         public static final String INVITE = "INVITE";
         public static final String CHORE_COMPLETE = "CHORE_COMPLETE";
         public static final String FEEDBACK = "FEEDBACK";
+        public static final String SCHEDULE_COMPLETION = "SCHEDULE_COMPLETION";
     }
 }
