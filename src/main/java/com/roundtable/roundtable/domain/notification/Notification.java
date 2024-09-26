@@ -36,7 +36,6 @@ public class Notification extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member receiver;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private House house;
 
