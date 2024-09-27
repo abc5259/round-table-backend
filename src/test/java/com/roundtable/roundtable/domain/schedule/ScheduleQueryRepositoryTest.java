@@ -11,6 +11,7 @@ import com.roundtable.roundtable.domain.house.InviteCode;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleDto;
+import com.roundtable.roundtable.domain.schedule.dto.ScheduleOfMemberDto;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -47,7 +48,7 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
     @Autowired
     private ExtraScheduleMemberRepository extraScheduleMemberRepository;
 
-    @DisplayName("주어진 날짜에 해야할 스케줄을 조회한다.")
+    @DisplayName("특정 날짜에 해야할 스케줄을 조회한다.")
     @Test
     void findSchedulesByDate() {
         //given
@@ -85,6 +86,46 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
                                 schedule2.getStartTime(),
                                 member3.getName(),
                                 null
+                        )
+
+                );
+
+    }
+
+    @DisplayName("")
+    @Test
+    void findSchedulesByDateAndMemberId() {
+        //given
+        LocalDate date = LocalDate.of(2022,1,1);
+        House house = appendHouse();
+        Member member1 = appendMember(house, "email1", "name1");
+        Member member2 = appendMember(house, "email2", "name2");
+        Member member3 = appendMember(house, "email3", "name3");
+        Member member4 = appendMember(house, "email4", "name4");
+
+        Schedule schedule1 = prepareSchedule(house, date.getDayOfWeek(), List.of(member1, member2), List.of(member3, member4));
+        Schedule schedule2 = prepareCompletionSchedule(house, date, member2, member3);
+        Schedule schedule3 = prepareSchedule(house, date.getDayOfWeek(), List.of(member2), List.of(member1, member4));
+
+        //when
+        List<ScheduleOfMemberDto> schedules = sut.findSchedulesByDateAndMemberId(house.getId(), date, 0L, member1.getId());
+
+        //then
+        assertThat(schedules).hasSize(2)
+                .containsExactly(
+                        new ScheduleOfMemberDto(
+                                schedule1.getId(),
+                                schedule1.getName(),
+                                schedule1.getCategory(),
+                                false,
+                                schedule1.getStartTime()
+                        ),
+                        new ScheduleOfMemberDto(
+                                schedule3.getId(),
+                                schedule3.getName(),
+                                schedule3.getCategory(),
+                                false,
+                                schedule3.getStartTime()
                         )
 
                 );

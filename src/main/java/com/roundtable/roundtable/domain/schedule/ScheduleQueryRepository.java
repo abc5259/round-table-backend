@@ -12,7 +12,9 @@ import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.roundtable.roundtable.domain.schedule.dto.QScheduleDto;
+import com.roundtable.roundtable.domain.schedule.dto.QScheduleOfMemberDto;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleDto;
+import com.roundtable.roundtable.domain.schedule.dto.ScheduleOfMemberDto;
 import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
@@ -51,6 +53,38 @@ public class ScheduleQueryRepository {
                 .leftJoin(extraScheduleMember).on(extraScheduleMember.schedule.id.eq(schedule.id))
                 .leftJoin(extraScheduleMember.member)
                 .where(schedule.house.id.eq(houseId).and(schedule.id.gt(lastScheduleId)))
+                .groupBy(schedule.id)
+                .orderBy(schedule.id.asc())
+                .limit(10)
+                .fetch();
+    }
+
+    public List<ScheduleOfMemberDto> findSchedulesByDateAndMemberId(Long houseId, LocalDate now, Long lastScheduleId, Long memberId) {
+
+        NumberExpression<Integer> sequenceCondition = new CaseBuilder()
+                .when(scheduleCompletion.isNull())
+                .then(schedule.sequence)
+                .otherwise(scheduleCompletion.sequence);
+
+        return queryFactory
+                .select(new QScheduleOfMemberDto(
+                        schedule.id,
+                        schedule.name,
+                        schedule.category,
+                        scheduleCompletion.isNotNull(),
+                        schedule.startTime
+                ))
+                .from(schedule)
+                .leftJoin(scheduleCompletion).on(schedule.id.eq(scheduleCompletion.schedule.id).and(scheduleCompletion.completionDate.eq(now)))
+                .join(scheduleDay).on(scheduleDay.schedule.id.eq(schedule.id).and(scheduleDay.dayOfWeek.eq(Day.forDayOfWeek(now.getDayOfWeek()))))
+                .join(scheduleMember).on(scheduleMember.schedule.id.eq(schedule.id).and(scheduleMember.sequence.eq(sequenceCondition)))
+                .join(scheduleMember.member)
+                .leftJoin(extraScheduleMember).on(extraScheduleMember.schedule.id.eq(schedule.id))
+                .leftJoin(extraScheduleMember.member)
+                .where(schedule.house.id.eq(houseId)
+                        .and(schedule.id.gt(lastScheduleId))
+                        .and(scheduleMember.member.id.eq(memberId).or(extraScheduleMember.member.id.eq(memberId)))
+                )
                 .groupBy(schedule.id)
                 .orderBy(schedule.id.asc())
                 .limit(10)
