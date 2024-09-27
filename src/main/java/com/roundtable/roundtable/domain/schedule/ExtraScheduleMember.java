@@ -9,8 +9,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ExtraScheduleMember extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,4 +26,11 @@ public class ExtraScheduleMember extends BaseEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
+    @Builder
+    private ExtraScheduleMember(Long id, Schedule schedule, Member member) {
+        this.id = id;
+        this.schedule = schedule;
+        this.member = member;
+    }
 }

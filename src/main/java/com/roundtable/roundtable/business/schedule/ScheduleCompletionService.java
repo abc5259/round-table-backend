@@ -39,7 +39,7 @@ public class ScheduleCompletionService {
                 .orElseThrow(() -> new NotFoundEntityException(ScheduleErrorCode.NOT_ASSIGNED_MANAGER));
 
         manager.complete();
-        ScheduleCompletion scheduleCompletion = appendScheduleCompletion(scheduleId, completionDate);
+        ScheduleCompletion scheduleCompletion = appendScheduleCompletion(scheduleId, completionDate, manager.getSequence());
 
         List<ScheduleMember> managers = scheduleMemberRepository.findByScheduleIdAndSequence(scheduleId, manager.getSequence());
         appendScheduleCompletionMember(managers, scheduleCompletion);
@@ -55,8 +55,8 @@ public class ScheduleCompletionService {
         }
     }
 
-    private ScheduleCompletion appendScheduleCompletion(Long scheduleId, LocalDate completionDate) {
-        ScheduleCompletion scheduleCompletion = ScheduleCompletion.create(Schedule.Id(scheduleId), completionDate);
+    private ScheduleCompletion appendScheduleCompletion(Long scheduleId, LocalDate completionDate, Integer sequence) {
+        ScheduleCompletion scheduleCompletion = ScheduleCompletion.create(Schedule.Id(scheduleId), completionDate, sequence);
         scheduleCompletionRepository.save(scheduleCompletion);
         return scheduleCompletion;
     }

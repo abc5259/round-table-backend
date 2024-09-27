@@ -28,16 +28,22 @@ public class ScheduleCompletion extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Schedule schedule;
 
+    @NotNull
+    private Integer sequence;
+
     @Builder
-    private ScheduleCompletion(Long id, LocalDate completionDate, Schedule schedule) {
+    public ScheduleCompletion(Long id, LocalDate completionDate, Schedule schedule, Integer sequence) {
+        this.id = id;
         this.completionDate = completionDate;
         this.schedule = schedule;
+        this.sequence = sequence;
     }
 
-    public static ScheduleCompletion create(Schedule schedule, LocalDate completionDate) {
+    public static ScheduleCompletion create(Schedule schedule, LocalDate completionDate, Integer sequence) {
         return ScheduleCompletion.builder()
                 .schedule(schedule)
                 .completionDate(completionDate)
+                .sequence(sequence)
                 .build();
     }
 }
