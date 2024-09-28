@@ -76,4 +76,6 @@ public class ChoreController {
 
         return ResponseEntity.ok(SuccessResponse.from(choresOfHouse));
     }
+
+
 }

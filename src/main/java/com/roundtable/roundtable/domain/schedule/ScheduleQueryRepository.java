@@ -11,6 +11,7 @@ import static com.roundtable.roundtable.domain.schedule.QScheduleMember.*;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.roundtable.roundtable.domain.common.CursorPagination;
 import com.roundtable.roundtable.domain.schedule.dto.QScheduleDto;
 import com.roundtable.roundtable.domain.schedule.dto.QScheduleOfMemberDto;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleDto;
@@ -28,7 +29,7 @@ public class ScheduleQueryRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    public List<ScheduleDto> findSchedulesByDate(Long houseId, LocalDate now, Long lastScheduleId) {
+    public List<ScheduleDto> findSchedulesByDate(Long houseId, LocalDate now, CursorPagination cursorPagination) {
 
         NumberExpression<Integer> sequenceCondition = new CaseBuilder()
                 .when(scheduleCompletion.isNull())
@@ -52,14 +53,14 @@ public class ScheduleQueryRepository {
                 .join(scheduleMember.member)
                 .leftJoin(extraScheduleMember).on(extraScheduleMember.schedule.id.eq(schedule.id))
                 .leftJoin(extraScheduleMember.member)
-                .where(schedule.house.id.eq(houseId).and(schedule.id.gt(lastScheduleId)))
+                .where(schedule.house.id.eq(houseId).and(schedule.id.gt(cursorPagination.lastId())))
                 .groupBy(schedule.id)
                 .orderBy(schedule.id.asc())
-                .limit(10)
+                .limit(cursorPagination.limit())
                 .fetch();
     }
 
-    public List<ScheduleOfMemberDto> findSchedulesByDateAndMemberId(Long houseId, LocalDate now, Long lastScheduleId, Long memberId) {
+    public List<ScheduleOfMemberDto> findSchedulesByDateAndMemberId(Long houseId, LocalDate now, Long memberId, CursorPagination cursorPagination) {
 
         NumberExpression<Integer> sequenceCondition = new CaseBuilder()
                 .when(scheduleCompletion.isNull())
@@ -82,12 +83,12 @@ public class ScheduleQueryRepository {
                 .leftJoin(extraScheduleMember).on(extraScheduleMember.schedule.id.eq(schedule.id))
                 .leftJoin(extraScheduleMember.member)
                 .where(schedule.house.id.eq(houseId)
-                        .and(schedule.id.gt(lastScheduleId))
+                        .and(schedule.id.gt(cursorPagination.lastId()))
                         .and(scheduleMember.member.id.eq(memberId).or(extraScheduleMember.member.id.eq(memberId)))
                 )
                 .groupBy(schedule.id)
                 .orderBy(schedule.id.asc())
-                .limit(10)
+                .limit(cursorPagination.limit())
                 .fetch();
     }
 

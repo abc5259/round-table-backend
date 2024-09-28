@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.schedulecomment;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
+import com.roundtable.roundtable.business.schedule.ScheduleReader;
 import com.roundtable.roundtable.business.schedule.ScheduleService;
 import com.roundtable.roundtable.business.schedulecomment.dto.CreateScheduleComment;
 import com.roundtable.roundtable.business.schedulecomment.dto.CreateScheduleCommentDto;
@@ -22,14 +23,14 @@ public class ScheduleCommentService {
 
     private final ScheduleCommentAppender scheduleCommentAppender;
     private final ScheduleCommentReader scheduleCommentReader;
-    private final ScheduleService scheduleService;
+    private final ScheduleReader scheduleReader;
 
 
     public Long createScheduleComment(AuthMember authMember, CreateScheduleCommentDto createScheduleCommentDto) {
 
         Member writer = Member.toAuthMember(authMember.memberId(), authMember.houseId());
 
-        Schedule schedule = scheduleService.findById(createScheduleCommentDto.scheduleId());
+        Schedule schedule = scheduleReader.findById(createScheduleCommentDto.scheduleId());
 
         ScheduleComment scheduleComment = scheduleCommentAppender.append(
                 new CreateScheduleComment(
@@ -43,7 +44,7 @@ public class ScheduleCommentService {
     }
 
     public CursorBasedResponse<List<ScheduleCommentDetailDto>> findByScheduleId(AuthMember authMember, Long scheduleId, CursorBasedRequest cursorBasedRequest) {
-        Schedule schedule = scheduleService.findById(scheduleId);
+        Schedule schedule = scheduleReader.findById(scheduleId);
         if(!schedule.isSameHouse(Member.toAuthMember(authMember.memberId(), authMember.houseId()))) {
             throw new CreateEntityException(ScheduleCommentErrorCode.NOT_SAME_HOUSE);
         }

@@ -5,6 +5,7 @@ import static com.roundtable.roundtable.domain.schedule.ScheduleType.*;
 import static org.assertj.core.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
+import com.roundtable.roundtable.domain.common.CursorPagination;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
@@ -64,7 +65,7 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
         Schedule schedule3 = prepareSchedule(house, date.getDayOfWeek().plus(1), List.of(member1, member2), List.of(member3, member4));
 
         //when
-        List<ScheduleDto> schedules = sut.findSchedulesByDate(house.getId(), date, 0L);
+        List<ScheduleDto> schedules = sut.findSchedulesByDate(house.getId(), date, new CursorPagination(0L, 2));
 
         //then
         assertThat(schedules).hasSize(2)
@@ -92,7 +93,7 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
 
     }
 
-    @DisplayName("")
+    @DisplayName("멤버가 해당 날짜에 해야할 스케줄을 조회한다.")
     @Test
     void findSchedulesByDateAndMemberId() {
         //given
@@ -108,7 +109,7 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
         Schedule schedule3 = prepareSchedule(house, date.getDayOfWeek(), List.of(member2), List.of(member1, member4));
 
         //when
-        List<ScheduleOfMemberDto> schedules = sut.findSchedulesByDateAndMemberId(house.getId(), date, 0L, member1.getId());
+        List<ScheduleOfMemberDto> schedules = sut.findSchedulesByDateAndMemberId(house.getId(), date, member1.getId(), new CursorPagination(0L,2));
 
         //then
         assertThat(schedules).hasSize(2)
