@@ -11,6 +11,7 @@ import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.ChoreCompleteNotification;
 import com.roundtable.roundtable.domain.notification.FeedbackNotification;
 import com.roundtable.roundtable.domain.notification.InviteNotification;
+import com.roundtable.roundtable.domain.schedule.ScheduleCompletion;
 import com.roundtable.roundtable.domain.schedule.ScheduleCompletionMemberRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleCompletionRepository;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
@@ -37,8 +38,8 @@ public class NotificationFactory {
 
     public List<FeedbackNotification> createFeedbackNotifications(Long feedbackId, Long houseId, Long scheduleCompletionId, Long senderId) {
         Member sender = memberReader.findById(senderId);
-        Chore chore = choreReader.readById(choreId);
-        List<Member> receivers = choreMemberReader.readMembersByChoreId(choreId);
+        ScheduleCompletion scheduleCompletion = scheduleCompletionRepository.findWithScheduleById(scheduleCompletionId).orElseThrow(NotFoundEntityException::new);
+        List<Member> receivers = scheduleCompletionMemberRepository.findMembersByScheduleCompletionId(scheduleCompletionId);
 
         return receivers.stream()
                 .map(receiver ->
@@ -47,7 +48,7 @@ public class NotificationFactory {
                                 receiver,
                                 House.Id(houseId),
                                 feedbackId,
-                                chore.getName()
+                                scheduleCompletion
                         )).toList();
     }
 

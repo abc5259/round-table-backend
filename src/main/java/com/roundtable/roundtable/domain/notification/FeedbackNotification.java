@@ -3,6 +3,7 @@ package com.roundtable.roundtable.domain.notification;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.NotificationType.Values;
+import com.roundtable.roundtable.domain.schedule.ScheduleCompletion;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
@@ -16,15 +17,15 @@ import lombok.NoArgsConstructor;
 @Getter
 public class FeedbackNotification extends Notification {
     private Long feedbackId;
-    private String choreName;
+    private String scheduleName;
 
     @Builder
     private FeedbackNotification(Member sender,
                                 Member receiver,
-                                House house, Long feedbackId, String choreName) {
+                                House house, Long feedbackId, String scheduleName) {
         super(sender, receiver, house);
         this.feedbackId = feedbackId;
-        this.choreName = choreName;
+        this.scheduleName = scheduleName;
     }
 
     public static FeedbackNotification create(
@@ -32,14 +33,14 @@ public class FeedbackNotification extends Notification {
             Member receiver,
             House house,
             Long feedbackId,
-            String choreName
+            ScheduleCompletion scheduleCompletion
     ) {
         return FeedbackNotification.builder()
                 .sender(sender)
                 .receiver(receiver)
                 .house(house)
                 .feedbackId(feedbackId)
-                .choreName(choreName)
+                .scheduleName(scheduleCompletion.getScheduleName())
                 .build();
     }
 }

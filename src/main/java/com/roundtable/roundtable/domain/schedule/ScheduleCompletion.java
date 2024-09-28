@@ -46,4 +46,8 @@ public class ScheduleCompletion extends BaseEntity {
                 .sequence(sequence)
                 .build();
     }
+
+    public String getScheduleName() {
+        return schedule.getName();
+    }
 }
