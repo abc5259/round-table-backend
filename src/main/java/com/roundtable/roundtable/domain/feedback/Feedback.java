@@ -1,8 +1,8 @@
 package com.roundtable.roundtable.domain.feedback;
 
-import com.roundtable.roundtable.domain.chore.Chore;
 import com.roundtable.roundtable.domain.common.BaseEntity;
 import com.roundtable.roundtable.domain.member.Member;
+import com.roundtable.roundtable.domain.schedule.ScheduleCompletion;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -36,26 +36,26 @@ public class Feedback extends BaseEntity {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    private Chore chore;
+    private ScheduleCompletion scheduleCompletion;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private Member sender;
 
     @Builder
-    private Feedback(Long id, Emoji emoji, String message, Chore chore, Member sender) {
+    private Feedback(Long id, Emoji emoji, String message, ScheduleCompletion scheduleCompletion, Member sender) {
         this.id = id;
         this.emoji = emoji;
         this.message = message;
-        this.chore = chore;
+        this.scheduleCompletion = scheduleCompletion;
         this.sender = sender;
     }
 
-    public static Feedback create(Emoji emoji, String message, Chore chore, Member sender) {
+    public static Feedback create(Emoji emoji, String message,  ScheduleCompletion scheduleCompletion, Member sender) {
         return Feedback.builder()
                 .emoji(emoji)
                 .message(message)
-                .chore(chore)
+                .scheduleCompletion(scheduleCompletion)
                 .sender(sender)
                 .build();
     }

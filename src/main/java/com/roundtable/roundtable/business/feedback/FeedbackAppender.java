@@ -27,32 +27,16 @@ public class FeedbackAppender {
     private final FeedbackSelectionRepository feedbackSelectionRepository;
     private final PredefinedFeedbackRepository predefinedFeedbackRepository;
 
-    public Feedback append(CreateFeedback createFeedback, Long houseId) {
-
-        validateCompletedChore(createFeedback.chore());
-        validateChoreSenderSameHouse(createFeedback.chore(), houseId);
-
+    public Feedback append(CreateFeedback createFeedback) {
         List<PredefinedFeedback> predefinedFeedbacks = predefinedFeedbackRepository.findByIdIn(createFeedback.predefinedFeedbackIds());
         validateAllPredefinedFeedbacksExist(createFeedback, predefinedFeedbacks);
 
         Feedback feedback = feedbackRepository.save(
-                Feedback.create(createFeedback.emoji(), createFeedback.message(), createFeedback.chore(), createFeedback.sender())
+                Feedback.create(createFeedback.emoji(), createFeedback.message(), createFeedback.scheduleCompletion(), createFeedback.sender())
         );
         appendFeedbackSelections(predefinedFeedbacks, feedback);
 
         return feedback;
-    }
-
-    private void validateCompletedChore(Chore chore) {
-        if(!chore.isCompleted()) {
-            throw new NotCompletedException();
-        }
-    }
-
-    private void validateChoreSenderSameHouse(Chore chore, Long houseId) {
-        if(!chore.isSameHouse(houseId)) {
-            throw new MemberNotSameHouseException();
-        }
     }
 
     private void validateAllPredefinedFeedbacksExist(CreateFeedback createFeedback, List<PredefinedFeedback> predefinedFeedbacks) {
