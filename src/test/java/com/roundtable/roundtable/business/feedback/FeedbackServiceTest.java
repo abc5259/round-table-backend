@@ -1,10 +1,15 @@
 package com.roundtable.roundtable.business.feedback;
 
-import static com.roundtable.roundtable.global.exception.errorcode.FeedbackErrorCode.*;
-import static org.assertj.core.api.Assertions.*;
+import static com.roundtable.roundtable.global.exception.errorcode.FeedbackErrorCode.NOT_FOUND_PREDEFINED_FEEDBACK;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.feedback.dto.CreateFeedback;
+import com.roundtable.roundtable.business.feedback.dto.CreateFeedbackServiceDto;
+import com.roundtable.roundtable.business.feedback.event.CreateFeedbackEvent;
 import com.roundtable.roundtable.domain.feedback.Emoji;
 import com.roundtable.roundtable.domain.feedback.Feedback;
 import com.roundtable.roundtable.domain.feedback.FeedbackRepository;
@@ -31,14 +36,24 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.test.context.event.ApplicationEvents;
+import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-class FeedbackAppenderTest extends IntegrationTestSupport {
+@RecordApplicationEvents
+class FeedbackServiceTest extends IntegrationTestSupport {
 
     @Autowired
-    private FeedbackAppender feedbackAppender;
+    private FeedbackService sut;
+
+    @Autowired
+    private ApplicationEvents events;
 
     @Autowired
     private FeedbackRepository feedbackRepository;
@@ -75,17 +90,16 @@ class FeedbackAppenderTest extends IntegrationTestSupport {
         Schedule schedule = createSchedule(house);
         ScheduleCompletion scheduleCompletion = createScheduleCompletion(schedule);
 
-        CreateFeedback createFeedback = new CreateFeedback(Emoji.FIRE, "좋아요", sender, scheduleCompletion, List.of(1, 2));
+        CreateFeedbackServiceDto createFeedbackServiceDto = new CreateFeedbackServiceDto(Emoji.FIRE, "좋아요", sender.getId(), scheduleCompletion.getId(), List.of(1, 2));
 
         //when
-        Feedback result = feedbackAppender.append(createFeedback);
+        Long feedbackId = sut.createFeedback(createFeedbackServiceDto, house.getId());
 
         //then
-        List<Feedback> feedbacks = feedbackRepository.findAll();
+        Feedback feedback = feedbackRepository.findById(feedbackId).orElseThrow();
         List<FeedbackSelection> feedbackSelections = feedbackSelectionRepository.findAll();
 
-        assertThat(feedbacks).hasSize(1);
-        assertThat(feedbacks.get(0))
+        assertThat(feedback)
                 .extracting("emoji", "message", "sender", "scheduleCompletion")
                 .contains(
                         Emoji.FIRE,
@@ -95,24 +109,9 @@ class FeedbackAppenderTest extends IntegrationTestSupport {
                 );
         assertThat(feedbackSelections).hasSize(2)
                 .extracting("feedback")
-                .contains(result, result);
-    }
+                .contains(feedback, feedback);
+        assertThat(events.stream(CreateFeedbackEvent.class).count()).isEqualTo(1);
 
-    @DisplayName("존재하지 않은 기본 탬플릿 피드백을 준다면 예외를 던진다.")
-    @Test
-    void append_with_not_exist_predefined_feedback() {
-        //given
-        House house = createHouse("code");
-        Member sender = createMember("email1", house);
-        Schedule schedule = createSchedule(house);
-        ScheduleCompletion scheduleCompletion = createScheduleCompletion(schedule);
-
-        CreateFeedback createFeedback = new CreateFeedback(Emoji.FIRE, "좋아요", sender, scheduleCompletion, List.of(4));
-
-        //when //then
-        assertThatThrownBy(() -> feedbackAppender.append(createFeedback))
-                .isInstanceOf(NotFoundEntityException.class)
-                .hasMessage(NOT_FOUND_PREDEFINED_FEEDBACK.getMessage());
     }
 
     public House createHouse(String code) {
