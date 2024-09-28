@@ -88,7 +88,7 @@ public class NotificationEventListener {
             feedbackNotificationAppender.append(
                     createFeedbackEvent.feedbackId(),
                     createFeedbackEvent.houseId(),
-                    createFeedbackEvent.choreId(),
+                    createFeedbackEvent.scheduleCompletionId(),
                     createFeedbackEvent.senderId()
             );
         }catch (CoreException e) {

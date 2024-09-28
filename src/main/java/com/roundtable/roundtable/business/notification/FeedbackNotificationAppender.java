@@ -15,9 +15,15 @@ public class FeedbackNotificationAppender {
     private final NotificationFactory notificationFactory;
     private final NotificationRepository notificationRepository;
 
-    public void append(Long feedbackId, Long houseId, Long choreId, Long senderId) {
-        List<FeedbackNotification> feedbackNotifications = notificationFactory.createFeedbackNotifications(feedbackId,
-                houseId, choreId, senderId);
+    public void append(Long feedbackId, Long houseId, Long scheduleCompletionId, Long senderId) {
+        List<FeedbackNotification> feedbackNotifications =
+                notificationFactory.createFeedbackNotifications(
+                    feedbackId,
+                    houseId,
+                    scheduleCompletionId,
+                    senderId
+                );
         notificationRepository.saveAll(feedbackNotifications);
+
     }
 }

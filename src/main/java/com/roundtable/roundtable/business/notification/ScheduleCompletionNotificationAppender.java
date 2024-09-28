@@ -6,6 +6,7 @@ import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.NotificationRepository;
 import com.roundtable.roundtable.domain.notification.ScheduleCompletionNotification;
 import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.ScheduleCompletionMemberRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.ScheduleErrorCode;
@@ -21,6 +22,7 @@ public class ScheduleCompletionNotificationAppender {
     private final MemberReader memberReader;
     private final ScheduleRepository scheduleRepository;
     private final NotificationRepository notificationRepository;
+    private final ScheduleCompletionMemberRepository scheduleCompletionMemberRepository;
 
     public void append(Long houseId, Long scheduleId, List<Long> managerIds) {
         Schedule schedule = getSchedule(scheduleId);

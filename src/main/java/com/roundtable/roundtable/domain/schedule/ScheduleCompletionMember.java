@@ -33,4 +33,8 @@ public class ScheduleCompletionMember extends BaseEntity {
         this.scheduleCompletion = scheduleCompletion;
         this.member = member;
     }
+
+    public Long getMemberId() {
+        return member.getId();
+    }
 }

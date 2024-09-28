@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -27,10 +28,26 @@ public class ExtraScheduleMember extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    @NotNull
+    private LocalDate assignedDate;
+
     @Builder
-    private ExtraScheduleMember(Long id, Schedule schedule, Member member) {
+    private ExtraScheduleMember(Long id, Schedule schedule, Member member, LocalDate assignedDate) {
         this.id = id;
         this.schedule = schedule;
         this.member = member;
+        this.assignedDate = assignedDate;
+    }
+
+    public static ExtraScheduleMember create(Schedule schedule, Member member, LocalDate assignedDate) {
+        return ExtraScheduleMember.builder()
+                .schedule(schedule)
+                .member(member)
+                .assignedDate(assignedDate)
+                .build();
+    }
+
+    public ScheduleCompletionMember toScheduleCompletionMember(ScheduleCompletion scheduleCompletion) {
+        return new ScheduleCompletionMember(scheduleCompletion, member);
     }
 }

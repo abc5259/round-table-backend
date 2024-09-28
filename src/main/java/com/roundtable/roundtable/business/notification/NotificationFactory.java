@@ -11,6 +11,8 @@ import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.ChoreCompleteNotification;
 import com.roundtable.roundtable.domain.notification.FeedbackNotification;
 import com.roundtable.roundtable.domain.notification.InviteNotification;
+import com.roundtable.roundtable.domain.schedule.ScheduleCompletionMemberRepository;
+import com.roundtable.roundtable.domain.schedule.ScheduleCompletionRepository;
 import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
 import com.roundtable.roundtable.global.exception.errorcode.MemberErrorCode;
 import java.util.List;
@@ -29,7 +31,11 @@ public class NotificationFactory {
 
     private final ChoreMemberReader choreMemberReader;
 
-    public List<FeedbackNotification> createFeedbackNotifications(Long feedbackId, Long houseId, Long choreId, Long senderId) {
+    private final ScheduleCompletionRepository scheduleCompletionRepository;
+
+    private final ScheduleCompletionMemberRepository scheduleCompletionMemberRepository;
+
+    public List<FeedbackNotification> createFeedbackNotifications(Long feedbackId, Long houseId, Long scheduleCompletionId, Long senderId) {
         Member sender = memberReader.findById(senderId);
         Chore chore = choreReader.readById(choreId);
         List<Member> receivers = choreMemberReader.readMembersByChoreId(choreId);
