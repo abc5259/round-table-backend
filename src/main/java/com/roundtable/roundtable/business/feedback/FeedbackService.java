@@ -44,14 +44,6 @@ public class FeedbackService {
         Member sender = memberReader.findById(createFeedbackServiceDto.senderId());
         ScheduleCompletion scheduleCompletion = scheduleCompletionRepository.findById(createFeedbackServiceDto.scheduleCompletionId())
                 .orElseThrow(() -> new FeedbackException(FeedbackErrorCode.NOT_COMPLETION_SCHEDULE));
-        if(scheduleCompletionMemberRepository.existsByScheduleCompletionIdAndMemberId(scheduleCompletion.getId(), createFeedbackServiceDto.senderId())) {
-            throw new FeedbackException(FeedbackErrorCode.SELF_SCHEDULE_FEEDBACK_NOT_ALLOWED);
-        }
-
-        Schedule schedule = scheduleReader.findById(createFeedbackServiceDto.scheduleId());
-        if(!schedule.isSameHouse(houseId)) {
-            throw new FeedbackException(FeedbackErrorCode.NOT_SAME_HOUSE);
-        }
 
         Feedback feedback = feedbackAppender.append(createFeedbackServiceDto.toCreateFeedback(sender, scheduleCompletion));
 

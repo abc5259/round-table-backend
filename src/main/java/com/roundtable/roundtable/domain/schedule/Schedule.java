@@ -149,7 +149,7 @@ public class Schedule extends BaseEntity {
     }
 
     public boolean isSameHouse(long houseId) {
-        return house.isEqualId(House.Id(houseId));
+        return house.getId() == houseId;
     }
 
     public void complete() {
@@ -162,5 +162,11 @@ public class Schedule extends BaseEntity {
         }
 
         sequence = (sequence + SEQUENCE_STEP) % sequenceSize;
+    }
+
+    public void validateSameHouse(Member sender) {
+        if(!sender.isSameHouse(house)) {
+            throw new IllegalArgumentException("같은 하우스의 사용자만 피드백을 보낼 수 있습니다.");
+        }
     }
 }

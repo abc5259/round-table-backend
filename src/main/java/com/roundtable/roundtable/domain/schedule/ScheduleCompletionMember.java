@@ -39,4 +39,9 @@ public class ScheduleCompletionMember extends BaseEntity {
     public Long getMemberId() {
         return member.getId();
     }
+
+    public boolean containMemberId(Long id) {
+        System.out.println("myId = " + member.getId() + " id = " + id);
+        return member.getId().equals(id);
+    }
 }

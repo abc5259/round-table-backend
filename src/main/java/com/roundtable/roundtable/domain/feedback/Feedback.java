@@ -52,6 +52,7 @@ public class Feedback extends BaseEntity {
     }
 
     public static Feedback create(Emoji emoji, String message,  ScheduleCompletion scheduleCompletion, Member sender) {
+        scheduleCompletion.validateCreateFeedback(sender);
         return Feedback.builder()
                 .emoji(emoji)
                 .message(message)

@@ -93,7 +93,7 @@ public class Member extends BaseEntity {
     }
 
     public boolean isSameHouse(House house) {
-        return this.house.isEqualId(house);
+        return this.house.getId().equals(house.getId());
     }
 
     public boolean isEnterHouse() {
