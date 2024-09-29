@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<FailResponse<?>> handleMethodArgumentNotValidException(final MissingServletRequestParameterException exception) {
         final String defaultErrorMessage = exception.getMessage();
-        log.warn(defaultErrorMessage,exception);
+        log.error(defaultErrorMessage,exception);
 
         return ResponseEntity.badRequest()
                 .body(FailResponse.fail(defaultErrorMessage));
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<FailResponse<?>> handleMethodArgumentNotValidException(final MethodArgumentNotValidException exception) {
         final String defaultErrorMessage = exception.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-        log.warn(defaultErrorMessage,exception);
+        log.error(defaultErrorMessage,exception);
 
         return ResponseEntity.badRequest()
                 .body(FailResponse.fail(defaultErrorMessage));
@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
             MethodArgumentTypeMismatchException.class
     })
     public ResponseEntity<FailResponse<?>> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException exception) {
-        log.warn(exception.getMessage(), exception);
+        log.error(exception.getMessage(), exception);
 
         return ResponseEntity.badRequest()
                 .body(FailResponse.fail("잘못된 요청입니다."));
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<FailResponse<?>> handleNotFoundException(final CoreException exception) {
         ErrorCode errorCode = exception.getErrorCode();
-        log.warn(errorCode.getMessage(), exception);
+        log.error(errorCode.getMessage(), exception);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(FailResponse.fail(errorCode.getMessage(), errorCode.getCode()));
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<FailResponse<?>> handleAuthenticationException(final CoreException exception) {
         ErrorCode errorCode = exception.getErrorCode();
-        log.warn(errorCode.getMessage(), exception);
+        log.error(errorCode.getMessage(), exception);
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(FailResponse.fail(errorCode.getMessage(), errorCode.getCode()));
@@ -76,10 +76,21 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<FailResponse<?>> handleCoreException(final CoreException exception) {
         ErrorCode errorCode = exception.getErrorCode();
-        log.warn(errorCode.getMessage(), exception);
+        log.error(errorCode.getMessage(), exception);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(FailResponse.fail(errorCode.getMessage(), errorCode.getCode()));
+    }
+
+    @ExceptionHandler(value = {
+            IllegalArgumentException.class,
+            IllegalStateException.class
+    })
+    public ResponseEntity<FailResponse<?>> handleBadRequestException(final RuntimeException exception) {
+        log.error("message", exception);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(FailResponse.fail(exception.getMessage()));
     }
 
     @ExceptionHandler(value = {
@@ -91,7 +102,7 @@ public class GlobalExceptionHandler {
         if(message == null) {
             message = "예상치 못한 에러 발생";
         }
-        log.warn(message, exception);
+        log.error(message, exception);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(FailResponse.fail(message));

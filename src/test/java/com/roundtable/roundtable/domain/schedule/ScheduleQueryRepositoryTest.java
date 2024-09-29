@@ -207,6 +207,7 @@ class ScheduleQueryRepositoryTest extends IntegrationTestSupport {
         ExtraScheduleMember extraScheduleMember = ExtraScheduleMember.builder()
                 .schedule(schedule)
                 .member(member)
+                .assignedDate(LocalDate.now())
                 .build();
         return extraScheduleMemberRepository.save(extraScheduleMember);
     }

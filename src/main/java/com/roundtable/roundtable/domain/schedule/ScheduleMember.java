@@ -71,7 +71,7 @@ public class ScheduleMember extends BaseEntity {
 
     public void complete() {
         if(!isManager()) {
-            throw new IllegalArgumentException("스케줄을 담당하는 담당자가 아닙니다.");
+            throw new IllegalStateException("스케줄을 담당하는 담당자가 아닙니다.");
         }
         schedule.complete();
     }

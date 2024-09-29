@@ -40,11 +40,12 @@ public class ScheduleCompletion extends BaseEntity {
     private List<ScheduleCompletionMember> scheduleCompletionMembers = new ArrayList<>();
 
     @Builder
-    public ScheduleCompletion(Long id, LocalDate completionDate, Schedule schedule, Integer sequence) {
+    public ScheduleCompletion(Long id, LocalDate completionDate, Schedule schedule, Integer sequence, List<ScheduleCompletionMember> scheduleCompletionMembers) {
         this.id = id;
         this.completionDate = completionDate;
         this.schedule = schedule;
         this.sequence = sequence;
+        this.scheduleCompletionMembers = scheduleCompletionMembers;
     }
 
     public static ScheduleCompletion create(Schedule schedule, LocalDate completionDate, Integer sequence) {
@@ -69,6 +70,17 @@ public class ScheduleCompletion extends BaseEntity {
                 .anyMatch(scheduleCompletionMember -> scheduleCompletionMember.containMemberId(sender.getId()));
         if (hasCompletedScheduleBySender) {
             throw new IllegalArgumentException("자신이 완료한 스케줄에 피드백을 남길 수 없습니다.");
+        }
+    }
+
+    public void addScheduleCompletionMember(ScheduleCompletionMember scheduleCompletionMember) {
+        if(scheduleCompletionMembers == null) {
+            scheduleCompletionMembers = new ArrayList<>(List.of(scheduleCompletionMember));
+            return;
+        }
+
+        if(!scheduleCompletionMembers.contains(scheduleCompletionMember)) {
+            scheduleCompletionMembers.add(scheduleCompletionMember);
         }
     }
 }
