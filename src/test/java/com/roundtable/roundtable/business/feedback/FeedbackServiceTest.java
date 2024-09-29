@@ -1,13 +1,9 @@
 package com.roundtable.roundtable.business.feedback;
 
-import static com.roundtable.roundtable.global.exception.errorcode.FeedbackErrorCode.NOT_FOUND_PREDEFINED_FEEDBACK;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
-import com.roundtable.roundtable.business.feedback.dto.CreateFeedback;
 import com.roundtable.roundtable.business.feedback.dto.CreateFeedbackServiceDto;
 import com.roundtable.roundtable.business.feedback.event.CreateFeedbackEvent;
 import com.roundtable.roundtable.domain.feedback.Emoji;
@@ -26,21 +22,21 @@ import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleCompletion;
+import com.roundtable.roundtable.domain.schedule.ScheduleCompletionMember;
+import com.roundtable.roundtable.domain.schedule.ScheduleCompletionMemberRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleCompletionRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleType;
-import com.roundtable.roundtable.global.exception.CoreException.NotFoundEntityException;
+import com.roundtable.roundtable.global.exception.FeedbackException;
+import com.roundtable.roundtable.global.exception.errorcode.FeedbackErrorCode;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.context.event.ApplicationEvents;
 import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,6 +72,9 @@ class FeedbackServiceTest extends IntegrationTestSupport {
     @Autowired
     private ScheduleCompletionRepository scheduleCompletionRepository;
 
+    @Autowired
+    private ScheduleCompletionMemberRepository scheduleCompletionMemberRepository;
+
     @BeforeEach
     public void setUp() {
         createPredefinedFeedbacks();
@@ -84,13 +83,21 @@ class FeedbackServiceTest extends IntegrationTestSupport {
     @DisplayName("Feedback을 추가할 수 있다.")
     @Test
     void append() {
+        /**
+         * 피드백은 어디에 줄 수 있을까?
+         * 일단 완료된 스케줄에 준다.
+         * 완료된 스케줄에서 자기가 완료한 스케줄에는 줄 수 없다.
+         * 다른 하우스의 스케줄에도 피드백을 주면 안됨
+         */
         //given
         House house = createHouse("code");
         Member sender = createMember("email1", house);
+        Member scheduleCompletionMember = createMember("email2", house);
         Schedule schedule = createSchedule(house);
         ScheduleCompletion scheduleCompletion = createScheduleCompletion(schedule);
+        createScheduleCompletionMember(scheduleCompletion, scheduleCompletionMember);
 
-        CreateFeedbackServiceDto createFeedbackServiceDto = new CreateFeedbackServiceDto(Emoji.FIRE, "좋아요", sender.getId(), scheduleCompletion.getId(), List.of(1, 2));
+        CreateFeedbackServiceDto createFeedbackServiceDto = new CreateFeedbackServiceDto(Emoji.FIRE, "좋아요", sender.getId(), schedule.getId(), scheduleCompletion.getId(), List.of(1, 2));
 
         //when
         Long feedbackId = sut.createFeedback(createFeedbackServiceDto, house.getId());
@@ -112,6 +119,58 @@ class FeedbackServiceTest extends IntegrationTestSupport {
                 .contains(feedback, feedback);
         assertThat(events.stream(CreateFeedbackEvent.class).count()).isEqualTo(1);
 
+    }
+
+    @DisplayName("완료된 스케줄이 아니라면 예외가 발생한다.")
+    @Test
+    void append_feedback_when_not_completion_schedule_throw_exception() {
+        //given
+        House house = createHouse("code");
+        Member sender = createMember("email1", house);
+        Schedule schedule = createSchedule(house);
+
+        CreateFeedbackServiceDto createFeedbackServiceDto = new CreateFeedbackServiceDto(Emoji.FIRE, "좋아요", sender.getId(), schedule.getId(), 1L, List.of(1, 2));
+
+        //when //then
+        assertThatThrownBy(() -> sut.createFeedback(createFeedbackServiceDto, house.getId()))
+                .isInstanceOf(FeedbackException.class)
+                .hasMessageContaining(FeedbackErrorCode.NOT_COMPLETION_SCHEDULE.getMessage());
+    }
+
+    @DisplayName("자신이 완료한 스케줄에는 피드백을 줄려하면 예외가 발생한다.")
+    @Test
+    void append_feedback_when_my_completion_schedule_throw_exception() {
+        //given
+        House house = createHouse("code");
+        Member member = createMember("email2", house);
+        Schedule schedule = createSchedule(house);
+        ScheduleCompletion scheduleCompletion = createScheduleCompletion(schedule);
+        createScheduleCompletionMember(scheduleCompletion, member);
+
+        CreateFeedbackServiceDto createFeedbackServiceDto = new CreateFeedbackServiceDto(Emoji.FIRE, "좋아요", member.getId(), schedule.getId(), scheduleCompletion.getId(), List.of(1, 2));
+
+        //when //then
+        assertThatThrownBy(() -> sut.createFeedback(createFeedbackServiceDto, house.getId()))
+                .isInstanceOf(FeedbackException.class)
+                .hasMessageContaining(FeedbackErrorCode.SELF_SCHEDULE_FEEDBACK_NOT_ALLOWED.getMessage());
+    }
+
+    @DisplayName("다른 하우스의 스케줄에 피드백을 줄려하면 예외가 발생한다.")
+    @Test
+    void append_feedback_when_other_house_schedule_throw_exception() {
+        //given
+        House house1 = createHouse("code");
+        House house2 = createHouse("code2");
+        Member member1 = createMember("email2", house1);
+        Member member2 = createMember("email3", house2);
+        Schedule schedule = createSchedule(house2);
+        ScheduleCompletion scheduleCompletion = createScheduleCompletion(schedule);
+        createScheduleCompletionMember(scheduleCompletion, member2);
+
+        CreateFeedbackServiceDto createFeedbackServiceDto = new CreateFeedbackServiceDto(Emoji.FIRE, "좋아요", member1.getId(), schedule.getId(), scheduleCompletion.getId(), List.of(1, 2));
+
+        //when //then
+        assertThatThrownBy(() -> sut.createFeedback(createFeedbackServiceDto, house1.getId()));
     }
 
     public House createHouse(String code) {
@@ -143,6 +202,14 @@ class FeedbackServiceTest extends IntegrationTestSupport {
         ScheduleCompletion scheduleCompletion = ScheduleCompletion.builder().schedule(schedule)
                 .completionDate(LocalDate.now()).sequence(1).build();
         return scheduleCompletionRepository.save(scheduleCompletion);
+    }
+
+    private ScheduleCompletionMember createScheduleCompletionMember(ScheduleCompletion scheduleCompletion, Member member) {
+        ScheduleCompletionMember scheduleCompletionMember = ScheduleCompletionMember.builder()
+                .scheduleCompletion(scheduleCompletion)
+                .member(member)
+                .build();
+        return scheduleCompletionMemberRepository.save(scheduleCompletionMember);
     }
 
     public void createPredefinedFeedbacks() {

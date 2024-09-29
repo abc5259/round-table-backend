@@ -15,7 +15,9 @@ public record CreateFeedbackRequest(
         @NotNull
         Long senderId,
         @NotNull
-        Long choreId,
+        Long scheduleId,
+        @NotNull
+        Long scheduleCompletionId,
         @Min(0)
         List<Integer> predefinedFeedbackIds
 ) {
@@ -24,7 +26,8 @@ public record CreateFeedbackRequest(
                 emoji,
                 message,
                 senderId,
-                choreId,
+                scheduleId,
+                scheduleCompletionId,
                 predefinedFeedbackIds
         );
     }

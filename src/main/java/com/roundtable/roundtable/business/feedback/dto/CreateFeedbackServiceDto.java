@@ -10,6 +10,7 @@ public record CreateFeedbackServiceDto(
         Emoji emoji,
         String message,
         Long senderId,
+        Long scheduleId,
         Long scheduleCompletionId,
         List<Integer> predefinedFeedbackIds
 ) {
