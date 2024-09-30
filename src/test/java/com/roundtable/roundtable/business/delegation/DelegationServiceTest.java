@@ -1,7 +1,6 @@
 package com.roundtable.roundtable.business.delegation;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.delegation.dto.CreateDelegationDto;
@@ -25,8 +24,6 @@ import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +58,7 @@ class DelegationServiceTest extends IntegrationTestSupport {
     void createDelegation() {
         //given
         LocalDate now = LocalDate.of(2024, 9, 30);
-        House house = appendHouse();
+        House house = appendHouse("code1");
         Member member1 = appendMember(house, "email1");
         Member member2 = appendMember(house, "email2");
         Schedule schedule = appendSchedule(house, DivisionType.ROTATION, ScheduleType.REPEAT);
@@ -70,7 +67,7 @@ class DelegationServiceTest extends IntegrationTestSupport {
         CreateDelegationDto createDelegationDto = new CreateDelegationDto(schedule.getId(), "부탁해", member1.getId(), member2.getId(), now);
 
         //when
-        Long resultId = sut.createDelegation(createDelegationDto);
+        Long resultId = sut.createDelegation(house.getId(), createDelegationDto);
 
         //then
         Delegation delegation = delegationRepository.findById(resultId).orElseThrow();
@@ -82,8 +79,8 @@ class DelegationServiceTest extends IntegrationTestSupport {
         assertThat(delegation.getReceiver().getId()).isEqualTo(member2.getId());
     }
 
-    private House appendHouse() {
-        House house = House.builder().name("house1").inviteCode(InviteCode.builder().code("code").build()).build();
+    private House appendHouse(String code) {
+        House house = House.builder().name("house1").inviteCode(InviteCode.builder().code(code).build()).build();
         houseRepository.save(house);
         return house;
     }

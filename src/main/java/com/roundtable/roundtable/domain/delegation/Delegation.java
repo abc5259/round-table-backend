@@ -102,4 +102,12 @@ public class Delegation extends BaseEntity {
             throw new IllegalArgumentException("오늘 스케줄 담당자에게 부탁을 할 수 없습니다.");
         }
     }
+
+    public void updateStatus(Long memberId, DelegationStatus status) {
+        if(!receiver.getId().equals(memberId)) {
+            throw new IllegalArgumentException("상태 업데이트는 부탁을 받은 사용자만 가능합니다.");
+        }
+
+        this.status = status;
+    }
 }
