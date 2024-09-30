@@ -1,5 +1,6 @@
 package com.roundtable.roundtable.business.notification;
 
+import com.roundtable.roundtable.business.notification.dto.response.InviteNotificationResponse;
 import com.roundtable.roundtable.business.notification.dto.response.NotificationResponse;
 import com.roundtable.roundtable.domain.notification.InviteNotification;
 import com.roundtable.roundtable.domain.notification.Notification;
@@ -14,15 +15,12 @@ public class InviteNotificationResponseAdapter implements NotificationResponseAd
     @Override
     public NotificationResponse toNotificationResponse(Notification notification) {
         InviteNotification inviteNotification = (InviteNotification) notification;
-        return new NotificationResponse(
+        return new InviteNotificationResponse(
                 inviteNotification.getId(),
                 NotificationType.INVITE,
                 inviteNotification.getCreatedAt(),
                 inviteNotification.getInvitedHouseId(),
-                inviteNotification.getInvitedHouseName(),
-                null,
-                null,
-                null
+                inviteNotification.getInvitedHouseName()
         );
     }
 }

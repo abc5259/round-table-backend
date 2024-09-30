@@ -41,9 +41,6 @@ class FeedbackNotificationAppenderTest extends IntegrationTestSupport {
     private FeedbackRepository feedbackRepository;
 
     @Autowired
-    private FeedbackSelectionRepository feedbackSelectionRepository;
-
-    @Autowired
     private PredefinedFeedbackRepository predefinedFeedbackRepository;
 
     @Autowired

@@ -28,7 +28,8 @@ public class NotificationService {
     private NotificationResponse toNotificationResponse(Notification notification) {
         List<NotificationResponseAdapter> notificationResponseAdapters = List.of(
                 new InviteNotificationResponseAdapter(),
-                new ChoreCompletedNotificationResponseAdapter()
+                new ScheduleCompletionNotificationAdapter(),
+                new FeedbackNotificationAdaptor()
         );
 
         return notificationResponseAdapters.stream()
