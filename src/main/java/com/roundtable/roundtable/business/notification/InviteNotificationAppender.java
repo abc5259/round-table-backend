@@ -26,18 +26,4 @@ public class InviteNotificationAppender {
         List<InviteNotification> savedInviteNotifications = notificationRepository.saveAll(inviteNotifications);
         return savedInviteNotifications.stream().map(Notification::getId).toList();
     }
-
-    private List<InviteNotification> createInviteNotification(CreateInviteNotification createInviteNotification,
-                                                            List<Member> receivers, House house) {
-        List<InviteNotification> inviteNotifications = receivers.stream()
-                .map(receiver -> InviteNotification.create(
-                        Member.Id(createInviteNotification.senderId()),
-                        receiver,
-                        createInviteNotification.invitedHouseId(),
-                        house.getName())
-                )
-                .toList();
-
-        return notificationRepository.saveAll(inviteNotifications);
-    }
 }

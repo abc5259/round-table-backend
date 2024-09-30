@@ -32,26 +32,6 @@ public class NotificationFactory {
 
     private final ChoreMemberReader choreMemberReader;
 
-    private final ScheduleCompletionRepository scheduleCompletionRepository;
-
-    private final ScheduleCompletionMemberRepository scheduleCompletionMemberRepository;
-
-    public List<FeedbackNotification> createFeedbackNotifications(Long feedbackId, Long houseId, Long scheduleCompletionId, Long senderId) {
-        Member sender = memberReader.findById(senderId);
-        ScheduleCompletion scheduleCompletion = scheduleCompletionRepository.findWithScheduleById(scheduleCompletionId).orElseThrow(NotFoundEntityException::new);
-        List<Member> receivers = scheduleCompletionMemberRepository.findMembersByScheduleCompletionId(scheduleCompletionId);
-
-        return receivers.stream()
-                .map(receiver ->
-                        FeedbackNotification.create(
-                                sender,
-                                receiver,
-                                House.Id(houseId),
-                                feedbackId,
-                                scheduleCompletion
-                        )).toList();
-    }
-
     public List<InviteNotification> createInviteNotifications(CreateInviteNotification createInviteNotification) {
         House house = houseReader.findById(createInviteNotification.invitedHouseId());
 

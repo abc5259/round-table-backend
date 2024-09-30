@@ -6,6 +6,7 @@ import com.roundtable.roundtable.domain.notification.NotificationType.Values;
 import com.roundtable.roundtable.domain.schedule.ScheduleCompletion;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,5 +43,21 @@ public class FeedbackNotification extends Notification {
                 .feedbackId(feedbackId)
                 .scheduleName(scheduleCompletion.getScheduleName())
                 .build();
+    }
+
+    public static List<FeedbackNotification> create(
+            Member sender,
+            List<Member> receivers,
+            House house,
+            Long feedbackId,
+            ScheduleCompletion scheduleCompletion
+    ) {
+        return receivers.stream().map(receiver -> FeedbackNotification.builder()
+                .sender(sender)
+                .receiver(receiver)
+                .house(house)
+                .feedbackId(feedbackId)
+                .scheduleName(scheduleCompletion.getScheduleName())
+                .build()).toList();
     }
 }
