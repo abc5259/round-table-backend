@@ -5,6 +5,8 @@ import com.roundtable.roundtable.business.common.CursorBasedResponse;
 import com.roundtable.roundtable.business.schedule.dto.ScheduleOfMemberResponse;
 import com.roundtable.roundtable.business.schedule.dto.ScheduleResponse;
 import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.ScheduleMember;
+import com.roundtable.roundtable.domain.schedule.ScheduleMemberRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleQueryRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.domain.schedule.dto.ScheduleDto;
@@ -24,6 +26,7 @@ public class ScheduleReader {
 
     private final ScheduleRepository scheduleRepository;
     private final ScheduleQueryRepository scheduleQueryRepository;
+    private final ScheduleMemberRepository scheduleMemberRepository;
 
     public CursorBasedResponse<List<ScheduleResponse>> findHomeSchedulesByDate(Long homeId, LocalDate date, CursorBasedRequest cursorBasedRequest) {
         List<ScheduleDto> schedulesDtos = scheduleQueryRepository.findSchedulesByDate(homeId, date, cursorBasedRequest.toCursorPagination());

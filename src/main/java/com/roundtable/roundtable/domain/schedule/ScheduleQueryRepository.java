@@ -91,5 +91,4 @@ public class ScheduleQueryRepository {
                 .limit(cursorPagination.limit())
                 .fetch();
     }
-
 }

@@ -11,4 +11,12 @@ public interface ScheduleMemberRepository extends JpaRepository<ScheduleMember, 
     Optional<ScheduleMember> findByScheduleIdAndMemberId(@Param("scheduleId") Long scheduleId, @Param("memberId") Long memberId);
 
     List<ScheduleMember> findByScheduleIdAndSequence(Long scheduleId, Integer sequence);
+
+    @Query("""
+        select sm
+        from Schedule s
+        join ScheduleMember sm ON s.id = sm.schedule.id and s.sequence = sm.sequence
+        where s.id = :scheduleId
+    """)
+    List<ScheduleMember> findByScheduleManagers(@Param("scheduleId") Long scheduleId);
 }

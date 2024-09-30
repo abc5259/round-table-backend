@@ -13,7 +13,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NotificationService {
 
+    /**
+     * TODO: Map으로 하는게 더 좋을까?
+     */
+    private final List<NotificationResponseAdapter> notificationResponseAdapters = List.of(
+            new InviteNotificationResponseAdapter(),
+            new ScheduleCompletionNotificationAdapter(),
+            new FeedbackNotificationAdaptor()
+    );
     private final NotificationReader notificationReader;
+
 
     public CursorBasedResponse<List<NotificationResponse>> findNotificationsByMemberId(CursorBasedRequest cursorBasedRequest, AuthMember authMember) {
         List<Notification> notifications = notificationReader.readNotificationsByReceiverId(authMember.memberId(),
@@ -26,12 +35,6 @@ public class NotificationService {
     }
 
     private NotificationResponse toNotificationResponse(Notification notification) {
-        List<NotificationResponseAdapter> notificationResponseAdapters = List.of(
-                new InviteNotificationResponseAdapter(),
-                new ScheduleCompletionNotificationAdapter(),
-                new FeedbackNotificationAdaptor()
-        );
-
         return notificationResponseAdapters.stream()
                 .filter(adapter -> adapter.isSupport(notification))
                 .findFirst()

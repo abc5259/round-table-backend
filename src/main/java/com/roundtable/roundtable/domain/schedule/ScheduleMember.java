@@ -79,4 +79,8 @@ public class ScheduleMember extends BaseEntity {
     public ScheduleCompletionMember toScheduleCompletionMember(ScheduleCompletion scheduleCompletion) {
         return new ScheduleCompletionMember(scheduleCompletion, member);
     }
+
+    public boolean isSameMember(Member member) {
+        return this.member.getId().equals(member.getId());
+    }
 }
