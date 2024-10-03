@@ -1,5 +1,7 @@
 package com.roundtable.roundtable.domain.delegation;
 
+import static com.roundtable.roundtable.domain.delegation.DelegationStatus.*;
+
 import com.roundtable.roundtable.domain.common.BaseEntity;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.schedule.Schedule;
@@ -80,7 +82,7 @@ public class Delegation extends BaseEntity {
                 .sender(sender)
                 .receiver(receiver)
                 .delegationDate(delegationDate)
-                .status(DelegationStatus.PENDING)
+                .status(PENDING)
                 .build();
     }
 
@@ -113,6 +115,14 @@ public class Delegation extends BaseEntity {
     public void updateStatus(Long memberId, DelegationStatus status) {
         if(!receiver.getId().equals(memberId)) {
             throw new IllegalArgumentException("상태 업데이트는 부탁을 받은 사용자만 가능합니다.");
+        }
+
+        if(status == PENDING) {
+            throw new IllegalArgumentException("상태 업데이트는 APPROVED와 REJECTED만 가능합니다.");
+        }
+
+        if(this.status != PENDING) {
+            throw new IllegalArgumentException("상태 업데이트는 PENDING 상태일때만 가능합니다.");
         }
 
         this.status = status;
