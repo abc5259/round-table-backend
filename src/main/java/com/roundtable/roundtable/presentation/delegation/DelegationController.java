@@ -44,16 +44,27 @@ public class DelegationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(SuccessResponse.from(new CreateDelegationResponse(delegationId)));
     }
 
-    @Operation(summary = "집안일 수락 및 거절하기", description = "집안일을 수락하거나 거절합니다.")
+    @Operation(summary = "집안일 부탁 수락", description = "집안일 부탁을 수락합니다.")
     @ApiResponse(responseCode = "200", description = "성공")
-    @PatchMapping("/{delegationId}")
-    public ResponseEntity<ResponseDto<Void>> updateDelegation(
+    @PatchMapping("/{delegationId}/approve")
+    public ResponseEntity<ResponseDto<Void>> approveDelegation(
             @PathVariable Long houseId,
             @PathVariable Long delegationId,
-            @Login AuthMember authMember,
-            @Valid @RequestBody UpdateDelegationRequest updateDelegationRequest
+            @Login AuthMember authMember
             ) {
-        delegationService.updateDelegationStatus(authMember.memberId(), delegationId, updateDelegationRequest.delegationStatus());
+        delegationService.approveDelegation(houseId, authMember.memberId(), delegationId, LocalDate.now());
+        return ResponseEntity.ok(SuccessResponse.ok());
+    }
+
+    @Operation(summary = "집안일 부탁 거절", description = "집안일 부탁을 거절합니다.")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @PatchMapping("/{delegationId}/reject")
+    public ResponseEntity<ResponseDto<Void>> rejectDelegation(
+            @PathVariable Long houseId,
+            @PathVariable Long delegationId,
+            @Login AuthMember authMember
+    ) {
+        delegationService.rejectDelegation(houseId, authMember.memberId(), delegationId, LocalDate.now());
         return ResponseEntity.ok(SuccessResponse.ok());
     }
 }

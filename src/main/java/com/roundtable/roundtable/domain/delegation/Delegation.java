@@ -112,19 +112,25 @@ public class Delegation extends BaseEntity {
         }
     }
 
-    public void updateStatus(Long memberId, DelegationStatus status) {
+    public void approve(Long memberId, LocalDate now) {
+        validateUpdateStatus(memberId);
+        if(this.delegationDate.isAfter(now)) {
+            throw new IllegalArgumentException("승인 가능한 날짜가 지났습니다.");
+        }
+        this.status = APPROVED;
+    }
+
+    public void reject(Long memberId, LocalDate now) {
+        validateUpdateStatus(memberId);
+        if(this.delegationDate.isAfter(now)) {
+            throw new IllegalArgumentException("거절 가능한 날짜가 지났습니다.");
+        }
+        this.status = REJECTED;
+    }
+
+    private void validateUpdateStatus(Long memberId) {
         if(!receiver.getId().equals(memberId)) {
             throw new IllegalArgumentException("상태 업데이트는 부탁을 받은 사용자만 가능합니다.");
         }
-
-        if(status == PENDING) {
-            throw new IllegalArgumentException("상태 업데이트는 APPROVED와 REJECTED만 가능합니다.");
-        }
-
-        if(this.status != PENDING) {
-            throw new IllegalArgumentException("상태 업데이트는 PENDING 상태일때만 가능합니다.");
-        }
-
-        this.status = status;
     }
 }

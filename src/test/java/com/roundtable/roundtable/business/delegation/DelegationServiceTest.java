@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.delegation.dto.CreateDelegationDto;
 import com.roundtable.roundtable.business.delegation.event.CreateDelegationEvent;
+import com.roundtable.roundtable.business.delegation.event.UpdateDelegationEvent;
 import com.roundtable.roundtable.domain.delegation.Delegation;
 import com.roundtable.roundtable.domain.delegation.DelegationRepository;
 import com.roundtable.roundtable.domain.delegation.DelegationStatus;
@@ -17,6 +18,8 @@ import com.roundtable.roundtable.domain.member.MemberRepository;
 import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.Day;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
+import com.roundtable.roundtable.domain.schedule.ExtraScheduleMember;
+import com.roundtable.roundtable.domain.schedule.ExtraScheduleMemberRepository;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import com.roundtable.roundtable.domain.schedule.ScheduleCompletion;
 import com.roundtable.roundtable.domain.schedule.ScheduleCompletionRepository;
@@ -30,6 +33,8 @@ import com.roundtable.roundtable.global.exception.DelegationException;
 import com.roundtable.roundtable.global.exception.errorcode.DelegationErrorCode;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,10 +68,14 @@ class DelegationServiceTest extends IntegrationTestSupport {
     private ScheduleCompletionRepository scheduleCompletionRepository;
 
     @Autowired
+    private ExtraScheduleMemberRepository extraScheduleMemberRepository;
+
+    @Autowired
     private ApplicationEvents applicationEvents;
 
     @Autowired
     private DelegationService sut;
+
 
     @DisplayName("Delegation을 생성한다.")
     @Test
@@ -165,6 +174,42 @@ class DelegationServiceTest extends IntegrationTestSupport {
                 .hasMessage(DelegationErrorCode.DELEGATION_FORBIDDEN_ALREADY_COMPLETION_SCHEDULE.getMessage());
     }
 
+    @DisplayName("Delegation의 상태를 업데이트한다.")
+    @Test
+    void updateDelegationStatus() {
+        //given
+        LocalDate now = LocalDate.of(2024, 9, 30);
+        House house = appendHouse("code1");
+        Member member1 = appendMember(house, "email1");
+        Member member2 = appendMember(house, "email2");
+        Schedule schedule = appendSchedule(house, DivisionType.ROTATION, ScheduleType.REPEAT);
+        appendScheduleMember(schedule, member1, 0);
+        appendScheduleDay(schedule, Day.forDayOfWeek(now.getDayOfWeek()));
+        Delegation delegation = appendDelegation(now, member1, member2, schedule);
+
+        //when
+        sut.approveDelegation(house.getId(), member2.getId(), delegation.getId(), now);
+
+        //then
+        Delegation result = delegationRepository.findById(delegation.getId()).orElseThrow();
+        assertThat(result.getStatus()).isEqualTo(DelegationStatus.APPROVED);
+
+        List<ExtraScheduleMember> extraScheduleMembers = extraScheduleMemberRepository.findAll();
+        assertThat(extraScheduleMembers).hasSize(1)
+                .extracting("schedule", "member.id", "assignedDate")
+                .contains(
+                        Tuple.tuple(schedule, member2.getId(), now)
+                );
+
+        assertThat(applicationEvents.stream(UpdateDelegationEvent.class))
+                .hasSize(1)
+                .anySatisfy(event -> {
+                    assertAll(
+                            () -> assertThat(event.delegation()).isEqualTo(delegation)
+                    );
+                });
+    }
+
 
     private House appendHouse(String code) {
         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code(code).build()).build();
@@ -209,10 +254,10 @@ class DelegationServiceTest extends IntegrationTestSupport {
         return scheduleDayRepository.save(scheduleDay);
     }
 
-    private void appendDelegation(LocalDate now, Member member1, Member member2, Schedule schedule) {
+    private Delegation appendDelegation(LocalDate now, Member member1, Member member2, Schedule schedule) {
         Delegation delegation = Delegation.builder().delegationDate(now).sender(member1).receiver(member2)
                 .status(DelegationStatus.PENDING).message("message").schedule(schedule).build();
-        delegationRepository.save(delegation);
+        return delegationRepository.save(delegation);
     }
 
     private void appendScheduleCompletion(Schedule schedule, LocalDate date) {
