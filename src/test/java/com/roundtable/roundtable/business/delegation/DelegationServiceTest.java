@@ -1,9 +1,12 @@
 package com.roundtable.roundtable.business.delegation;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.delegation.dto.CreateDelegationDto;
+import com.roundtable.roundtable.business.delegation.event.CreateDelegationEvent;
+import com.roundtable.roundtable.business.schedule.dto.ScheduleCompletionEvent;
 import com.roundtable.roundtable.domain.delegation.Delegation;
 import com.roundtable.roundtable.domain.delegation.DelegationRepository;
 import com.roundtable.roundtable.domain.delegation.DelegationStatus;
@@ -31,6 +34,7 @@ import java.time.LocalTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.event.ApplicationEvents;
 import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,6 +64,9 @@ class DelegationServiceTest extends IntegrationTestSupport {
     private ScheduleCompletionRepository scheduleCompletionRepository;
 
     @Autowired
+    private ApplicationEvents applicationEvents;
+
+    @Autowired
     private DelegationService sut;
 
     @DisplayName("Delegation을 생성한다.")
@@ -86,6 +93,17 @@ class DelegationServiceTest extends IntegrationTestSupport {
         assertThat(delegation.getSchedule().getId()).isEqualTo(schedule.getId());
         assertThat(delegation.getSender().getId()).isEqualTo(member1.getId());
         assertThat(delegation.getReceiver().getId()).isEqualTo(member2.getId());
+        assertThat(applicationEvents.stream(CreateDelegationEvent.class))
+                .hasSize(1)
+                .anySatisfy(event -> {
+                    assertAll(
+                            () -> assertThat(event.houseId()).isEqualTo(house.getId()),
+                            () -> assertThat(event.sender()).isEqualTo(member1),
+                            () -> assertThat(event.receiver()).isEqualTo(member2),
+                            () -> assertThat(event.scheduleId()).isEqualTo(schedule.getId()),
+                            () -> assertThat(event.delegation()).isEqualTo(delegation)
+                    );
+                });
     }
 
     @DisplayName("이미 부탁을 했다면 예외가 발생한다.")

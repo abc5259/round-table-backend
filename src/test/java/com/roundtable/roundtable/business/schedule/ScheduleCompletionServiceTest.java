@@ -1,9 +1,11 @@
 package com.roundtable.roundtable.business.schedule;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.common.AuthMember;
+import com.roundtable.roundtable.business.schedule.dto.ScheduleCompletionEvent;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
@@ -25,12 +27,17 @@ import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.event.ApplicationEvents;
+import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
+@RecordApplicationEvents
 class ScheduleCompletionServiceTest extends IntegrationTestSupport {
 
     @Autowired
@@ -56,6 +63,9 @@ class ScheduleCompletionServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private ScheduleCompletionMemberRepository scheduleCompletionMemberRepository;
+
+    @Autowired
+    private ApplicationEvents applicationEvents;
 
     @DisplayName("스케줄을 완료한다.")
     @Test
@@ -84,6 +94,15 @@ class ScheduleCompletionServiceTest extends IntegrationTestSupport {
         assertThat(scheduleCompletionMember)
                 .extracting("member", "scheduleCompletion")
                 .containsExactly(member1, scheduleCompletion);
+        assertThat(applicationEvents.stream(ScheduleCompletionEvent.class))
+                .hasSize(1)
+                .anySatisfy(event -> {
+                    assertAll(
+                            () -> assertThat(event.scheduleId()).isEqualTo(schedule.getId()),
+                            () -> assertThat(event.houseId()).isEqualTo(house.getId()),
+                            () -> assertThat(event.managerIds()).isEqualTo(List.of(member1.getId()))
+                    );
+                });
     }
 
     private House appendHouse() {

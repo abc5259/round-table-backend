@@ -2,6 +2,7 @@ package com.roundtable.roundtable.business.feedback;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.feedback.dto.CreateFeedbackServiceDto;
@@ -29,11 +30,9 @@ import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleType;
 import com.roundtable.roundtable.global.exception.FeedbackException;
 import com.roundtable.roundtable.global.exception.errorcode.FeedbackErrorCode;
-import jakarta.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -118,7 +117,15 @@ class FeedbackServiceTest extends IntegrationTestSupport {
         assertThat(feedbackSelections).hasSize(2)
                 .extracting("feedback")
                 .contains(feedback, feedback);
-        assertThat(events.stream(CreateFeedbackEvent.class).count()).isEqualTo(1);
+        assertThat(events.stream(CreateFeedbackEvent.class)).hasSize(1)
+                .anySatisfy(event -> {
+                    assertAll(
+                            () -> assertThat(event.houseId()).isEqualTo(house.getId()),
+                            () -> assertThat(event.feedbackId()).isEqualTo(feedback.getId()),
+                            () -> assertThat(event.senderId()).isEqualTo(sender.getId()),
+                            () -> assertThat(event.scheduleCompletionId()).isEqualTo(scheduleCompletion.getId())
+                    );
+                });
     }
 
     @DisplayName("완료된 스케줄이 아니라면 예외가 발생한다.")

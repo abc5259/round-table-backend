@@ -2,11 +2,14 @@ package com.roundtable.roundtable.business.house;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.common.AuthMember;
+import com.roundtable.roundtable.business.delegation.event.CreateDelegationEvent;
 import com.roundtable.roundtable.business.house.dto.CreateHouse;
 import com.roundtable.roundtable.business.house.dto.HouseMember;
+import com.roundtable.roundtable.business.house.event.HouseCreatedEvent;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.house.HouseRepository;
 import com.roundtable.roundtable.domain.house.InviteCode;
@@ -19,16 +22,22 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.event.ApplicationEvents;
+import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
+@RecordApplicationEvents
 class HouseServiceTest extends IntegrationTestSupport {
 
     @Autowired
-    private HouseService houseService;
+    private HouseService sut;
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private ApplicationEvents events;
 
     @Autowired
     private HouseRepository houseRepository;
@@ -37,12 +46,13 @@ class HouseServiceTest extends IntegrationTestSupport {
     @Test
     void createHouse() {
         //given
-        CreateHouse createHouse = new CreateHouse("house", new ArrayList<>());
         Member member = appendMember(null, "email");
+        Member member2 = appendMember(null, "email2");
+        CreateHouse createHouse = new CreateHouse("house", List.of(member2.getEmail()));
         AuthMember authMember = new AuthMember(member.getId(), null);
 
         //when
-        Long result = houseService.createHouse(createHouse, authMember);
+        Long result = sut.createHouse(createHouse, authMember);
 
         //then
         assertThat(result).isNotNull();
@@ -53,6 +63,15 @@ class HouseServiceTest extends IntegrationTestSupport {
                 .isEqualTo(createHouse.name());
         assertThat(house.getInviteCode()).isNotNull();
         assertThat(member.getHouse().getId()).isEqualTo(result);
+        assertThat(events.stream(HouseCreatedEvent.class))
+                .hasSize(1)
+                .anySatisfy(event -> {
+                    assertAll(
+                            () -> assertThat(event.houseId()).isEqualTo(house.getId()),
+                            () -> assertThat(event.appenderId()).isEqualTo(member.getId()),
+                            () -> assertThat(event.invitedEmails()).isEqualTo(List.of(member2.getEmail()))
+                    );
+                });
     }
 
     @DisplayName("하우스에 이미 들어간 사람은 하우스를 생성할 수 없다.")
@@ -65,7 +84,7 @@ class HouseServiceTest extends IntegrationTestSupport {
         AuthMember authMember = new AuthMember(member.getId(), house.getId());
 
         //when //then
-        assertThatThrownBy(() -> houseService.createHouse(createHouse, authMember))
+        assertThatThrownBy(() -> sut.createHouse(createHouse, authMember))
                 .isInstanceOf(MemberAlreadyHasHouseException.class)
                 .hasMessage(MemberErrorCode.ALREADY_HAS_HOUSE.getMessage());
     }
@@ -82,7 +101,7 @@ class HouseServiceTest extends IntegrationTestSupport {
         Member member3 = appendMember(house2, "email3");
 
         //when
-        List<HouseMember> result = houseService.findHouseMembers(
+        List<HouseMember> result = sut.findHouseMembers(
                 new AuthMember(member1.getId(), member1.getHouse().getId()));
 
         //then
