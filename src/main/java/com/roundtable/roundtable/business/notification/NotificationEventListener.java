@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.business.notification;
 
 import com.roundtable.roundtable.business.chore.event.ChoreCompleteEvent;
+import com.roundtable.roundtable.business.delegation.event.CreateDelegationEvent;
 import com.roundtable.roundtable.business.feedback.event.CreateFeedbackEvent;
 import com.roundtable.roundtable.business.house.event.HouseCreatedEvent;
 import com.roundtable.roundtable.business.notification.dto.CreateInviteNotification;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -25,6 +27,7 @@ public class NotificationEventListener {
     private final FeedbackNotificationAppender feedbackNotificationAppender;
     private final ScheduleCompletionNotificationAppender scheduleCompletionNotificationAppender;
 
+    @Transactional
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
     public void createInviteNotification(HouseCreatedEvent houseCreatedEvent) {
@@ -44,6 +47,7 @@ public class NotificationEventListener {
         }
     }
 
+    @Transactional
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
     public void createChoreCompleteNotification(ChoreCompleteEvent choreCompleteEvent) {
@@ -61,6 +65,7 @@ public class NotificationEventListener {
         }
     }
 
+    @Transactional
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
     public void createScheduleCompletionNotification(ScheduleCompletionEvent scheduleCompletionEvent) {
@@ -72,16 +77,14 @@ public class NotificationEventListener {
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.error("[ChoreCompleteEvent 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
+            log.error("[ScheduleCompletionEvent 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.error("[ChoreCompleteEvent 에러] - {}", e.getMessage(), e);
+            log.error("[ScheduleCompletionEvent 에러] - {}", e.getMessage(), e);
         }
     }
 
-    /**
-     * 고민.. 이 메서드는 무조건 트랜잭션 끝난 후 실행되야함
-     */
-    @EventListener
+    @Transactional
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
     public void createFeedbackNotification(CreateFeedbackEvent createFeedbackEvent) {
         try {
@@ -93,9 +96,23 @@ public class NotificationEventListener {
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.warn("[ChoreCompleteEvent 에러] - " + errorCode.getMessage() + " " + errorCode.getCode(), e);
+            log.warn("[CreateFeedbackEvent 에러] - " + errorCode.getMessage() + " " + errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.warn("[ChoreCompleteEvent 에러] - " + e.getMessage(), e);
+            log.warn("[CreateFeedbackEvent 에러] - " + e.getMessage(), e);
+        }
+    }
+
+    @Transactional
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Async
+    public void createDelegationNotification(CreateDelegationEvent createDelegationEvent) {
+        try {
+
+        }catch (CoreException e) {
+            ErrorCode errorCode = e.getErrorCode();
+            log.warn("[CreateDelegationEvent 에러] - " + errorCode.getMessage() + " " + errorCode.getCode(), e);
+        }catch (RuntimeException e) {
+            log.warn("[CreateDelegationEvent 에러] - " + e.getMessage(), e);
         }
     }
 }

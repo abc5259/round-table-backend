@@ -96,6 +96,10 @@ public class Member extends BaseEntity {
         return this.house.getId().equals(house.getId());
     }
 
+    public boolean isSameHouse(Member member) {
+        return isSameHouse(member.getHouse());
+    }
+
     public boolean isEnterHouse() {
         return Objects.nonNull(house);
     }

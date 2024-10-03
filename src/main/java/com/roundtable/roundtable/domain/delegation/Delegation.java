@@ -87,6 +87,7 @@ public class Delegation extends BaseEntity {
     private static void validateCreateDelegation(List<ScheduleMember> scheduleManagers, Member sender, Member receiver) {
         validateSender(scheduleManagers, sender);
         validateReceiver(scheduleManagers, receiver);
+        validateSameHouse(sender, receiver);
     }
 
     private static void validateSender(List<ScheduleMember> scheduleManagers, Member sender) {
@@ -100,6 +101,12 @@ public class Delegation extends BaseEntity {
         boolean hasReceiver = scheduleManagers.stream().anyMatch(scheduleMember -> scheduleMember.isSameMember(receiver));
         if(hasReceiver) {
             throw new IllegalArgumentException("오늘 스케줄 담당자에게 부탁을 할 수 없습니다.");
+        }
+    }
+
+    private static void validateSameHouse(Member sender, Member receiver) {
+        if(!sender.isSameHouse(receiver)) {
+            throw new IllegalArgumentException("같은 하우스의 사용자에게만 부탁이 가능합니다.");
         }
     }
 

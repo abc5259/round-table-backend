@@ -16,20 +16,26 @@ import com.roundtable.roundtable.domain.schedule.Category;
 import com.roundtable.roundtable.domain.schedule.Day;
 import com.roundtable.roundtable.domain.schedule.DivisionType;
 import com.roundtable.roundtable.domain.schedule.Schedule;
+import com.roundtable.roundtable.domain.schedule.ScheduleCompletion;
+import com.roundtable.roundtable.domain.schedule.ScheduleCompletionRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleDay;
 import com.roundtable.roundtable.domain.schedule.ScheduleDayRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleMember;
 import com.roundtable.roundtable.domain.schedule.ScheduleMemberRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleRepository;
 import com.roundtable.roundtable.domain.schedule.ScheduleType;
+import com.roundtable.roundtable.global.exception.DelegationException;
+import com.roundtable.roundtable.global.exception.errorcode.DelegationErrorCode;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
+@RecordApplicationEvents
 class DelegationServiceTest extends IntegrationTestSupport {
 
     @Autowired
@@ -49,6 +55,9 @@ class DelegationServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private DelegationRepository delegationRepository;
+
+    @Autowired
+    private ScheduleCompletionRepository scheduleCompletionRepository;
 
     @Autowired
     private DelegationService sut;
@@ -78,6 +87,67 @@ class DelegationServiceTest extends IntegrationTestSupport {
         assertThat(delegation.getSender().getId()).isEqualTo(member1.getId());
         assertThat(delegation.getReceiver().getId()).isEqualTo(member2.getId());
     }
+
+    @DisplayName("이미 부탁을 했다면 예외가 발생한다.")
+    @Test
+    void appendDelegationWhenAlreadyExistThrowsException() {
+        //given
+        LocalDate now = LocalDate.of(2024, 9, 30);
+        House house = appendHouse("code1");
+        Member member1 = appendMember(house, "email1");
+        Member member2 = appendMember(house, "email2");
+        Schedule schedule = appendSchedule(house, DivisionType.ROTATION, ScheduleType.REPEAT);
+        appendScheduleMember(schedule, member1, 0);
+        appendScheduleDay(schedule, Day.forDayOfWeek(now.getDayOfWeek()));
+        CreateDelegationDto createDelegationDto = new CreateDelegationDto(schedule.getId(), "부탁해", member1.getId(), member2.getId(), now);
+        appendDelegation(now, member1, member2, schedule);
+
+        //when
+        assertThatThrownBy(() -> sut.createDelegation(house.getId(), createDelegationDto))
+                .isInstanceOf(DelegationException.class)
+                .hasMessage(DelegationErrorCode.ALREADY_EXIST_DELEGATION.getMessage());
+    }
+
+    @DisplayName("오늘 수행하지 않는 스케줄에 부탁을 하면 예외가 발생한다.")
+    @Test
+    void appendDelegationWhenNotTodayScheduleThrowsException() {
+        //given
+        LocalDate now = LocalDate.of(2024, 9, 30);
+        House house = appendHouse("code1");
+        Member member1 = appendMember(house, "email1");
+        Member member2 = appendMember(house, "email2");
+        Schedule schedule = appendSchedule(house, DivisionType.ROTATION, ScheduleType.REPEAT);
+        appendScheduleMember(schedule, member1, 0);
+        appendScheduleDay(schedule, Day.forDayOfWeek(now.getDayOfWeek().plus(1)));
+        CreateDelegationDto createDelegationDto = new CreateDelegationDto(schedule.getId(), "부탁해", member1.getId(), member2.getId(), now);
+
+        //when
+        assertThatThrownBy(() -> sut.createDelegation(house.getId(), createDelegationDto))
+                .isInstanceOf(DelegationException.class)
+                .hasMessage(DelegationErrorCode.DELEGATION_FORBIDDEN_NOT_TODAY_SCHEDULE.getMessage());
+    }
+
+    @DisplayName("이미 완료한 스케줄에 부탁을 하면 예외가 발생한다.")
+    @Test
+    void appendDelegationWhenAlreadyCompletionScheduleThrowsException() {
+        //given
+        LocalDate now = LocalDate.of(2024, 9, 30);
+        House house = appendHouse("code1");
+        Member member1 = appendMember(house, "email1");
+        Member member2 = appendMember(house, "email2");
+        Schedule schedule = appendSchedule(house, DivisionType.ROTATION, ScheduleType.REPEAT);
+        appendScheduleMember(schedule, member1, 0);
+        appendScheduleDay(schedule, Day.forDayOfWeek(now.getDayOfWeek()));
+        appendScheduleCompletion(schedule, now);
+
+        CreateDelegationDto createDelegationDto = new CreateDelegationDto(schedule.getId(), "부탁해", member1.getId(), member2.getId(), now);
+
+        //when
+        assertThatThrownBy(() -> sut.createDelegation(house.getId(), createDelegationDto))
+                .isInstanceOf(DelegationException.class)
+                .hasMessage(DelegationErrorCode.DELEGATION_FORBIDDEN_ALREADY_COMPLETION_SCHEDULE.getMessage());
+    }
+
 
     private House appendHouse(String code) {
         House house = House.builder().name("house1").inviteCode(InviteCode.builder().code(code).build()).build();
@@ -120,5 +190,20 @@ class DelegationServiceTest extends IntegrationTestSupport {
                 .dayOfWeek(day)
                 .build();
         return scheduleDayRepository.save(scheduleDay);
+    }
+
+    private void appendDelegation(LocalDate now, Member member1, Member member2, Schedule schedule) {
+        Delegation delegation = Delegation.builder().delegationDate(now).sender(member1).receiver(member2)
+                .status(DelegationStatus.PENDING).message("message").schedule(schedule).build();
+        delegationRepository.save(delegation);
+    }
+
+    private void appendScheduleCompletion(Schedule schedule, LocalDate date) {
+        ScheduleCompletion scheduleCompletion = ScheduleCompletion.builder()
+                .schedule(schedule)
+                .sequence(0)
+                .completionDate(date)
+                .build();
+        scheduleCompletionRepository.save(scheduleCompletion);
     }
 }
