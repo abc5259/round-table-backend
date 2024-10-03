@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import com.roundtable.roundtable.IntegrationTestSupport;
 import com.roundtable.roundtable.business.delegation.dto.CreateDelegationDto;
 import com.roundtable.roundtable.business.delegation.event.CreateDelegationEvent;
-import com.roundtable.roundtable.business.schedule.dto.ScheduleCompletionEvent;
 import com.roundtable.roundtable.domain.delegation.Delegation;
 import com.roundtable.roundtable.domain.delegation.DelegationRepository;
 import com.roundtable.roundtable.domain.delegation.DelegationStatus;

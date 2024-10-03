@@ -8,8 +8,10 @@ import com.roundtable.roundtable.domain.notification.DelegationNotification;
 import com.roundtable.roundtable.domain.notification.NotificationRepository;
 import com.roundtable.roundtable.domain.schedule.Schedule;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class DelegationNotificationAppender {

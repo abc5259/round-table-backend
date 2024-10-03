@@ -19,7 +19,8 @@ public class NotificationService {
     private final List<NotificationResponseAdapter> notificationResponseAdapters = List.of(
             new InviteNotificationResponseAdapter(),
             new ScheduleCompletionNotificationAdapter(),
-            new FeedbackNotificationAdaptor()
+            new FeedbackNotificationAdaptor(),
+            new DelegationNotificationAdapter()
     );
     private final NotificationReader notificationReader;
 

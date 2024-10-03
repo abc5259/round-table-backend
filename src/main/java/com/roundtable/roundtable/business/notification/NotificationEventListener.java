@@ -26,6 +26,7 @@ public class NotificationEventListener {
     private final ChoreCompleteNotificationAppender choreCompleteNotificationAppender;
     private final FeedbackNotificationAppender feedbackNotificationAppender;
     private final ScheduleCompletionNotificationAppender scheduleCompletionNotificationAppender;
+    private final DelegationNotificationAppender delegationNotificationAppender;
 
     @Transactional
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
@@ -41,9 +42,9 @@ public class NotificationEventListener {
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.error("[HouseCreatedEvent 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
+            log.error("[createInviteNotification 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.error("[HouseCreatedEvent 에러] - {}", e.getMessage(), e);
+            log.error("[createInviteNotification 에러] - {}", e.getMessage(), e);
         }
     }
 
@@ -59,9 +60,9 @@ public class NotificationEventListener {
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.error("[ChoreCompleteEvent 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
+            log.error("[createChoreCompleteNotification 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.error("[ChoreCompleteEvent 에러] - {}", e.getMessage(), e);
+            log.error("[createChoreCompleteNotification 에러] - {}", e.getMessage(), e);
         }
     }
 
@@ -77,9 +78,9 @@ public class NotificationEventListener {
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.error("[ScheduleCompletionEvent 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
+            log.error("[createScheduleCompletionNotification 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.error("[ScheduleCompletionEvent 에러] - {}", e.getMessage(), e);
+            log.error("[createScheduleCompletionNotification 에러] - {}", e.getMessage(), e);
         }
     }
 
@@ -96,9 +97,9 @@ public class NotificationEventListener {
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.warn("[CreateFeedbackEvent 에러] - " + errorCode.getMessage() + " " + errorCode.getCode(), e);
+            log.error("[createFeedbackNotification 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.warn("[CreateFeedbackEvent 에러] - " + e.getMessage(), e);
+            log.error("[createFeedbackNotification 에러] - {}", e.getMessage(), e);
         }
     }
 
@@ -107,12 +108,18 @@ public class NotificationEventListener {
     @Async
     public void createDelegationNotification(CreateDelegationEvent createDelegationEvent) {
         try {
-
+            delegationNotificationAppender.append(
+                    createDelegationEvent.houseId(),
+                    createDelegationEvent.sender(),
+                    createDelegationEvent.receiver(),
+                    createDelegationEvent.scheduleId(),
+                    createDelegationEvent.delegation()
+            );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.warn("[CreateDelegationEvent 에러] - " + errorCode.getMessage() + " " + errorCode.getCode(), e);
+            log.error("[createDelegationNotification 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.warn("[CreateDelegationEvent 에러] - " + e.getMessage(), e);
+            log.error("[createDelegationNotification 에러] - {}", e.getMessage(), e);
         }
     }
 }
