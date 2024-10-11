@@ -2,6 +2,7 @@ package com.roundtable.roundtable.business.notification;
 
 import com.roundtable.roundtable.business.chore.event.ChoreCompleteEvent;
 import com.roundtable.roundtable.business.delegation.event.CreateDelegationEvent;
+import com.roundtable.roundtable.business.delegation.event.UpdateDelegationEvent;
 import com.roundtable.roundtable.business.feedback.event.CreateFeedbackEvent;
 import com.roundtable.roundtable.business.house.event.HouseCreatedEvent;
 import com.roundtable.roundtable.business.notification.dto.CreateInviteNotification;
@@ -114,6 +115,23 @@ public class NotificationEventListener {
                     createDelegationEvent.receiver(),
                     createDelegationEvent.scheduleId(),
                     createDelegationEvent.delegation()
+            );
+        }catch (CoreException e) {
+            ErrorCode errorCode = e.getErrorCode();
+            log.error("[createDelegationNotification 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
+        }catch (RuntimeException e) {
+            log.error("[createDelegationNotification 에러] - {}", e.getMessage(), e);
+        }
+    }
+
+    @Transactional
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Async
+    public void updateDelegationNotification(UpdateDelegationEvent updateDelegationEvent) {
+        try {
+            delegationNotificationAppender.append(
+                    updateDelegationEvent.houseId(),
+                    updateDelegationEvent.delegation()
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();

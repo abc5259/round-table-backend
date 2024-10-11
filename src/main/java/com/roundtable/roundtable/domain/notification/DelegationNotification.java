@@ -52,4 +52,18 @@ public class DelegationNotification extends Notification {
                 .scheduleName(scheduleName)
                 .build();
     }
+
+    public static DelegationNotification create(
+            House house,
+            Delegation delegation
+    ) {
+        return DelegationNotification.builder()
+                .sender(delegation.getReceiver())
+                .receiver(delegation.getSender())
+                .house(house)
+                .delegationId(delegation.getId())
+                .status(delegation.getStatus())
+                .scheduleName(delegation.getScheduleName())
+                .build();
+    }
 }

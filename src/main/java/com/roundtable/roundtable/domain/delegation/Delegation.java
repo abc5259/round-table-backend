@@ -65,6 +65,10 @@ public class Delegation extends BaseEntity {
         this.delegationDate = delegationDate;
     }
 
+    public String getScheduleName() {
+        return schedule.getName();
+    }
+
 
     public static Delegation create(
             List<ScheduleMember> scheduleManagers,

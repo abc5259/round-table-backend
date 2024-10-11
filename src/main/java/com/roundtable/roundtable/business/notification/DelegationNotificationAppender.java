@@ -24,4 +24,9 @@ public class DelegationNotificationAppender {
         DelegationNotification delegationNotification = DelegationNotification.create(House.Id(houseId), sender, receiver, delegation, schedule.getName());
         notificationRepository.save(delegationNotification);
     }
+
+    public void append(Long houseId, Delegation delegation) {
+        DelegationNotification delegationNotification = DelegationNotification.create(House.Id(houseId), delegation);
+        notificationRepository.save(delegationNotification);
+    }
 }
