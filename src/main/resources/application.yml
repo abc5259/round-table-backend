@@ -2,6 +2,8 @@ spring:
   profiles:
     active: local
     include: aws
+  jpa:
+    open-in-view: false # sse 사용으로 인해 false
   mail:
     host: smtp.gmail.com
     port: 587

@@ -135,9 +135,9 @@ public class NotificationEventListener {
             );
         }catch (CoreException e) {
             ErrorCode errorCode = e.getErrorCode();
-            log.error("[createDelegationNotification 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
+            log.error("[updateDelegationNotification 에러] - {} {}", errorCode.getMessage(), errorCode.getCode(), e);
         }catch (RuntimeException e) {
-            log.error("[createDelegationNotification 에러] - {}", e.getMessage(), e);
+            log.error("[updateDelegationNotification 에러] - {}", e.getMessage(), e);
         }
     }
 }
