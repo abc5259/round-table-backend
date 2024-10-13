@@ -3,6 +3,7 @@ package com.roundtable.roundtable.business.notification;
 import com.roundtable.roundtable.business.common.AuthMember;
 import com.roundtable.roundtable.business.common.CursorBasedRequest;
 import com.roundtable.roundtable.business.common.CursorBasedResponse;
+import com.roundtable.roundtable.business.notification.converter.NotificationResponseConvertMapper;
 import com.roundtable.roundtable.business.notification.dto.response.NotificationResponse;
 import com.roundtable.roundtable.domain.notification.Notification;
 import java.util.List;
@@ -13,16 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NotificationService {
 
-    /**
-     * TODO: Map으로 하는게 더 좋을까?
-     */
-    private final List<NotificationResponseAdapter> notificationResponseAdapters = List.of(
-            new InviteNotificationResponseAdapter(),
-            new ScheduleCompletionNotificationAdapter(),
-            new FeedbackNotificationAdaptor(),
-            new DelegationNotificationAdapter()
-    );
     private final NotificationReader notificationReader;
+    private final NotificationResponseConvertMapper notificationResponseConvertMapper;
 
 
     public CursorBasedResponse<List<NotificationResponse>> findNotificationsByMemberId(CursorBasedRequest cursorBasedRequest, AuthMember authMember) {
@@ -36,11 +29,7 @@ public class NotificationService {
     }
 
     private NotificationResponse toNotificationResponse(Notification notification) {
-        return notificationResponseAdapters.stream()
-                .filter(adapter -> adapter.isSupport(notification))
-                .findFirst()
-                .map(adapter -> adapter.toNotificationResponse(notification))
-                .orElse(null);
+        return notificationResponseConvertMapper.convert(notification);
     }
 
 

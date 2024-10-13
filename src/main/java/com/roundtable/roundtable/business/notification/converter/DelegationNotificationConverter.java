@@ -1,17 +1,14 @@
-package com.roundtable.roundtable.business.notification;
+package com.roundtable.roundtable.business.notification.converter;
 
 import com.roundtable.roundtable.business.notification.dto.response.DelegationNotificationResponse;
 import com.roundtable.roundtable.business.notification.dto.response.NotificationResponse;
 import com.roundtable.roundtable.domain.notification.DelegationNotification;
 import com.roundtable.roundtable.domain.notification.Notification;
 import com.roundtable.roundtable.domain.notification.NotificationType;
+import org.springframework.stereotype.Component;
 
-public class DelegationNotificationAdapter implements NotificationResponseAdapter {
-
-    @Override
-    public boolean isSupport(Notification notification) {
-        return notification instanceof DelegationNotification;
-    }
+@Component
+public class DelegationNotificationConverter implements NotificationResponseConverter {
 
     @Override
     public NotificationResponse toNotificationResponse(Notification notification) {
@@ -27,5 +24,10 @@ public class DelegationNotificationAdapter implements NotificationResponseAdapte
                 delegationNotification.getStatus(),
                 delegationNotification.getScheduleName()
         );
+    }
+
+    @Override
+    public NotificationType getNotificationSupportType() {
+        return NotificationType.DELEGATION;
     }
 }

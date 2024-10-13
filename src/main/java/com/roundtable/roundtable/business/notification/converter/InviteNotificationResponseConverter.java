@@ -1,16 +1,14 @@
-package com.roundtable.roundtable.business.notification;
+package com.roundtable.roundtable.business.notification.converter;
 
 import com.roundtable.roundtable.business.notification.dto.response.InviteNotificationResponse;
 import com.roundtable.roundtable.business.notification.dto.response.NotificationResponse;
 import com.roundtable.roundtable.domain.notification.InviteNotification;
 import com.roundtable.roundtable.domain.notification.Notification;
 import com.roundtable.roundtable.domain.notification.NotificationType;
+import org.springframework.stereotype.Component;
 
-public class InviteNotificationResponseAdapter implements NotificationResponseAdapter {
-    @Override
-    public boolean isSupport(Notification notification) {
-        return notification instanceof InviteNotification;
-    }
+@Component
+public class InviteNotificationResponseConverter implements NotificationResponseConverter {
 
     @Override
     public NotificationResponse toNotificationResponse(Notification notification) {
@@ -24,5 +22,10 @@ public class InviteNotificationResponseAdapter implements NotificationResponseAd
                 inviteNotification.getInvitedHouseId(),
                 inviteNotification.getInvitedHouseName()
         );
+    }
+
+    @Override
+    public NotificationType getNotificationSupportType() {
+        return NotificationType.INVITE;
     }
 }

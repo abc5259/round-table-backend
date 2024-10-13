@@ -1,17 +1,14 @@
-package com.roundtable.roundtable.business.notification;
+package com.roundtable.roundtable.business.notification.converter;
 
 import com.roundtable.roundtable.business.notification.dto.response.FeedbackNotificationResponse;
 import com.roundtable.roundtable.business.notification.dto.response.NotificationResponse;
 import com.roundtable.roundtable.domain.notification.FeedbackNotification;
 import com.roundtable.roundtable.domain.notification.Notification;
 import com.roundtable.roundtable.domain.notification.NotificationType;
+import org.springframework.stereotype.Component;
 
-public class FeedbackNotificationAdaptor implements NotificationResponseAdapter {
-
-    @Override
-    public boolean isSupport(Notification notification) {
-        return notification instanceof FeedbackNotification;
-    }
+@Component
+public class FeedbackNotificationConverter implements NotificationResponseConverter {
 
     @Override
     public NotificationResponse toNotificationResponse(Notification notification) {
@@ -26,5 +23,10 @@ public class FeedbackNotificationAdaptor implements NotificationResponseAdapter 
                 feedbackNotification.getFeedbackId(),
                 feedbackNotification.getScheduleName()
         );
+    }
+
+    @Override
+    public NotificationType getNotificationSupportType() {
+        return NotificationType.FEEDBACK;
     }
 }

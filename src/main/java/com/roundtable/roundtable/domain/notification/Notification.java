@@ -3,6 +3,7 @@ package com.roundtable.roundtable.domain.notification;
 import com.roundtable.roundtable.domain.common.BaseEntity;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -39,6 +40,9 @@ public class Notification extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private House house;
 
+    @Column(insertable = false, updatable = false)
+    private String dtype;
+
     protected Notification(Member sender, Member receiver, House house) {
         this.sender = sender;
         this.receiver = receiver;
@@ -48,5 +52,9 @@ public class Notification extends BaseEntity {
     protected Notification(Member receiver, House house) {
         this.receiver = receiver;
         this.house = house;
+    }
+
+    public NotificationType getNotificationType() {
+        return NotificationType.valueOf(dtype);
     }
 }
