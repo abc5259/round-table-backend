@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.domain.sse;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -27,5 +28,13 @@ public class SseEmitterId {
     @Override
     public String toString() {
         return houseId + DELIMITER + memberId + DELIMITER + timestamp;
+    }
+
+    public boolean isHouseId(Long houseId) {
+        return this.houseId.equals(houseId);
+    }
+
+    public boolean containMemberId(List<Long> memberIds) {
+        return memberIds.contains(memberId);
     }
 }

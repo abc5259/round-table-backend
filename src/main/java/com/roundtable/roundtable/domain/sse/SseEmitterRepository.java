@@ -1,7 +1,10 @@
 package com.roundtable.roundtable.domain.sse;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -28,7 +31,7 @@ public class SseEmitterRepository {
         sseEmitter.onCompletion(() -> removeEmitter(emitterId, COMPLETE));
         sseEmitter.onTimeout(() -> removeEmitter(emitterId, TIME_OUT));
         sseEmitter.onError((e) -> {
-            log.error("SseEmitter 에러 : {}, {}", emitterId.toString(), e);
+            log.error("SseEmitter 에러 : {}", emitterId.toString(), e);
             removeEmitter(emitterId, ERROR);
         });
     }
@@ -39,5 +42,15 @@ public class SseEmitterRepository {
         } else {
             log.warn("SseEmitter 제거 실패 - EmitterId 찾을 수 없음 : {}", emitterId.toString());
         }
+    }
+
+    public SseEmitters findByHouseIdAndMemberId(final Long houseId, List<Long> memberIds) {
+        Map<SseEmitterId, SseEmitter> filteredEmitters = this.emitters.entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().isHouseId(houseId) && entry.getKey().containMemberId(memberIds))
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+
+        log.info("SseEmitter 탐색 {}개, houseId : {}, memberIds: {}", filteredEmitters.size(), houseId, memberIds);
+        return new SseEmitters(filteredEmitters);
     }
 }

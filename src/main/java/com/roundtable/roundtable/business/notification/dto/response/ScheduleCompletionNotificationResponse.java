@@ -16,11 +16,13 @@ public class ScheduleCompletionNotificationResponse extends NotificationResponse
             Long id,
             NotificationType type,
             LocalDateTime createdAt,
+            Long senderId,
+            String senderName,
             Long scheduleId,
             String scheduleName,
             String memberNames
     ) {
-        super(id, type, createdAt);
+        super(id, type, createdAt, senderId, senderName);
         this.scheduleId = scheduleId;
         this.scheduleName = scheduleName;
         this.memberNames = memberNames;

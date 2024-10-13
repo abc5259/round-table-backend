@@ -14,10 +14,12 @@ public class FeedbackNotificationResponse extends NotificationResponse {
             Long id,
             NotificationType type,
             LocalDateTime createdAt,
+            Long senderId,
+            String senderName,
             Long feedbackId,
             String scheduleName
     ) {
-        super(id, type, createdAt);
+        super(id, type, createdAt, senderId, senderName);
         this.feedbackId = feedbackId;
         this.scheduleName = scheduleName;
     }

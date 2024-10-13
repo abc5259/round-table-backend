@@ -20,6 +20,8 @@ public class ScheduleCompletionNotificationAdapter implements NotificationRespon
                 scheduleCompletionNotification.getId(),
                 NotificationType.SCHEDULE_COMPLETION,
                 scheduleCompletionNotification.getCreatedAt(),
+                scheduleCompletionNotification.getSender().getId(),
+                scheduleCompletionNotification.getSender().getName(),
                 scheduleCompletionNotification.getScheduleId(),
                 scheduleCompletionNotification.getScheduleName(),
                 scheduleCompletionNotification.getMemberNames()

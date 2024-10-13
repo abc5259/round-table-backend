@@ -19,6 +19,8 @@ public class InviteNotificationResponseAdapter implements NotificationResponseAd
                 inviteNotification.getId(),
                 NotificationType.INVITE,
                 inviteNotification.getCreatedAt(),
+                inviteNotification.getSender().getId(),
+                inviteNotification.getSender().getName(),
                 inviteNotification.getInvitedHouseId(),
                 inviteNotification.getInvitedHouseName()
         );

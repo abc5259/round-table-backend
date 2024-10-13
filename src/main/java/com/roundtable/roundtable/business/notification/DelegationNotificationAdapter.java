@@ -21,6 +21,8 @@ public class DelegationNotificationAdapter implements NotificationResponseAdapte
                 delegationNotification.getId(),
                 NotificationType.DELEGATION,
                 delegationNotification.getCreatedAt(),
+                delegationNotification.getSender().getId(),
+                delegationNotification.getSender().getName(),
                 delegationNotification.getDelegationId(),
                 delegationNotification.getStatus(),
                 delegationNotification.getScheduleName()

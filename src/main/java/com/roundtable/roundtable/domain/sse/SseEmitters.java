@@ -15,9 +15,7 @@ public class SseEmitters {
     }
 
     public void sendEvent(SseEventId sseEventId, SseEvent sseEvent) {
-        emitters.forEach((emitterId, emitter) -> {
-            sendToEmitter(emitterId, emitter, sseEventId, sseEvent);
-        });
+        emitters.forEach((emitterId, emitter) -> sendToEmitter(emitterId, emitter, sseEventId, sseEvent));
     }
 
     private void sendToEmitter(SseEmitterId emitterId, SseEmitter emitter, SseEventId sseEventId, SseEvent sseEvent) {

@@ -18,11 +18,13 @@ public class DelegationNotificationResponse extends NotificationResponse {
             Long id,
             NotificationType type,
             LocalDateTime createdAt,
+            Long senderId,
+            String senderName,
             Long delegationId,
             DelegationStatus status,
             String scheduleName
     ) {
-        super(id, type, createdAt);
+        super(id, type, createdAt, senderId, senderName);
         this.delegationId = delegationId;
         this.status = status;
         this.scheduleName = scheduleName;

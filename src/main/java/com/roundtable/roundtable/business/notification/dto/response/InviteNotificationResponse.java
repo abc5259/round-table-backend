@@ -10,8 +10,16 @@ public class InviteNotificationResponse extends NotificationResponse {
     private Long invitedHouseId;
     private String invitedHouseName;
 
-    public InviteNotificationResponse(Long id, NotificationType type, LocalDateTime createdAt, Long invitedHouseId, String invitedHouseName) {
-        super(id, type, createdAt);
+    public InviteNotificationResponse(
+            Long id,
+            NotificationType type,
+            LocalDateTime createdAt,
+            Long senderId,
+            String senderName,
+            Long invitedHouseId,
+            String invitedHouseName
+    ) {
+        super(id, type, createdAt, senderId, senderName);
         this.invitedHouseId = invitedHouseId;
         this.invitedHouseName = invitedHouseName;
     }

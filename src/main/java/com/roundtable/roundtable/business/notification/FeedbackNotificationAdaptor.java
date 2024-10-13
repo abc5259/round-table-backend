@@ -21,6 +21,8 @@ public class FeedbackNotificationAdaptor implements NotificationResponseAdapter 
                 feedbackNotification.getId(),
                 NotificationType.FEEDBACK,
                 feedbackNotification.getCreatedAt(),
+                feedbackNotification.getSender().getId(),
+                feedbackNotification.getSender().getName(),
                 feedbackNotification.getFeedbackId(),
                 feedbackNotification.getScheduleName()
         );
