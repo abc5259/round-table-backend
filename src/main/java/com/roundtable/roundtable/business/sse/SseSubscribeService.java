@@ -15,13 +15,13 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SseService {
+public class SseSubscribeService {
 
     private static final Long CONNECTION_TIME_OUT = 60 * 3 * 1000L;
 
     private final SseEmitterRepository sseEmitterRepository;
 
-    public SseEmitter connect(AuthMember authMember) {
+    public SseEmitter subscribe(AuthMember authMember) {
         SseEmitterId sseEmitterId = SseEmitterId.of(authMember.houseId(), authMember.memberId(), LocalDateTime.now());
         SseEmitters emitter = sseEmitterRepository.save(sseEmitterId, new SseEmitter(CONNECTION_TIME_OUT));
 
