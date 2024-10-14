@@ -17,7 +17,7 @@ public class ScheduleCompletionSseEvent extends SseEventTemplate<ScheduleComplet
         return EVENT_NAME;
     }
 
-    public static record ScheduleCompletionSseData(
+    public record ScheduleCompletionSseData(
             Long scheduleId,
             String scheduleName,
             String scheduleCompletionMemberNames

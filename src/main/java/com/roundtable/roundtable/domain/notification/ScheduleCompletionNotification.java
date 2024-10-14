@@ -1,8 +1,11 @@
 package com.roundtable.roundtable.domain.notification;
 
+import com.roundtable.roundtable.business.schedule.dto.ScheduleCompletionEvent;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.NotificationType.Values;
+import com.roundtable.roundtable.domain.sse.event.ScheduleCompletionSseEvent;
+import com.roundtable.roundtable.domain.sse.event.ScheduleCompletionSseEvent.ScheduleCompletionSseData;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import java.util.List;
@@ -45,5 +48,10 @@ public class ScheduleCompletionNotification extends Notification {
                 .scheduleName(scheduleName)
                 .memberNames(names)
                 .build();
+    }
+
+    public ScheduleCompletionSseEvent toSseEvent() {
+        ScheduleCompletionSseData eventData = new ScheduleCompletionSseData(scheduleId, scheduleName, memberNames);
+        return new ScheduleCompletionSseEvent(eventData);
     }
 }

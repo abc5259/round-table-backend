@@ -21,7 +21,6 @@ public class InviteNotificationAppender {
     private final NotificationRepository notificationRepository;
 
     public List<Long> append(CreateInviteNotification createInviteNotification) {
-
         List<InviteNotification> inviteNotifications = notificationFactory.createInviteNotifications(createInviteNotification);
         List<InviteNotification> savedInviteNotifications = notificationRepository.saveAll(inviteNotifications);
         return savedInviteNotifications.stream().map(Notification::getId).toList();

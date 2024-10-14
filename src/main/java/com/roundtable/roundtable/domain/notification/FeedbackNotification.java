@@ -4,6 +4,9 @@ import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.NotificationType.Values;
 import com.roundtable.roundtable.domain.schedule.ScheduleCompletion;
+import com.roundtable.roundtable.domain.sse.event.FeedbackSseEvent;
+import com.roundtable.roundtable.domain.sse.event.FeedbackSseEvent.FeedbackSseData;
+import com.roundtable.roundtable.domain.sse.event.SseEvent;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import java.util.List;
@@ -59,5 +62,9 @@ public class FeedbackNotification extends Notification {
                 .feedbackId(feedbackId)
                 .scheduleName(scheduleCompletion.getScheduleName())
                 .build()).toList();
+    }
+
+    public SseEvent toSseEvent() {
+        return FeedbackSseEvent.of(getSender().getName(), feedbackId, scheduleName);
     }
 }

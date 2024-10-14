@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.business.notification;
 
 import com.roundtable.roundtable.business.member.MemberReader;
+import com.roundtable.roundtable.business.sse.HouseSsePublisher;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.FeedbackNotification;
@@ -23,6 +24,7 @@ public class FeedbackNotificationAppender {
     private final NotificationRepository notificationRepository;
     private final ScheduleCompletionRepository scheduleCompletionRepository;
     private final ScheduleCompletionMemberRepository scheduleCompletionMemberRepository;
+    private final HouseSsePublisher houseSsePublisher;
 
     public void append(Long feedbackId, Long houseId, Long scheduleCompletionId, Long senderId) {
         Member sender = memberReader.findById(senderId);
@@ -38,5 +40,9 @@ public class FeedbackNotificationAppender {
                 scheduleCompletion
         );
         notificationRepository.saveAll(feedbackNotifications);
+
+        if(!feedbackNotifications.isEmpty()) {
+            houseSsePublisher.send(houseId, receivers.stream().map(Member::getId).toList(), feedbackNotifications.get(0).toSseEvent());
+        }
     }
 }
