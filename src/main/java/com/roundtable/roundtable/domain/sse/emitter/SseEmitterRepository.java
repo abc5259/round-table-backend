@@ -53,4 +53,14 @@ public class SseEmitterRepository {
         log.info("SseEmitter 탐색 {}개, houseId : {}, memberIds: {}", filteredEmitters.size(), houseId, memberIds);
         return new SseEmitters(filteredEmitters);
     }
+
+    public SseEmitters finByMemberIdAndNonHouse(List<Long> memberIds) {
+        Map<SseEmitterId, SseEmitter> filteredEmitters = this.emitters.entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().isNonHouse() && entry.getKey().containMemberId(memberIds))
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+
+        log.info("SseEmitter 탐색 {}개, memberIds: {}", filteredEmitters.size(), memberIds);
+        return new SseEmitters(filteredEmitters);
+    }
 }

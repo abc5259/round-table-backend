@@ -11,6 +11,7 @@ import lombok.Getter;
 public class SseEmitterId {
 
     private static final String DELIMITER = "_";
+    private static final Long EMPTY_HOUSE = -1L;
 
     private final Long houseId;
     private final Long memberId;
@@ -23,6 +24,9 @@ public class SseEmitterId {
     }
 
     public static SseEmitterId of(Long houseId, Long memberId, LocalDateTime timestamp) {
+        if(houseId == null) {
+            houseId = EMPTY_HOUSE;
+        }
         return new SseEmitterId(houseId, memberId, timestamp);
     }
 
@@ -41,5 +45,9 @@ public class SseEmitterId {
 
     public boolean containMemberId(List<Long> memberIds) {
         return memberIds.contains(memberId);
+    }
+
+    public boolean isNonHouse() {
+        return houseId.equals(EMPTY_HOUSE);
     }
 }

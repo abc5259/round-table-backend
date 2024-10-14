@@ -4,6 +4,7 @@ package com.roundtable.roundtable.domain.notification;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.NotificationType.Values;
+import com.roundtable.roundtable.domain.sse.event.HouseInviteSseEvent;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
@@ -35,5 +36,9 @@ public class InviteNotification extends Notification {
                 .invitedHouseId(invitedHouseId)
                 .invitedHouseName(invitedHouseName)
                 .build();
+    }
+
+    public HouseInviteSseEvent toSseEvent() {
+        return HouseInviteSseEvent.of(getSender().getName(), invitedHouseId, invitedHouseName);
     }
 }

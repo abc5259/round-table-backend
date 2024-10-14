@@ -18,4 +18,9 @@ public class HouseSsePublisher {
         SseEmitters sseEmitters = sseEmitterRepository.findByHouseIdAndMemberId(houseId, receiverIds);
         sseEmitters.sendEvent(sseEvent, LocalDateTime.now());
     }
+
+    public void sendToNonHouseMembers(List<Long> receiverIds, SseEvent sseEvent) {
+        SseEmitters sseEmitters = sseEmitterRepository.finByMemberIdAndNonHouse(receiverIds);
+        sseEmitters.sendEvent(sseEvent, LocalDateTime.now());
+    }
 }

@@ -14,15 +14,20 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/house/{houseId}/sse")
+@RequestMapping("/sse")
 public class SseController {
 
     private final SseSubscribeService sseSubscribeService;
 
-    @GetMapping(value = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/connect/house/{houseId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ResponseEntity<SseEmitter> connect(@Login AuthMember authMember, @PathVariable Long houseId) {
         SseEmitter sseEmitter = sseSubscribeService.subscribe(authMember.toHouseAuthMember(houseId));
-        return ResponseEntity.ok()
-                .body(sseEmitter);
+        return ResponseEntity.ok(sseEmitter);
+    }
+
+    @GetMapping(value = "/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public ResponseEntity<SseEmitter> connect(@Login AuthMember authMember) {
+        SseEmitter sseEmitter = sseSubscribeService.subscribe(authMember);
+        return ResponseEntity.ok(sseEmitter);
     }
 }

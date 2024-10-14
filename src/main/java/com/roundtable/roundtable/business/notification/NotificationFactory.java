@@ -24,36 +24,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NotificationFactory {
 
-    private final HouseReader houseReader;
-
     private final MemberReader memberReader;
 
     private final ChoreReader choreReader;
 
     private final ChoreMemberReader choreMemberReader;
-
-    public List<InviteNotification> createInviteNotifications(CreateInviteNotification createInviteNotification) {
-        House house = houseReader.findById(createInviteNotification.invitedHouseId());
-
-        // senderId가 실제로 있는지 확인
-        if(memberReader.nonExistMemberId(createInviteNotification.senderId())) {
-            throw new NotFoundEntityException(MemberErrorCode.NOT_FOUND);
-        };
-
-        // 받는 이메일이 있는 멤버중 하우스가 없는 멤버만 걸러냄
-        List<Member> receivers = memberReader.findByEmail(createInviteNotification.receiverEmails()).stream()
-                .filter(member -> !member.isEnterHouse())
-                .toList();
-
-        return receivers.stream()
-                .map(receiver -> InviteNotification.create(
-                        Member.Id(createInviteNotification.senderId()),
-                        receiver,
-                        createInviteNotification.invitedHouseId(),
-                        house.getName())
-                )
-                .toList();
-    }
 
     public List<ChoreCompleteNotification> createChoreCompleteNotifications(Long houseId, Long completedChoreId, Long completedMemberId) {
         Member sender = memberReader.findById(completedMemberId);

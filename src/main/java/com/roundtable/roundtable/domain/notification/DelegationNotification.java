@@ -5,6 +5,7 @@ import com.roundtable.roundtable.domain.delegation.DelegationStatus;
 import com.roundtable.roundtable.domain.house.House;
 import com.roundtable.roundtable.domain.member.Member;
 import com.roundtable.roundtable.domain.notification.NotificationType.Values;
+import com.roundtable.roundtable.domain.sse.event.DelegationSseEvent;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
@@ -65,5 +66,9 @@ public class DelegationNotification extends Notification {
                 .status(delegation.getStatus())
                 .scheduleName(delegation.getScheduleName())
                 .build();
+    }
+
+    public DelegationSseEvent toSseEvent() {
+        return DelegationSseEvent.of(getSender().getName(), delegationId, status, scheduleName);
     }
 }
