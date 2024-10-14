@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.business.sse;
 
 import com.roundtable.roundtable.business.common.AuthMember;
+import com.roundtable.roundtable.domain.sse.SimpleSseEvent;
 import com.roundtable.roundtable.domain.sse.SseEmitterId;
 import com.roundtable.roundtable.domain.sse.SseEmitterRepository;
 import com.roundtable.roundtable.domain.sse.SseEmitters;
@@ -25,8 +26,7 @@ public class SseSubscribeService {
         SseEmitterId sseEmitterId = SseEmitterId.of(authMember.houseId(), authMember.memberId(), LocalDateTime.now());
         SseEmitters emitter = sseEmitterRepository.save(sseEmitterId, new SseEmitter(CONNECTION_TIME_OUT));
 
-        SseEventId sseEventId = SseEventId.of(authMember.houseId(), authMember.memberId(), LocalDateTime.now());
-        emitter.sendEvent(sseEventId, SseEvent.CONNECTION);
+        emitter.sendEvent(SimpleSseEvent.CONNECTION, LocalDateTime.now());
 
         log.info("SSE 연결 생성 {}", sseEmitterId);
         return emitter.getSingleEmitter();

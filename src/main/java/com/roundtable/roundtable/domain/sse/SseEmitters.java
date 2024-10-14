@@ -1,6 +1,7 @@
 package com.roundtable.roundtable.domain.sse;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -14,18 +15,16 @@ public class SseEmitters {
         this.emitters = emitters;
     }
 
-    public void sendEvent(SseEventId sseEventId, SseEvent sseEvent) {
-        emitters.forEach((emitterId, emitter) -> sendToEmitter(emitterId, emitter, sseEventId, sseEvent));
+    public void sendEvent(SseEvent sseEvent, LocalDateTime sendTime) {
+        emitters.forEach((emitterId, emitter) -> sendToEmitter(emitterId, emitter, sseEvent, sendTime));
     }
 
-    private void sendToEmitter(SseEmitterId emitterId, SseEmitter emitter, SseEventId sseEventId, SseEvent sseEvent) {
+    private void sendToEmitter(SseEmitterId emitterId, SseEmitter emitter, SseEvent sseEvent, LocalDateTime sendTime) {
         log.info("SSE 메시지 보내기 시도 : {}", emitterId);
+        SseEventId sseEventId = emitterId.toSseEventId(sendTime);
         try {
-            emitter.send(SseEmitter.event().id(sseEventId.toString())
-                    .name(sseEvent.getEventName())
-                    .data(sseEvent.getEventName())
-            );
-            log.info("SSE 메시지 보내기 성공 : {}, event : {}", sseEventId, sseEvent.getEventName());
+            emitter.send(sseEvent.createSendData(sseEventId));
+            log.info("SSE 메시지 보내기 성공 : {}, event : {}, message: {}", sseEventId, sseEvent.getEventName(), sseEvent.getMessage());
         } catch (IOException e) {
             log.error("SSE 메시지 보내기 실패 : {}, error : {}", e.getMessage(), e.getClass());
             emitter.complete();

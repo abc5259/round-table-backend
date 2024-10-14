@@ -1,16 +1,10 @@
 package com.roundtable.roundtable.domain.sse;
 
-import lombok.Getter;
+import java.util.Set;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter.DataWithMediaType;
 
-@Getter
-public enum SseEvent {
-    CONNECTION("CONNECT", "성공적으로 연결되었습니다.");
-
-    private final String eventName;
-    private final String message;
-
-    SseEvent(String eventName, String message) {
-        this.eventName = eventName;
-        this.message = message;
-    }
+public interface SseEvent {
+    String getEventName();
+    String getMessage();
+    Set<DataWithMediaType> createSendData(SseEventId sseEventId);
 }

@@ -25,6 +25,10 @@ public class SseEmitterId {
         return new SseEmitterId(houseId, memberId, timestamp);
     }
 
+    public SseEventId toSseEventId(LocalDateTime timestamp) {
+        return SseEventId.of(this.houseId, this.memberId, timestamp);
+    }
+
     @Override
     public String toString() {
         return houseId + DELIMITER + memberId + DELIMITER + timestamp;
