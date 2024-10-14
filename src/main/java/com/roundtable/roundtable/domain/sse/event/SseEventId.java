@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.domain.sse;
+package com.roundtable.roundtable.domain.sse.event;
 
 import java.time.LocalDateTime;
 import lombok.EqualsAndHashCode;

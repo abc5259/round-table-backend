@@ -1,5 +1,7 @@
-package com.roundtable.roundtable.domain.sse;
+package com.roundtable.roundtable.domain.sse.emitter;
 
+import com.roundtable.roundtable.domain.sse.event.SseEvent;
+import com.roundtable.roundtable.domain.sse.event.SseEventId;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Map;

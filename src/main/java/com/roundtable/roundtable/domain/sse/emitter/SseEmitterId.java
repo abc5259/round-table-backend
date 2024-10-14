@@ -1,5 +1,6 @@
-package com.roundtable.roundtable.domain.sse;
+package com.roundtable.roundtable.domain.sse.emitter;
 
+import com.roundtable.roundtable.domain.sse.event.SseEventId;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.EqualsAndHashCode;

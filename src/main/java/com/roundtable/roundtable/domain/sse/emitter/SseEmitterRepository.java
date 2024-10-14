@@ -1,4 +1,4 @@
-package com.roundtable.roundtable.domain.sse;
+package com.roundtable.roundtable.domain.sse.emitter;
 
 import java.util.List;
 import java.util.Map;

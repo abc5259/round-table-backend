@@ -1,12 +1,10 @@
 package com.roundtable.roundtable.business.sse;
 
 import com.roundtable.roundtable.business.common.AuthMember;
-import com.roundtable.roundtable.domain.sse.SimpleSseEvent;
-import com.roundtable.roundtable.domain.sse.SseEmitterId;
-import com.roundtable.roundtable.domain.sse.SseEmitterRepository;
-import com.roundtable.roundtable.domain.sse.SseEmitters;
-import com.roundtable.roundtable.domain.sse.SseEvent;
-import com.roundtable.roundtable.domain.sse.SseEventId;
+import com.roundtable.roundtable.domain.sse.event.SimpleSseEvent;
+import com.roundtable.roundtable.domain.sse.emitter.SseEmitterId;
+import com.roundtable.roundtable.domain.sse.emitter.SseEmitterRepository;
+import com.roundtable.roundtable.domain.sse.emitter.SseEmitters;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
