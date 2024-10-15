@@ -3,15 +3,16 @@ package com.roundtable.roundtable.domain.sse.event;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter.DataWithMediaType;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Slf4j
-public abstract class SseEventTemplate<T> implements SseEvent {
+public abstract class JsonSseEventTemplate<T> implements SseEvent {
 
     private final T eventData;
 
-    protected SseEventTemplate(T eventData) {
+    protected JsonSseEventTemplate(T eventData) {
         this.eventData = eventData;
     }
 
@@ -27,7 +28,7 @@ public abstract class SseEventTemplate<T> implements SseEvent {
         return SseEmitter.event()
                 .id(sseEventId.toString())
                 .name(getEventName())
-                .data(extractEventDataAsJson())
+                .data(extractEventDataAsJson(), MediaType.APPLICATION_JSON)
                 .build();
     }
 

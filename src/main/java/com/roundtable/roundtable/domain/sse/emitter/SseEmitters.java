@@ -5,10 +5,12 @@ import com.roundtable.roundtable.domain.sse.event.SseEventId;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Map;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @Slf4j
+@Getter
 public class SseEmitters {
 
     private final Map<SseEmitterId, SseEmitter> emitters;

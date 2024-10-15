@@ -3,7 +3,7 @@ package com.roundtable.roundtable.domain.sse.event;
 import com.roundtable.roundtable.domain.delegation.DelegationStatus;
 import com.roundtable.roundtable.domain.sse.event.DelegationSseEvent.DelegationSseData;
 
-public class DelegationSseEvent extends SseEventTemplate<DelegationSseData> {
+public class DelegationSseEvent extends JsonSseEventTemplate<DelegationSseData> {
 
     private static final String EVENT_NAME = "delegation";
 

@@ -2,7 +2,7 @@ package com.roundtable.roundtable.domain.sse.event;
 
 import com.roundtable.roundtable.domain.sse.event.HouseInviteSseEvent.HouseInviteSseData;
 
-public class HouseInviteSseEvent extends SseEventTemplate<HouseInviteSseData> {
+public class HouseInviteSseEvent extends JsonSseEventTemplate<HouseInviteSseData> {
 
     private static final String EVENT_NAME = "house_invite";
 

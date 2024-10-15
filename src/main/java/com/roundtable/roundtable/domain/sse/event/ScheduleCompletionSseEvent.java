@@ -4,7 +4,7 @@ import com.roundtable.roundtable.domain.sse.event.ScheduleCompletionSseEvent.Sch
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ScheduleCompletionSseEvent extends SseEventTemplate<ScheduleCompletionSseData> {
+public class ScheduleCompletionSseEvent extends JsonSseEventTemplate<ScheduleCompletionSseData> {
 
     private static final String EVENT_NAME = "schedule_completion";
 

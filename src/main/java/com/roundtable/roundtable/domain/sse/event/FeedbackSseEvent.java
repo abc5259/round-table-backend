@@ -2,7 +2,7 @@ package com.roundtable.roundtable.domain.sse.event;
 
 import com.roundtable.roundtable.domain.sse.event.FeedbackSseEvent.FeedbackSseData;
 
-public class FeedbackSseEvent extends SseEventTemplate<FeedbackSseData> {
+public class FeedbackSseEvent extends JsonSseEventTemplate<FeedbackSseData> {
 
     private static final String EVENT_NAME = "feedback";
 
