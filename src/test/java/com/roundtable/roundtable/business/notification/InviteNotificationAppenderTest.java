@@ -52,10 +52,10 @@ class InviteNotificationAppenderTest extends IntegrationTestSupport {
         );
 
         //when
-        List<Long> results = inviteNotificationAppender.append(createInviteNotification);
+        inviteNotificationAppender.append(createInviteNotification);
 
         //then
-        List<Notification> notifications = notificationRepository.findAllById(results);
+        List<Notification> notifications = notificationRepository.findAll();
 
         List<Member> expectedReceivers = List.of(member2, member3);
         assertThat(notifications).hasSize(expectedReceivers.size());
